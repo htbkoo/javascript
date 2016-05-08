@@ -1,7 +1,12 @@
 {
   "name": "application-name",
   "version": "0.0.1",
+  "dependencies": {
+    "express": "latest"
+  },
   "devDependencies": {
-    "qunitjs": "latest"
+    "qunitjs": "latest",
+    "jquery": "latest",
+    "qunit-parameterize": "latest"
   }
 }
