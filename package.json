@@ -5,6 +5,7 @@
     "express": "latest"
   },
   "devDependencies": {
+    "qunit": "latest",
     "qunitjs": "latest",
     "jquery": "latest",
     "qunit-parameterize": "latest"
