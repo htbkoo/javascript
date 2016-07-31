@@ -1,0 +1,21 @@
+/**
+ * Created by Hey on 31 Jul 2016
+ * 
+ * ---
+ * 
+ * Test infrastructure for mocha tests
+ */
+
+global.correspondingRequire = function (dirName, name) {
+    'use strict';
+    var main_dir_name = "main", test_dir_name = "testMocha";
+    // console.log("process.env.main_dir_name: " + process.env.main_dir_name + "; process.env.test_dir_name: " + process.env.test_dir_name);
+    // console.log(process.argv[2] + " " + process.argv[3]);
+    if (!(process.env.main_dir_name === 'undefined')) {
+        main_dir_name = process.env.main_dir_name;
+    }
+    if (!(process.env.test_dir_name === 'undefined')) {
+        test_dir_name = process.env.test_dir_name;
+    }
+    return require(dirName.replace(test_dir_name, main_dir_name) + '\\' + name);
+};
