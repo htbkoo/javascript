@@ -12,5 +12,8 @@ module.exports = function () {
         console.log('world in hello2, count reset to 0.');
         count = 0;
     };
+    this.getCount = function () {
+        return count;
+    };
     return this;
 };
