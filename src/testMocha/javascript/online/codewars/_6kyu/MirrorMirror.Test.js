@@ -8,7 +8,7 @@ var Test = require('chai');
 var evilTwin = srcDirRequire(__dirname, 'MirrorMirror');
 
 //noinspection JSUnresolvedFunction,JSLint
-describe('DeleteOccurrencesOfAnElementIfItOccursMoreThanNTimes', function () {
+describe('MirrorMirror', function () {
     //noinspection JSLint,JSUnresolvedFunction
     describe("Mirror, Mirror", function () {
         //noinspection JSLint,JSUnresolvedFunction
