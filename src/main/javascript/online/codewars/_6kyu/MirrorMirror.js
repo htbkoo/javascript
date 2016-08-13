@@ -27,15 +27,6 @@ module.exports =
     function evilTwin(obj) {
         "use strict";
         var that = Object.create(obj);
-/*
-        var key;
-        for (key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                that[key] = obj[key];
-            }
-        }
-*/
-
         that.hasGoatee = true;
 
         return that;
