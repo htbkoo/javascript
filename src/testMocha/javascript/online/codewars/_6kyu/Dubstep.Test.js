@@ -10,7 +10,7 @@ var songDecoder = srcDirRequire(__dirname, 'Dubstep');
 //noinspection JSUnresolvedFunction,JSLint
 describe('Dubstep', function () {
     //noinspection JSLint,JSUnresolvedFunction
-    describe("Mirror, Mirror", function () {
+    describe("Dubstep", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass given test", function () {
             Test.assert.equal(songDecoder("AWUBBWUBC"), "A B C", "WUB should be replaced by 1 space");
