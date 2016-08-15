@@ -68,10 +68,6 @@ module.exports =
                 return str.substring(lastIndex + 1).split("").sort();
             }());
 
-            this.addCoefficientBy = function (otherCoefficient) {
-                coefficient += otherCoefficient;
-            };
-
             this.getCoefficient = function () {
                 return coefficient;
             };
@@ -81,11 +77,6 @@ module.exports =
             };
 
             return this;
-        };
-
-        Monomial.prototype.toString = function () {
-            //noinspection JSLint
-            return "" + ((this.getCoefficient() === 1) ? "" : this.getCoefficient() < 0 ? this.getCoefficient() : ("+" + this.getCoefficient())) + this.getVariableAsString();
         };
 
         var returnObj = {};
@@ -109,8 +100,22 @@ module.exports =
 
             return a.localeCompare(b);
         }).map(function (k) {
+            var coe = returnObj[k];
+            if (coe === 0) {
+                return "";
+            }
+            var coeStr = (function getCoefficientAsString() {
+                switch (coe) {
+                    case 1:
+                        return "+";
+                    case -1:
+                        return "-";
+                    default:
+                        return coe < 0 ? coe : ("+" + coe);
+                }
+            }());
             //noinspection JSLint
-            return "" + ((returnObj[k] === 1) ? "+" : returnObj[k] < 0 ? returnObj[k] : ("+" + returnObj[k])) + k;
+            return coeStr + k;
         }).join("");
 
         return (returnString.charAt(0) === "+") ? returnString.substring(1) : returnString;
