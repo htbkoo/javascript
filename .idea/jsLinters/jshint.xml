@@ -59,7 +59,7 @@
     <option plusplus="false" />
     <option proto="false" />
     <option prototypejs="false" />
-    <option qunit="false" />
+    <option qunit="true" />
     <option quotmark="false" />
     <option rhino="false" />
     <option scripturl="false" />
