@@ -2,9 +2,15 @@
   "name": "application-name",
   "version": "0.0.1",
   "private": true,
+  "dependencies": {
+    "express": "latest"
+  },
   "devDependencies": {
     "qunitjs": "latest",
     "mocha": "latest",
-    "chai": "latest"
+    "chai": "latest",
+    "qunit": "latest",
+    "jquery": "latest",
+    "qunit-parameterize": "latest"
   }
 }
