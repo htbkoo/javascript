@@ -1,0 +1,13 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "helloworld app using express.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "express": ">= 4.0.0"
+  }
+}
