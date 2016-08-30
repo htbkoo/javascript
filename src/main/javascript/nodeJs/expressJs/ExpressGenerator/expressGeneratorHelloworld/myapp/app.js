@@ -1,4 +1,5 @@
 var express = require('express');
+var consolidate = require('consolidate');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -10,9 +11,17 @@ var users = require('./routes/users');
 
 var app = express();
 
+// assign view engine (consolidate.react) to 'html'
+app.engine('jsx', consolidate.react);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'jsx');
+
+if (app.get('env') === 'development') {       111
+    // Disable Express's Cache
+    app.set('view cache', false);
+}
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -39,22 +48,23 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.render('page', {
             message: err.message,
             error: err
         });
     });
-}
-
+} else {
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
+    app.use(function (err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('page', {
+            message: err.message,
+            error: {}
+        });
     });
-});
-
+}
 
 module.exports = app;
+
+// log
