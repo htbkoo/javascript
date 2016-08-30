@@ -7,10 +7,10 @@ var router = express.Router();
 //noinspection JSUnusedLocalSymbols
 router.get('/', function (req, res, next) {
     "use strict";
-    res.render();
-    // res.render('index1234', {title: 'Express'});
+    // res.render();
+    res.render('index', {title: 'Express'});
     // res.render('index.html', { title: 'Express with HTML' });
-    res.send("a");
+    // res.send("a");
 });
 
 module.exports = router;
