@@ -11,6 +11,8 @@
     "chai": "latest",
     "qunit": "latest",
     "jquery": "latest",
+    "ts-node": "latest",
+    "typescript": "latest",
     "qunit-parameterize": "latest"
   }
 }
