@@ -1,7 +1,7 @@
 /**
  * Created by Hey on 12 Aug 2016
  */
-require.main.require('src/testMocha/javascript/testInfrastructure');
+require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai').assert;
 
 //noinspection JSLint

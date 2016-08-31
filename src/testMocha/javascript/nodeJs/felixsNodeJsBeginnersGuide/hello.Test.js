@@ -1,7 +1,7 @@
 /**
  * Created by Hey on 31 Jul 2016
  */
-require.main.require('src/testMocha/javascript/testInfrastructure');
+require.main.require('src/testMocha/testInfrastructure');
 
 //noinspection JSLint
 var hello = srcDirRequire(__dirname, 'hello');

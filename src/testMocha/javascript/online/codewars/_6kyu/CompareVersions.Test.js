@@ -2,7 +2,7 @@
  * Created by Hey on 13 Aug 2016
  */
 
-require.main.require('src/testMocha/javascript/testInfrastructure');
+require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
