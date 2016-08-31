@@ -14,5 +14,8 @@
     "ts-node": "latest",
     "typescript": "latest",
     "qunit-parameterize": "latest"
+  },
+  "scripts": {
+    "test": "mocha --opts mocha.opts"
   }
 }
