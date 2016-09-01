@@ -1,8 +1,9 @@
 /**
  * Created by Hey on 13 Aug 2016
  */
+'use strict';
 
-require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
@@ -14,7 +15,6 @@ describe('DuplicateEncoder', function () {
     describe("Basic Tests:", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass given test", function () {
-            "use strict";
             Test.assert.equal(duplicateEncode("din"), "(((");
             Test.assert.equal(duplicateEncode("recede"), "()()()");
             Test.assert.equal(duplicateEncode("Success"), ")())())", "should ignore case");
@@ -22,7 +22,6 @@ describe('DuplicateEncoder', function () {
         });
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass random test", function () {
-            "use strict";
             // Random test case is WRONG! - '!' only appeared once
             // Test.assert.equal(duplicateEncode(")!dSyTPwcv"), "()((((((((");
             Test.assert.equal(duplicateEncode(")!dSyTPwcv"), "((((((((((");

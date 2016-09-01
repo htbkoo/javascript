@@ -1,7 +1,9 @@
 /**
  * Created by Hey on 31 July 2016
  */
-require.main.require('src/testMocha/testInfrastructure');
+'use strict';
+
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai').assert;
 
 //noinspection JSLint
@@ -26,7 +28,7 @@ describe('FormatAStringOfNamesLikeBartLisaMaggie', function () {
                 "Wrong output for a single name");
 
             Test.equal(list([]), '',
-                "Must work with no names")
+                "Must work with no names");
         });
     });
 });

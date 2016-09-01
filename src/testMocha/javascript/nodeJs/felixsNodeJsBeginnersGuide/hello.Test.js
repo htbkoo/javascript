@@ -1,7 +1,9 @@
 /**
  * Created by Hey on 31 Jul 2016
  */
-require.main.require('src/testMocha/testInfrastructure');
+'use strict';
+
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 
 //noinspection JSLint
 var hello = srcDirRequire(__dirname, 'hello');
@@ -9,7 +11,6 @@ var hello = srcDirRequire(__dirname, 'hello');
 describe('Hello', function () {
     describe('#world()', function () {
         it('should run without error for world()', function () {
-            "use strict";
             hello.world();
         });
     });

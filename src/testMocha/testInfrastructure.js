@@ -6,7 +6,7 @@
  * Test infrastructure for mocha tests
  */
 
-global.srcDirRequire = function (dirName, name) {
+var srcDirRequire = function (dirName, name) {
     'use strict';
     var main_dir_name = "main", test_dir_name = "testMocha";
     if (process.env.main_dir_name !== undefined) {
@@ -17,3 +17,5 @@ global.srcDirRequire = function (dirName, name) {
     }
     return require(dirName.replace(test_dir_name, main_dir_name) + '\\' + name);
 };
+
+module.exports = srcDirRequire;

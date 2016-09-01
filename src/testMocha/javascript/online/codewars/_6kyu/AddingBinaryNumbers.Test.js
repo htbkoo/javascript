@@ -1,7 +1,9 @@
 /**
  * Created by Hey on 12 Aug 2016
  */
-require.main.require('src/testMocha/testInfrastructure');
+'use strict';
+
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
@@ -13,19 +15,16 @@ describe('AddingBinaryNumbers', function () {
     describe("Basic Tests:", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass given test", function () {
-            "use strict";
             Test.assert.equal(add('111', '10'), '1001');
             Test.assert.equal(add('1101', '101'), '10010');
             Test.assert.equal(add('1101', '10111'), '100100');
         });
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass example in submission", function () {
-            "use strict";
             Test.assert.equal(add('00', '0'), '0');
         });
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass random tests", function () {
-            "use strict";
             Test.assert.equal(add('0010110101101100010', '1100111001010001'), '100011100110110011');
             Test.assert.equal(add('111000000001000011110010001100011', '0010111000010011001011001001110110101111000101010100101100010000001110000101100100111001'), '10111000010011001011001001110110101111000101010100110011010000010110100011110110011100');
             Test.assert.equal(add('110011010110', '1111010000111100101111100000001111010000001101001000111010010011111001010011001011100111100001'), '1111010000111100101111100000001111010000001101001000111010010011111001010011001100011010110111');

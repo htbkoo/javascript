@@ -2,7 +2,9 @@
  * Created by Hey on 19 Aug 2016
  */
 
-require.main.require('src/testMocha/testInfrastructure');
+'use strict';
+
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
@@ -14,7 +16,6 @@ describe('DefaultArguments', function () {
     describe("Given tests", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should set default arguments for add", function () {
-            "use strict";
             function add(a, b) {
                 return a + b;
             }
@@ -30,7 +31,6 @@ describe('DefaultArguments', function () {
     describe("Tests in description", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should set default arguments for add", function () {
-            "use strict";
             function add(a, b) {
                 return a + b;
             }
@@ -55,7 +55,6 @@ describe('DefaultArguments', function () {
     describe("Self tests", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should set default arguments for add", function () {
-            "use strict";
             function add(a, b) {
                 return a + b;
             }

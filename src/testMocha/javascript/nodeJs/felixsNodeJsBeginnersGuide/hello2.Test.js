@@ -1,7 +1,9 @@
 /**
  * Created by Hey on 31 Jul 2016
  */
-require.main.require('src/testMocha/testInfrastructure');
+'use strict';
+
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var assert = require('chai').assert;
 
 var Hello2 = srcDirRequire(__dirname, 'hello2');

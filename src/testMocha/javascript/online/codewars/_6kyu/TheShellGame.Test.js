@@ -1,8 +1,9 @@
 /**
  * Created by Hey on 13 Aug 2016
  */
+'use strict';
 
-require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
@@ -14,7 +15,6 @@ describe('TheShellGame', function () {
     describe("An empty swap does nothing", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass given test", function () {
-            "use strict";
             Test.assert.equal(find_the_ball(5, []), 5);
         });
     });
@@ -22,7 +22,6 @@ describe('TheShellGame', function () {
     describe("Finding the ball with sequences", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass given test", function () {
-            "use strict";
             Test.assert.equal(find_the_ball(0, [[0, 1], [2, 1], [0, 1]]), 2);
         });
     });

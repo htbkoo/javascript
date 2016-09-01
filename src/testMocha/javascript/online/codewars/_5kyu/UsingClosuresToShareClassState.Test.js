@@ -1,8 +1,9 @@
 /**
  * Created by Hey on 20 Aug 2016
  */
+'use strict';
 
-require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
