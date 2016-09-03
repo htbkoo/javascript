@@ -16,6 +16,7 @@
     "qunit-parameterize": "latest"
   },
   "scripts": {
-    "test": "mocha --opts mocha.opts"
+    "test": "mocha --opts mocha.opts",
+    "postinstall": "typings install"
   }
 }
