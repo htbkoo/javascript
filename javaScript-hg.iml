@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/testMocha" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/online/codewars/_7kyu/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/test" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

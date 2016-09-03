@@ -20,7 +20,7 @@
     <option es5="false" />
     <option esnext="false" />
     <option evil="false" />
-    <option expr="false" />
+    <option expr="true" />
     <option forin="true" />
     <option freeze="false" />
     <option funcscope="false" />

@@ -6,6 +6,6 @@
     "experimentalDecorators": true
   },
   "files": [
-    "src/main/typescript/first.ts"
+    "typings/index.d.ts"
   ]
 }

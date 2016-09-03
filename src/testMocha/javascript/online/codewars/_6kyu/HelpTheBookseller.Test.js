@@ -1,8 +1,9 @@
 /**
  * Created by Hey on 13 Aug 2016
  */
+'use strict';
 
-require.main.require('src/testMocha/javascript/testInfrastructure');
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
@@ -14,7 +15,6 @@ describe('HelpTheBookseller', function () {
     describe("should get correct string", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass given test", function () {
-            "use strict";
             var b = ["ABAR 200", "CDXE 500", "BKWR 250", "BTSQ 890", "DRTY 600"];
             var c = ["A", "B"];
             var res = "(A : 200) - (B : 1140)";

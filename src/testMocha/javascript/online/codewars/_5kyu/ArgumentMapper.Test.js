@@ -1,8 +1,9 @@
 /**
  * Created by Hey on 17 Aug 2016
  */
+'use strict';
 
-require.main.require('src/testMocha/javascript/testInfrastructure');
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
@@ -14,7 +15,6 @@ describe('ArgumentMapper', function () {
     describe("Given Tests:", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass given test", function () {
-            "use strict";
             // intentional, from given test
             //noinspection JSLint
             var ft1 = createArgumentMap(function () {
@@ -27,7 +27,7 @@ describe('ArgumentMapper', function () {
             }, 'a1 argvalue');
             Test.assert.equal(Object.keys(ft2).length, 1, "Should have 1 element");
             //noinspection JSLint
-            Test.assert.equal(ft2['a1'], 'a1 argvalue', "Should return 'a1 argvalue'");
+            Test.assert.equal(ft2.a1, 'a1 argvalue', "Should return 'a1 argvalue'");
         });
     });
 });

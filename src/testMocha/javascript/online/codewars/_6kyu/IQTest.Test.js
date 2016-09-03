@@ -1,7 +1,9 @@
 /**
  * Created by Hey on 13 Aug 2016
  */
-require.main.require('src/testMocha/javascript/testInfrastructure');
+'use strict';
+
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
@@ -18,7 +20,6 @@ describe('IQTest', function () {
         });
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass example in description", function () {
-            "use strict";
             Test.assert.equal(iqTest("1 2 1 1"), 2, "Second number is even, while the rest of the numbers are odd");
         });
     });

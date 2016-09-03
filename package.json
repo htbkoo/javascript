@@ -11,6 +11,12 @@
     "chai": "latest",
     "qunit": "latest",
     "jquery": "latest",
+    "ts-node": "latest",
+    "typescript": "latest",
     "qunit-parameterize": "latest"
+  },
+  "scripts": {
+    "test": "mocha --opts mocha.opts",
+    "postinstall": "typings install"
   }
 }
