@@ -1,6 +1,4 @@
 --require ts-node/register
---watch-extensions tsx,ts,jsx,js
+--watch-extensions jsx,js
 app/**/*.Test.jsx
 app/**/*.Test.js
-app/**/*.Test.tsx
-app/**/*.Test.ts
