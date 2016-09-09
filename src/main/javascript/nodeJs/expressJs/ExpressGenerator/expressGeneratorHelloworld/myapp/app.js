@@ -1,4 +1,5 @@
 var express = require('express');
+var consolidate = require('consolidate');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -10,9 +11,18 @@ var users = require('./routes/users');
 
 var app = express();
 
+// assign view engine (consolidate.react) to 'html'
+app.engine('jsx', consolidate.react);
+app.engine('html', consolidate.ejs);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'html');
+
+if (app.get('env') === 'development') {
+    // Disable Express's Cache
+    app.set('view cache', false);
+}
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -27,6 +37,7 @@ app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+    "use strict";
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -37,24 +48,33 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+    //noinspection JSUnusedLocalSymbols
     app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
+        "use strict";
+        var code = err.status || 500;
+        res.status(code);
+        console.log(code);
+        res.render('page', {
+            title: 'Error: ' + code,
             message: err.message,
             error: err
         });
     });
-}
-
+} else {
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
+    //noinspection JSUnusedLocalSymbols
+    app.use(function (err, req, res, next) {
+        "use strict";
+        res.status(err.status || 500);
+        res.render('page', {
+            title: 'Error: ' + err.status,
+            message: err.message,
+            error: {}
+        });
     });
-});
-
+}
 
 module.exports = app;
+
+// log
