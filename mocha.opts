@@ -1,0 +1,4 @@
+--require ts-node/register
+--watch-extensions jsx,js
+app/**/*.Test.jsx
+app/**/*.Test.js

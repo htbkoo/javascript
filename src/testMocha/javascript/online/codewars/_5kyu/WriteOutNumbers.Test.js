@@ -1,8 +1,9 @@
 /**
  * Created by Hey on 13 Aug 2016
  */
+'use strict';
 
-require.main.require('src/testMocha/javascript/testInfrastructure');
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint
@@ -14,7 +15,6 @@ describe('WriteOutNumbers', function () {
     describe("Basic Tests:", function () {
         //noinspection JSLint,JSUnresolvedFunction
         it("should pass given test", function () {
-            "use strict";
             Test.assert.equal(number2words(0), "zero");
             Test.assert.equal(number2words(1), "one");
             Test.assert.equal(number2words(8), "eight");

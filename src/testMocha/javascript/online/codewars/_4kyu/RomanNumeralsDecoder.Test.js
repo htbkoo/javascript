@@ -21,7 +21,7 @@
 // var assert = require("chai").assert;
 // require("chai").should();
 
-require.main.require('src/testMocha/javascript/testInfrastructure');
+var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 
 //noinspection JSLint,JSHint
