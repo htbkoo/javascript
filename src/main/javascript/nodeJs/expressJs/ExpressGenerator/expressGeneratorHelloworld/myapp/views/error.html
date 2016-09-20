@@ -7,17 +7,18 @@
     <link rel="stylesheet" href="stylesheets/page.css"/>
 </head>
 <body>
-
-<!--
-index:
-  h1= title
-  p Welcome to #{title}
-
-error:
-  h1= message
-  h2= error.status
-  pre #{error.stack}
--->
-
+<h1>
+    <%= message %>
+</h1>
+<% if (typeof error.status !== "undefined"){ %>
+<h2>
+    <%= error.status %>
+</h2>
+<% } %>
+<% if (typeof error.stack !== "undefined"){ %>
+<pre>
+        <%= error.stack %>
+</pre>
+<% } %>
 </body>
 </html>

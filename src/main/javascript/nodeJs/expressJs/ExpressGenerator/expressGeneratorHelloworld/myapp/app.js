@@ -56,7 +56,7 @@ if (app.get('env') === 'development') {
         var code = err.status || 500;
         res.status(code);
         console.log(code);
-        res.render('page', {
+        res.render('error', {
             title: 'Error: ' + code,
             message: err.message,
             error: err
@@ -69,7 +69,7 @@ if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         "use strict";
         res.status(err.status || 500);
-        res.render('page', {
+        res.render('error', {
             title: 'Error: ' + err.status,
             message: err.message,
             error: {}
