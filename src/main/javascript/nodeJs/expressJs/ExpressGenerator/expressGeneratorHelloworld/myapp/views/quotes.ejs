@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include template/header.ejs %>
+<head>
+    <!--suppress HtmlUnknownTarget -->
+    <link rel="stylesheet" href="stylesheets/index.css"/>
+</head>
+<body>
+<% if (typeof underlyings !== "undefined"){ %>
+<ul>
+    <% underlyings.getKeysAsArray().forEach(function(k){ %>
+    <li><%= k; %></li>
+    <% }); %>
+</ul>
+<% } %>
+</body>
+</html>

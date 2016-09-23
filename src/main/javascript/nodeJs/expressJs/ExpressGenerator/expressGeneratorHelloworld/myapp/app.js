@@ -15,10 +15,11 @@ var app = express();
 // assign view engine (consolidate.react) to 'html'
 app.engine('jsx', consolidate.react);
 app.engine('html', consolidate.ejs);
+app.engine('ejs', consolidate.ejs);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 
 if (app.get('env') === 'development') {
     // Disable Express's Cache
@@ -55,7 +56,7 @@ if (app.get('env') === 'development') {
         "use strict";
         var code = err.status || 500;
         res.status(code);
-        console.log(code);
+        console.log("[development] err.status: " + code);
         res.render('error', {
             title: 'Error: ' + code,
             message: err.message,

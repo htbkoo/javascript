@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+<% include template/header.ejs %>
 <head>
-    <meta charset="UTF-8">
-    <title><%= title %></title>
     <!--suppress HtmlUnknownTarget -->
-    <link rel="stylesheet" href="stylesheets/page.css"/>
+    <link rel="stylesheet" href="../stylesheets/page.css"/>
 </head>
 <body>
 <h1>
-    <%= message %>
+    <%= message; %>
 </h1>
 <% if (typeof error.status !== "undefined"){ %>
 <h2>
-    <%= error.status %>
+    <%= error.status; %>
 </h2>
 <% } %>
 <% if (typeof error.stack !== "undefined"){ %>
 <pre>
-        <%= error.stack %>
+        <%= error.stack; %>
 </pre>
 <% } %>
 </body>
