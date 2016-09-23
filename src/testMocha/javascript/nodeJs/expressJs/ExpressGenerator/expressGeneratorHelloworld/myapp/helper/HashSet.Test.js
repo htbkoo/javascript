@@ -70,6 +70,14 @@ describe("HashSet", function () {
             hashSet.clear();
             Test.expect(hashSet.size()).to.equal(0);
         });
+        it("should be get an array with getKeysAsArray()", function () {
+            var hashSet = new HashSet();
+            Test.expect(hashSet).to.be.an.instanceOf(HashSet);
+            Test.expect(hashSet.getKeysAsArray()).to.be.an("array");
+            hashSet.add("str");
+            Test.expect(hashSet.getKeysAsArray()).to.include.members(["str"]);
+            Test.expect(hashSet.getKeysAsArray().length).to.equal(1);
+        });
     });
     describe("Static methods", function () {
         it("should be able to createFromArray(arr) and have same items", function () {

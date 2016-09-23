@@ -49,6 +49,10 @@ function HashSet() {
         underlyingHashMap = {};
     };
 
+    this.getKeysAsArray = function () {
+        return Object.keys(underlyingHashMap);
+    };
+
     return this;
 }
 
