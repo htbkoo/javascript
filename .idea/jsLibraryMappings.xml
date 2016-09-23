@@ -3,6 +3,6 @@
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{javaScript-hg/node_modules}" />
     <file url="file://$PROJECT_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp" libraries="{javaScript-hg/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/node_modules}" />
-    <file url="PROJECT" libraries="{chai-DefinitelyTyped, jquery-1.11.3, jquery-ui-1.11.4, mocha-DefinitelyTyped, qunit-1.23.1}" />
+    <file url="PROJECT" libraries="{bootstrap-DefinitelyTyped, chai-DefinitelyTyped, jquery-1.11.3, jquery-ui-1.11.4, mocha-DefinitelyTyped, qunit-1.23.1}" />
   </component>
 </project>
