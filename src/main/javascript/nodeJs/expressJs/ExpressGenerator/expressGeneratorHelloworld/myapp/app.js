@@ -15,10 +15,11 @@ var app = express();
 // assign view engine (consolidate.react) to 'html'
 app.engine('jsx', consolidate.react);
 app.engine('html', consolidate.ejs);
+app.engine('ejs', consolidate.ejs);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 
 if (app.get('env') === 'development') {
     // Disable Express's Cache
@@ -32,6 +33,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/quotes', express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
@@ -55,8 +57,8 @@ if (app.get('env') === 'development') {
         "use strict";
         var code = err.status || 500;
         res.status(code);
-        console.log(code);
-        res.render('page', {
+        console.log("[development] err.status: " + code);
+        res.render('error', {
             title: 'Error: ' + code,
             message: err.message,
             error: err
@@ -69,7 +71,7 @@ if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         "use strict";
         res.status(err.status || 500);
-        res.render('page', {
+        res.render('error', {
             title: 'Error: ' + err.status,
             message: err.message,
             error: {}

@@ -1,12 +1,11 @@
 /**
  * Created by Hey on 15 Sep 2016
  */
+"use strict";
 
 var format = require("string-format");
 
-
 function HashSet() {
-    "use strict";
     var underlyingHashMap = {};
 
     this.add = function (item) {
@@ -26,16 +25,38 @@ function HashSet() {
         return item != null && (item.toString() in underlyingHashMap); // jshint ignore:line
     };
 
-    // this.fromObject = function (obj){
-    //
-    // };
+    this.size = function () {
+        return Object.keys(underlyingHashMap).length;
+    };
 
-    // if (targetMap){};
+    this.isEmpty = function () {
+        return this.size() === 0;
+    };
+
+    this.remove = function (item) {
+        // coercion checks for both undefined and null
+        if (item == null) { // jshint ignore:line
+            return false;
+        }
+        if (!this.contains(item)) {
+            return false;
+        }
+        delete underlyingHashMap[item.toString()];
+        return true;
+    };
+
+    this.clear = function () {
+        underlyingHashMap = {};
+    };
+
+    this.getKeysAsArray = function () {
+        return Object.keys(underlyingHashMap);
+    };
+
     return this;
 }
 
 HashSet.createFromArray = function (arr) {
-    "use strict";
     if (!Array.isArray(arr)) {
         throw new TypeError(format("Argument {} is not an array!", arr));
     }
@@ -44,6 +65,10 @@ HashSet.createFromArray = function (arr) {
         hashSet.add(value);
     });
     return hashSet;
+};
+
+HashSet.createFromObject = function (obj) {
+    return HashSet.createFromArray(Object.keys(obj));
 };
 
 module.exports = HashSet;
