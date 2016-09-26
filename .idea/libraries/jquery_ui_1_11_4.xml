@@ -7,9 +7,9 @@
       </sourceFilesUrls>
     </properties>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../../Library/jQuery-ui/jquery-ui-1.11.4/jquery-ui-1.11.4/jquery-ui.min.js" />
       <root url="file://$PROJECT_DIR$/../../../Library/jQuery-ui/jquery-ui-1.11.4/jquery-ui-1.11.4/external/jquery/jquery.js" />
       <root url="file://$PROJECT_DIR$/../../../Library/jQuery-ui/jquery-ui-1.11.4/jquery-ui-1.11.4/jquery-ui.js" />
+      <root url="file://$PROJECT_DIR$/../../../Library/jQuery-ui/jquery-ui-1.11.4/jquery-ui-1.11.4/jquery-ui.min.js" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
