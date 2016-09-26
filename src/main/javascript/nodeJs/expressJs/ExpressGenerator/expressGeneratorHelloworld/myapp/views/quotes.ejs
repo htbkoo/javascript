@@ -4,14 +4,31 @@
 <head>
     <!--suppress HtmlUnknownTarget -->
     <link rel="stylesheet" href="stylesheets/index.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
-<% if (typeof underlyings !== "undefined"){ %>
-<ul>
-    <% underlyings.getKeysAsArray().forEach(function(k){ %>
-    <li><%= k; %></li>
-    <% }); %>
-</ul>
-<% } %>
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>Quotes page
+            <small>Get quotes monitored underlyings</small>
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <% if (typeof underlyings !== "undefined"){ %>
+            <ul>
+                <% underlyings.getKeysAsArray().forEach(function(k){ %>
+                <li><%= k; %></li>
+                <% }); %>
+            </ul>
+            <% } %>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
