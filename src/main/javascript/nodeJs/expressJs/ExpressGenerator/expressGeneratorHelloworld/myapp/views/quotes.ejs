@@ -17,9 +17,9 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <% if (typeof underlyings !== "undefined"){ %>
-            <ul>
+            <ul class="list-group">
                 <% underlyings.getKeysAsArray().forEach(function(k){ %>
-                <li><%= k; %></li>
+                <li class="list-group-item"><%= k; %></li>
                 <% }); %>
             </ul>
             <% } %>
