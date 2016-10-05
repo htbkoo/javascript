@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>There are some problems with the page at this moment.</title>
+    <link rel="stylesheet" href="stylesheets/error.css"/>
+</head>
+<body>
+<body>
+<h1>
+    <%= message; %>
+</h1>
+<% if (typeof error.status !== "undefined"){ %>
+<h2>
+    <%= error.status; %>
+</h2>
+<% } %>
+<% if (typeof error.stack !== "undefined"){ %>
+<pre>
+        <%= error.stack; %>
+</pre>
+<% } %>
+</body>
+</html>
