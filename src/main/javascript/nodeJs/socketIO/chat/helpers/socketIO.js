@@ -2,6 +2,8 @@
  * Created by Hey on 3 Oct 2016
  */
 
+var format = require('string-format');
+
 var createIO = function (server) {
     'use strict';
     // initialize socket.io
@@ -16,8 +18,8 @@ var createIO = function (server) {
             io.emit("chat message", "[System] Someonen left!");
         });
         socket.on('chat message', function (msg) {
-            console.log('message: ' + msg);
-            io.emit("chat message", msg);
+            console.log(format('"{}" chatted message: {}', msg.nickname, msg.message));
+            io.emit("chat message", format("{}: {}", msg.nickname, msg.message));
         });
     };
     io.on('connection', onConnection);
