@@ -9,7 +9,7 @@ $('#messages_input_form').submit(function () {
     "use strict";
     var $m = $('#m');
     if ($m.val() !== '') {
-        socket.emit('chat message', $m.val());
+        socket.emit('chat message', {"nickname": $('#nickname').val(), "message": $m.val()});
     }
     $m.val('');
     return false;
