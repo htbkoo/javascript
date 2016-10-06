@@ -9,8 +9,11 @@ var createIO = function (server) {
 
     var onConnection = function (socket) {
         console.log('a user connected');
+        io.emit("chat message", "[System] Someonen joined!");
+
         socket.on('disconnect', function () {
             console.log('user disconnected');
+            io.emit("chat message", "[System] Someonen left!");
         });
         socket.on('chat message', function (msg) {
             console.log('message: ' + msg);
