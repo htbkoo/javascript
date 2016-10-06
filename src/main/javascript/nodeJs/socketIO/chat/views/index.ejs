@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include template/header.ejs %>
+    <link rel="stylesheet" href="stylesheets/index.css"/>
+</head>
+<body>
+<ul id="messages"></ul>
+<form id="messages_input_form" action="">
+    <input id="m" autocomplete="off"/>
+    <button>Send</button>
+</form>
+
+<% include template/scripts.ejs %>
+<script src="javascripts/socket.io/socket.io.js"></script>
+<script src="javascripts/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="javascripts/index.js"></script>
+</body>
+</html>

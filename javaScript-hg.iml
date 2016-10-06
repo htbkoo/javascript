@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testMocha" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/online/codewars/_7kyu/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/socketIO/chat/node_modules" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -17,5 +18,7 @@
     <orderEntry type="library" name="jquery-1.11.3" level="project" />
     <orderEntry type="library" name="jquery-ui-1.11.4" level="project" />
     <orderEntry type="library" name="bootstrap-DefinitelyTyped" level="project" />
+    <orderEntry type="library" name="socket.io-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="socket.io-client-DefinitelyTyped" level="application" />
   </component>
 </module>
