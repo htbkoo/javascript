@@ -6,14 +6,14 @@
     "express": "latest"
   },
   "devDependencies": {
-    "qunitjs": "latest",
-    "mocha": "latest",
     "chai": "latest",
-    "qunit": "latest",
     "jquery": "latest",
+    "mocha": "latest",
+    "qunit": "latest",
+    "qunit-parameterize": "latest",
+    "qunitjs": "latest",
     "ts-node": "latest",
-    "typescript": "latest",
-    "qunit-parameterize": "latest"
+    "typescript": "latest"
   },
   "scripts": {
     "test": "mocha --opts mocha.opts",
