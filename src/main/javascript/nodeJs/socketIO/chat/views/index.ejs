@@ -5,10 +5,22 @@
     <link rel="stylesheet" href="stylesheets/index.css"/>
 </head>
 <body>
-<ul id="messages"></ul>
+<div class="container-fluid">
+    <ul id="messages"></ul>
+</div>
+
 <form id="messages_input_form" action="">
-    <input id="m" autocomplete="off"/>
-    <button>Send</button>
+    <div class="row">
+        <div class="col-md-2">
+            <input id="nickname" autocomplete="off"/>
+        </div>
+        <div class="col-md-9">
+            <input id="m" autocomplete="off"/>
+        </div>
+        <div class="col-md-1">
+            <button>Send</button>
+        </div>
+    </div>
 </form>
 
 <% include template/scripts.ejs %>

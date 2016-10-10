@@ -19,12 +19,12 @@ body {
 #messages_input_form input {
     border: 0;
     padding: 10px;
-    width: 90%;
+    width: 100%;
     margin-right: .5%;
 }
 
 #messages_input_form button {
-    width: 9%;
+    /*width: 9%;*/
     background: rgb(130, 224, 255);
     border: none;
     padding: 10px;
