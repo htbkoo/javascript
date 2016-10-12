@@ -8,7 +8,6 @@ var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require("chai");
 
 var HashSet = srcDirRequire(__dirname, "HashSet");
-var HttpStatus = require('http-status-codes');
 
 describe("HashSet", function () {
     describe("Constructors", function () {

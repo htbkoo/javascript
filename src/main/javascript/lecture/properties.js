@@ -8,15 +8,20 @@ function f() {
     return a;
 }
 
+var localScopeA = (function (scope){
+    return scope;
+})(a);
+var localScopeA2 = a;
+
 module.exports = {
     get a() {
         return a;
     },
-    // TODO
     get aWithoutClosure() {
-        return (function (scope) {
-            return scope;
-        })(a);
+        return localScopeA;
+    },
+    get aWithoutClosureEasier() {
+        return localScopeA2;
     },
     get x() {
         return 0;
