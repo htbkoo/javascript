@@ -4,12 +4,19 @@
 
 console.log("loaded index.js");
 
-var socket = io();
+var socket = io(); // jshint ignore:line
+var displayMessage = function (msg) {
+    "use strict";
+    $('#messages').append($('<li>').text(msg));
+};
+
 $('#messages_input_form').submit(function () {
     "use strict";
     var $m = $('#m');
-    if ($m.val() !== '') {
-        socket.emit('chat message', {"nickname": $('#nickname').val(), "message": $m.val()});
+    var msg = $m.val();
+    if (msg !== '') {
+        socket.emit('chat message', {"nickname": $('#nickname').val(), "message": msg});
+        displayMessage(msg);
     }
     $m.val('');
     return false;
@@ -17,7 +24,7 @@ $('#messages_input_form').submit(function () {
 
 socket.on("chat message", function (msg) {
     "use strict";
-    $('#messages').append($('<li>').text(msg));
+    displayMessage(msg);
 });
 
 /*

@@ -11,15 +11,15 @@ var createIO = function (server) {
 
     var onConnection = function (socket) {
         console.log('a user connected');
-        io.emit("chat message", "[System] Someonen joined!");
+        io.emit("chat message", "[System] Someone joined!");
 
         socket.on('disconnect', function () {
             console.log('user disconnected');
-            io.emit("chat message", "[System] Someonen left!");
+            io.emit("chat message", "[System] Someone left!");
         });
         socket.on('chat message', function (msg) {
             console.log(format('"{}" chatted message: {}', msg.nickname, msg.message));
-            io.emit("chat message", format("{}: {}", msg.nickname, msg.message));
+            socket.broadcast.emit("chat message", format("{}: {}", msg.nickname, msg.message));
         });
     };
     io.on('connection', onConnection);
