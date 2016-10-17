@@ -2,68 +2,67 @@
  * Created by Hey on 13 Oct 2016
  */
 
-
-var format = require('string-format');
-
-function ChatMessage(_message, _sender) {
-    "use strict";
-    var message = _message, sender = _sender;
-
-    this.getMessage = function () {
-        return message;
-    };
-
-    this.getSender = function () {
-        return sender;
-    };
-
-    this.printReceivedMessage = function () {
-        return format("{}: {}", sender, message);
-    };
-
-    this.printYourMessage = function () {
-        return format("{}", message);
-    };
-
-    return this;
+if (typeof define !== 'function') {
+    var define = require('amdefine')(module);
 }
 
-var ChatMessageBuilder = function () {
+define(function (require, exports, module) {
     "use strict";
-    var message, sender;
+    var format = require('string-format');
 
-    this.withMessage = function (msg) {
-        message = msg;
+    function ChatMessage(_message, _sender) {
+        var message = _message, sender = _sender;
+
+        this.getMessage = function () {
+            return message;
+        };
+
+        this.getSender = function () {
+            return sender;
+        };
+
+        this.printReceivedMessage = function () {
+            return format("{}: {}", sender, message);
+        };
+
+        this.printYourMessage = function () {
+            return format("{}", message);
+        };
+
+        return this;
+    }
+
+    var ChatMessageBuilder = function () {
+        var message, sender;
+
+        this.withMessage = function (msg) {
+            message = msg;
+            return this;
+        };
+        this.withSender = function (s) {
+            sender = s;
+            return this;
+        };
+        this.build = function (s) {
+            return new ChatMessage(message, sender);
+        };
+
         return this;
     };
-    this.withSender = function (s) {
-        sender = s;
-        return this;
-    };
-    this.build = function (s) {
-        return new ChatMessage(message, sender);
+
+    ChatMessage.getBuilder = function () {
+        return new ChatMessageBuilder();
     };
 
-    return this;
-};
+    // module.exports = ChatMessage;
 
-ChatMessage.getBuilder = function () {
-    "use strict";
-    return new ChatMessageBuilder();
-};
+    //The value returned from the function is
+    //used as the module export visible to Node.
+    return ChatMessage;
+    // return function () {
+    // };
+});
 
-module.exports = ChatMessage;
-
-// if (typeof define !== 'function') { var define = require('amdefine')(module); }
-//
-// define(function(require, exports, module) {
-//     var dep = require('dependency');
-//
-//     //The value returned from the function is
-//     //used as the module export visible to Node.
-//     return function () {};
-// });
-//
 //
 // /**
 //  * Created by Hey on 13 Oct 2016
