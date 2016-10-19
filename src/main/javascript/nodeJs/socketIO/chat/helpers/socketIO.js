@@ -19,7 +19,7 @@ var createIO = function (server) {
         });
         socket.on('chat message', function (msg) {
             console.log(format('"{}" chatted message: {}', msg.nickname, msg.message));
-            socket.broadcast.emit("chat message", format("{}: {}", msg.nickname, msg.message));
+            socket.broadcast.emit("chat message",  msg.formatted);
         });
     };
     io.on('connection', onConnection);

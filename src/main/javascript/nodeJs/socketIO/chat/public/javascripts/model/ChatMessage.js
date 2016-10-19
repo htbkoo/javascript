@@ -6,10 +6,16 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(function (require, exports, module) {
-    "use strict";
-    var format = require('string-format');
+if (typeof requirejs !== 'function') {
+    var requirejs = require('requirejs');
+}
 
+if (typeof format !== 'function') {
+    var format = require('string-format');
+}
+
+define([], function () {
+    "use strict";
     function ChatMessage(_message, _sender) {
         var message = _message, sender = _sender;
 
