@@ -28,10 +28,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // expose library dependencies
-app.use('/javascripts', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
-app.use('/javascripts', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
-app.use('/javascripts/socket.io', express.static(__dirname + '/node_modules/socket.io-client')); // redirect JS jQuery
-app.use('/stylesheets', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+app.use('/javascripts/lib', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/javascripts/lib', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/javascripts/lib', express.static(__dirname + '/node_modules/requirejs')); // redirect require.js
+app.use('/javascripts/lib', express.static(__dirname + '/node_modules/socket.io-client')); // redirect JS jQuery
+app.use('/javascripts/lib', express.static(__dirname + '/node_modules/string-format/lib')); // redirect JS jQuery
+app.use('/stylesheets/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 app.use('/', routes);
 app.use('/users', users);
