@@ -46,9 +46,26 @@
 
 module.exports =
     function sumIntervals(intervals) {
-        //TODO
+        //DONE
         "use strict";
-        return intervals.reduce(function (prev, cur, arr) {
+
+        intervals.sort(function (a, b) {
+            return a[0] - b[0];
+        });
+
+        var compressed = [], i;
+
+        var lastFrom = intervals[0][0], lastTo = intervals[0][1];
+        var length = intervals.length;
+        for (i = 1; i < length; ++i) {
+            if (intervals[i][0] > lastTo) {
+                compressed.push([lastFrom, lastTo]);
+                lastFrom = intervals[i][0];
+            }
+            lastTo = Math.max(lastTo, intervals[i][1]);
+        }
+        compressed.push([lastFrom, lastTo]);
+        return compressed.reduce(function (prev, cur, arr) {
             return prev + cur[1] - cur[0];
         }, 0);
     };
