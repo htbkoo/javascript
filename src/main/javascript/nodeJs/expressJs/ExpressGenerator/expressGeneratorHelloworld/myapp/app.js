@@ -27,7 +27,7 @@ if (app.get('env') === 'development') {
 }
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -36,9 +36,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/quotes', express.static(path.join(__dirname, 'public')));
 
 // for jQuery and BootStrap
-app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
-app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/js/lib', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/js/lib', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/js/lib', express.static(__dirname + '/node_modules/string-format/lib')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+
+// for require.js
+app.use('/js/lib', express.static(__dirname + '/node_modules/requirejs')); // redirect JS jQuery
 
 app.use('/', routes);
 app.use('/users', users);

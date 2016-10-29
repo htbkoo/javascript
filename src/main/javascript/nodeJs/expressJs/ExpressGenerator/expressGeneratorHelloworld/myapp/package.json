@@ -7,6 +7,7 @@
     "debug_start": "node %NODE_DEBUG_OPTION% ./bin/www"
   },
   "dependencies": {
+    "amdefine": "^1.0.0",
     "body-parser": "~1.13.2",
     "bootstrap": "^3.3.7",
     "consolidate": "~0.14.1",
@@ -21,6 +22,7 @@
     "monk": "^1.0.1",
     "morgan": "~1.6.1",
     "react": "~15.3.1",
+    "requirejs": "^2.3.2",
     "serve-favicon": "~2.3.0",
     "string-format": "^0.5.0"
   }
