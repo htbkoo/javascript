@@ -85,11 +85,8 @@
 
 function generator(sequencer) {
     "use strict";
-    var nextValFunction = sequencer.apply(null, Array.prototype.slice.call(arguments, 1));
     return {
-        'next': function () {
-            return nextValFunction();
-        }
+        'next': sequencer.apply(null, Array.prototype.slice.call(arguments, 1))
     };
 }
 
