@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <% include template/header.ejs %>
 <head>
     <!--suppress HtmlUnknownTarget -->
-    <link rel="stylesheet" href="/stylesheets/index.css"/>
+    <link rel="stylesheet" href="/stylesheets/quotes.css"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
@@ -13,19 +13,32 @@
             <small>Get quotes for underlyings</small>
         </h1>
     </div>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-            <% if (typeof underlyings !== "undefined"){ %>
-            <ul class="list-group">
-                <% underlyings.getKeysAsArray().forEach(function(k){ %>
-                <li class="list-group-item"><%= k; %></li>
-                <% }); %>
-            </ul>
-            <% } %>
+    <div class="col-md-2"></div>
+
+    <div class="col-md-8">
+        <form class="form-inline">
+            <label for="underlyingId">Underlying ID</label>
+            <input class="form-control" type="text" id="underlyingId"/>
+            <input class="form-control" type="button" value="add" id="addUnderlying"/>
+        </form>
+        <div class="row with-top-buffer">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Currently monitoring:
+                </div>
+                <div class="panel-body">
+                    <% if (typeof underlyings !== "undefined"){ %>
+                    <ul class="list-group">
+                        <% underlyings.getKeysAsArray().forEach(function(k){ %>
+                        <li class="list-group-item"><%= k; %></li>
+                        <% }); %>
+                    </ul>
+                    <% } %>
+                </div>
+            </div>
         </div>
-        <div class="col-md-1"></div>
     </div>
+    <div class="col-md-2"></div>
 </div>
 
 <% include template/scripts.ejs %>
