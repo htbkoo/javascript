@@ -8,6 +8,14 @@
 
 console.log('loaded quotes.js');
 
+if (typeof requirejs === 'undefined'){
+    var requirejs = require('requirejs');
+}
+
+if (typeof define === 'undefined'){
+    var define = require('amdefine');
+}
+
 requirejs.config({
     'baseUrl': '/js/lib',
     'shim': {
