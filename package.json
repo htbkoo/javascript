@@ -14,7 +14,6 @@
     "qunitjs": "latest"
   },
   "scripts": {
-    "test": "mocha --opts mocha.opts",
-    "postinstall": "typings install"
+    "test": "mocha --opts mocha.opts"
   }
 }
