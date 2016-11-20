@@ -4,7 +4,7 @@
 
 /*
 
- https://www.codewars.com/kata/coding-meetup-number-6-higher-order-functions-series-can-they-code-in-the-same-language/train/javascript
+ http://www.codewars.com/kata/coding-meetup-number-7-higher-order-functions-series-find-the-most-senior-developer/train/javascript
 
  You will be given an array of objects (associative arrays in PHP) representing data about developers who have signed up to attend the next coding meetup that you are organising. The list is ordered according to who signed up first.
 
@@ -51,3 +51,13 @@ module.exports =
         });
         return ans;
     };
+
+function LoopTwiceSolutionFromCodewars(list) {
+    "use strict";
+    var oldestAge = list.reduce(function (prev, curr) {
+        return Math.max(curr.age, prev);
+    }, list[0].age);
+    return list.filter(function (dev) {
+        return dev.age === oldestAge;
+    });
+}
