@@ -11,7 +11,9 @@
     "mocha": "latest",
     "qunit": "latest",
     "qunit-parameterize": "latest",
-    "qunitjs": "latest"
+    "qunitjs": "latest",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0"
   },
   "scripts": {
     "test": "mocha --opts mocha.opts"
