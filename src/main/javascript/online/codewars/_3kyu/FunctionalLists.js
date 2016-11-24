@@ -162,13 +162,6 @@ ListNode.prototype.toString = function () { /* implement this */
         str += (str === "" ? curr.getValue() : (" " + curr.getValue()));
     });
     return "(" + str + ")";
-    /*
-     var curr = this, str = "(";
-     while (!curr.isEmpty()) {
-     str = str + " " + curr.getValue();
-     curr = curr.getNext();
-     }
-     return str + ")";*/
 };
 
 ListNode.prototype.head = function () { /* implement this */
@@ -238,3 +231,41 @@ ListNode.prototype.append = function (xs) { /* implement this */
 };
 
 module.exports = EmptyList;
+
+var testImproved = true;
+
+if (testImproved) {
+
+    // ListNode.prototype.head
+
+    // ListNode.prototype.tail
+
+    ListNode.prototype.length = function () { /* implement this */
+        "use strict";
+        return 1 + this.getNext().length();
+    };
+
+    // ListNode.prototype.push
+
+    ListNode.prototype.remove = function (x) { /* implement this */
+        "use strict";
+        var processedNext = this.getNext().remove(x);
+        var thisVal = this.getValue();
+        if (thisVal === x) {
+            return processedNext;
+        }
+        if (processedNext.length() === this.getNext().length()) {
+            return this;
+        } else {
+            return new ListNode(thisVal, processedNext);
+        }
+    };
+
+    ListNode.prototype.append = function (xs) { /* implement this */
+        "use strict";
+        if (this.getNext().isEmpty()) {
+            return new ListNode(this.getValue(), xs);
+        }
+        return new ListNode(this.getValue(), this.getNext().append(xs));
+    };
+}
