@@ -6,12 +6,11 @@
 
 // var quotes = require('../quotes');
 
-define(['chai'], function(Test){
+define(['chai', '../quotes'], function(Test, quotes){
     describe("quotes", function () {
         describe("add underlying", function () {
             it("should call the add underlying api when clicked button", function(){
                 // Test.assert.fail("not implemented yet");
-                Test.expect(1).is.eql(1);
             });
         });
     });
