@@ -7,8 +7,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testMocha/javascript" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testQUnit/javascript" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/test_e2e" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/test_unit" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/public/js/test_unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/dev_public/js/test_unit" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -22,5 +22,6 @@
     <orderEntry type="library" name="socket.io-client-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="requirejs-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="karma-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="webpack-DefinitelyTyped" level="application" />
   </component>
 </module>
