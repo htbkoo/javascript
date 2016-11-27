@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "webpack": "webpack --config ./webpack.config.js",
     "start": "node ./bin/www",
     "debug_start": "node %NODE_DEBUG_OPTION% ./bin/www"
   },
@@ -33,6 +34,8 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.2.0",
     "karma-requirejs": "^1.1.0",
-    "mocha": "^3.1.2"
+    "karma-webpack": "^1.8.0",
+    "mocha": "^3.1.2",
+    "webpack": "^1.13.3"
   }
 }
