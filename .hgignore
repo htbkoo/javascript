@@ -3,3 +3,4 @@ syntax:regexp
 \.idea/typescript-compiler.xml
 \.idea/shelf/*
 node_modules/*
+src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/coverage/*
