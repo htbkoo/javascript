@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "webpack": "webpack --config ./webpack.config.js",
-    "start": "node ./bin/www",
-    "debug_start": "node %NODE_DEBUG_OPTION% ./bin/www"
+    "build": "webpack",
+    "start": "npm run build && node ./bin/www",
+    "debug_start": "npm run build && node %NODE_DEBUG_OPTION% ./bin/www"
   },
   "dependencies": {
     "amdefine": "^1.0.0",
