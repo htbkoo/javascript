@@ -22,5 +22,15 @@ module.exports = {
             '$': 'jquery'
         })
     ],
-    debug: true
+    debug: true,
+    module: {
+        noParse: [
+            /node_modules\/sinon\//
+        ]
+    },
+    resolve: {
+        alias: {
+            'sinon': 'sinon/pkg/sinon'
+        }
+    }
 };
