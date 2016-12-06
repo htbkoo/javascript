@@ -1,0 +1,28 @@
+body {
+    background-color: #88DDFF;
+}
+
+table {
+    min-width: 100px;
+    min-height: 100px;
+}
+
+#board td {
+    border: 1px solid;
+}
+
+#board td.wall {
+    background-color: #000;
+}
+#board td.snake {
+    background-color: #0F0;
+}
+
+#board td.food {
+    background-color: #F88;
+}
+
+#board td div {
+    min-width: 10px;
+    min-height: 10px;
+}
