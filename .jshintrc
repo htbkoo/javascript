@@ -2,7 +2,7 @@
   "asi": false,
   "bitwise": true,
   "boss": false,
-  "browser": false,
+  "browser": true,
   "browserify": false,
   "camelcase": false,
   "couch": false,
