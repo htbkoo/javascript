@@ -67,6 +67,7 @@ function startGame() {
     var foodCoors = [];
     var gameID = 0;
     var score = 0;
+    var movingVertical = false, movingHorizontal = false, stepped = false;
 
     function hitSnake(coors) {
         return snakes.some(function (snake) {
@@ -117,7 +118,17 @@ function startGame() {
     }
 
     function hitFood(nY, nX) {
-        return areCoorsEqual([nY,nX], foodCoors);
+        return areCoorsEqual([nY, nX], foodCoors);
+    }
+
+    function setMovingDirection(tx, ty) {
+        movingVertical = false;
+        movingHorizontal = false;
+        if (tx > 0) {
+            movingHorizontal = true;
+        } else if (ty > 0) {
+            movingVertical = true;
+        }
     }
 
     if (!gameStarted) {
@@ -138,11 +149,11 @@ function startGame() {
 
         $(document).keydown(function (event) {
             function isMovingVertical() {
-                return dx === 0;
+                return !isMoved() || (stepped && dx === 0);
             }
 
             function isMovingHorizontal() {
-                return dy === 0;
+                return !isMoved() || (stepped && dy === 0);
             }
 
             switch (event.which) {
@@ -150,6 +161,7 @@ function startGame() {
                     if (isMovingVertical()) {
                         dx = -1;
                         dy = 0;
+                        stepped = false;
                     }
                     event.preventDefault();
                     break;
@@ -157,6 +169,7 @@ function startGame() {
                     if (isMovingVertical()) {
                         dx = 1;
                         dy = 0;
+                        stepped = false;
                     }
                     event.preventDefault();
                     break;
@@ -164,6 +177,7 @@ function startGame() {
                     if (isMovingHorizontal()) {
                         dx = 0;
                         dy = -1;
+                        stepped = false;
                     }
                     event.preventDefault();
                     break;
@@ -171,6 +185,7 @@ function startGame() {
                     if (isMovingHorizontal()) {
                         dx = 0;
                         dy = 1;
+                        stepped = false;
                     }
                     event.preventDefault();
                     break;
@@ -186,6 +201,9 @@ function startGame() {
 
             if (isMoved()) {
                 (function determineNewHead() {
+                    stepped = true;
+                    setMovingDirection(dx, dy);
+
                     if (isOutOfBoundary(newHead)) {
                         gameOver();
                         return;
