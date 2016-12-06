@@ -43,7 +43,6 @@ function createBoard() {
         cells.push(tempRow);
     }
 
-
     $tr = $('<tr></tr>');
     $board_body.append($tr);
     for (_ = -1; _ <= NUM_COL; ++_) {
@@ -113,6 +112,14 @@ function startGame() {
         toggleCellWithCoordinatesPair("food", foodCoors);
     }
 
+    function areCoorsEqual(coors1, coors2) {
+        return (coors1[0] === coors2[0]) && (coors1[1] === coors2[1]);
+    }
+
+    function hitFood(nY, nX) {
+        return areCoorsEqual([nY,nX], foodCoors);
+    }
+
     if (!gameStarted) {
         gameStarted = true;
         clearBoard();
@@ -130,30 +137,38 @@ function startGame() {
         generateFood();
 
         $(document).keydown(function (event) {
+            function isMovingVertical() {
+                return dx === 0;
+            }
+
+            function isMovingHorizontal() {
+                return dy === 0;
+            }
+
             switch (event.which) {
                 case KEY.LEFT:
-                    if (dx === 0) {
+                    if (isMovingVertical()) {
                         dx = -1;
                         dy = 0;
                     }
                     event.preventDefault();
                     break;
                 case KEY.RIGHT:
-                    if (dx === 0) {
+                    if (isMovingVertical()) {
                         dx = 1;
                         dy = 0;
                     }
                     event.preventDefault();
                     break;
                 case KEY.UP:
-                    if (dy === 0) {
+                    if (isMovingHorizontal()) {
                         dx = 0;
                         dy = -1;
                     }
                     event.preventDefault();
                     break;
                 case KEY.DOWN:
-                    if (dy === 0) {
+                    if (isMovingHorizontal()) {
                         dx = 0;
                         dy = 1;
                     }
@@ -173,13 +188,15 @@ function startGame() {
                 (function determineNewHead() {
                     if (isOutOfBoundary(newHead)) {
                         gameOver();
+                        return;
                     }
 
                     if (hitSnake(newHead)) {
                         gameOver();
+                        return;
                     }
 
-                    if ((nY === foodCoors[0]) && (nX === foodCoors[1])) {
+                    if (hitFood(nY, nX)) {
                         ateFood();
                     } else {
                         var tail = snakes[0];
