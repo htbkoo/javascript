@@ -1,0 +1,28 @@
+body{
+    background-color: #336699;
+}
+
+#tContainer {
+}
+
+#tContainer tr:nth-child(-n+4){
+    display: none;
+}
+
+#tContainer td div{
+    border: 1px solid;
+    min-width: 25px;
+    min-height: 25px;
+}
+
+#tContainer td div.wall{
+    background-color: #000;
+}
+
+#tContainer td div.falling{
+    background-color: #FF6;
+}
+
+#tContainer td div.placed{
+    background-color: #AAA;
+}
