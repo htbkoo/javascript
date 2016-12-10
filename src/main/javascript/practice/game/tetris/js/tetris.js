@@ -54,7 +54,7 @@
     var NUM_HIDDEN_ROWS = 4, NUM_ROW = 22 + NUM_HIDDEN_ROWS, NUM_COL = 16;
     var MIDDLE_X = 0;
     var GRAVITY = 1;
-    var ENGINE_INTERVAL = 100;
+    var ENGINE_INTERVAL = 200;
     var KEY = {
         'ENTER': 13,
         'LEFT': 37,
@@ -68,6 +68,7 @@
     var cells = [];
     var gameStarted = false;
     var gameId = 0;
+    var isTryingToMoveSemaphore = false;
 
     // Temp Variables
     var i = 0, j = 0;
@@ -112,6 +113,8 @@
         function startGame() {
             var wholePieceFalling = false;
             var curPiece = getNextPiece(), nextPiece = getNextPiece();
+            var numRotate = 0;
+            var maxLength = curPiece.length;
             var fallingPieces = [];
 
             (function clearBoard() {
@@ -130,11 +133,14 @@
                     [[0, 1], [0, 1]], // square
                     [[1], [0, 1], [0]], // \/\
                     [[0], [0, 1], [1]], // /\/
-                    [[0], [0, 1], [0]]
+                    [[0], [0, 1], [0]], // T
+                    [[0], [0], [0, 1]], // L
+                    [[1], [1], [0, 1]] // _|
                 ];
 
                 function getRandomIntLessThan(maxExclusive) {
-                    return Math.floor(Math.random() * maxExclusive);
+                    // return Math.floor(Math.random() * maxExclusive);
+                    return 0;
                 }
 
                 return PIECES_PATTERN[getRandomIntLessThan(PIECES_PATTERN.length)];
@@ -154,19 +160,15 @@
                             wholePieceFalling = true;
                             curPiece = nextPiece;
                             nextPiece = getNextPiece();
+                            maxLength = curPiece.length;
+                            numRotate = -1;
                         } else {
-                            // wrong - my misconception about forEach being asynchronous  -> cannot do for each without ES6 promise......
                             curPiece[0].some(function (x) {
                                 var p = cells[0][x + MIDDLE_X];
                                 p.setFalling();
                                 fallingPieces.push(p);
                                 return !gameStarted;
                             });
-                            // for (i = 0; i < curPiece[0].length; ++i) {
-                            //     var p = cells[0][curPiece[0][i] + MIDDLE_X];
-                            //     p.setFalling();
-                            //     fallingPieces.push(p);
-                            // }
                             curPiece.shift();
                         }
                     }());
@@ -174,8 +176,6 @@
 
                 (function manageFallingPiece() {
                     var tempFallingPieces = [];
-
-                    // wrong - my misconception about forEach being asynchronous  -> cannot do for each without ES6 promise......
 
                     if (!fallingPieces.some(function (p) {
                             p.setEmpty();
@@ -187,6 +187,7 @@
                             }
 
                             if (shouldStopFalling()) {
+                                isTryingToMoveSemaphore = true;
                                 if (!wholePieceFalling) {
                                     gameOver();
                                 } else {
@@ -224,15 +225,19 @@
                                 }());
 
                                 wholePieceFalling = false;
+                                isTryingToMoveSemaphore = false;
                                 return true;
                             } else {
                                 var newP = cells[nY][nX];
-                                newP.setFalling();
+                                // newP.setFalling();
                                 tempFallingPieces.push(newP);
                             }
                             return false;
                         })) {
                         fallingPieces = tempFallingPieces;
+                        fallingPieces.forEach(function (newP) {
+                            newP.setFalling();
+                        });
                     } else {
                         fallingPieces = [];
                         tempFallingPieces.forEach(function (p) {
@@ -241,83 +246,149 @@
                             }
                         });
                     }
-                    // for (i = 0; i < fallingPieces.length; ++i) {
-                    //     fallingPieces[i].setEmpty();
-                    //     var nY = fallingPieces[i].getY() + GRAVITY;
-                    //     var nX = fallingPieces[i].getX();
-                    //     var newP = cells[nY][nX];
-                    //
-                    //     if (newP.isPlaced()) {
-                    //         if (falling) {
-                    //             gameOver();
-                    //         } else {
-                    //
-                    //         }
-                    //     } else {
-                    //         newP.setFalling();
-                    //         tempFallingPieces.push(newP);
-                    //     }
-                    // }
                 }());
             }
 
             (function setUpKeyDownControl() {
                 $(document).keydown(function (event) {
-                    function tryMovingBy(coors) {
-                        var newFallingPieces = [];
-
-                        function everyCellCanMove() {
-                            return fallingPieces.every(function (p) {
-                                var nY = p.getY() + coors[0];
-                                var nX = p.getX() + coors[1];
+                    function tryMovingTo(computeNewCoorsArr) {
+                        function everyNewCellsValid(coorsArr) {
+                            return coorsArr.every(function (p) {
+                                var nY = p[0];
+                                var nX = p[1];
                                 if (nX < 0 || nY < 0 || nX >= NUM_COL || nY >= NUM_ROW) {
                                     return false;
                                 }
-                                var newP = cells[nY][nX];
-                                if (newP.isPlaced()) {
-                                    return false;
-                                }
-                                newFallingPieces.push(newP);
-                                return true;
+                                var newCell = cells[nY][nX];
+                                newFallingPieces.push(newCell);
+                                return !newCell.isPlaced();
                             });
                         }
 
-                        // function someCellPlaced() {
-                        //     return fallingPieces.some(function(p){
-                        //         p.isPlaced();
-                        //     });
-                        // }
+                        if (!isTryingToMoveSemaphore) {
+                            var newFallingPieces = [];
+                            isTryingToMoveSemaphore = true;
 
-                        if (wholePieceFalling && everyCellCanMove()) {
-                            // if (!someCellPlaced()) {
-                            fallingPieces.forEach(function (c) {
-                                c.setEmpty();
+                            if (wholePieceFalling) {
+                                if (everyNewCellsValid(computeNewCoorsArr())) {
+                                    fallingPieces.forEach(function (c) {
+                                        c.setEmpty();
+                                    });
+                                    fallingPieces = newFallingPieces;
+                                    fallingPieces.forEach(function (c) {
+                                        c.setFalling();
+                                    });
+                                }
+                            }
+
+                            isTryingToMoveSemaphore = false;
+                        }
+                    }
+
+                    function computeNewCellsByMoving(coors) {
+                        return fallingPieces.map(function (p) {
+                            var nY = p.getY() + coors[0];
+                            var nX = p.getX() + coors[1];
+                            return [nY, nX];
+                        });
+                    }
+
+                    function computeNewCellsByRotating() {
+                        function oneRotate() {
+                            return fallingPieces.map(function (arr) {
+                                return arr.slice();
                             });
-                            fallingPieces = newFallingPieces;
-                            fallingPieces.forEach(function (c) {
-                                c.setFalling();
+                        }
+
+                        function twoRotate() {
+                            return fallingPieces.map(function (arr) {
+                                return arr.slice();
                             });
+                        }
+
+                        function threeRotate() {
+                            var centre;
+                            switch (fallingPieces.length) {
+                                case 1:
+                                case 2:
+                                case 3:
+
+                            }
+                        }
+
+                        function fourRotate() {
+                            var rotateLogic = [
+                                [[-2, -1], [-1, 0], [0, 1], [1, 2]],
+                                [[-1, 2], [0, 1], [1, 0], [2, -1]],
+                                [[2, 1], [1, 0], [0, -1], [-1, -2]],
+                                [[1, -2], [0, -1], [-1, 0], [-2, 1]]
+                            ];
+
+                            numRotate = (numRotate + 1) % 4;
+
+                            return fallingPieces.map(function (c, i) {
+                                var coors = rotateLogic[numRotate][i];
+                                return [c.getY() + coors[0], c.getX() + coors[1]];
+                            });
+                            // switch (fallingPieces.length) {
+                            //     case 1:
+                            //         return fallingPieces.map(function (c, i) {
+                            //             var coors = rotateLogic[i];
+                            //             return [c.getY() + coors[0], c.getX() + coors[1]];
+                            //         });
+                            //     case 4:
+                            //         return fallingPieces.map(function (r, i) {
+                            //             return r.map(function (c, i) {
+                            //                 var coors = rotateLogic[i];
+                            //                 return [c.getY() + coors[0], c.getX() + coors[1]];
+                            //             });
+                            //         });
                             // }
+                        }
+
+                        switch (maxLength) {
+                            case 0:
+                                return [];
+                            case 1:
+                                return oneRotate();
+                            case 2:
+                                return twoRotate();
+                            case 3:
+                                return threeRotate();
+                            case 4:
+                                return fourRotate();
+                            default:
+                                console.log("unsupported");
+
                         }
                     }
 
                     switch (event.which) {
                         case KEY.LEFT:
-                            tryMovingBy([0, -1]);
+                            tryMovingTo(function () {
+                                return computeNewCellsByMoving([0, -1]);
+                            });
                             event.preventDefault();
                             break;
                         case KEY.RIGHT:
-                            tryMovingBy([0, 1]);
+                            tryMovingTo(function () {
+                                return computeNewCellsByMoving([0, 1]);
+                            });
                             event.preventDefault();
                             break;
                         case KEY.UP:
                             event.preventDefault();
                             break;
                         case KEY.DOWN:
-                            tryMovingBy([1, 0]);
+                            tryMovingTo(function () {
+                                return computeNewCellsByMoving([1, 0]);
+                            });
                             event.preventDefault();
                             break;
                         case KEY.SPACE:
+                            tryMovingTo(function () {
+                                return computeNewCellsByRotating();
+                            });
                             event.preventDefault();
                             break;
                     }
