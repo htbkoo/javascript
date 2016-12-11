@@ -8,8 +8,7 @@
     var Cell = function (param_$c, x, y) {
         var FALLING = "falling", PLACED = "placed";
 
-        var $c = param_$c;
-        var $div = $($c.find('div')[0]);
+        var $div = $(param_$c.find('div')[0]);
         var state = "";
 
         var setState = function (param_state) {
@@ -113,6 +112,7 @@
         function startGame() {
             var wholePieceFalling = false;
             var curPiece = getNextPiece(), nextPiece = getNextPiece();
+            var tempNumRotate = 0;
             var numRotate = 0;
             var maxLength = curPiece.length;
             var fallingPieces = [];
@@ -161,7 +161,8 @@
                             curPiece = nextPiece;
                             nextPiece = getNextPiece();
                             maxLength = curPiece.length;
-                            numRotate = -1;
+                            numRotate = 0;
+                            tempNumRotate = 0;
                         } else {
                             curPiece[0].some(function (x) {
                                 var p = cells[0][x + MIDDLE_X];
@@ -187,7 +188,6 @@
                             }
 
                             if (shouldStopFalling()) {
-                                isTryingToMoveSemaphore = true;
                                 if (!wholePieceFalling) {
                                     gameOver();
                                 } else {
@@ -225,7 +225,6 @@
                                 }());
 
                                 wholePieceFalling = false;
-                                isTryingToMoveSemaphore = false;
                                 return true;
                             } else {
                                 var newP = cells[nY][nX];
@@ -271,6 +270,7 @@
 
                             if (wholePieceFalling) {
                                 if (everyNewCellsValid(computeNewCoorsArr())) {
+                                    numRotate = tempNumRotate;
                                     fallingPieces.forEach(function (c) {
                                         c.setEmpty();
                                     });
@@ -324,10 +324,13 @@
                                 [[1, -2], [0, -1], [-1, 0], [-2, 1]]
                             ];
 
-                            numRotate = (numRotate + 1) % 4;
+                            tempNumRotate = numRotate + 1;
+
+                            console.log("t:" + tempNumRotate);
+                            console.log("n:" + numRotate);
 
                             return fallingPieces.map(function (c, i) {
-                                var coors = rotateLogic[numRotate][i];
+                                var coors = rotateLogic[numRotate % 4][i];
                                 return [c.getY() + coors[0], c.getX() + coors[1]];
                             });
                             // switch (fallingPieces.length) {
