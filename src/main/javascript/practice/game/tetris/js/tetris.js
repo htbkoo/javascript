@@ -110,11 +110,17 @@
         });
 
         function startGame() {
+            function setUpNextPieces() {
+                rotateLogic = nextRotateLogic;
+                curPiece = nextPiece;
+                nextRotateLogic = curPiece.shift();
+                nextPiece = getNextPiece();
+            }
+
             var wholePieceFalling = false;
-            var curPiece = getNextPiece(), nextPiece = getNextPiece();
+            var curPiece = getNextPiece(), nextPiece = getNextPiece(), rotateLogic, nextRotateLogic = curPiece.shift();
             var tempNumRotate = 0;
             var numRotate = 0;
-            var maxLength = curPiece.length;
             var fallingPieces = [];
 
             (function clearBoard() {
@@ -129,18 +135,41 @@
 
             function getNextPiece() {
                 var PIECES_PATTERN = [
-                    [[0], [0], [0], [0]], // long vertical
-                    [[0, 1], [0, 1]], // square
-                    [[1], [0, 1], [0]], // \/\
-                    [[0], [0, 1], [1]], // /\/
-                    [[0], [0, 1], [0]], // T
-                    [[0], [0], [0, 1]], // L
-                    [[1], [1], [0, 1]] // _|
+                    [[
+                        [[-2, -1], [-1, 0], [0, 1], [1, 2]],
+                        [[-1, 2], [0, 1], [1, 0], [2, -1]],
+                        [[2, 1], [1, 0], [0, -1], [-1, -2]],
+                        [[1, -2], [0, -1], [-1, 0], [-2, 1]]
+                    ],
+                        [0], [0], [0], [0]], // long vertical
+                    [[
+                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                    ],
+                        [0, 1], [0, 1]], // square
+                    [[
+                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                    ],
+                        [1], [0, 1], [0]], // \/\
+                    [[
+                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                    ],
+                        [0], [0, 1], [1]], // /\/
+                    [[
+                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                    ],
+                        [0], [0, 1], [0]], // T
+                    [[
+                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                    ],
+                        [0], [0], [0, 1]], // L
+                    [[
+                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                    ],
+                        [1], [1], [0, 1]] // _|
                 ];
 
                 function getRandomIntLessThan(maxExclusive) {
-                    // return Math.floor(Math.random() * maxExclusive);
-                    return 0;
+                    return Math.floor(Math.random() * maxExclusive);
                 }
 
                 return PIECES_PATTERN[getRandomIntLessThan(PIECES_PATTERN.length)];
@@ -155,12 +184,9 @@
             function gameEngine() {
                 if (!wholePieceFalling) {
                     (function placeNextPiece() {
-
                         if (curPiece.length === 0) {
                             wholePieceFalling = true;
-                            curPiece = nextPiece;
-                            nextPiece = getNextPiece();
-                            maxLength = curPiece.length;
+                            setUpNextPieces();
                             numRotate = 0;
                             tempNumRotate = 0;
                         } else {
@@ -294,76 +320,14 @@
                     }
 
                     function computeNewCellsByRotating() {
-                        function oneRotate() {
-                            return fallingPieces.map(function (arr) {
-                                return arr.slice();
-                            });
-                        }
+                        tempNumRotate = numRotate + 1;
 
-                        function twoRotate() {
-                            return fallingPieces.map(function (arr) {
-                                return arr.slice();
-                            });
-                        }
+                        console.log("l:" + rotateLogic.toString());
 
-                        function threeRotate() {
-                            var centre;
-                            switch (fallingPieces.length) {
-                                case 1:
-                                case 2:
-                                case 3:
-
-                            }
-                        }
-
-                        function fourRotate() {
-                            var rotateLogic = [
-                                [[-2, -1], [-1, 0], [0, 1], [1, 2]],
-                                [[-1, 2], [0, 1], [1, 0], [2, -1]],
-                                [[2, 1], [1, 0], [0, -1], [-1, -2]],
-                                [[1, -2], [0, -1], [-1, 0], [-2, 1]]
-                            ];
-
-                            tempNumRotate = numRotate + 1;
-
-                            console.log("t:" + tempNumRotate);
-                            console.log("n:" + numRotate);
-
-                            return fallingPieces.map(function (c, i) {
-                                var coors = rotateLogic[numRotate % 4][i];
-                                return [c.getY() + coors[0], c.getX() + coors[1]];
-                            });
-                            // switch (fallingPieces.length) {
-                            //     case 1:
-                            //         return fallingPieces.map(function (c, i) {
-                            //             var coors = rotateLogic[i];
-                            //             return [c.getY() + coors[0], c.getX() + coors[1]];
-                            //         });
-                            //     case 4:
-                            //         return fallingPieces.map(function (r, i) {
-                            //             return r.map(function (c, i) {
-                            //                 var coors = rotateLogic[i];
-                            //                 return [c.getY() + coors[0], c.getX() + coors[1]];
-                            //             });
-                            //         });
-                            // }
-                        }
-
-                        switch (maxLength) {
-                            case 0:
-                                return [];
-                            case 1:
-                                return oneRotate();
-                            case 2:
-                                return twoRotate();
-                            case 3:
-                                return threeRotate();
-                            case 4:
-                                return fourRotate();
-                            default:
-                                console.log("unsupported");
-
-                        }
+                        return fallingPieces.map(function (c, i) {
+                            var coors = rotateLogic[numRotate % rotateLogic.length][i];
+                            return [c.getY() + coors[0], c.getX() + coors[1]];
+                        });
                     }
 
                     switch (event.which) {
