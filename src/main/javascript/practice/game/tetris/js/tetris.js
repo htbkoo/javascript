@@ -147,25 +147,40 @@
                     ],
                         [0, 1], [0, 1]], // square
                     [[
-                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                        [[-1, -1], [-1, 1], [0, 0], [0, 2]],
+                        [[-1, 1], [1, 1], [0, 0], [2, 0]],
+                        [[1, 1], [1, -1], [0, 0], [0, -2]],
+                        [[1, -1], [-1, -1], [0, 0], [-2, 0]]
                     ],
                         [1], [0, 1], [0]], // \/\
                     [[
-                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                        [[-2, 0], [-1, 1], [0, 0], [1, 1]],
+                        [[0, 2], [1, 1], [0, 0], [1, -1]],
+                        [[2, 0], [1, -1], [0, 0], [-1, -1]],
+                        [[0, -2], [-1, -1], [0, 0], [-1, 1]]
                     ],
                         [0], [0, 1], [1]], // /\/
                     [[
-                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                        [[-1, -1], [0, 0], [1, -1], [1, 1]],
+                        [[-1, 1], [0, 0], [-1, -1], [1, -1]],
+                        [[1, 1], [0, 0], [-1, 1], [-1, -1]],
+                        [[1, -1], [0, 0], [1, 1], [-1, 1]]
                     ],
                         [0], [0, 1], [0]], // T
                     [[
-                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                        [[-2, 0], [-1, -1], [-1, 1], [0, 2]],
+                        [[0, 2], [-1, 1], [1, 1], [2, 0]],
+                        [[2, 0], [1, 1], [1, -1], [0, -2]],
+                        [[0, -2], [1, -1], [-1, -1], [-2, 0]]
                     ],
-                        [0], [0], [0, 1]], // L
+                        [0, 1], [0], [0]], // L
                     [[
-                        [[0, 0], [0, 0], [0, 0], [0, 0]]
+                        [[-1, -1], [0, -2], [1, -1], [2, 0]],
+                        [[-1, 1], [-2, 0], [-1, -1], [0, -2]],
+                        [[1, 1], [0, 2], [-1, 1], [-2, 0]],
+                        [[1, -1], [2, 0], [1, 1], [0, 2]]
                     ],
-                        [1], [1], [0, 1]] // _|
+                        [0, 1], [1], [1]] // _|
                 ];
 
                 function getRandomIntLessThan(maxExclusive) {
@@ -304,6 +319,8 @@
                                     fallingPieces.forEach(function (c) {
                                         c.setFalling();
                                     });
+                                } else {
+                                    tempNumRotate = numRotate;
                                 }
                             }
 
@@ -322,7 +339,7 @@
                     function computeNewCellsByRotating() {
                         tempNumRotate = numRotate + 1;
 
-                        console.log("l:" + rotateLogic.toString());
+                        console.log(numRotate + ": " + rotateLogic.toString());
 
                         return fallingPieces.map(function (c, i) {
                             var coors = rotateLogic[numRotate % rotateLogic.length][i];
@@ -343,15 +360,13 @@
                             });
                             event.preventDefault();
                             break;
-                        case KEY.UP:
-                            event.preventDefault();
-                            break;
                         case KEY.DOWN:
                             tryMovingTo(function () {
                                 return computeNewCellsByMoving([1, 0]);
                             });
                             event.preventDefault();
                             break;
+                        case KEY.UP:
                         case KEY.SPACE:
                             tryMovingTo(function () {
                                 return computeNewCellsByRotating();
