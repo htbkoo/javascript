@@ -1,28 +1,42 @@
-body{
+body {
     background-color: #336699;
 }
 
 #tContainer {
 }
 
-#tContainer tr:nth-child(-n+4){
+#tContainer tr:nth-child(-n+4) {
     display: none;
 }
 
-#tContainer td div{
+#tContainer td div {
     border: 1px solid;
     min-width: 25px;
     min-height: 25px;
 }
 
-#tContainer td div.wall{
+#tContainer td div.wall {
     background-color: #000;
 }
 
-#tContainer td div.falling{
+#tContainer td div.falling {
     background-color: #FF6;
 }
 
-#tContainer td div.placed{
+#tContainer td div.placed {
     background-color: #AAA;
+}
+
+#scoreBoard {
+    position: absolute;
+    right: 10%;
+    top: 10%;
+    font-size: 30px;
+    color: darkslateblue;
+    background-color: azure;
+    padding: 20px;
+    border: burlywood;
+    border-style: solid;
+    border-width: thick;
+    border-radius: 30px;
 }

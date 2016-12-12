@@ -67,7 +67,6 @@
     var cells = [];
     var gameStarted = false;
     var gameId = 0;
-    var isTryingToMoveSemaphore = false;
 
     // Temp Variables
     var i = 0, j = 0;
@@ -116,22 +115,6 @@
                 nextRotateLogic = curPiece.shift();
                 nextPiece = getNextPiece();
             }
-
-            var wholePieceFalling = false;
-            var curPiece = getNextPiece(), nextPiece = getNextPiece(), rotateLogic, nextRotateLogic = curPiece.shift();
-            var tempNumRotate = 0;
-            var numRotate = 0;
-            var fallingPieces = [];
-
-            (function clearBoard() {
-                cells.forEach(function (r) {
-                    r.forEach(function (c) {
-                        c.setEmpty();
-                    });
-                });
-            }());
-            gameStarted = true;
-            gameId = setInterval(gameEngine, ENGINE_INTERVAL);
 
             function getNextPiece() {
                 var PIECES_PATTERN = [
@@ -191,9 +174,14 @@
             }
 
             function gameOver() {
-                alert("Game Over!");
+                alert("Game Over! Your score: " + score + ", Rows: " + numRowsCleared);
                 clearInterval(gameId);
                 gameStarted = false;
+            }
+
+            function refreshUIScores() {
+                $("#score").text(score);
+                $("#numRowsCleared").text(numRowsCleared);
             }
 
             function gameEngine() {
@@ -238,7 +226,7 @@
                                 }
 
                                 (function managePlacedPiece() {
-                                    cells.forEach(function (row, index) {
+                                    var numClearedByPiece = cells.filter(function (row, index) {
                                         var rowFilled = row.every(function (c) {
                                             return c.isPlaced();
                                         });
@@ -261,8 +249,14 @@
 
                                         if (rowFilled) {
                                             collapseRow();
+                                            return true;
                                         }
-                                    });
+                                        return false;
+                                    }).length;
+
+                                    numRowsCleared += numClearedByPiece;
+                                    score += Math.floor(((numClearedByPiece + 1) * numClearedByPiece) / 2);
+                                    refreshUIScores();
                                 }());
 
                                 wholePieceFalling = false;
@@ -289,6 +283,26 @@
                 }());
             }
 
+            var wholePieceFalling = false;
+            var curPiece = getNextPiece(), nextPiece = getNextPiece(), rotateLogic, nextRotateLogic = curPiece.shift();
+            var tempNumRotate = 0;
+            var numRotate = 0;
+            var score = 0;
+            var numRowsCleared = 0;
+            var fallingPieces = [];
+
+            refreshUIScores();
+
+            (function clearBoard() {
+                cells.forEach(function (r) {
+                    r.forEach(function (c) {
+                        c.setEmpty();
+                    });
+                });
+            }());
+            gameStarted = true;
+            gameId = setInterval(gameEngine, ENGINE_INTERVAL);
+
             (function setUpKeyDownControl() {
                 $(document).keydown(function (event) {
                     function tryMovingTo(computeNewCoorsArr) {
@@ -305,27 +319,23 @@
                             });
                         }
 
-                        if (!isTryingToMoveSemaphore) {
-                            var newFallingPieces = [];
-                            isTryingToMoveSemaphore = true;
+                        var newFallingPieces = [];
 
-                            if (wholePieceFalling) {
-                                if (everyNewCellsValid(computeNewCoorsArr())) {
-                                    numRotate = tempNumRotate;
-                                    fallingPieces.forEach(function (c) {
-                                        c.setEmpty();
-                                    });
-                                    fallingPieces = newFallingPieces;
-                                    fallingPieces.forEach(function (c) {
-                                        c.setFalling();
-                                    });
-                                } else {
-                                    tempNumRotate = numRotate;
-                                }
+                        if (wholePieceFalling) {
+                            if (everyNewCellsValid(computeNewCoorsArr())) {
+                                numRotate = tempNumRotate;
+                                fallingPieces.forEach(function (c) {
+                                    c.setEmpty();
+                                });
+                                fallingPieces = newFallingPieces;
+                                fallingPieces.forEach(function (c) {
+                                    c.setFalling();
+                                });
+                            } else {
+                                tempNumRotate = numRotate;
                             }
-
-                            isTryingToMoveSemaphore = false;
                         }
+
                     }
 
                     function computeNewCellsByMoving(coors) {
