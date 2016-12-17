@@ -4,6 +4,7 @@
 
 var cells = [];
 var NUM_ROW = 40, NUM_COL = 60;
+var GROW_LENGTH = 5;
 var gameStarted = false;
 
 var KEY = {
@@ -67,6 +68,7 @@ function startGame() {
     var foodCoors = [];
     var gameID = 0;
     var score = 0;
+    var toGrow = 0;
     var movingVertical = false, movingHorizontal = false, stepped = false;
 
     function hitSnake(coors) {
@@ -101,6 +103,7 @@ function startGame() {
 
     function ateFood() {
         ++score;
+        toGrow += GROW_LENGTH;
         toggleCellWithCoordinatesPair("food", foodCoors);
         generateFood();
     }
@@ -216,11 +219,16 @@ function startGame() {
 
                     if (hitFood(nY, nX)) {
                         ateFood();
-                    } else {
+                    }
+
+                    if (toGrow <= 0) {
+                        toGrow = 0;
                         var tail = snakes[0];
                         toggleCellWithCoordinatesPair("snake", tail);
                         // snakes = snakes.slice(length);
                         snakes.shift();
+                    } else {
+                        --toGrow;
                     }
 
                     snakes.push(newHead);
