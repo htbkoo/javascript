@@ -49,7 +49,7 @@ describe("SnakeGame (by TDD)", function () {
             it("should not initialize board when game is started already", sinon.test(function () {
                 // given
                 var board = new Board(10, 10);
-                var mockToBoard = this.mock(board).expects("initialize").once().atMost(1);
+                var boardInitializeAtMostOnce = this.mock(board).expects("initialize").once().atMost(1);
                 var game = createSnakeGameWithDimensions(board);
 
                 // when
@@ -59,7 +59,7 @@ describe("SnakeGame (by TDD)", function () {
                 Test.expect(game.isGameStarted()).to.equal(true, "Game should be started after startGame()");
 
                 // then
-                mockToBoard.verify();
+                boardInitializeAtMostOnce.verify();
             }));
         });
     });

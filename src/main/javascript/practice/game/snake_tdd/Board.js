@@ -3,12 +3,14 @@
  */
 
 var Food = require('./Food');
+var Snake = require('./Snake');
 var NextCoordinatesProvider = require('./NextCoordinatesProvider');
 
 function Board(w, h) {
     "use strict";
 
     var foods = [];
+    var snake = Snake.createSnake();
 
     this.getWidth = function () {
         return w;
@@ -24,6 +26,7 @@ function Board(w, h) {
     };
     this.initialize = function () {
         addFood();
+        snake.initialize();
     };
 
     function addFood() {

@@ -10,6 +10,7 @@ Test.use(sinonChai);
 
 var Board = srcDirRequire(__dirname, 'Board');
 var Food = srcDirRequire(__dirname, 'Food');
+var Snake = srcDirRequire(__dirname, 'Snake');
 var Coordinates = srcDirRequire(__dirname, 'Coordinates');
 var NextCoordinatesProvider = srcDirRequire(__dirname, 'NextCoordinatesProvider');
 
@@ -27,12 +28,12 @@ describe("Board - SnakeGame", function () {
         //    assert randomnesss?
         //    ref: http://softwareengineering.stackexchange.com/questions/147134/how-should-i-test-randomness
 
-        it("should create food at random position within width and height when initialized", sinon.test(function () {
+        it("should create food with coordingates from NextCoordinatesProvider when initialized", sinon.test(function () {
             // given
             var WIDTH = 20;
             var HEIGHT = 30;
-            var providedX = 0, providedY = 5;
             var board = new Board(WIDTH, HEIGHT);
+            var providedX = 0, providedY = 5;
             var stubNextCoordinatesProvider = this.stub(NextCoordinatesProvider, "getNext", function () {
                 return new Coordinates(providedX, providedY);
             });
@@ -46,10 +47,34 @@ describe("Board - SnakeGame", function () {
             Test.expect(board.getViewOfFood()).is.an.instanceOf(Array);
 
             foods.forEach(function (food) {
-                var coors = food.getCoors();
-                Test.expect(coors.getX()).to.equal(providedX, "X of food should be same as provided");
-                Test.expect(coors.getY()).to.equal(providedY, "Y of food should be same as provided");
+                assertCoorsOf(food, providedX, providedY);
             });
+        }));
+
+        it("should initialize snake when initialized", sinon.test(function () {
+            // given
+            var mockSnake = (function(s){
+                var snake = new Snake();
+                var stubSnakeCreateNewSnake = s.stub(Snake, "createSnake", function () {
+                    return snake;
+                });
+
+                var mockSnake = s.mock(snake);
+                mockSnake.expects("initialize").once();
+                return mockSnake;
+            }(this));
+            var WIDTH = 20;
+            var HEIGHT = 30;
+            var stubNextCoordinatesProvider = this.stub(NextCoordinatesProvider, "getNext", function () {
+                return new Coordinates(1, 1);
+            });
+
+            // when
+            var board = new Board(WIDTH, HEIGHT);
+            board.initialize();
+
+            // then
+            mockSnake.verify();
         }));
 
     });
@@ -60,5 +85,11 @@ describe("Board - SnakeGame", function () {
             Test.expect(board.getNumOfFood()).to.equal(0);
         });
     });
+
+    function assertCoorsOf(food, providedX, providedY) {
+        var coors = food.getCoors();
+        Test.expect(coors.getX()).to.equal(providedX, "X of food should be same as provided");
+        Test.expect(coors.getY()).to.equal(providedY, "Y of food should be same as provided");
+    }
 });
 
