@@ -28,6 +28,9 @@ function Board(w, h) {
         addFood();
         snake.initialize();
     };
+    this.update = function(){
+        console.log("abc");
+    };
 
     function addFood() {
         foods.push(new Food(NextCoordinatesProvider.getNext()));

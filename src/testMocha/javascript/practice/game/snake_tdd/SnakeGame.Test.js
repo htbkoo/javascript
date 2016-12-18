@@ -28,7 +28,7 @@ describe("SnakeGame (by TDD)", function () {
             Test.expect(board.getHeight()).to.equal(50);
         });
 
-        describe("construct game engine", function () {
+        describe("initialization", function () {
 
             it("should initialize board when start game", sinon.test(function () {
                 // given
@@ -60,6 +60,71 @@ describe("SnakeGame (by TDD)", function () {
 
                 // then
                 boardInitializeAtMostOnce.verify();
+            }));
+        });
+
+        describe("timer", function () {
+            var clock;
+            before(function () {
+                clock = sinon.useFakeTimers();
+            });
+            after(function () {
+                clock.restore();
+            });
+            it("should be able to set interval", sinon.test(function () {
+                // given
+                var game = createSnakeGameWithDimensions(10, 10);
+
+                // when
+                game.setInterval(100);
+
+                // then
+                Test.expect(game.getInterval()).to.equal(100);
+                Test.expect(game.getInterval()).to.equal(100);
+            }));
+
+            it("should start timer after initialization and thus cause board to update per interval", function () {
+                // given
+                var INTERVAL = 100;
+                var board = new Board(10, 10);
+                var stubBoardInitialize = sinon.stub(board, "initialize");
+                var spyBoardUpdate = sinon.spy(board, "update");
+                var game = createSnakeGameWithDimensions(board);
+                game.setInterval(INTERVAL);
+
+                // when
+                game.startGame();
+
+                // then
+                new Array(10).fill(0).forEach(function (_, i) {
+                    Test.expect(spyBoardUpdate).to.have.been.callCount(i);
+                    clock.tick(INTERVAL);
+                    Test.expect(spyBoardUpdate).to.have.been.callCount(i + 1);
+                });
+
+                stubBoardInitialize.restore();
+                spyBoardUpdate.restore();
+            });
+
+            it("should not cause board to update before game start", sinon.test(function () {
+                // given
+                var INTERVAL = 100;
+                var board = new Board(10, 10);
+                this.stub(board, "initialize");
+                var spyBoardUpdate = this.spy(board, "update");
+                var game = createSnakeGameWithDimensions(board);
+                game.setInterval(INTERVAL);
+
+                // when
+                // game is not started
+                // game.startGame();
+
+                // then
+                new Array(10).fill(0).forEach(function (_, i) {
+                    Test.expect(spyBoardUpdate).to.have.been.callCount(0);
+                    clock.tick(INTERVAL);
+                    Test.expect(spyBoardUpdate).to.have.been.callCount(0);
+                });
             }));
         });
     });
