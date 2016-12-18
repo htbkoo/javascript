@@ -64,13 +64,6 @@ describe("SnakeGame (by TDD)", function () {
         });
 
         describe("timer", function () {
-            var clock;
-            before(function () {
-                clock = sinon.useFakeTimers();
-            });
-            after(function () {
-                clock.restore();
-            });
             it("should be able to set interval", sinon.test(function () {
                 // given
                 var game = createSnakeGameWithDimensions(10, 10);
@@ -83,12 +76,13 @@ describe("SnakeGame (by TDD)", function () {
                 Test.expect(game.getInterval()).to.equal(100);
             }));
 
-            it("should start timer after initialization and thus cause board to update per interval", function () {
+            it("should start timer after initialization and thus cause board to update per interval", sinon.test(function () {
                 // given
+                var clock = this.clock;
                 var INTERVAL = 100;
                 var board = new Board(10, 10);
-                var stubBoardInitialize = sinon.stub(board, "initialize");
-                var spyBoardUpdate = sinon.spy(board, "update");
+                this.stub(board, "initialize");
+                var spyBoardUpdate = this.spy(board, "update");
                 var game = createSnakeGameWithDimensions(board);
                 game.setInterval(INTERVAL);
 
@@ -101,13 +95,11 @@ describe("SnakeGame (by TDD)", function () {
                     clock.tick(INTERVAL);
                     Test.expect(spyBoardUpdate).to.have.been.callCount(i + 1);
                 });
-
-                stubBoardInitialize.restore();
-                spyBoardUpdate.restore();
-            });
+            }));
 
             it("should not cause board to update before game start", sinon.test(function () {
                 // given
+                var clock = this.clock;
                 var INTERVAL = 100;
                 var board = new Board(10, 10);
                 this.stub(board, "initialize");
