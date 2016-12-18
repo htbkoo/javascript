@@ -4,6 +4,9 @@
 
 var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
+Test.use(sinonChai);
 
 // var SnakeGame = srcDirRequire(__dirname, 'SnakeGame');
 var createSnakeGameWithDimensions = srcDirRequire(__dirname, 'SnakeGame');
@@ -25,19 +28,39 @@ describe("SnakeGame (by TDD)", function () {
             Test.expect(board.getHeight()).to.equal(50);
         });
 
-        it("should expose game status and start game", function () {
-            var game = createSnakeGameWithDimensions();
-            Test.expect(game.isGameStarted()).to.equal(false, "Game should not be started when first created");
-            Test.expect(game.startGame).to.not.be.undefined;
-            game.startGame();
-            Test.expect(game.isGameStarted()).to.equal(true, "Game should be started after startGame()");
-        });
+        describe("construct game engine", function () {
 
-        it("should propagate start game to board", function () {
-            var game = createSnakeGameWithDimensions();
-            Test.expect(game.startGame).to.not.be.undefined;
-            game.startGame();
-            Test.expect(game.isGameStarted()).to.equal(true, "Game should be started after startGame()");
+            it("should initialize board when start game", sinon.test(function () {
+                // given
+                var board = new Board(10, 10);
+                var mockToBoard = this.mock(board).expects("initialize").once();
+                var game = createSnakeGameWithDimensions(board);
+
+                // when
+                Test.expect(game.isGameStarted()).to.equal(false, "Game should not be started when first created");
+                Test.expect(game.startGame).to.not.be.undefined;
+                game.startGame();
+
+                // then
+                Test.expect(game.isGameStarted()).to.equal(true, "Game should be started after startGame()");
+                mockToBoard.verify();
+            }));
+
+            it("should not initialize board when game is started already", sinon.test(function () {
+                // given
+                var board = new Board(10, 10);
+                var mockToBoard = this.mock(board).expects("initialize").once().atMost(1);
+                var game = createSnakeGameWithDimensions(board);
+
+                // when
+                game.startGame();
+                Test.expect(game.isGameStarted()).to.equal(true, "Game should be started after startGame()");
+                game.startGame();
+                Test.expect(game.isGameStarted()).to.equal(true, "Game should be started after startGame()");
+
+                // then
+                mockToBoard.verify();
+            }));
         });
     });
 });

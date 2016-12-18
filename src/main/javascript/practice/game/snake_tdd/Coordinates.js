@@ -12,9 +12,9 @@ function Coordinates(x, y) {
     };
 }
 
-Coordinates.newCoordinates = function (x, y) {
+Coordinates.copyFrom = function (coordinates) {
     "use strict";
-    return new Coordinates(x, y);
+    return new Coordinates(coordinates.getX(), coordinates.getY());
 };
 
 module.exports = Coordinates;

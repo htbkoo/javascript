@@ -3,9 +3,13 @@
  */
 
 var Food = require('./Food');
+var NextCoordinatesProvider = require('./NextCoordinatesProvider');
 
 function Board(w, h) {
     "use strict";
+
+    var foods = [];
+
     this.getWidth = function () {
         return w;
     };
@@ -13,11 +17,18 @@ function Board(w, h) {
         return h;
     };
     this.getViewOfFood = function () {
-        return new Food();
+        return foods.slice();
     };
     this.getNumOfFood = function () {
-        return 0;
+        return foods.length;
     };
+    this.initialize = function () {
+        addFood();
+    };
+
+    function addFood() {
+        foods.push(new Food(NextCoordinatesProvider.getNext()));
+    }
 }
 
 module.exports = Board;

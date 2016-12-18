@@ -10,7 +10,10 @@ function SnakeGame(wOrBoard, h) {
     var board = (wOrBoard instanceof Board) ? wOrBoard : new Board(wOrBoard, h);
 
     this.startGame = function () {
-        gameStarted = true;
+        if (!gameStarted) {
+            gameStarted = true;
+            board.initialize();
+        }
     };
 
     this.isGameStarted = function () {

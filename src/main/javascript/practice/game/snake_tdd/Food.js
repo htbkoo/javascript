@@ -4,10 +4,12 @@
 
 var Coordinates = require('./Coordinates');
 
-function Food(x, y) {
+function Food(param_coordinates) {
     "use strict";
+    var coordinates = Coordinates.copyFrom(param_coordinates);
+
     this.getCoors = function () {
-        return new Coordinates(x, y);
+        return coordinates;
     };
     return this;
 }
