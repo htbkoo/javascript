@@ -4,6 +4,7 @@
 
 var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
+var format = require('string-format');
 var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 Test.use(sinonChai);
@@ -32,11 +33,9 @@ describe("Board - SnakeGame", function () {
             // given
             var WIDTH = 20;
             var HEIGHT = 30;
-            var board = new Board(WIDTH, HEIGHT);
             var providedX = 0, providedY = 5;
-            var stubNextCoordinatesProvider = this.stub(NextCoordinatesProvider, "getNext", function () {
-                return new Coordinates(providedX, providedY);
-            });
+
+            var board = createBoardWithCoordinatesProvider(this, WIDTH, HEIGHT, [[providedX, providedY]]);
 
             // when
             board.initialize();
@@ -53,19 +52,11 @@ describe("Board - SnakeGame", function () {
 
         it("should initialize snake when initialized", sinon.test(function () {
             // given
-            var mockSnake = (function(s){
-                var snake = new Snake();
-                var stubSnakeCreateNewSnake = s.stub(Snake, "createSnake", function () {
-                    return snake;
-                });
-
-                var mockSnake = s.mock(snake);
-                mockSnake.expects("initialize").once();
-                return mockSnake;
-            }(this));
+            var mockSnake = this.mock(getSnakeCreatedInBoard(this));
+            mockSnake.expects("initialize").once();
             var WIDTH = 20;
             var HEIGHT = 30;
-            var stubNextCoordinatesProvider = this.stub(NextCoordinatesProvider, "getNext", function () {
+            this.stub(NextCoordinatesProvider, "getNext", function () {
                 return new Coordinates(1, 1);
             });
 
@@ -85,11 +76,121 @@ describe("Board - SnakeGame", function () {
             Test.expect(board.getNumOfFood()).to.equal(0);
         });
     });
+    describe("update related", function () {
+        it("should tell snake to move when update", sinon.test(function () {
+            // given
+            var snake = getSnakeCreatedInBoard(this);
+            var spySnakeMove = this.spy(snake, "move");
+            var stubGetSnakeHead = this.stub(snake, "getSnakeHead", function () {
+                return {
+                    "getCoors": function () {
+                        return new Coordinates(0, 1);
+                    }
+                };
+            });
+
+            // whven
+            var board = new Board(10, 20);
+            board.update();
+
+            // then
+            Test.expect(spySnakeMove).to.have.been.calledOnce;
+        }));
+        it("should check if eaten food when update", sinon.test(function () {
+            // given
+            var snake = getSnakeCreatedInBoard(this);
+            this.stub(snake, "move", function () {
+            });
+
+            var stubGetSnakeHead = this.stub(snake, "getSnakeHead");
+            stubGetSnakeHead
+                .onFirstCall().returns(createMockSnakeHead(0, 0))
+                .onSecondCall().returns(createMockSnakeHead(0, 1))
+                .onThirdCall().returns(createMockSnakeHead(0, 2))
+                .onCall(3).returns(createMockSnakeHead(0, 3));
+            stubGetSnakeHead.returns(createMockSnakeHead(0, 4));
+
+            var board = createBoardWithCoordinatesProvider(this, 10, 20, [[0, 1], [0, 3], [9, 9]]);
+
+            // whven
+            board.initialize();
+
+            // then
+            var results = board.update();
+            Test.expect(results.ate).to.be.false;
+            results = board.update();
+            Test.expect(results.ate).to.be.true;
+            results = board.update();
+            Test.expect(results.ate).to.be.false;
+            results = board.update();
+            Test.expect(results.ate).to.be.true;
+
+        }));
+
+        [
+            new Coordinates(0, -1),
+            new Coordinates(-1, 0),
+            new Coordinates(10, 0),
+            new Coordinates(0, 20)
+        ].forEach(function (wall) {
+            it(format("should check if hit wall of {} and game over when update", wall), sinon.test(function () {
+                // given
+                var snake = getSnakeCreatedInBoard(this);
+                this.stub(snake, "move", function () {
+                });
+
+                var stubGetSnakeHead = this.stub(snake, "getSnakeHead");
+                stubGetSnakeHead
+                    .onFirstCall().returns(createMockSnakeHead(0, 0));
+                stubGetSnakeHead.returns(createMockSnakeHead(wall.getX(), wall.getY()));
+
+                var board = createBoardWithCoordinatesProvider(this, 10, 20, [[0, 1]]);
+
+                // whven
+                board.initialize();
+
+                // then
+                var results = board.update();
+                Test.expect(results.gameover).to.be.false;
+                results = board.update();
+                Test.expect(results.gameover).to.be.true;
+            }));
+        });
+    });
 
     function assertCoorsOf(food, providedX, providedY) {
         var coors = food.getCoors();
         Test.expect(coors.getX()).to.equal(providedX, "X of food should be same as provided");
         Test.expect(coors.getY()).to.equal(providedY, "Y of food should be same as provided");
+    }
+
+    function getSnakeCreatedInBoard(s) {
+        var snake = new Snake();
+        var stubSnakeCreateNewSnake = s.stub(Snake, "createSnake", function () {
+            return snake;
+        });
+        return snake;
+    }
+
+    function createBoardWithCoordinatesProvider(s, width, height, coorsArray) {
+        var board = new Board(width, height);
+
+        var stub = s.stub(NextCoordinatesProvider, "getNext");
+
+        coorsArray.forEach(function (coors, index) {
+            stub.onCall(index).returns(new Coordinates(coors[0], coors[1]));
+        });
+
+        stub.returns(new Coordinates(coorsArray[coorsArray.length - 1][0], coorsArray[coorsArray.length - 1][1]));
+        return board;
+    }
+
+    function createMockSnakeHead(x, y) {
+        return {
+            "getCoors": function () {
+                return new Coordinates(x, y);
+            }
+        };
     }
 });
 

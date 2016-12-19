@@ -10,6 +10,9 @@ function Coordinates(x, y) {
     this.getY = function () {
         return y;
     };
+    this.isSameCoorsTo = function (coors) {
+        return (x === coors.getX()) && (y === coors.getY());
+    };
 }
 
 Coordinates.copyFrom = function (coordinates) {

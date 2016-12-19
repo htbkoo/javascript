@@ -16,7 +16,7 @@ function SnakeGame(wOrBoard, h) {
             board.initialize();
 
             setInterval(function(){
-                board.update();
+                var results = board.update();
             }, interval);
         }
     };

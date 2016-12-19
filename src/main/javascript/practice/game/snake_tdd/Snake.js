@@ -11,7 +11,15 @@ function Snake() {
         return this;
     }
 
-    this.initialize = function(){
+    this.initialize = function () {
+
+    };
+
+    this.move = function () {
+
+    };
+
+    this.getSnakeHead = function () {
 
     };
 

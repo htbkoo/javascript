@@ -8,7 +8,7 @@ var NextCoordinatesProvider = require('./NextCoordinatesProvider');
 
 function Board(w, h) {
     "use strict";
-
+    var boardThis = this;
     var foods = [];
     var snake = Snake.createSnake();
 
@@ -25,16 +25,42 @@ function Board(w, h) {
         return foods.length;
     };
     this.initialize = function () {
+        snake = Snake.createSnake();
+        foods = [];
         addFood();
         snake.initialize();
     };
-    this.update = function(){
-        console.log("abc");
+
+    this.update = function () {
+        snake.move();
+        var snakeHeadCoors = snake.getSnakeHead().getCoors();
+        var ate = foods.some(function (food) {
+            var ate = snakeHeadCoors.isSameCoorsTo(food.getCoors());
+            if (ate) {
+                addFood();
+            }
+            return ate;
+        });
+
+        var gameover = isGameOver(snakeHeadCoors);
+
+        return new Result(ate, gameover);
     };
 
     function addFood() {
         foods.push(new Food(NextCoordinatesProvider.getNext()));
     }
+
+    function isGameOver(snakeHeadCoors) {
+        return snakeHeadCoors.getX() < 0 || snakeHeadCoors.getY() < 0 || snakeHeadCoors.getX() >= boardThis.getWidth() || snakeHeadCoors.getY() >= boardThis.getHeight();
+    }
+
+    function Result(bool_ate, bool_gameover) {
+        this.ate = bool_ate;
+        this.gameover = bool_gameover;
+        return this;
+    }
+
 }
 
 module.exports = Board;

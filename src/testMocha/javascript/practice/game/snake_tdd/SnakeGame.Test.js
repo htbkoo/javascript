@@ -78,11 +78,31 @@ describe("SnakeGame (by TDD)", function () {
 
             it("should start timer after initialization and thus cause board to update per interval", sinon.test(function () {
                 // given
+                // var clock = this.clock;
+                // var INTERVAL = 100;
+                // var board = new Board(10, 10);
+                // this.stub(board, "initialize");
+                // var spyBoardUpdate = this.spy(board, "update");
+                // var game = createSnakeGameWithDimensions(board);
+                // game.setInterval(INTERVAL);
+                //
+                // // when
+                // game.startGame();
+                //
+                // // then
+                // new Array(10).fill(0).forEach(function (_, i) {
+                //     Test.expect(spyBoardUpdate).to.have.been.callCount(i);
+                //     clock.tick(INTERVAL);
+                //     Test.expect(spyBoardUpdate).to.have.been.callCount(i + 1);
+                // });
+
                 var clock = this.clock;
                 var INTERVAL = 100;
                 var board = new Board(10, 10);
-                this.stub(board, "initialize");
-                var spyBoardUpdate = this.spy(board, "update");
+                var mockBoard = this.mock(board);
+                var expectUpdate = mockBoard.expects("update").exactly(0);
+                mockBoard.expects("initialize").exactly(1);
+
                 var game = createSnakeGameWithDimensions(board);
                 game.setInterval(INTERVAL);
 
@@ -90,11 +110,13 @@ describe("SnakeGame (by TDD)", function () {
                 game.startGame();
 
                 // then
+                expectUpdate.verify();
                 new Array(10).fill(0).forEach(function (_, i) {
-                    Test.expect(spyBoardUpdate).to.have.been.callCount(i);
+                    expectUpdate = mockBoard.expects("update").once();
                     clock.tick(INTERVAL);
-                    Test.expect(spyBoardUpdate).to.have.been.callCount(i + 1);
+                    expectUpdate.verify();
                 });
+
             }));
 
             it("should not cause board to update before game start", sinon.test(function () {
