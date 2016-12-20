@@ -78,24 +78,6 @@ describe("SnakeGame (by TDD)", function () {
 
             it("should start timer after initialization and thus cause board to update per interval", sinon.test(function () {
                 // given
-                // var clock = this.clock;
-                // var INTERVAL = 100;
-                // var board = new Board(10, 10);
-                // this.stub(board, "initialize");
-                // var spyBoardUpdate = this.spy(board, "update");
-                // var game = createSnakeGameWithDimensions(board);
-                // game.setInterval(INTERVAL);
-                //
-                // // when
-                // game.startGame();
-                //
-                // // then
-                // new Array(10).fill(0).forEach(function (_, i) {
-                //     Test.expect(spyBoardUpdate).to.have.been.callCount(i);
-                //     clock.tick(INTERVAL);
-                //     Test.expect(spyBoardUpdate).to.have.been.callCount(i + 1);
-                // });
-
                 var clock = this.clock;
                 var INTERVAL = 100;
                 var board = new Board(10, 10);
@@ -112,7 +94,7 @@ describe("SnakeGame (by TDD)", function () {
                 // then
                 expectUpdate.verify();
                 new Array(10).fill(0).forEach(function (_, i) {
-                    expectUpdate = mockBoard.expects("update").once();
+                    expectUpdate = mockBoard.expects("update").once().returns({"gameover": false});
                     clock.tick(INTERVAL);
                     expectUpdate.verify();
                 });
@@ -124,8 +106,10 @@ describe("SnakeGame (by TDD)", function () {
                 var clock = this.clock;
                 var INTERVAL = 100;
                 var board = new Board(10, 10);
-                this.stub(board, "initialize");
-                var spyBoardUpdate = this.spy(board, "update");
+                var mockBoard = this.mock(board);
+                var expectUpdate = mockBoard.expects("update").exactly(0);
+                mockBoard.expects("initialize").exactly(0);
+
                 var game = createSnakeGameWithDimensions(board);
                 game.setInterval(INTERVAL);
 
@@ -134,11 +118,43 @@ describe("SnakeGame (by TDD)", function () {
                 // game.startGame();
 
                 // then
+                expectUpdate.verify();
                 new Array(10).fill(0).forEach(function (_, i) {
-                    Test.expect(spyBoardUpdate).to.have.been.callCount(0);
+                    expectUpdate = mockBoard.expects("update").exactly(0);
                     clock.tick(INTERVAL);
-                    Test.expect(spyBoardUpdate).to.have.been.callCount(0);
+                    expectUpdate.verify();
                 });
+            }));
+
+            it("should stop game when gameover from board update result is true", sinon.test(function () {
+                // given
+                var clock = this.clock;
+                var INTERVAL = 100;
+                var board = new Board(10, 10);
+                var stubBoardInitialize = this.stub(board, "initialize", function () {
+                });
+                var stubBoardUpdate = this.stub(board, "update");
+                stubBoardUpdate.onFirstCall().returns({"gameover": false, "ate": false})
+                    .onSecondCall().returns({"gameover": true, "ate": false});
+                stubBoardUpdate.throws("UnexpectedCallError");
+
+                var game = createSnakeGameWithDimensions(board);
+                game.setInterval(INTERVAL);
+
+                // when
+                game.startGame();
+
+                // then
+                Test.expect(game.isGameStarted()).to.be.true;
+                clock.tick(INTERVAL);
+                Test.expect(game.isGameStarted()).to.be.true;
+                clock.tick(INTERVAL);
+                Test.expect(game.isGameStarted()).to.be.false;
+                clock.tick(INTERVAL);
+                // expect game clock stopped or exception would be thrown
+                clock.tick(INTERVAL);
+                // expect game clock stopped or exception would be thrown
+
             }));
         });
     });

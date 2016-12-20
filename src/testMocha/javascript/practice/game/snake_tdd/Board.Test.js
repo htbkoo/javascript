@@ -77,6 +77,7 @@ describe("Board - SnakeGame", function () {
         });
     });
     describe("update related", function () {
+        var WIDTH = 10, HEIGHT = 20;
         it("should tell snake to move when update", sinon.test(function () {
             // given
             var snake = getSnakeCreatedInBoard(this);
@@ -90,7 +91,7 @@ describe("Board - SnakeGame", function () {
             });
 
             // whven
-            var board = new Board(10, 20);
+            var board = new Board(WIDTH, HEIGHT);
             board.update();
 
             // then
@@ -130,8 +131,8 @@ describe("Board - SnakeGame", function () {
         [
             new Coordinates(0, -1),
             new Coordinates(-1, 0),
-            new Coordinates(10, 0),
-            new Coordinates(0, 20)
+            new Coordinates(WIDTH, 0),
+            new Coordinates(0, HEIGHT)
         ].forEach(function (wall) {
             it(format("should check if hit wall of {} and game over when update", wall), sinon.test(function () {
                 // given

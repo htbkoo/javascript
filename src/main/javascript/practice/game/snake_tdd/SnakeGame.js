@@ -6,7 +6,7 @@ var Board = require('./Board');
 
 function SnakeGame(wOrBoard, h) {
     'use strict';
-    var gameStarted = false;
+    var gameStarted = false, gameId;
     var board = (wOrBoard instanceof Board) ? wOrBoard : new Board(wOrBoard, h);
     var interval = 1000;
 
@@ -15,8 +15,11 @@ function SnakeGame(wOrBoard, h) {
             gameStarted = true;
             board.initialize();
 
-            setInterval(function(){
+            gameId = setInterval(function () {
                 var results = board.update();
+                if (results.gameover) {
+                    handleGameOver();
+                }
             }, interval);
         }
     };
@@ -29,13 +32,20 @@ function SnakeGame(wOrBoard, h) {
         return board;
     };
 
-    this.getInterval = function(){
+    this.getInterval = function () {
         return interval;
     };
 
-    this.setInterval = function(i){
+    this.setInterval = function (i) {
         interval = i;
     };
+
+    function handleGameOver() {
+        gameStarted = false;
+        if (typeof gameId !== "undefined"){
+            clearInterval(gameId);
+        }
+    }
 
     return this;
 }
