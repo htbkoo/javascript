@@ -12,6 +12,9 @@ function Coordinates(x, y) {
     this.getY = function () {
         return y;
     };
+    this.addAndGetNew = function (coors) {
+        return new Coordinates(x + coors.getX(), y + coors.getY());
+    };
     this.isSameCoorsTo = function (coors) {
         return (x === coors.getX()) && (y === coors.getY());
     };
