@@ -6,6 +6,7 @@ var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
 var Test = require('chai');
 var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
+var format = require('string-format');
 Test.use(sinonChai);
 
 // var SnakeGame = srcDirRequire(__dirname, 'SnakeGame');
@@ -156,6 +157,56 @@ describe("SnakeGame (by TDD)", function () {
                 // expect game clock stopped or exception would be thrown
 
             }));
+        });
+
+        describe("command", function () {
+            var board;
+            var mockBoard;
+            var game;
+
+            beforeEach(function () {
+                board = new Board(10, 10);
+                mockBoard = sinon.mock(board);
+                game = createSnakeGameWithDimensions(board);
+            });
+
+            afterEach(function () {
+                mockBoard.restore();
+            });
+
+            [
+                "LEFT",
+                "RIGHT",
+                "UP",
+                "DOWN"
+            ].forEach(function (command) {
+                it(format("should be able to receive command \"{}\" and pass to board if game is started", command), sinon.test(function () {
+                    // given
+                    mockBoard.expects("initialize").once();
+                    mockBoard.expects("doCommand").withArgs(command).once();
+
+                    // when
+                    game.startGame();
+                    game.doCommand(command);
+
+                    // then
+                    Test.expect(game.isGameStarted()).to.be.true;
+                    mockBoard.verify();
+                }));
+
+                it(format("should be able to receive command \"{}\" but not pass to board if game is not started", command), sinon.test(function () {
+                    // given
+                    mockBoard.expects("initialize").never();
+                    mockBoard.expects("doCommand").never();
+
+                    // when
+                    game.doCommand(command);
+
+                    // then
+                    Test.expect(game.isGameStarted()).to.be.false;
+                    mockBoard.verify();
+                }));
+            });
         });
     });
 });

@@ -9,6 +9,12 @@ var NextCoordinatesProvider = require('./NextCoordinatesProvider');
 function Board(w, h) {
     "use strict";
     var boardThis = this;
+    var control = {
+        "LEFT": function (snake) {
+
+        }
+    };
+
     var foods = [];
     var snake = Snake.createSnake();
 
@@ -45,6 +51,10 @@ function Board(w, h) {
         var gameover = isGameOver(snakeHeadCoors);
 
         return new Result(ate, gameover);
+    };
+
+    this.doCommand = function () {
+
     };
 
     function addFood() {

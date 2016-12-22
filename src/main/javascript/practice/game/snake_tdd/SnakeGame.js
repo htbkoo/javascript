@@ -40,9 +40,15 @@ function SnakeGame(wOrBoard, h) {
         interval = i;
     };
 
+    this.doCommand = function (cmd) {
+        if (gameStarted) {
+            board.doCommand(cmd);
+        }
+    };
+
     function handleGameOver() {
         gameStarted = false;
-        if (typeof gameId !== "undefined"){
+        if (typeof gameId !== "undefined") {
             clearInterval(gameId);
         }
     }
