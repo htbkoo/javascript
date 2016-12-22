@@ -2,6 +2,8 @@
  * Created by Hey on 16 Dec 2016
  */
 
+var format = require("string-format");
+
 function Coordinates(x, y) {
     "use strict";
     this.getX = function () {
@@ -18,6 +20,11 @@ function Coordinates(x, y) {
 Coordinates.copyFrom = function (coordinates) {
     "use strict";
     return new Coordinates(coordinates.getX(), coordinates.getY());
+};
+
+Coordinates.prototype.toString = function () {
+    "use strict";
+    return format("[object Coordinates:[{}, {}]]", this.getX(), this.getY());
 };
 
 module.exports = Coordinates;
