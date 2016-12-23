@@ -5,14 +5,25 @@
 var Food = require('./Food');
 var Snake = require('./Snake');
 var NextCoordinatesProvider = require('./NextCoordinatesProvider');
+var Coordinates = require('./Coordinates');
 
 function Board(w, h) {
     "use strict";
     var boardThis = this;
-    var control = {
-        "LEFT": function (snake) {
-
-        }
+    var SET_MOVEMENT = function (cmd) {
+        snake.setMoveDirection(MOVEMENT_COORDINATES[cmd]);
+    };
+    var MOVEMENT_COORDINATES = {
+        "LEFT": new Coordinates(-1, 0),
+        "RIGHT": new Coordinates(1, 0),
+        "UP": new Coordinates(0, -1),
+        "DOWN": new Coordinates(0, 1)
+    };
+    var AVAILABLE_COMMANDS = {
+        "LEFT": SET_MOVEMENT,
+        "RIGHT": SET_MOVEMENT,
+        "UP": SET_MOVEMENT,
+        "DOWN": SET_MOVEMENT
     };
 
     var foods = [];
@@ -53,8 +64,12 @@ function Board(w, h) {
         return new Result(ate, gameover);
     };
 
-    this.doCommand = function () {
-
+    this.doCommand = function (cmd) {
+        if (AVAILABLE_COMMANDS.hasOwnProperty(cmd)) {
+            AVAILABLE_COMMANDS[cmd](cmd);
+        }else{
+            throw new Error("Command ["+cmd+"] is not a valid command");
+        }
     };
 
     function addFood() {

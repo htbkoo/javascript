@@ -158,6 +158,48 @@ describe("Board - SnakeGame", function () {
             }));
         });
     });
+    describe("doCommand related", function () {
+        it("should expose doCommand", function () {
+            var board = new Board();
+            Test.expect(board.doCommand).is.not.undefined;
+        });
+        [
+            ["LEFT", new Coordinates(-1, 0)],
+            ["RIGHT", new Coordinates(1, 0)],
+            ["UP", new Coordinates(0, -1)],
+            ["DOWN", new Coordinates(0, 1)]
+        ].forEach(function (command) {
+            var commandString = command[0];
+            var commandArg = command[1];
+            it(format("should accept movement doCommand({})", commandString), sinon.test(function () {
+                // given
+                var snake = getSnakeCreatedInBoard(this);
+                var mockSnake = this.mock(snake);
+                // mockSnake.expects("setMoveDirection").withExactArgs(commandArg).once();
+                mockSnake.expects("setMoveDirection")
+                // .withExactArgs(commandArg)
+                    .once();
+                var board = createBoardWithCoordinatesProvider(this, 10, 10, [5, 5]);
+
+                // when
+                board.doCommand(command[0]);
+
+                // then
+                mockSnake.verify();
+            }));
+        });
+        it("should throws error if received invalid commmand in doCommand()", function () {
+            // given
+            var board = new Board();
+            var someInvalidCommand = "SOME_INVALID_COMMAND";
+
+            // when
+            // then
+            Test.expect(function () {
+                return board.doCommand(someInvalidCommand);
+            }).to.throw(format("Command [{}] is not a valid command", someInvalidCommand));
+        });
+    });
 
     function assertCoorsOf(food, providedX, providedY) {
         var coors = food.getCoors();
