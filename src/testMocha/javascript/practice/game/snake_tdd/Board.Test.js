@@ -175,10 +175,9 @@ describe("Board - SnakeGame", function () {
                 // given
                 var snake = getSnakeCreatedInBoard(this);
                 var mockSnake = this.mock(snake);
-                // mockSnake.expects("setMoveDirection").withExactArgs(commandArg).once();
-                mockSnake.expects("setMoveDirection")
-                // .withExactArgs(commandArg)
-                    .once();
+                mockSnake.expects("setMoveDirection").withExactArgs(sinon.match(function (value) {
+                    return value.isSameCoorsTo(commandArg);
+                })).once();
                 var board = createBoardWithCoordinatesProvider(this, 10, 10, [5, 5]);
 
                 // when
