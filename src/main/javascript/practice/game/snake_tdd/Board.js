@@ -50,7 +50,7 @@ function Board(w, h) {
 
     this.update = function () {
         snake.move();
-        var snakeHeadCoors = snake.getSnakeHead().getCoors();
+        var snakeHeadCoors = snake.getViewOfSnakeHead().getCoors();
         var ate = foods.some(function (food) {
             var ate = snakeHeadCoors.isSameCoorsTo(food.getCoors());
             if (ate) {

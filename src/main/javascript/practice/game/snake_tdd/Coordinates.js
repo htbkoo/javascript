@@ -18,6 +18,9 @@ function Coordinates(x, y) {
     this.isSameCoorsTo = function (coors) {
         return (x === coors.getX()) && (y === coors.getY());
     };
+    this.isOppositeTo = function (coors) {
+        return (x === (-1 * coors.getX())) && (y === (-1 * coors.getY()));
+    };
 }
 
 Coordinates.copyFrom = function (coordinates) {

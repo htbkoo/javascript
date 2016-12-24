@@ -81,21 +81,20 @@ describe("Board - SnakeGame", function () {
         it("should tell snake to move when update", sinon.test(function () {
             // given
             var snake = getSnakeCreatedInBoard(this);
-            var spySnakeMove = this.spy(snake, "move");
-            var stubGetSnakeHead = this.stub(snake, "getSnakeHead", function () {
-                return {
-                    "getCoors": function () {
-                        return new Coordinates(0, 1);
-                    }
-                };
+            var mockSnake = this.mock(snake);
+            mockSnake.expects("move").once();
+            mockSnake.expects("getViewOfSnakeHead").returns({
+                "getCoors": function () {
+                    return new Coordinates(0, 1);
+                }
             });
 
-            // whven
+            // when
             var board = new Board(WIDTH, HEIGHT);
             board.update();
 
             // then
-            Test.expect(spySnakeMove).to.have.been.calledOnce;
+            mockSnake.verify();
         }));
         it("should check if eaten food when update", sinon.test(function () {
             // given
@@ -103,7 +102,7 @@ describe("Board - SnakeGame", function () {
             this.stub(snake, "move", function () {
             });
 
-            var stubGetSnakeHead = this.stub(snake, "getSnakeHead");
+            var stubGetSnakeHead = this.stub(snake, "getViewOfSnakeHead");
             stubGetSnakeHead
                 .onFirstCall().returns(createMockSnakeHead(0, 0))
                 .onSecondCall().returns(createMockSnakeHead(0, 1))
@@ -140,7 +139,7 @@ describe("Board - SnakeGame", function () {
                 this.stub(snake, "move", function () {
                 });
 
-                var stubGetSnakeHead = this.stub(snake, "getSnakeHead");
+                var stubGetSnakeHead = this.stub(snake, "getViewOfSnakeHead");
                 stubGetSnakeHead
                     .onFirstCall().returns(createMockSnakeHead(0, 0));
                 stubGetSnakeHead.returns(createMockSnakeHead(wall.getX(), wall.getY()));
