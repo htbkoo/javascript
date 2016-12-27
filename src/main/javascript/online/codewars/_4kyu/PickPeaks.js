@@ -45,13 +45,12 @@ module.exports = function pickPeaks(arr) {
                         startPlateau = index;
                     }
                 } else {
-                    if (value > nextValue) {
-                        pos.push(startPlateau);
-                        startPlateau = -1;
-                    } else if (value < nextValue) {
+                    if (value !== nextValue) {
+                        if (value > nextValue) {
+                            pos.push(startPlateau);
+                        }
                         startPlateau = -1;
                     }
-
                 }
             }
         }
