@@ -104,4 +104,82 @@ describe("FancySchmancySort", function () {
             Test.assert.deepEqual(sortByPath(arr, 'foo.bar(2).baz(1).qux[1]', 1, 2, 3), arr);
         });
     });
+
+    describe("submission test case", function () {
+        it("Should handle custom sorting", function () {
+            var arr = [
+                "yadf",
+                "abc",
+                "d"
+            ];
+
+            Test.assert.deepEqual(sortByPath(arr, 'length', function (a, b) {
+                return b - a;
+            }), arr);
+        });
+
+        it("Should handle custom sorting 2", function () {
+            var arr = [
+                "d",
+                "abc",
+                "yadf"
+            ];
+
+            Test.assert.deepEqual(sortByPath(arr, 'length', function (a, b) {
+                return a - b;
+            }), arr);
+        });
+
+        it("Should handle methods in the path", function () {
+            var arr = [
+                "a",
+                "b",
+                "c",
+                "d",
+                "e"
+            ];
+            Test.assert.deepEqual(sortByPath(arr, 'charCodeAt()'), arr);
+        });
+
+        it("Should handle method arguments correctly", function () {
+            function getString(a, b, str) {
+                return a + b + str;
+            }
+
+            var arr = [
+                {
+                    a: function (a, b) {
+                        return getString(a, b, "b");
+                    }
+                },
+                {
+                    a: function (a, b) {
+                        return getString(a, b, "abc");
+                    }
+                },
+                {
+                    a: function (a, b) {
+                        return getString(a, b, "baabc");
+                    }
+                },
+                {
+                    a: function (a, b) {
+                        return getString(a, b, "cca");
+                    }
+                }
+            ];
+            Test.assert.deepEqual(sortByPath(arr, 'a(2).indexOf(1)', "1", "2", "a"), arr);
+        });
+
+        it("Should handle array subscripts", function () {
+            var arr = [
+                "a,a",
+                "a,b",
+                "a,c",
+                "a,d",
+                "a,e"
+            ];
+            Test.assert.deepEqual(sortByPath(arr, 'split(1)[1]', ","), arr);
+        });
+    });
 });

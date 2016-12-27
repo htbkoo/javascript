@@ -32,19 +32,20 @@ module.exports = function sortByPath(arr, path) {
     // arguments[0]===arr, arguments[1]===path
     var elements = path.split(".");
     var optionalArguments = arguments;
+    var optionalFunction;
 
     function getValue(e) {
         var argumentIndex = 2;
         var value = elements.reduce(function (a, b) {
-            var found = b.match(/\((\d+)\)/);
+            var found = b.match(/\((\d*)\)/);
             if (found !== null) {
-                var aArgs = new Array(parseInt(found[1])).fill(0)
+                var aArgs = new Array(parseInt((found[1]==="")?"0":found[1])).fill(0)
                     .reduce(function (a, _) {
                         // a.slice().push(optionalArguments[argumentIndex++])
                         a.push(optionalArguments[argumentIndex++]);
                         return a;
                     }, []);
-                return a[b.replace(found[0],"")].apply(this, aArgs);
+                return a[b.replace(found[0],"")].apply(a, aArgs);
             } else {
                 found = b.match(/\[(\d+)\]/);
                 if (found !== null) {
@@ -55,21 +56,27 @@ module.exports = function sortByPath(arr, path) {
             return a[b];
         }, e);
 
-        var optionalFunction = optionalArguments[argumentIndex];
-        if (typeof optionalFunction !== "undefined") {
-            if (optionalFunction === "str") {
-                return value.toString();
-            } else if (optionalFunction === "num") {
-                return parseFloat(value);
-            }
-            return optionalFunction(value);
-        }
+        optionalFunction = optionalArguments[argumentIndex];
         return value;
+    }
+
+    function compareFunction(aValue, bValue) {
+        return (aValue === bValue) ? 0 : (aValue > bValue) ? 1 : -1;
     }
 
     return arr.slice().sort(function (a, b) {
         var aValue = getValue(a);
         var bValue = getValue(b);
-        return (aValue === bValue) ? 0 : (aValue > bValue) ? 1 : -1;
+
+        if (typeof optionalFunction !== "undefined") {
+            if (optionalFunction === "str") {
+                return compareFunction(aValue.toString(), bValue.toString());
+            } else if (optionalFunction === "num") {
+                return compareFunction(parseInt(aValue), parseInt(bValue));
+            }
+            return optionalFunction(aValue, bValue);
+        }
+
+        return compareFunction(aValue, bValue);
     });
 };
