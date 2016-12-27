@@ -37,22 +37,27 @@ module.exports = function sortByPath(arr, path) {
     function getValue(e) {
         var argumentIndex = 2;
         var value = elements.reduce(function (a, b) {
-            var found = b.match(/\((\d*)\)/);
-            if (found !== null) {
-                var aArgs = new Array(parseInt((found[1]==="")?"0":found[1])).fill(0)
+            var foundRoundBrackets = b.match(/\((\d*)\)/);
+            var foundSquareBrackets = b.match(/\[(\d+)\]/);
+
+            if (foundRoundBrackets !== null) {
+                var aArgs = new Array(parseInt((foundRoundBrackets[1] === "") ? "0" : foundRoundBrackets[1])).fill(0)
                     .reduce(function (a, _) {
-                        // a.slice().push(optionalArguments[argumentIndex++])
                         a.push(optionalArguments[argumentIndex++]);
                         return a;
                     }, []);
-                return a[b.replace(found[0],"")].apply(a, aArgs);
-            } else {
-                found = b.match(/\[(\d+)\]/);
-                if (found !== null) {
-                    a = a[b.replace(found[0], "")];
-                    b = found[1];
+
+                b = b.replace(foundRoundBrackets[0], "");
+                if (foundSquareBrackets !== null) {
+                    b = b.replace(foundSquareBrackets[0], "");
+                    return a[b].apply(a, aArgs)[foundSquareBrackets[1]];
                 }
+                return a[b].apply(a, aArgs);
+            } else if (foundSquareBrackets !== null) {
+                a = a[b.replace(foundSquareBrackets[0], "")];
+                b = foundSquareBrackets[1];
             }
+
             return a[b];
         }, e);
 

@@ -173,13 +173,13 @@ describe("FancySchmancySort", function () {
 
         it("Should handle array subscripts", function () {
             var arr = [
-                "a,a",
-                "a,b",
-                "a,c",
-                "a,d",
-                "a,e"
+                "a/a",
+                "a/b",
+                "a/c",
+                "a/d",
+                "a/e"
             ];
-            Test.assert.deepEqual(sortByPath(arr, 'split(1)[1]', ","), arr);
+            Test.assert.deepEqual(sortByPath(arr, 'split(1)[1]', "/"), arr);
         });
     });
 });
