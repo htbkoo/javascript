@@ -178,3 +178,47 @@ module.exports = function findTheNotFittingElement(series) {
     //noinspection JSUnusedAssignment
     return result;
 };
+
+// With reference to https://www.codewars.com/kata/reviews/583ff16094dbd2631f00006f/groups/58402c75258e10491d0000da
+// Just as practice
+function findTheNotFittingElementFromSolution(series) {
+    "use strict";
+    var filters = [
+        function (v) {
+            return ((typeof v) === (typeof series[0]));
+        },
+        function (v) {
+            return (v > 0);
+        },
+        function (v) {
+            return (String(v).toUpperCase() === String(v));
+        },
+        function (v) {
+            return (/[a-z]/i.test(v));
+        },
+        function (v) {
+            return (v === series[0]);
+        }
+    ];
+
+    var result;
+    filters.some(function (filter) {
+        return ([
+            filter,
+            function (v) {
+                return !filter(v);
+            }
+        ].some(function (f) {
+            var fulfilledObj = series.filter(f);
+            if (fulfilledObj.length === 1) {
+                result = fulfilledObj[0];
+                return true;
+            }
+            return false;
+        }));
+    });
+
+    //noinspection JSUnusedAssignment
+    return result;
+}
+
