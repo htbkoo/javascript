@@ -32,65 +32,134 @@
 
  * */
 
-function abstractFindElement(op){
+function abstractFindOutlyingElement(series, op, isConstraintFulfilled) {
     "use strict";
+    if (new Array(3).fill(0).some(function (_, index) {
+            return !isConstraintFulfilled(series[index]);
+        })
+    ) {
+        return undefined;
+    }
 
+    var first = op(series[0]);
+    var second = op(series[1]);
+    var sample;
+    if (first === second) {
+        sample = first;
+    } else {
+        return first === (op(series[2])) ? series[1] : series[0];
+    }
+
+    // Premature optimization is the root of all evil (Knuth, 1974)
+    // var seriesBak = series.slice(); // and restore later
+    // series.shift();
+    // series.shift();
+
+    var allBeforeFulfillConstraint = true;
+    return series.find(function (elem) {
+        if (allBeforeFulfillConstraint) {
+            if ((isConstraintFulfilled(elem))) {
+                return ((op(elem)) !== sample);
+            } else {
+                allBeforeFulfillConstraint = false;
+            }
+        }
+        return false;
+    });
+}
+
+function getTypeOf(obj) {
+    "use strict";
+    return typeof obj;
+}
+
+function getCase(obj) {
+    "use strict";
+    // From http://stackoverflow.com/questions/1027224/how-can-i-test-if-a-letter-in-a-string-is-uppercase-or-lowercase-using-javascrip
+    // most robust answwer imho
+    // http://stackoverflow.com/a/1077692
+    // http://stackoverflow.com/a/9728437
+    return [
+        {
+            "caseName": "upper",
+            "testFunc": function () {
+                return (obj === obj.toUpperCase()) && (obj !== obj.toLowerCase());
+            }
+        },
+        {
+            "caseName": "lower",
+            "testFunc": function () {
+                return (obj !== obj.toUpperCase()) && (obj === obj.toLowerCase());
+            }
+        },
+        {
+            "caseName": "numeric",
+            "testFunc": function () {
+                return !isNaN(obj * 1);
+            }
+        },
+        {
+            "caseName": "others",
+            "testFunc": function () {
+                return true;
+            }
+        }
+    ].find(function (caseDeterminer) {
+        return !!caseDeterminer.testFunc();
+
+    }).caseName;
+}
+
+function valueOf(obj) {
+    "use strict";
+    return obj;
+}
+
+function noSpecialConstraint(_) {
+    "use strict";
+    return true;
+}
+
+function isNumber(obj) {
+    "use strict";
+    return (typeof obj === "number");
+}
+
+function isString(obj) {
+    "use strict";
+    return (typeof obj === "string");
 }
 
 function findElementOfDifferentType(series) {
     "use strict";
-    function getTypeOf(obj) {
-        return typeof obj;
-    }
-
-    var firstType = getTypeOf(series[0]);
-    var secondType = getTypeOf(series[1]);
-    var type;
-    if (firstType === secondType) {
-        type = firstType;
-    } else {
-        return firstType === (getTypeOf(series[2])) ? series[1] : series[0];
-    }
-
-    // Premature optimization is the root of all evil (Knuth, 1974)
-    // series.shift();
-    // series.shift();
-
-    return series.find(function (elem) {
-        return (typeof elem) !== type;
-    });
+    return abstractFindOutlyingElement(series, getTypeOf, noSpecialConstraint);
 }
 
-function findElementInAllNumbersOfDifferentSignum(series) {
+function findElementAllInStringOfDifferentType(series) {
     "use strict";
-    var firstElem = series[0];
-    var secondElem = series[1];
-    var sample;
-    if (firstElem === secondElem) {
-        sample = firstElem;
-    } else {
-        return firstElem === series[2] ? series[1] : series[0];
-    }
+    return abstractFindOutlyingElement(series, function (obj) {
+        var caseName = getCase(obj);
+        if ((caseName === "upper") || (caseName === "lower")) {
+            return "isChar";
+        }
+        return "notChar";
+    }, isString);
+}
 
-    return series.find(function (elem) {
-        return elem !== sample;
-    });
+
+function findElementAllInStringOfDifferentCase(series) {
+    "use strict";
+    return abstractFindOutlyingElement(series, getCase, isString);
+}
+
+function findElementAllInNumberOfDifferentSignum(series) {
+    "use strict";
+    return abstractFindOutlyingElement(series, Math.sign, isNumber);
 }
 
 function findElementOfDifferentValue(series) {
     "use strict";
-    var firstElem = series[0];
-    var secondElem = series[1];
-    var sample;
-    if (firstElem === secondElem) {
-        sample = firstElem;
-    } else {
-        return firstElem === series[2] ? series[1] : series[0];
-    }
-
-    return series.find(function (elem) {
-        return elem !== sample;
-    });
+    return abstractFindOutlyingElement(series, valueOf, noSpecialConstraint);
 }
 
 module.exports = function findTheNotFittingElement(series) {
@@ -98,10 +167,14 @@ module.exports = function findTheNotFittingElement(series) {
     var result;
     [
         findElementOfDifferentType,
+        findElementAllInStringOfDifferentType,
+        findElementAllInStringOfDifferentCase,
+        findElementAllInNumberOfDifferentSignum,
         findElementOfDifferentValue
     ].some(function (finder) {
         result = finder(series);
         return result !== undefined;
     });
+    //noinspection JSUnusedAssignment
     return result;
 };
