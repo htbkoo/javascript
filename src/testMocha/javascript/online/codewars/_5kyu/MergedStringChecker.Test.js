@@ -1,6 +1,7 @@
 /**
  * Created by Hey on 28 Dec 2016
  */
+
 'use strict';
 
 var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
