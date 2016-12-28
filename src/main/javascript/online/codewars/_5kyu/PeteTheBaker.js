@@ -34,3 +34,18 @@ module.exports = function cakes(recipe, available) {
         return Math.min(prev, curr);
     });
 };
+
+function cakesFromSolution(recipe, available) {
+    "use strict";
+    // DONE: insert code
+    return Object.keys(recipe).reduce(function(prev, key){
+        var curr = 0;
+        if (recipe[key]===0){
+            curr = Number.MAX_SAFE_INTEGER;
+        }
+        if (key in available){
+            curr = Math.floor(available[key]/recipe[key]);
+        }
+        return Math.min(prev, curr);
+    }, Number.MAX_SAFE_INTEGER);
+}
