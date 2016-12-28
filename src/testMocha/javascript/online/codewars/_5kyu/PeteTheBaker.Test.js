@@ -23,9 +23,4 @@ describe('PeteTheBaker', function () {
             Test.assert.equal(cakes(recipe, available), 0, 'Wrong result for example #2');
         });
     });
-    describe("Issues Tests:", function () {
-        it("should pass tests raised in issues", function () {
-
-        });
-    });
 });

@@ -116,7 +116,7 @@ describe("MonadsTheMaybeMonad", function () {
                         }
 
                         Test.expect(function () {
-                            Maybe.bind(valueFunction("anyString"));
+                            Maybe.bind(valueFunction)("anyString");
                         }).to.throws();
                     });
                 });
