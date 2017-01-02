@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Quote Machine</title>
+    <link rel="stylesheet" href="lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <style>
+        .quotes {
+            background-color: #FFFFFF;
+            margin: 180px;
+            margin-top: 80px;
+            padding: 60px;
+            margin-bottom: 10px;
+        }
+
+        .quotes .row:nth-child(1n+2) {
+            margin-top: 30px;
+        }
+
+        #quote_body {
+            text-align: center;
+            font-size: 200%;
+        }
+
+        #quote_author {
+            text-align: right;
+            font-size: 120%;
+        }
+
+        #btn_nextQuote {
+            color: #FFFFFF;
+        }
+
+        #btn_twitter {
+            color: #FFFFFF;
+        }
+
+        .copyright {
+            color: #FFFFFF;
+            margin: auto;
+            width: 10%;
+        }
+
+        .strong {
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="quotes">
+        <div class="row">
+            <div id="quote_body">
+                <div class="col-xs-12">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="quote_author">
+                <div class="col-xs-12">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1">
+                <button class="btn btn-default" id="btn_twitter">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="col-xs-8">
+            </div>
+            <div class="col-xs-3">
+                <button class="btn btn-default" id="btn_nextQuote">New Quote</button>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        by <span class="strong">Hey</span>
+    </div>
+</div>
+
+<script src="lib/jquery-1.11.3/jquery-1.11.3.min.js"></script>
+<script src="lib/jquery.color-2.1.2/jquery.color-2.1.2.min.js"></script>
+<script src="lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+    var QUOTES = {
+        "1": {"quote": "Life is about making an impact, not making an income.", "who": "Kevin Kruse"},
+        "2": {"quote": "Whatever the mind of man can conceive and believe, it can achieve.", "who": "Napoleon Hill"},
+        "3": {"quote": "Strive not to be a success, but rather to be of value.", "who": "Albert Einstein"},
+        "4": {
+            "quote": "Two roads diverged in a wood, and I—I took the one less traveled by, And that has made all the difference. ",
+            "who": "Robert Frost"
+        },
+        "5": {
+            "quote": "I attribute my success to this: I never gave or took any excuse.",
+            "who": "Florence Nightingale"
+        },
+        "6": {"quote": "You miss 100% of the shots you don’t take.", "who": "Wayne Gretzky"},
+        "7": {
+            "quote": "I've missed more than 9000 shots in my career. I've lost almost 300 games. 26 times I've been trusted to take the game winning shot and missed. I've failed over and over and over again in my life. And that is why I succeed.",
+            "who": "Michael Jordan"
+        },
+        "8": {
+            "quote": "The most difficult thing is the decision to act, the rest is merely tenacity.",
+            "who": "Amelia Earhart"
+        },
+        "9": {"quote": "Every strike brings me closer to the next home run.", "who": "Babe Ruth"},
+        "10": {"quote": "Definiteness of purpose is the starting point of all achievement.", "who": "W. Clement Stone"},
+        "11": {"quote": "Life isn't about getting and having, it's about giving and being.", "who": "Kevin Kruse"},
+        "12": {"quote": "Life is what happens to you while you’re busy making other plans.", "who": "John Lennon"},
+        "13": {"quote": "We become what we think about.", "who": "Earl Nightingale"},
+        "14": {
+            "quote": "Twenty years from now you will be more disappointed by the things that you didn’t do than by the ones you did do, so throw off the bowlines, sail away from safe harbor, catch the trade winds in your sails.  Explore, Dream, Discover.",
+            "who": "Mark Twain"
+        },
+        "15": {"quote": "Life is 10% what happens to me and 90% of how I react to it.", "who": "Charles Swindoll"},
+        "16": {
+            "quote": "The most common way people give up their power is by thinking they don’t have any.",
+            "who": "Alice Walker"
+        },
+        "17": {"quote": "The mind is everything. What you think you become. ", "who": "Buddha"},
+        "18": {
+            "quote": "The best time to plant a tree was 20 years ago. The second best time is now.",
+            "who": "Chinese Proverb"
+        },
+        "19": {"quote": "An unexamined life is not worth living.", "who": "Socrates"},
+        "20": {"quote": "Eighty percent of success is showing up.", "who": "Woody Allen"},
+        "21": {"quote": "Your time is limited, so don’t waste it living someone else’s life.", "who": "Steve Jobs"},
+        "22": {"quote": "Winning isn’t everything, but wanting to win is.", "who": "Vince Lombardi"},
+        "23": {
+            "quote": "I am not a product of my circumstances. I am a product of my decisions.",
+            "who": "Stephen Covey"
+        },
+        "24": {
+            "quote": "Every child is an artist.  The problem is how to remain an artist once he grows up.",
+            "who": "Pablo Picasso"
+        },
+        "25": {
+            "quote": "You can never cross the ocean until you have the courage to lose sight of the shore.",
+            "who": "Christopher Columbus"
+        },
+        "26": {
+            "quote": "I’ve learned that people will forget what you said, people will forget what you did, but people will never forget how you made them feel.",
+            "who": "Maya Angelou"
+        },
+        "27": {"quote": "Either you run the day, or the day runs you.", "who": "Jim Rohn"},
+        "28": {"quote": "Whether you think you can or you think you can’t, you’re right.", "who": "Henry Ford"},
+        "29": {
+            "quote": "The two most important days in your life are the day you are born and the day you find out why.",
+            "who": "Mark Twain"
+        },
+        "30": {
+            "quote": "Whatever you can do, or dream you can, begin it.  Boldness has genius, power and magic in it.",
+            "who": "Johann Wolfgang von Goethe"
+        },
+        "31": {"quote": "The best revenge is massive success.", "who": "Frank Sinatra"},
+        "32": {
+            "quote": "People often say that motivation doesn’t last. Well, neither does bathing.  That’s why we recommend it daily.",
+            "who": "Zig Ziglar"
+        },
+        "33": {"quote": "Life shrinks or expands in proportion to one's courage.", "who": "Anais Nin"}
+    };
+
+    var $btnNextQuote = $("#btn_nextQuote");
+    var $btnTwitter = $("#btn_twitter");
+    var $quoteBody = $("#quote_body");
+    var $quoteAuthor = $("#quote_author");
+    var $arrChangeColour = [
+        {"$obj": $quoteBody, "key": "color"},
+        {"$obj": $quoteAuthor, "key": "color"},
+        {"$obj": $("body"), "key": "background-color"},
+        {"$obj": $btnTwitter, "key": "background-color"},
+        {"$obj": $btnNextQuote, "key": "background-color"}
+    ];
+    var $arrChangeText = [
+        {"$obj": $quoteBody, "key": "quote"},
+        {"$obj": $quoteAuthor, "key": "who"}
+    ];
+
+    function getRandomQuote() {
+        var keys = Object.keys(QUOTES);
+        return QUOTES[keys[Math.floor((Math.random() * keys.length))]];
+    }
+
+    function changeColour() {
+        function getRandomColour() {
+            return "#" + (new Array(6).fill(0).map(function () {
+                    return (Math.floor(16 * Math.random())).toString(16);
+                }).join(""));
+        }
+
+        var colour = getRandomColour();
+        $arrChangeColour.forEach(function (param) {
+            var prop = {};
+            prop[param.key] = colour;
+            param.$obj.animate(prop, 1000);
+        });
+    }
+
+    function changeTexts() {
+        var quote = getRandomQuote();
+        $arrChangeText.forEach(function (param) {
+            param.$obj.fadeOut(750, function () {
+                param.$obj.text(quote[param.key]);
+                param.$obj.fadeIn({
+                    "duration": 750,
+                    "queue": false
+                });
+            })
+        });
+    }
+
+    function changeToNextQuote() {
+        changeTexts();
+        changeColour();
+    }
+
+    $btnNextQuote.click(changeToNextQuote);
+
+    $btnTwitter.click(function () {
+        var baseUrl = "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=";
+        var quoteBody = $quoteBody.text().trim();
+        var quoteAuthor = $quoteAuthor.text().trim();
+        window.open(baseUrl + encodeURI(quoteBody + " " + quoteAuthor), '_blank');
+    });
+
+    changeToNextQuote();
+</script>
+
+</body>
+</html>
