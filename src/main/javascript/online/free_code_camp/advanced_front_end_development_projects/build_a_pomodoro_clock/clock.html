@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pomodoro Clock</title>
+    <link rel="stylesheet" href="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #333333;
+        }
+
+        .clock {
+            margin: 80px;
+            margin-top: 200px;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="clock">
+        <div class="panel panel-danger">
+            <div class="panel-heading center">
+                Pomodoro Clock
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>
+                            Pomodora Length:
+                            <input type="number" step="1" id="input_length" value="25" min="1"/>
+                        </label>
+                    </div>
+                    <div class="col-xs-6">
+                        <label>
+                            Break Length:
+                            <input type="number" step="1" id="break_length" value="5" min="1"/>
+                        </label>
+                    </div>
+                </div>
+                <div id="timer">
+                    25:00
+                </div>
+                <button id="btn_start" class="start_button">Start!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../lib/jquery-1.11.3/jquery-1.11.3.min.js"></script>
+<script src="../../lib/jquery.color-2.1.2/jquery.color-2.1.2.min.js"></script>
+<script src="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var classesToToggle = [
+        "button_start",
+        "button_reset"
+    ];
+    var START_TEXT = "Start!";
+    var RESET_TEXT = "Reset!";
+
+    var $btn_start = $("#btn_start");
+    var $timer = $("#timer");
+    var $input_length = $("#input_length");
+    var $break_length = $("#break_length");
+    var intervalId;
+    var minutes, seconds;
+
+    var $INPUTS = [
+        $input_length, $break_length
+    ];
+
+    function updateTimerText() {
+        var formatedSeconds = "00" + seconds.toString();
+        $timer.text(minutes.toString() + ":" + formatedSeconds.substr(formatedSeconds.length - 2));
+    }
+
+    function toggleInputsDisabled() {
+        $INPUTS.forEach(function($obj){
+            $obj.prop("disabled", !$obj.prop("disabled"));
+        });
+    }
+
+    function toggleButtonText() {
+        $btn_start.text(($btn_start.text() === START_TEXT) ? RESET_TEXT : START_TEXT);
+        classesToToggle.forEach(function (c) {
+            $btn_start.toggleClass(c);
+        });
+    }
+
+    function isStarted() {
+        return $btn_start.text() !== START_TEXT;
+    }
+
+    $btn_start.click(function () {
+        function initializeTimer(param_mins) {
+            minutes = param_mins;
+            seconds = 0;
+            updateTimerText();
+        }
+
+        if (!isStarted()) {
+            initializeTimer($input_length.val());
+            toggleButtonText();
+            toggleInputsDisabled();
+            intervalId = setInterval(function () {
+                if (seconds === 0) {
+                    seconds = 59;
+                    if (minutes > 0) {
+                        --minutes;
+                    } else {
+                        initializeTimer($break_length.val());
+                    }
+                } else {
+                    --seconds;
+                }
+                updateTimerText();
+            }, 1000);
+        } else {
+            clearInterval(intervalId);
+            initializeTimer($input_length.val());
+            toggleButtonText();
+            toggleInputsDisabled();
+        }
+    });
+</script>
+
+
+</body>
+</html>
