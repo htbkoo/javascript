@@ -17,6 +17,17 @@
         .center {
             text-align: center;
         }
+
+        .timer_Outter {
+            margin-top: 15px;
+            padding: 15px;
+        }
+
+        .row-no-margin {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
     </style>
 </head>
 
@@ -29,24 +40,35 @@
                 Pomodoro Clock
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-6">
+                <div class="row row-no-margin text-center">
+                    <div id="pomodora_div" class="col-xs-6">
                         <label>
                             Pomodora Length:
                             <input type="number" step="1" id="input_length" value="25" min="1"/>
                         </label>
                     </div>
-                    <div class="col-xs-6">
+                    <div id="break_div" class="col-xs-6">
                         <label>
                             Break Length:
                             <input type="number" step="1" id="break_length" value="5" min="1"/>
                         </label>
                     </div>
                 </div>
-                <div id="timer">
-                    25:00
+                <div class="row">
+                    <div class="timer_Outter">
+                        <div class="progress">
+                            <div id="timer" class="progress-bar progress-bar-danger progress-bar-striped"
+                                 role="progressbar"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                 style="width:100%; min-width: 4em;">
+                                25:00
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button id="btn_start" class="start_button">Start!</button>
+                <div class="row text-center">
+                    <button id="btn_start" class="start_button btn btn-default">Start!</button>
+                </div>
             </div>
         </div>
     </div>
@@ -56,10 +78,16 @@
 <script src="../../lib/jquery.color-2.1.2/jquery.color-2.1.2.min.js"></script>
 <script src="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-    var classesToToggle = [
+    var BUTTON_CLASSES = [
         "button_start",
         "button_reset"
     ];
+    var PROGRESS_BAR_CLASSES = [
+        "progress-bar-danger",
+        "progress-bar-success"
+    ];
+    var IS_BREAKING_CLASS = "progress-bar-success";
+
     var START_TEXT = "Start!";
     var RESET_TEXT = "Reset!";
 
@@ -67,6 +95,8 @@
     var $timer = $("#timer");
     var $input_length = $("#input_length");
     var $break_length = $("#break_length");
+    var $div_pomodora = $("#pomodora_div");
+    var $div_break = $("#break_div");
     var intervalId;
     var minutes, seconds;
 
@@ -74,57 +104,107 @@
         $input_length, $break_length
     ];
 
-    function updateTimerText() {
+    function updateInputDisplay() {
+        if (shouldBreak()) {
+            $div_break.addClass("bg-success");
+            $div_break.addClass("text-success");
+            $div_pomodora.removeClass("bg-danger");
+            $div_pomodora.removeClass("text-danger");
+        } else {
+            $div_pomodora.addClass("bg-danger");
+            $div_pomodora.addClass("text-danger");
+            $div_break.removeClass("bg-success");
+            $div_break.removeClass("text-success");
+        }
+    }
+
+    function resetDisplay(){
+        $div_pomodora.removeClass("bg-danger");
+        $div_pomodora.removeClass("text-danger");
+        $div_break.removeClass("bg-success");
+        $div_break.removeClass("text-success");
+
+        if (shouldBreak()) {
+            toggleProgressBarClass()
+        }
+        $timer.css("width", "100%")
+    }
+
+    function updateTimerDisplay() {
         var formatedSeconds = "00" + seconds.toString();
         $timer.text(minutes.toString() + ":" + formatedSeconds.substr(formatedSeconds.length - 2));
+
+        var nominator = minutes * 60 + seconds;
+        var denominator = parseInt(shouldBreak() ? $break_length.val() : $input_length.val()) * 60;
+
+        $timer.css("width", (100 * nominator / denominator) + "%");
     }
 
     function toggleInputsDisabled() {
-        $INPUTS.forEach(function($obj){
+        $INPUTS.forEach(function ($obj) {
             $obj.prop("disabled", !$obj.prop("disabled"));
         });
     }
 
     function toggleButtonText() {
         $btn_start.text(($btn_start.text() === START_TEXT) ? RESET_TEXT : START_TEXT);
-        classesToToggle.forEach(function (c) {
+        BUTTON_CLASSES.forEach(function (c) {
             $btn_start.toggleClass(c);
         });
     }
 
-    function isStarted() {
+    function toggleProgressBarClass() {
+        PROGRESS_BAR_CLASSES.forEach(function (c) {
+            $timer.toggleClass(c);
+        });
+    }
+    function toggleProgressBarActive() {
+        $timer.toggleClass("active");
+    }
+
+    function shouldStart() {
         return $btn_start.text() !== START_TEXT;
+    }
+
+    function shouldBreak() {
+        return $timer.hasClass(IS_BREAKING_CLASS);
     }
 
     $btn_start.click(function () {
         function initializeTimer(param_mins) {
             minutes = param_mins;
             seconds = 0;
-            updateTimerText();
+            updateTimerDisplay();
+            updateInputDisplay();
         }
 
-        if (!isStarted()) {
-            initializeTimer($input_length.val());
-            toggleButtonText();
-            toggleInputsDisabled();
+        initializeTimer($input_length.val());
+        toggleButtonText();
+        toggleInputsDisabled();
+        toggleProgressBarActive();
+
+        if (shouldStart()) {
             intervalId = setInterval(function () {
                 if (seconds === 0) {
                     seconds = 59;
                     if (minutes > 0) {
                         --minutes;
                     } else {
-                        initializeTimer($break_length.val());
+                        toggleProgressBarClass();
+                        if (shouldBreak()) {
+                            initializeTimer($break_length.val());
+                        } else {
+                            initializeTimer($input_length.val());
+                        }
                     }
                 } else {
                     --seconds;
                 }
-                updateTimerText();
+                updateTimerDisplay();
             }, 1000);
         } else {
+            resetDisplay();
             clearInterval(intervalId);
-            initializeTimer($input_length.val());
-            toggleButtonText();
-            toggleInputsDisabled();
         }
     });
 </script>
