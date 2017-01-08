@@ -10,7 +10,28 @@
         BLANK: ""
     };
 
-    function TicTacToe(startsWith) {
+    var AI_LEVEL = {
+        "EASY": {
+            getNextPlace: function (rows) {
+                var emptyCells = rows.reduce(function (prev, row, i) {
+                    return prev.concat(row.map(function (cell, j) {
+                        return [cell, j];
+                    }).filter(function (val) {
+                        return val[0] === CELL.BLANK;
+                    }).map(function (val) {
+                        return [i, val[1]];
+                    }));
+                }, []);
+
+                return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            }
+        },
+        "HARD": undefined,
+        "IMPOSSIBLE": undefined,
+        "FRIEND": undefined
+    };
+
+    function TicTacToe(startsWith, aiLevel) {
         var rows = new Array(3).fill(0).map(function () {
             function createNewRow() {
                 return new Array(3).fill(CELL.BLANK);
@@ -22,14 +43,18 @@
 
         this.tryPlacingAt = function (coors) {
             var isValid = checkIsValid(coors);
-            var winner, drawn = false;
+            var winner, drawn = false, aiPick;
 
             function isWinnerOut() {
                 return typeof winner !== "undefined";
             }
 
-            if (isValid) {
-                rows[coors[0]][coors[1]] = currentTurn;
+            function checkIsGameEnded() {
+                return isWinnerOut() || drawn;
+            }
+
+            function place(c) {
+                rows[c[0]][c[1]] = currentTurn;
                 winner = checkWinner();
                 if (!isWinnerOut()) {
                     drawn = checkDrawn();
@@ -37,14 +62,25 @@
                         changeTurn();
                     }
                 }
-                if (isWinnerOut() || drawn) {
-                    gameEnded = true;
+                gameEnded = checkIsGameEnded();
+            }
+
+            if (isValid) {
+                place(coors);
+                if (!gameEnded) {
+                    if (typeof aiLevel !== "undefined") {
+                        aiPick = aiLevel.getNextPlace(rows);
+                        place(aiPick);
+                    }
                 }
             }
+            // Expect to be undefined when there is NO_WINNER and when there is NO_AI_PICK
+            //noinspection JSUnusedAssignment
             return {
                 "valid": isValid,
                 "winner": winner,
-                "drawn": drawn
+                "drawn": drawn,
+                "aiPick": aiPick
             };
         };
 
@@ -129,14 +165,30 @@
         }
     }
 
+    function chooseLevel(startsWith) {
+        return {
+            "vsEasyAI": function () {
+                return new TicTacToe(startsWith, AI_LEVEL.EASY);
+            },
+            "vsHardAI": function () {
+                return new TicTacToe(startsWith, AI_LEVEL.HARD);
+            },
+            "vsImpossibleAI": function () {
+                return new TicTacToe(startsWith, AI_LEVEL.IMPOSSIBLE);
+            },
+            "vsFriend": function () {
+                return new TicTacToe(startsWith, AI_LEVEL.FRIEND);
+            }
+        };
+    }
 
     if (typeof module !== "undefined") {
         module.exports = {
             "newBoardStartsWithO": function () {
-                return new TicTacToe(CELL.O);
+                return chooseLevel(CELL.O);
             },
             "newBoardStartsWithX": function () {
-                return new TicTacToe(CELL.X);
+                return chooseLevel(CELL.X);
             }
         };
     }

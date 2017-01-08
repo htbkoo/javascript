@@ -20,24 +20,32 @@ describe("FreeCodeCamp", function () {
 
             beforeEach(function () {
                 // Given
-                ticTacToe = TicTacToe.newBoardStartsWithO();
+                ticTacToe = TicTacToe.newBoardStartsWithO().vsFriend();
             });
 
             describe("Initialization", function () {
                 [
-                    {"startsWith": "O", "thenTurn": "X", "func": TicTacToe.newBoardStartsWithO},
-                    {"startsWith": "X", "thenTurn": "O", "func": TicTacToe.newBoardStartsWithX}
+                    {
+                        "startsWith": "O", "thenTurn": "X", "func": function () {
+                        return TicTacToe.newBoardStartsWithO().vsFriend();
+                    }
+                    },
+                    {
+                        "startsWith": "X", "thenTurn": "O", "func": function () {
+                        return TicTacToe.newBoardStartsWithX().vsFriend();
+                    }
+                    }
                 ].forEach(function (param) {
                     it(format("should be able to place anywhere for a fresh board starts with {}", param.startsWith), function () {
                         // Given
                         ticTacToe = param.func();
 
                         // When
-                        Test.expect(ticTacToe.getCurrentTurn()).to.equal(param.startsWith, format("It should be {}'s turn", param.startsWith));
+                        assertTurn(param.startsWith);
                         var results = ticTacToe.tryPlacingAt([0, 0]);
 
                         // Then
-                        Test.expect(ticTacToe.getCurrentTurn()).to.equal(param.thenTurn, format("It should be {}'s turn", param.thenTurn));
+                        assertTurn(param.thenTurn);
                         assertResults(results,
                             {
                                 "valid": true,
@@ -337,10 +345,63 @@ describe("FreeCodeCamp", function () {
                 });
             });
 
+            describe("AI related", function () {
+                describe("Easy AI", function () {
+                    it("should place immediately after player when playing with AI", function () {
+                        // Given
+                        ticTacToe = TicTacToe.newBoardStartsWithO().vsEasyAI();
+
+                        // When
+                        assertTurn("O");
+                        var results = ticTacToe.tryPlacingAt([1,0]);
+
+                        // Then
+                        assertTurn("O");
+                        Test.expect(results.aiPick).not.to.be.undefined;
+
+                    });
+                });
+                xdescribe("Impossible AI", function () {
+                    it("should place immediately after player when playing with AI", function () {
+                        // Given
+                        ticTacToe = TicTacToe.newBoardStartsWithO().vsImpossibleAI();
+
+                        // When
+                        assertTurn("O");
+                        var results = ticTacToe.tryPlacingAt([1,0]);
+
+                        // Then
+                        assertTurn("O");
+                        Test.expect(results.aiPick).not.to.be.undefined;
+
+                    });
+                });
+                describe("With Friend", function () {
+                    it("should still be able to play with Friend and should not place immediately after first player placed when playing with friend", function () {
+                        // Given
+                        ticTacToe = TicTacToe.newBoardStartsWithO().vsFriend();
+
+                        // When
+                        assertTurn("O");
+                        var results = ticTacToe.tryPlacingAt([1,0]);
+
+                        // Then
+                        assertTurn("X");
+                        Test.expect(results.aiPick).to.be.undefined;
+
+                    });
+                });
+            });
+
             function assertResults(results, expectedResults, messages) {
                 Test.expect(results.valid).to.equal(expectedResults.valid, messages.valid);
                 Test.expect(results.winner).to.be.equal(expectedResults.winner, messages.winner);
                 Test.expect(results.drawn).to.be.equal(expectedResults.drawn, messages.drawn);
+            }
+
+
+            function assertTurn(startsWith) {
+                Test.expect(ticTacToe.getCurrentTurn()).to.equal(startsWith, format("It should be {}'s turn", startsWith));
             }
         });
     });
