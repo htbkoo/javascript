@@ -6,11 +6,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/testMocha/javascript" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testQUnit/javascript" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/test_e2e" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/dev_public/js/test_unit" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/advanced_front_end_development_projects/build_a_tic_tac_toe_game/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/advanced_front_end_development_projects/build_a_tic_tac_toe_game/js/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/advanced_front_end_development_projects/build_a_javaScript_calculator/js/test" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
