@@ -366,7 +366,22 @@ describe("FreeCodeCamp", function () {
 
                     });
                 });
-                xdescribe("Impossible AI", function () {
+                describe("Hard AI", function () {
+                    it("should place immediately after player when playing with AI", function () {
+                        // Given
+                        ticTacToe = TTT_StartsWithO.vsHardAI();
+
+                        // When
+                        assertTurn("O");
+                        var results = ticTacToe.tryPlacingAt([1,0]);
+
+                        // Then
+                        assertTurn("O");
+                        Test.expect(results.aiPick).not.to.be.undefined;
+
+                    });
+                });
+                describe("Impossible AI", function () {
                     it("should place immediately after player when playing with AI", function () {
                         // Given
                         ticTacToe = TTT_StartsWithO.vsImpossibleAI();

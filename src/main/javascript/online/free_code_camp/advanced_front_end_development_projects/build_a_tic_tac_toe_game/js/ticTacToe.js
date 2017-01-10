@@ -20,9 +20,20 @@ var TicTacToe = (function () {
         BLANK: ""
     };
 
+    var DIAGONAL_CELLS = [
+        [0, 0],
+        [1, 1],
+        [2, 2]
+    ];
+    var REVERSE_DIAGONAL_CELLS = [
+        [2, 0],
+        [1, 1],
+        [0, 2]
+    ];
+
     var AI_LEVEL = {
         "EASY": {
-            getNextPlace: function (rows) {
+            "getNextPlace": function (rows) {
                 var emptyCells = rows.reduce(function (prev, row, i) {
                     return prev.concat(row.map(function (cell, j) {
                         return [cell, j];
@@ -36,7 +47,48 @@ var TicTacToe = (function () {
                 return emptyCells[Math.floor(Math.random() * emptyCells.length)];
             }
         },
-        "HARD": undefined,
+        "HARD": {
+            "getNextPlace": function (rows, currentTurn) {
+                var combinations_to_check = (function () {
+                    var threeTimes = [0, 1, 2];
+                    return threeTimes.map(function (i) {
+                        function getCombination(reversed) {
+                            return threeTimes.map(function (j) {
+                                return (reversed ? [j, i] : [i, j]);
+                            });
+                        }
+
+                        return [getCombination(false), getCombination(true)];
+                    }).reduce(function (prev, curr) {
+                        return prev.concat(curr);
+                    }, []).concat([DIAGONAL_CELLS, REVERSE_DIAGONAL_CELLS]);
+                }());
+                var opponent = currentTurn === CELL.O ? CELL.X : CELL.O;
+
+                var winning_combination = combinations_to_check.find(function (combination) {
+                    return (combination.some(function (coors) {
+                            return rows[coors[0]][coors[1]] === CELL.BLANK;
+                        })) &&
+                        (
+                            [
+                                CELL.O,
+                                CELL.X
+                            ].some(function (cellType) {
+                                return (combination.filter(function (coors) {
+                                        return rows[coors[0]][coors[1]] === cellType;
+                                    })).length >= 2;
+                            })
+                        );
+                });
+                if (typeof winning_combination !== "undefined") {
+                    return winning_combination.filter(function (coors) {
+                        return rows[coors[0]][coors[1]] === CELL.BLANK;
+                    })[0];
+                } else {
+                    return AI_LEVEL.EASY.getNextPlace(rows);
+                }
+            }
+        },
         "IMPOSSIBLE": undefined,
         "FRIEND": undefined
     };
@@ -68,10 +120,8 @@ var TicTacToe = (function () {
                 winner = checkWinner();
                 if (!isWinnerOut()) {
                     drawn = checkDrawn();
-                    if (!drawn) {
-                        changeTurn();
-                    }
                 }
+                changeTurn();
                 gameEnded = checkIsGameEnded();
             }
 
@@ -79,7 +129,7 @@ var TicTacToe = (function () {
                 place(coors);
                 if (!gameEnded) {
                     if (typeof aiLevel !== "undefined") {
-                        aiPick = aiLevel.getNextPlace(rows);
+                        aiPick = aiLevel.getNextPlace(rows, currentTurn);
                         place(aiPick);
                     }
                 }
@@ -128,16 +178,6 @@ var TicTacToe = (function () {
             }
 
             function checkDiagonal() {
-                var DIAGONAL_CELLS = [
-                    [0, 0],
-                    [1, 1],
-                    [2, 2]
-                ];
-                var REVERSE_DIAGONAL_CELLS = [
-                    [2, 0],
-                    [1, 1],
-                    [0, 2]
-                ];
                 return [
                     DIAGONAL_CELLS,
                     REVERSE_DIAGONAL_CELLS

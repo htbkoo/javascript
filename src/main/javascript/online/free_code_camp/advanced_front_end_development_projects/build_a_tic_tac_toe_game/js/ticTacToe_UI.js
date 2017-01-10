@@ -121,14 +121,12 @@ var TicTacToe = TicTacToe || ((typeof require !== "undefined") ? require("./ticT
 
                     if (results.valid) {
                         var $tbody = $("#holder").find("tbody");
-                        var currentTurn = ticTacToe.getCurrentTurn();
-                        var opponent = ticTacToe.getCurrentTurn() === "O" ? "X" : "O";
+                        var lastTurn = ticTacToe.getCurrentTurn();
+                        var currentTurn = ticTacToe.getCurrentTurn() === "O" ? "X" : "O";
                         if (typeof results.aiPick !== "undefined") {
-                            $($($tbody.find("tr")[results.aiPick[1]]).find("td")[results.aiPick[0]]).find("div").addClass(opponent);
-                        } else {
-                            if (!isWinnerOut() && !results.drawn) {
-                                currentTurn = opponent;
-                            }
+                            lastTurn = currentTurn;
+                            currentTurn = ticTacToe.getCurrentTurn();
+                            $($($tbody.find("tr")[results.aiPick[1]]).find("td")[results.aiPick[0]]).find("div").addClass(lastTurn);
                         }
                         $($($tbody.find("tr")[results.playerPick[1]]).find("td")[results.playerPick[0]]).find("div").addClass(currentTurn);
                         updateUIForTurn();
