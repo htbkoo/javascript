@@ -1,8 +1,18 @@
 /**
  * Created by Hey on 6 Jan 2017
  */
-(function () {
+// Unfortunately still have to pollute the global namespace myself if not using webpack/requireJS
+var TicTacToe = (function () {
     "use strict";
+
+    var exports = {
+        "newBoardStartsWithO": function () {
+            return chooseLevel(CELL.O);
+        },
+        "newBoardStartsWithX": function () {
+            return chooseLevel(CELL.X);
+        }
+    };
 
     var CELL = {
         "O": "O",
@@ -183,13 +193,8 @@
     }
 
     if (typeof module !== "undefined") {
-        module.exports = {
-            "newBoardStartsWithO": function () {
-                return chooseLevel(CELL.O);
-            },
-            "newBoardStartsWithX": function () {
-                return chooseLevel(CELL.X);
-            }
-        };
+        module.exports = exports;
     }
+
+    return exports;
 }());

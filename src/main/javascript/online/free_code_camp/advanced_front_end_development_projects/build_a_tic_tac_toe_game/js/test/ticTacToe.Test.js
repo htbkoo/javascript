@@ -3,6 +3,11 @@
  */
 
 var TicTacToe = require("../ticTacToe");
+// It IS defined, only because IntelliJ could not find it
+//noinspection JSUnresolvedFunction
+var TTT_StartsWithO = TicTacToe.newBoardStartsWithO();
+//noinspection JSUnresolvedFunction
+var TTT_StartsWithX = TicTacToe.newBoardStartsWithX();
 
 var Test = require("chai");
 var format = require('string-format');
@@ -20,19 +25,19 @@ describe("FreeCodeCamp", function () {
 
             beforeEach(function () {
                 // Given
-                ticTacToe = TicTacToe.newBoardStartsWithO().vsFriend();
+                ticTacToe = TTT_StartsWithO.vsFriend();
             });
 
             describe("Initialization", function () {
                 [
                     {
                         "startsWith": "O", "thenTurn": "X", "func": function () {
-                        return TicTacToe.newBoardStartsWithO().vsFriend();
+                        return TTT_StartsWithO.vsFriend();
                     }
                     },
                     {
                         "startsWith": "X", "thenTurn": "O", "func": function () {
-                        return TicTacToe.newBoardStartsWithX().vsFriend();
+                        return TTT_StartsWithX.vsFriend();
                     }
                     }
                 ].forEach(function (param) {
@@ -349,7 +354,7 @@ describe("FreeCodeCamp", function () {
                 describe("Easy AI", function () {
                     it("should place immediately after player when playing with AI", function () {
                         // Given
-                        ticTacToe = TicTacToe.newBoardStartsWithO().vsEasyAI();
+                        ticTacToe = TTT_StartsWithO.vsEasyAI();
 
                         // When
                         assertTurn("O");
@@ -364,7 +369,7 @@ describe("FreeCodeCamp", function () {
                 xdescribe("Impossible AI", function () {
                     it("should place immediately after player when playing with AI", function () {
                         // Given
-                        ticTacToe = TicTacToe.newBoardStartsWithO().vsImpossibleAI();
+                        ticTacToe = TTT_StartsWithO.vsImpossibleAI();
 
                         // When
                         assertTurn("O");
@@ -379,7 +384,7 @@ describe("FreeCodeCamp", function () {
                 describe("With Friend", function () {
                     it("should still be able to play with Friend and should not place immediately after first player placed when playing with friend", function () {
                         // Given
-                        ticTacToe = TicTacToe.newBoardStartsWithO().vsFriend();
+                        ticTacToe = TTT_StartsWithO.vsFriend();
 
                         // When
                         assertTurn("O");
