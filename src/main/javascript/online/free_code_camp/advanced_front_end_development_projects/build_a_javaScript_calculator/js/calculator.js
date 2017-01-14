@@ -1,3 +1,4 @@
+//noinspection JSUnusedLocalSymbols
 /**
  * Created by Hey on 6 Jan 2017
  */
@@ -5,13 +6,12 @@
 var Calculator = (function () {
     "use strict";
 
-    var result, steps, lastOperators;
+    var result, steps;
     initialize();
 
     function initialize() {
         result = 0;
         steps = [];
-        lastOperators = [];
     }
 
     var ALL_NUMERICS = {};
@@ -32,10 +32,11 @@ var Calculator = (function () {
             }
             result = 0;
 
-            steps.push(op);
-
-            lastOperators.push(op);
-
+            if (isAnOperator(getLastFrom(steps))) {
+                steps[steps.length - 1] = op;
+            } else {
+                steps.push(op);
+            }
         };
     });
 
@@ -62,7 +63,6 @@ var Calculator = (function () {
             } else {
                 result = 0;
             }
-            lastOperators = [];
         },
         "getResult": function () {
             return result.toString();
@@ -72,7 +72,16 @@ var Calculator = (function () {
             return steps.join("") + currentNumber;
         },
         "getLastOperator": function () {
-            return hasLastOperators() ? lastOperators.slice(-1)[0] : "";
+            var lastOperators = steps.filter(function (step) {
+                return (step in ALL_OPERATORS);
+            });
+
+            function hasLastOperators() {
+                return lastOperators.length > 0;
+            }
+
+
+            return hasLastOperators() ? getLastFrom(lastOperators) : "";
         }
     };
 
@@ -89,17 +98,17 @@ var Calculator = (function () {
         return steps.length > 0;
     }
 
-    function hasLastOperators() {
-        return lastOperators.length > 0;
-    }
-
     function isRestulsZero() {
         return result === 0;
     }
 
 
-    function isAnOperator(removed) {
-        return removed in ALL_OPERATORS;
+    function isAnOperator(str) {
+        return str in ALL_OPERATORS;
+    }
+
+    function getLastFrom(array) {
+        return array.slice(-1)[0];
     }
 
     if (typeof module !== "undefined") {

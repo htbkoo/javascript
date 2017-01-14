@@ -208,11 +208,51 @@ describe("FreeCodeCamp", function () {
                         // Then
                         assertCalculator("435", "435", "");
                     });
+
+                    it("should use 'CE' to backspace number after an operator", function () {
+                        // Given
+                        pressMany("435+216".split(""));
+                        assertCalculator("216", "435+216", "+");
+
+                        // When
+                        pressMany(["CE"]);
+
+                        // Then
+                        assertCalculator("0", "435+", "+");
+                    });
                 });
 
                 describe("changing operator", function () {
-                    it("should handle full operations correctly", function () {
+                    it("should handle switching operators with no numbers correctly", function () {
+                        // Given
 
+                        // When
+                        pressMany("+-".split(""));
+
+                        // Then
+                        assertCalculator("0", "0-", "-");
+                    });
+                    it("should handle switching operators with 1 number correctly", function () {
+                        // Given
+                        pressMany("435".split(""));
+                        assertCalculator("435", "435", "");
+
+                        // When
+                        pressMany("+/".split(""));
+
+                        // Then
+                        assertCalculator("0", "435/", "/");
+                    });
+                    it("should handle switching operators with 1 number correctly", function () {
+                        // Given
+                        pressMany("435+26-".split(""));
+                        assertCalculator("0", "435+26-", "-");
+
+                        // When
+                        pressMany("+-/*".split(""));
+
+                        // Then
+                        assertCalculator("0", "435+26*", "*");
                     });
                 });
 
