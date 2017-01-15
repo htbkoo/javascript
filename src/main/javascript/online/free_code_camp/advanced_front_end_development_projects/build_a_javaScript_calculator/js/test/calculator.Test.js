@@ -39,6 +39,16 @@ describe("FreeCodeCamp", function () {
                         assertCalculator("0", "");
                     });
 
+                    it("should be able to press '.'", function () {
+                        // Given
+
+                        // When
+                        Calculator["."]();
+
+                        // Then
+                        assertCalculator("0", "");
+                    });
+
                     it("should be able to negate initially from pressing '+/-'", function () {
                         // Given
                         assertCalculator("0", "");
@@ -190,6 +200,66 @@ describe("FreeCodeCamp", function () {
 
                         // Then
                         assertCalculator("75", "75", "");
+                    });
+                });
+
+                describe("dot related", function () {
+                    it("should be able to set to '0.1' from pressing '.','1'", function () {
+                        // Given
+
+                        // When
+                        pressMany(".1".split(""));
+
+                        // Then
+                        assertCalculator("0.1", "0.1");
+                    });
+
+                    it("should be able to press '.' multiple times", function () {
+                        // Given
+
+                        // When
+                        pressMany("....1".split(""));
+
+                        // Then
+                        assertCalculator("0.1", "0.1");
+                    });
+
+                    it("should be able to press '12.3'", function () {
+                        // Given
+
+                        // When
+                        pressMany("12.3".split(""));
+
+                        // Then
+                        assertCalculator("12.3", "12.3");
+                    });
+                    it("should be able to press '12.34' and get '12.34'", function () {
+                        // Given
+
+                        // When
+                        pressMany("12.34".split(""));
+
+                        // Then
+                        assertCalculator("12.34", "12.34");
+                    });
+                    it("should be able to press '12.3.' and get '12.3'", function () {
+                        // Given
+
+                        // When
+                        pressMany("12.3.".split(""));
+
+                        // Then
+                        assertCalculator("12.3", "12.3");
+                    });
+
+                    it("should be able to press '12.3.1' and get '12.31'", function () {
+                        // Given
+
+                        // When
+                        pressMany("12.3.1".split(""));
+
+                        // Then
+                        assertCalculator("12.31", "12.31");
                     });
                 });
 

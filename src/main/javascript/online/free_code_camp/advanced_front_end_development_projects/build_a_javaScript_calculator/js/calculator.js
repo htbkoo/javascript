@@ -6,19 +6,29 @@
 var Calculator = (function () {
     "use strict";
 
-    var result, steps;
+    var result, steps, nextDot;
     initialize();
 
     function initialize() {
-        result = 0;
+        setResultToZero();
         steps = [];
+        nextDot = false;
     }
 
     var ALL_NUMERICS = {};
     // [0..9]
     new Array(10).fill(0).forEach(function (_, index) {
         ALL_NUMERICS[index] = function () {
-            result = result * 10 + index;
+            if (nextDot) {
+                nextDot = false;
+                result = parseFloat(result.toString() + "." + index);
+            } else {
+                if (!hasDotInResult()) {
+                    result = result * 10 + index;
+                } else {
+                    result = parseFloat(result.toString() + index);
+                }
+            }
         };
     });
 
@@ -30,7 +40,7 @@ var Calculator = (function () {
             } else if (!hasSteps()) {
                 steps.push("0");
             }
-            result = 0;
+            setResultToZero();
 
             if (isAnOperator(getLastFrom(steps))) {
                 steps[steps.length - 1] = op;
@@ -51,7 +61,12 @@ var Calculator = (function () {
                     result = steps.splice(-1, 1);
                 }
             } else {
-                result = 0;
+                setResultToZero();
+            }
+        },
+        ".": function () {
+            if (!hasDotInResult()) {
+                nextDot = true;
             }
         },
         "=": function () {
@@ -68,7 +83,7 @@ var Calculator = (function () {
                 result = eval(str_steps); // jshint ignore:line
                 steps = [];
             } else {
-                result = 0;
+                setResultToZero();
             }
         }, "+/-": function () {
             result *= -1;
@@ -107,10 +122,17 @@ var Calculator = (function () {
         return steps.length > 0;
     }
 
+    function hasDotInResult() {
+        return result.toString().indexOf(".") !== -1;
+    }
+
     function isResultZero() {
         return result === 0;
     }
 
+    function setResultToZero() {
+        result = 0;
+    }
 
     function isAnOperator(str) {
         return str in ALL_OPERATORS;
