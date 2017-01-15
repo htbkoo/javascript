@@ -1,5 +1,10 @@
 <component name="libraryTable">
   <library name="jquery-1.11.3" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/../../../Library/jQuery/jquery-1.11.3/jquery-1.11.3.js" />
+      </sourceFilesUrls>
+    </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../../../Library/jQuery/jquery-1.11.3/jquery-1.11.3.min.js" />
     </CLASSES>
