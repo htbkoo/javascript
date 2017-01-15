@@ -27,7 +27,7 @@ var Calculator = Calculator || ((typeof require !== "undefined") ? require("./Ca
                 };
 
                 [
-                    ["AC", "CE", ["<", "Back"], "/"],
+                    ["AC", "CE", ["backspace"], "/"],
                     ["7", "8", "9", "-"],
                     ["4", "5", "6", "*"],
                     ["1", "2", "3", "+"],
@@ -35,11 +35,11 @@ var Calculator = Calculator || ((typeof require !== "undefined") ? require("./Ca
                 ].forEach(function (rowToAdd) {
                     var $row = $('<div class="row"></div>');
                     rowToAdd.forEach(function (buttonToAdd) {
-                        if (buttonToAdd instanceof Array) {
-                            buttonToAdd = "";
-                        }
-
                         var btn_class = (buttonToAdd in BTNS_RED) ? "btn-danger" : "btn-default";
+                        if (buttonToAdd instanceof Array) {
+                            btn_class += (" " + buttonToAdd[0]);
+                            buttonToAdd = "BS";
+                        }
                         var $div = $('<div class="col-xs-3"><button class="btn ' + btn_class + ' calc-btn" type="button">' + buttonToAdd + '</button></div>');
                         var $button = $div.find("button");
                         $button.click(function () {
@@ -55,7 +55,7 @@ var Calculator = Calculator || ((typeof require !== "undefined") ? require("./Ca
             function setUpKeysControl() {
                 $("body").keyup(function (event) {
                     var KEY_CODE_MAP = {
-                        // "Backspace":"",
+                        "Backspace":"BS",
                         ".": ".",
                         "=": "=",
                         "Enter": "=",
@@ -63,6 +63,7 @@ var Calculator = Calculator || ((typeof require !== "undefined") ? require("./Ca
                         "-": "-",
                         "*": "*",
                         "/": "/",
+                        "F9": "+/-",
                         "A": "AC",
                         "a": "AC",
                         "Escape": "AC",

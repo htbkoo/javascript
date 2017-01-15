@@ -422,6 +422,42 @@ describe("FreeCodeCamp", function () {
                         // Then
                         assertCalculator("21", "435+21", "+");
                     });
+
+                    it("should use 'BS' to backspace decimal number", function () {
+                        // Given
+                        pressMany("123.45".split(""));
+                        assertCalculator("123.45", "123.45");
+
+                        // When
+                        Calculator.BS();
+
+                        // Then
+                        assertCalculator("123.4", "123.4");
+                    });
+
+                    it("should use 'BS' to backspace decimal number to dot", function () {
+                        // Given
+                        pressMany("123.4".split(""));
+                        assertCalculator("123.4", "123.4");
+
+                        // When
+                        Calculator.BS();
+
+                        // Then
+                        assertCalculator("123.", "123");
+                    });
+
+                    it("should use 'BS' to backspace when nextDot", function () {
+                        // Given
+                        pressMany("123.".split(""));
+                        assertCalculator("123.", "123");
+
+                        // When
+                        Calculator.BS();
+
+                        // Then
+                        assertCalculator("123", "123");
+                    });
                 });
 
                 describe("changing operator", function () {

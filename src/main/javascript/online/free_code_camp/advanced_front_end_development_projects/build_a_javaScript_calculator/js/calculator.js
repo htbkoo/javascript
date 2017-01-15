@@ -65,13 +65,29 @@ var Calculator = (function () {
             }
         },
         "BS": function () {
+            var resultAsString = result.toString();
             if (isResultZero()) {
                 var removed = steps.splice(-1, 1);
                 if (isAnOperator(removed)) {
                     result = steps.splice(-1, 1);
                 }
             } else {
-                result = parseInt(result / 10);
+                if (nextDot) {
+                    nextDot = false;
+                } else if (hasDotInResult()) {
+                    var tempResult = getResultInStringWithoutLastCharacter();
+                    if (tempResult.slice(-1) === ".") {
+                        nextDot = true;
+                        tempResult = getResultInStringWithoutLastCharacter();
+                    }
+                    result = parseFloat(tempResult);
+                } else {
+                    result = parseInt(result / 10);
+                }
+            }
+
+            function getResultInStringWithoutLastCharacter() {
+                return resultAsString.slice(0, -1);
             }
         }, ".": function () {
             if (!hasDotInResult()) {
@@ -100,7 +116,7 @@ var Calculator = (function () {
 
         // getters
         "getResult": function () {
-            return result.toString() + (nextDot ? "." : "");
+            return resultAndAddDotIfNextDot();
         },
         "getSteps": function () {
             return steps.join("") + getFormattedResult();
@@ -162,6 +178,10 @@ var Calculator = (function () {
                 return resultAsString;
             }
         }
+    }
+
+    function resultAndAddDotIfNextDot() {
+        return result.toString() + (nextDot ? "." : "");
     }
 
     if (typeof module !== "undefined") {
