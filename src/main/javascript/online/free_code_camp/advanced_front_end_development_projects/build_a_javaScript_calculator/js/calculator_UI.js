@@ -31,7 +31,7 @@ var Calculator = Calculator || ((typeof require !== "undefined") ? require("./Ca
                     ["7", "8", "9", "-"],
                     ["4", "5", "6", "*"],
                     ["1", "2", "3", "+"],
-                    ["0", ".", "=", ["+/-", "Negate"]]
+                    ["0", ".", "=", "+/-"]
                 ].forEach(function (rowToAdd) {
                     var $row = $('<div class="row"></div>');
                     rowToAdd.forEach(function (buttonToAdd) {
@@ -53,6 +53,7 @@ var Calculator = Calculator || ((typeof require !== "undefined") ? require("./Ca
             }
 
             addButtons();
+            updateUI();
         }());
     }(Calculator)
 );

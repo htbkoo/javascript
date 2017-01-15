@@ -25,8 +25,8 @@ var Calculator = (function () {
     var ALL_OPERATORS = {};
     ["+", "-", "*", "/"].forEach(function (op) {
         ALL_OPERATORS[op] = function () {
-            if (!isRestulsZero()) {
-                steps.push(result);
+            if (!isResultZero()) {
+                steps.push(getFormattedResult());
             } else if (!hasSteps()) {
                 steps.push("0");
             }
@@ -45,7 +45,7 @@ var Calculator = (function () {
             initialize();
         },
         "CE": function () {
-            if (isRestulsZero()) {
+            if (isResultZero()) {
                 var removed = steps.splice(-1, 1);
                 if (isAnOperator(removed)) {
                     result = steps.splice(-1, 1);
@@ -55,21 +55,31 @@ var Calculator = (function () {
             }
         },
         "=": function () {
-            //    Simple, but probably unsafe way is to use eval
-            if (hasSteps()) {
-                var str_steps = exports.getSteps();
-                result = eval(str_steps);
+            function getProcessedSteps() {
+                if (isResultZero() && isAnOperator(steps.slice(-1)[0])) {
+                    steps.splice(-1, 1);
+                }
+                return exports.getSteps();
+            }
+
+            if (!isResultZero() || hasSteps()) {
+                var str_steps = getProcessedSteps();
+                //    Simple, but probably unsafe way is to use eval, but it is really simple one-liner.....
+                result = eval(str_steps); // jshint ignore:line
                 steps = [];
             } else {
                 result = 0;
             }
+        }, "+/-": function () {
+            result *= -1;
         },
+
+        // getters
         "getResult": function () {
             return result.toString();
         },
         "getSteps": function () {
-            var currentNumber = ((isRestulsZero()) ? "" : result.toString());
-            return steps.join("") + currentNumber;
+            return steps.join("") + getFormattedResult();
         },
         "getLastOperator": function () {
             var lastOperators = steps.filter(function (step) {
@@ -79,7 +89,6 @@ var Calculator = (function () {
             function hasLastOperators() {
                 return lastOperators.length > 0;
             }
-
 
             return hasLastOperators() ? getLastFrom(lastOperators) : "";
         }
@@ -98,7 +107,7 @@ var Calculator = (function () {
         return steps.length > 0;
     }
 
-    function isRestulsZero() {
+    function isResultZero() {
         return result === 0;
     }
 
@@ -109,6 +118,19 @@ var Calculator = (function () {
 
     function getLastFrom(array) {
         return array.slice(-1)[0];
+    }
+
+    function getFormattedResult() {
+        if (isResultZero()) {
+            return "";
+        } else {
+            var resultAsString = result.toString();
+            if ((hasSteps()) && (result < 0)) {
+                return "(" + resultAsString + ")";
+            } else {
+                return resultAsString;
+            }
+        }
     }
 
     if (typeof module !== "undefined") {

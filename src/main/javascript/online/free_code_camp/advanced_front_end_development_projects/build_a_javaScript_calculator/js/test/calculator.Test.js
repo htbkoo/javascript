@@ -38,6 +38,29 @@ describe("FreeCodeCamp", function () {
                         // Then
                         assertCalculator("0", "");
                     });
+
+                    it("should be able to negate initially from pressing '+/-'", function () {
+                        // Given
+                        assertCalculator("0", "");
+
+                        // When
+                        Calculator["+/-"]();
+
+                        // Then
+                        assertCalculator("0", "");
+                    });
+
+                    it("should be able to negate 1 number result from pressing '+/-'", function () {
+                        // Given
+                        Calculator["1"]();
+                        assertCalculator("1", "1");
+
+                        // When
+                        Calculator["+/-"]();
+
+                        // Then
+                        assertCalculator("-1", "-1");
+                    });
                 });
 
                 describe("numbers", function () {
@@ -124,6 +147,21 @@ describe("FreeCodeCamp", function () {
                     });
                 });
 
+                describe("1 numbers, =", function () {
+                    it("should allow press '=' after '12' and still has '12' as result", function () {
+                        // Given
+                        pressMany(["1", "2"]);
+                        assertCalculator("12", "12");
+
+                        // When
+                        pressMany(["="]);
+
+                        // Then
+                        assertCalculator("12", "12", "");
+                        pressMany(["="]);
+                        assertCalculator("12", "12", "");
+                    });
+                });
 
                 describe("1 numbers, 1 op, 1 numbers", function () {
                     it("should process '32' after pressing '-' after '43'", function () {
@@ -169,7 +207,6 @@ describe("FreeCodeCamp", function () {
                 });
 
                 describe("more complicated cases", function () {
-
                     it("should handle full operations correctly", function () {
                         // Given
                         pressMany("435+236-165+32*5-6/2*3+15+8-56/7".split(""));
@@ -179,6 +216,54 @@ describe("FreeCodeCamp", function () {
 
                         // Then
                         assertCalculator("672", "672", "");
+                    });
+
+                    it("should be able to negate 1 number + 1op from pressing '+/-'", function () {
+                        // Given
+                        pressMany("25+".split(""));
+                        assertCalculator("0", "25+");
+
+                        // When
+                        Calculator["+/-"]();
+
+                        // Then
+                        assertCalculator("0", "25+");
+                    });
+                    it("should be able to negate 1number + 1op + 1number from pressing '+/-'", function () {
+                        // Given
+                        pressMany("25+16".split(""));
+                        assertCalculator("16", "25+16");
+
+                        // When
+                        Calculator["+/-"]();
+
+                        // Then
+                        assertCalculator("-16", "25+(-16)");
+                    });
+                    it("should be able to negate 1number + 1op + 1number from pressing '+/-'", function () {
+                        // Given
+                        pressMany("25+16".split(""));
+                        Calculator["+/-"]();
+                        assertCalculator("-16", "25+(-16)");
+
+                        // When
+                        Calculator["="]();
+
+                        // Then
+                        assertCalculator("9", "9");
+                    });
+                    it("should be able to negate 1number + 1op + 1number + 1op from pressing '+/-'", function () {
+                        // Given
+                        pressMany("25+16".split(""));
+                        Calculator["+/-"]();
+                        Calculator["-"]();
+                        assertCalculator("0", "25+(-16)-");
+
+                        // When
+                        Calculator["="]();
+
+                        // Then
+                        assertCalculator("9", "9");
                     });
                 });
             });
