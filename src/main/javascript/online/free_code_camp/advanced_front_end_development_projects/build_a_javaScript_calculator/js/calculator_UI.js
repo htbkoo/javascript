@@ -55,35 +55,29 @@ var Calculator = Calculator || ((typeof require !== "undefined") ? require("./Ca
             function setUpKeysControl() {
                 $("body").keyup(function (event) {
                     var KEY_CODE_MAP = {
-                        "8": "BackSpace",
-                        "190": ".",
-                        "61": "=",
-                        "107": "+",
-                        "109": "-",
-                        "106": "*",
-                        "111": "/"
+                        // "Backspace":"",
+                        ".": ".",
+                        "=": "=",
+                        "Enter": "=",
+                        "+": "+",
+                        "-": "-",
+                        "*": "*",
+                        "/": "/",
+                        "A": "AC",
+                        "a": "AC",
+                        "Escape": "AC",
+                        "C": "CE",
+                        "c": "CE"
                     };
                     // {"48":"0, "49":"1", ......, "57":"9"}
                     new Array(10).fill(0).forEach(function (_, index) {
-                        var NUMPAD_ZERO_KEY_CODE = 96;
-                        KEY_CODE_MAP[index + "0".charCodeAt(0)] = index;
-                        KEY_CODE_MAP[index + NUMPAD_ZERO_KEY_CODE] = index;
-                    });
-                    [
-                        "A",
-                        "C"
-                    ].forEach(function (key) {
-                        KEY_CODE_MAP[key.charCodeAt(0)] = key;
+                        KEY_CODE_MAP[index] = index.toString();
                     });
 
-                    var EFFECTIVE_KEYS = {
-
-                    };
-
-                    var keyCode = event.which;
+                    var keyCode = event.key;
                     if (keyCode in KEY_CODE_MAP) {
                         event.preventDefault();
-                        EFFECTIVE_KEYS[KEY_CODE_MAP[keyCode]]();
+                        $("button:contains(" + KEY_CODE_MAP[keyCode] + ")").click();
                     }
                 });
             }
