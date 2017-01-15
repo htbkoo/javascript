@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Calculator</title>
+    <link rel="stylesheet" href="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Orbitron"/>
+    <!--Used by the dynamically created buttons-->
+    <!--suppress CssUnusedSymbol -->
+    <style>
+        body {
+            background-color: #333333;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .calculator-title {
+            text-align: center;
+            margin-top: -20px;
+        }
+
+        .calc-btn {
+            min-width: 75px;
+            margin-top: 20px ;
+        }
+
+        #result {
+            font-size: x-large;
+            text-align: right;
+        }
+
+        #steps {
+            font-size: small;
+            text-align: right;
+        }
+
+        #holder {
+            border-radius: 20px;
+        }
+
+        .calculator {
+            margin: 160px 240px 240px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="calculator">
+        <div class="well well-lg" id="holder">
+
+            <div class="row">
+                <div class="col-xs-12 calculator-title">
+                    <h4>JAVASCRIPT CALCULATOR</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <input type="text" id="result" class="form-control" placeholder="0" disabled="disabled">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <input type="text" id="steps" class="form-control" placeholder="" disabled="disabled">
+                </div>
+            </div>
+
+            <!--Buttons would be added dynamically as they are too repeatitive-->
+
+        </div>
+    </div>
+</div>
+
+<script src="../../lib/jquery-1.11.3/jquery-1.11.3.min.js"></script>
+<script src="../../lib/jquery.color-2.1.2/jquery.color-2.1.2.min.js"></script>
+<script src="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<script src="js/calculator.js"></script>
+<script src="js/calculator_UI.js"></script>
+
+
+</body>
+</html>
