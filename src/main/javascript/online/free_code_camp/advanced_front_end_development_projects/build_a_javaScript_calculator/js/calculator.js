@@ -64,7 +64,16 @@ var Calculator = (function () {
                 setResultToZero();
             }
         },
-        ".": function () {
+        "BS": function () {
+            if (isResultZero()) {
+                var removed = steps.splice(-1, 1);
+                if (isAnOperator(removed)) {
+                    result = steps.splice(-1, 1);
+                }
+            } else {
+                result = parseInt(result / 10);
+            }
+        }, ".": function () {
             if (!hasDotInResult()) {
                 nextDot = true;
             }
@@ -91,7 +100,7 @@ var Calculator = (function () {
 
         // getters
         "getResult": function () {
-            return result.toString();
+            return result.toString() + (nextDot ? "." : "");
         },
         "getSteps": function () {
             return steps.join("") + getFormattedResult();

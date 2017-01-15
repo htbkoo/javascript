@@ -14,7 +14,7 @@ describe("FreeCodeCamp", function () {
         describe("Calculator", function () {
             beforeEach(pressACAndAssert);
 
-            describe("basics -  keys + numbers + operations", function () {
+            describe("basics -  keys + numbers + operators", function () {
                 describe("keys", function () {
                     it("should be able to initialize by 'AC' from pressing AC", pressACAndAssert);
                     it("should be able to go back a step by 'CE' from pressing CE", function () {
@@ -24,6 +24,15 @@ describe("FreeCodeCamp", function () {
 
                         // When
                         Calculator.CE();
+
+                        // Then
+                        assertCalculator("0", "");
+                    });
+                    it("should be able press 'BS'", function () {
+                        // Given
+
+                        // When
+                        Calculator.BS();
 
                         // Then
                         assertCalculator("0", "");
@@ -46,7 +55,7 @@ describe("FreeCodeCamp", function () {
                         Calculator["."]();
 
                         // Then
-                        assertCalculator("0", "");
+                        assertCalculator("0.", "");
                     });
 
                     it("should be able to negate initially from pressing '+/-'", function () {
@@ -100,7 +109,7 @@ describe("FreeCodeCamp", function () {
                     });
                 });
 
-                describe("operations", function () {
+                describe("operators", function () {
                     [
                         "+",
                         "-",
@@ -277,7 +286,7 @@ describe("FreeCodeCamp", function () {
                 });
 
                 describe("more complicated cases", function () {
-                    it("should handle full operations correctly", function () {
+                    it("should handle full calculation correctly", function () {
                         // Given
                         pressMany("435+236-165+32*5-6/2*3+15+8-56/7".split(""));
 
@@ -374,6 +383,44 @@ describe("FreeCodeCamp", function () {
 
                         // Then
                         assertCalculator("0", "435+", "+");
+                    });
+                });
+
+                describe("more usage for 'BS'", function () {
+                    it("should use 'BS' to backspace just last number of 123 to 12 for first current multiple numbers step", function () {
+                        // Given
+                        pressMany("123".split(""));
+                        assertCalculator("123", "123");
+
+                        // When
+                        Calculator.BS();
+
+                        // Then
+                        assertCalculator("12", "12");
+                    });
+
+                    it("should use 'BS' to backspace first current operator", function () {
+                        // Given
+                        pressMany("435+".split(""));
+                        assertCalculator("0", "435+", "+");
+
+                        // When
+                        Calculator.BS();
+
+                        // Then
+                        assertCalculator("435", "435", "");
+                    });
+
+                    it("should use 'BS' to backspace number after an operator", function () {
+                        // Given
+                        pressMany("435+216".split(""));
+                        assertCalculator("216", "435+216", "+");
+
+                        // When
+                        Calculator.BS();
+
+                        // Then
+                        assertCalculator("21", "435+21", "+");
                     });
                 });
 
