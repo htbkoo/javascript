@@ -1,0 +1,23 @@
+{
+  "name": "build_a_wikipedia_viewer",
+  "version": "0.1.0",
+  "description": "FreeCodeCamp - FrontEnd - Intermediate Project - Build a Wikipedia Viewer",
+  "main": "js/wikiViewer_UI.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "hg",
+    "url": "https://bitbucket.org/htbkoo/javascript-hg"
+  },
+  "keywords": [
+    "freecodecamp",
+    "wiki"
+  ],
+  "author": "Hey",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/htbkoo/javascript-hg#readme",
+  "devDependencies": {
+    "jsdom": "^9.9.1"
+  }
+}

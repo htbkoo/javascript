@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wikipedia Viewer</title>
+    <link rel="stylesheet" href="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #000040;
+        }
+
+        .title {
+            color: #EEEEEE;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div id="viewer">
+        <h1 class="title">Wikipedia Viewer</h1>
+        <div class="well well-lg" id="holder">
+            <div class="row">
+                <form class="form-inline">
+                    <div class="form-group pull-right">
+                        <label class="sr-only" for="query">Query:</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"></div>
+                            <input type="text" class="form-control" placeholder="Search Wikipedia" id="query"/>
+                            <!--<div class="input-group-addon"></div>-->
+                        </div>
+                        <button id="search" type="button" class="btn btn-default">Search</button>
+                        <button id="random" type="button" class="btn btn-primary">Random</button>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../lib/jquery-1.11.3/jquery-1.11.3.min.js"></script>
+<script src="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="js/wikiViewer.js"></script>
+<script src="js/wikiViewer_UI.js"></script>
+</body>
+</html>
