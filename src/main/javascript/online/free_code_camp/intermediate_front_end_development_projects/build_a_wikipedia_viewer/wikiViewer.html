@@ -12,6 +12,16 @@
         .title {
             color: #EEEEEE;
         }
+
+        #query {
+            /*width: 200px;*/
+            float: right;
+        }
+
+        #panel-title {
+            padding-top: 8px;
+            margin-right: 100px;
+        }
     </style>
 </head>
 
@@ -20,22 +30,25 @@
 <div class="container">
     <div id="viewer">
         <h1 class="title">Wikipedia Viewer</h1>
-        <div class="well well-lg" id="holder">
-            <div class="row">
-                <form class="form-inline">
-                    <div class="form-group pull-right">
-                        <label class="sr-only" for="query">Query:</label>
-                        <div class="input-group">
-                            <div class="input-group-addon"></div>
-                            <input type="text" class="form-control" placeholder="Search Wikipedia" id="query"/>
-                            <!--<div class="input-group-addon"></div>-->
-                        </div>
-                        <button id="search" type="button" class="btn btn-default">Search</button>
-                        <button id="random" type="button" class="btn btn-primary">Random</button>
+        <div class="panel panel-default" id="holder">
+
+            <div class="panel-heading">
+                <h4 class="panel-title pull-left" id="panel-title"></h4>
+                <label class="sr-only" for="query">Query:</label>
+                <div class="input-group">
+                    <!--<div class="input-group-addon"></div>-->
+                    <input type="text" class="form-control" placeholder="Search Wikipedia" id="query"/>
+                    <div class="input-group-btn">
+                        <button id="search" type="button" title="search" class="btn btn-default">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                        <button id="random" type="button" title="Random Article" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                        </button>
                     </div>
-                </form>
+                </div>
             </div>
-            <div class="row">
+            <div class="panel-body">
 
             </div>
         </div>
