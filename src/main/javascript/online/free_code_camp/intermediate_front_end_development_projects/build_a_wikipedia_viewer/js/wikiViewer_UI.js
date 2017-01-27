@@ -4,20 +4,21 @@
 
 
 var Viewer = Viewer || ((typeof require !== "undefined") ? require("./wikiViewer") : {});
-var WIKI_RANDOM_ARTICLE_URL = "https://en.wikipedia.org/wiki/Special:Random";
+var WIKI_HOST_URL = "https://en.wikipedia.org";
+var WIKI_RANDOM_ARTICLE_URL = WIKI_HOST_URL + "/wiki/Special:Random";
 
 (
     function (Viewer) {
         "use strict";
         $('#random').click(function () {
-            // TODO: won't work until CORS is fixed
-            // $.get({
-            //     url: WIKI_RANDOM_ARTICLE_URL,
-            //     success: function (data, status){
-            //         console.log(data);
-            //     }
-            // });
             Viewer.randomArticle();
+            window.open(WIKI_RANDOM_ARTICLE_URL);
+        });
+        $('#search').click(function () {
+            var keyword = $("#query").val();
+            $.getJSON(Viewer.newSearchUrlBuilder().withQuery(keyword).build(), {}, function (data) {
+                Viewer.parseSearchResponse(data);
+            });
         });
     }(Viewer)
 );

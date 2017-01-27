@@ -7,13 +7,18 @@ var jsdom = require("jsdom");
 var path = require("path");
 var format = require('string-format');
 var sinon = require('sinon');
-
-var pathToHtml = path.normalize(__dirname + "/../../wikiViewer.html");
+var fs = require('fs');
 
 describe("FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
         describe("WikiViewer - UI part", function () {
+            function getRelativePath(pathFromDirName) {
+                return path.normalize(__dirname + pathFromDirName);
+            }
+
+            var pathToHtml = getRelativePath("/../../wikiViewer.html");
+
             describe("Assert page elements", function () {
                 // try using jsdom
                 [
@@ -50,26 +55,69 @@ describe("FreeCodeCamp", function () {
                 }
             });
 
+            // https://en.wikipedia.org/wiki/Special:Random
             describe("Assert getting random article", function () {
-                it("should fetch from random url from wikipedia when clicked the random button", sinon.test(function (done) {
+                it("should open random page from wikipedia when clicked the random button", sinon.test(function (done) {
                     this.timeout(1000);
                     setUpJsdomEnvAndAssertWith(function (err, window, $) {
                         // Given
                         var WIKI_RANDOM_ARTICLE_URL = "https://en.wikipedia.org/wiki/Special:Random";
                         var Viewer_randomArticle = sinon.spy(window.Viewer, "randomArticle");
+                        var window_open = sinon.spy(window, "open");
 
                         // When
                         $('#random').click();
 
                         // Then
-                        // https://en.wikipedia.org/wiki/Special:Random
                         // Test.expect($('.panel-body').text()).to.equal('[{ "id": 12, "comment": "Hey there" }]');
                         Test.expect(Viewer_randomArticle.calledOnce).to.equal(true, "Should have called randomArticle once");
+                        Test.expect(window_open.calledWith(WIKI_RANDOM_ARTICLE_URL)).to.equal(true, format("Should have called window.open with '{}' once", WIKI_RANDOM_ARTICLE_URL));
 
                         window.close();
                         done();
                     });
                 }));
+            });
+
+            // https://en.wikipedia.org/w/api.php?action=query&format=json&prop=info&generator=search&gsrsearch=meaning
+            describe("Assert searching", function () {
+                var CALLBACK_NAME = '?';
+                var WIKI_HOST_URL = "https://en.wikipedia.org";
+
+                [
+                    'wiki',
+                    'meaning'
+                ].forEach(function (keyword) {
+                    it(format("should search for '{}' and get list of result back", keyword), sinon.test(function (done) {
+                        this.timeout(1000);
+
+                        setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                            // Given
+                            var WIKI_QUERY_URL = format("{}/w/api.php?action=query&format=json&list=search&srprop=snippet&callback={}&srsearch={}", WIKI_HOST_URL, CALLBACK_NAME, keyword);
+                            var WIKI_QUERY_RESPONSE_DATA = fs.readFileSync(getRelativePath("/./resources/search_wiki_response.json"));
+                            var WIKI_QUERY_RESPONSE = '/**/' + CALLBACK_NAME + '(' + WIKI_QUERY_RESPONSE_DATA + ')';
+
+                            var $_getJSON = sinon.stub($, "getJSON");
+                            $_getJSON.withArgs(WIKI_QUERY_URL).yields(WIKI_QUERY_RESPONSE);
+
+                            var Viewer_parseSearchResponse = sinon.spy(window.Viewer, "parseSearchResponse");
+
+                            $('#query').val(keyword);
+
+                            // When
+                            $('#search').click();
+
+                            // Then
+                            // https://en.wikipedia.org/wiki/Special:Random
+                            // Test.expect($('.panel-body').text()).to.equal('[{ "id": 12, "comment": "Hey there" }]');
+                            // Test.expect($_getJSON.calledWith()).to.equal(true, "Should have called randomArticle once");
+                            Test.expect(Viewer_parseSearchResponse.calledWith(WIKI_QUERY_RESPONSE)).to.equal(true, "Should have called Viewer.parseSearchResponse with the data in callback");
+
+                            window.close();
+                            done();
+                        });
+                    }));
+                });
             });
 
             function setUpJsdomEnvAndAssertWith(furtherAssertion) {
