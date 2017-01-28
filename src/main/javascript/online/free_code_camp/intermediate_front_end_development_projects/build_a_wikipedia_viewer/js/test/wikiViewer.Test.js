@@ -4,6 +4,8 @@
 
 var Test = require('chai');
 var format = require('string-format');
+var fs = require('fs');
+var path = require('path');
 
 var Viewer = require('../wikiViewer');
 
@@ -17,7 +19,6 @@ describe("FreeCodeCamp", function () {
                 "format=json",
                 "list=search",
                 "callback=?",
-                // "sroffset=10",
                 "srprop=snippet"
             ];
 
@@ -57,6 +58,38 @@ describe("FreeCodeCamp", function () {
                         // Then
                         assertSearchUrl(url, "srsearch=" + keyword);
                     });
+                });
+            });
+
+            describe("Parser for searching response from wikipedia", function () {
+                it("should parse response for searching 'wiki' in wikipedia", function () {
+                    // Given
+                    var WIKI_QUERY_RESPONSE_DATA = fs.readFileSync(path.normalize(__dirname + "/./resources/search_wiki_response.json"));
+
+                    // When
+                    var parseResult = Viewer.parseSearchResponse(WIKI_QUERY_RESPONSE_DATA);
+
+                    // Then
+                    Test.expect(parseResult).to.be.an('Array');
+                    Test.expect(parseResult.length).to.equal(10);
+
+                    (function assertFirstAndLastSearchRssults() {
+                        [
+                            {
+                                "title": "Wiki (disambiguation)",
+                                "snippet": "Wikipedia:Glossary. A <span class=\"searchmatch\">wiki</span> (or <span class=\"searchmatch\">wiki</span> <span class=\"searchmatch\">wiki</span>) is a collaborative website. <span class=\"searchmatch\">Wiki</span> or <span class=\"searchmatch\">wiki</span> <span class=\"searchmatch\">wiki</span> may also refer to the following:   <span class=\"searchmatch\">Wiki</span><span class=\"searchmatch\">Wiki</span>Web, the original <span class=\"searchmatch\">wiki</span> website,"
+                            },
+                            {
+                                "title": "Ruben Wiki",
+                                "snippet": "Ruben James <span class=\"searchmatch\">Wiki</span>, ONZM (born 21 January 1973) is a former professional rugby league footballer of the 1990s and 2000s. A New Zealand national representative"
+                            }
+                        ].forEach(function (expectedResults) {
+                            var hasExpectedResult = parseResult.some(function (actualResult) {
+                                return (actualResult.title === expectedResults.title) && (actualResult.snippet === expectedResults.snippet);
+                            });
+                            Test.expect(hasExpectedResult).to.equal(true, format("expected: <{}>, but was not found", JSON.stringify(expectedResults)));
+                        });
+                    }());
                 });
             });
         });

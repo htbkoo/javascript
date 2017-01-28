@@ -24,8 +24,8 @@ var Viewer = (function () {
     }
 
     var exports = {
-        "parseSearchResponse": function () {
-
+        "parseSearchResponse": function (data) {
+            return JSON.parse(data).query.search;
         },
         "randomArticle": function () {
             // TODO: won't work until CORS is fixed

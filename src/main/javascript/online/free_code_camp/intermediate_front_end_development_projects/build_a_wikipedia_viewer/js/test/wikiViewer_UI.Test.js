@@ -23,6 +23,7 @@ describe("FreeCodeCamp", function () {
                 // try using jsdom
                 [
                     createSelector('#viewer'),
+                    createSelector('#resultDisplay'),
                     createSelector('#query', 'input'),
                     createSelector('#search', 'button'),
                     createSelector('#random', 'button')
@@ -100,24 +101,66 @@ describe("FreeCodeCamp", function () {
                             var $_getJSON = sinon.stub($, "getJSON");
                             $_getJSON.withArgs(WIKI_QUERY_URL).yields(WIKI_QUERY_RESPONSE);
 
-                            var Viewer_parseSearchResponse = sinon.spy(window.Viewer, "parseSearchResponse");
-
-                            $('#query').val(keyword);
+                            var mockViewer = sinon.mock(window.Viewer);
+                            mockViewer.expects("parseSearchResponse").once().withArgs(WIKI_QUERY_RESPONSE).returns([]);
 
                             // When
+                            $('#query').val(keyword);
                             $('#search').click();
 
                             // Then
-                            // https://en.wikipedia.org/wiki/Special:Random
-                            // Test.expect($('.panel-body').text()).to.equal('[{ "id": 12, "comment": "Hey there" }]');
-                            // Test.expect($_getJSON.calledWith()).to.equal(true, "Should have called randomArticle once");
-                            Test.expect(Viewer_parseSearchResponse.calledWith(WIKI_QUERY_RESPONSE)).to.equal(true, "Should have called Viewer.parseSearchResponse with the data in callback");
+                            mockViewer.verify();
 
                             window.close();
                             done();
                         });
                     }));
                 });
+
+
+                it("should display response data", sinon.test(function (done) {
+                    this.timeout(1000);
+
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        // Given
+                        var WIKI_QUERY_RESPONSE_DATA = fs.readFileSync(getRelativePath("/./resources/search_wiki_response.json"));
+                        var WIKI_QUERY_RESPONSE = '/**/' + CALLBACK_NAME + '(' + WIKI_QUERY_RESPONSE_DATA + ')';
+
+                        var $_getJSON = sinon.stub($, "getJSON");
+                        $_getJSON.yields(WIKI_QUERY_RESPONSE);
+
+                        var Viewer_parseSearchResponse = sinon.stub(window.Viewer, "parseSearchResponse");
+                        var searchResults = [
+                            {
+                                "ns": 0,
+                                "title": "Wiki (disambiguation)",
+                                "snippet": "Wikipedia:Glossary. A <span class=\"searchmatch\">wiki</span> (or <span class=\"searchmatch\">wiki</span> <span class=\"searchmatch\">wiki</span>) is a collaborative website. <span class=\"searchmatch\">Wiki</span> or <span class=\"searchmatch\">wiki</span> <span class=\"searchmatch\">wiki</span> may also refer to the following:   <span class=\"searchmatch\">Wiki</span><span class=\"searchmatch\">Wiki</span>Web, the original <span class=\"searchmatch\">wiki</span> website,"
+                            },
+                            {
+                                "ns": 0,
+                                "title": "WikiProject",
+                                "snippet": "project page on <span class=\"searchmatch\">Wiki</span>Projects, see Wikipedia:<span class=\"searchmatch\">Wiki</span>Project. A <span class=\"searchmatch\">Wiki</span>Project (or Wikiproject) is the organization of a group of participants in a <span class=\"searchmatch\">wiki</span> established"
+                            },
+                            {
+                                "ns": 0,
+                                "title": "Comparison of wiki hosting services",
+                                "snippet": "This comparison of <span class=\"searchmatch\">wiki</span> hosting services details notable online services which host <span class=\"searchmatch\">wiki</span>-style editable web pages. General characteristics of cost, presence"
+                            }];
+                        Viewer_parseSearchResponse.withArgs(WIKI_QUERY_RESPONSE).returns(searchResults);
+
+                        // When
+                        $('#search').click();
+
+                        // Then
+                        var $listGroup = $('#resultDisplay').find(".list-group");
+                        Test.expect($listGroup.length).to.equal(1, "There should be one list-group to hold the search results");
+                        var $a_list_items = $listGroup.find("a");
+                        Test.expect($a_list_items.length).to.equal(searchResults.length, format("There should be {} items in the list", searchResults.length));
+
+                        window.close();
+                        done();
+                    });
+                }));
             });
 
             function setUpJsdomEnvAndAssertWith(furtherAssertion) {
