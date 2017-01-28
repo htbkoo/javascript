@@ -17,9 +17,12 @@ describe("FreeCodeCamp", function () {
                 "https://en.wikipedia.org/w/api.php?",
                 "action=query",
                 "format=json",
-                "list=search",
                 "callback=?",
-                "srprop=snippet"
+                "prop=extracts",
+                "exintro",
+                "explaintext",
+                "exsentences=1",
+                "exlimit=max"
             ];
 
             function assertSearchUrl(url) {
@@ -28,7 +31,7 @@ describe("FreeCodeCamp", function () {
                     Array.prototype.slice.call(arguments, 1)
                 ].forEach(function (arr) {
                     arr.forEach(function (part) {
-                        Test.expect(url).to.have.string(part, format("Built URL '{}' does not contains part '{}'", url, part));
+                        Test.expect(url).to.have.string(part);
                     });
                 });
             }
@@ -56,7 +59,7 @@ describe("FreeCodeCamp", function () {
                         var url = Viewer.newSearchUrlBuilder().withQuery(keyword).build();
 
                         // Then
-                        assertSearchUrl(url, "srsearch=" + keyword);
+                        assertSearchUrl(url, "gsrsearch=" + keyword);
                     });
                 });
             });
@@ -67,7 +70,7 @@ describe("FreeCodeCamp", function () {
                     var WIKI_QUERY_RESPONSE_DATA = fs.readFileSync(path.normalize(__dirname + "/./resources/search_wiki_response.json"));
 
                     // When
-                    var parseResult = Viewer.parseSearchResponse(WIKI_QUERY_RESPONSE_DATA);
+                    var parseResult = Viewer.parseSearchResponse(JSON.parse(WIKI_QUERY_RESPONSE_DATA));
 
                     // Then
                     Test.expect(parseResult).to.be.an('Array');
@@ -76,16 +79,28 @@ describe("FreeCodeCamp", function () {
                     (function assertFirstAndLastSearchRssults() {
                         [
                             {
-                                "title": "Wiki (disambiguation)",
-                                "snippet": "Wikipedia:Glossary. A <span class=\"searchmatch\">wiki</span> (or <span class=\"searchmatch\">wiki</span> <span class=\"searchmatch\">wiki</span>) is a collaborative website. <span class=\"searchmatch\">Wiki</span> or <span class=\"searchmatch\">wiki</span> <span class=\"searchmatch\">wiki</span> may also refer to the following:   <span class=\"searchmatch\">Wiki</span><span class=\"searchmatch\">Wiki</span>Web, the original <span class=\"searchmatch\">wiki</span> website,"
+                                "pageid": 32851,
+                                "ns": 0,
+                                "title": "Wiki",
+                                "index": 1,
+                                "extract": "A wiki (/ˈwɪki/ WIK-ee) is a website that provides collaborative modification of its content and structure directly from the web browser."
                             },
                             {
-                                "title": "Ruben Wiki",
-                                "snippet": "Ruben James <span class=\"searchmatch\">Wiki</span>, ONZM (born 21 January 1973) is a former professional rugby league footballer of the 1990s and 2000s. A New Zealand national representative"
+                                "pageid": 34488787,
+                                "ns": 0,
+                                "title": "The Hidden Wiki",
+                                "index": 9,
+                                "extract": "The Hidden Wiki is the name of several censorship-resistant wikis operating as Tor hidden services that anyone can anonymously edit after registering on the site."
                             }
                         ].forEach(function (expectedResults) {
                             var hasExpectedResult = parseResult.some(function (actualResult) {
-                                return (actualResult.title === expectedResults.title) && (actualResult.snippet === expectedResults.snippet);
+                                return [
+                                    "title",
+                                    "extract",
+                                    "pageid"
+                                ].every(function (param) {
+                                    return actualResult[param] === expectedResults[param];
+                                });
                             });
                             Test.expect(hasExpectedResult).to.equal(true, format("expected: <{}>, but was not found", JSON.stringify(expectedResults)));
                         });

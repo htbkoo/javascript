@@ -9,7 +9,7 @@ var Viewer = (function () {
         var buildThis = this;
 
         this.withQuery = function (query) {
-            params.srsearch = query;
+            params.gsrsearch = query;
             return buildThis;
         };
 
@@ -18,14 +18,20 @@ var Viewer = (function () {
                 return str + "&" + key + "=" + params[key];
             }, "");
 
-            return "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srprop=snippet&callback=?" + additionalPart;
+            return "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro&explaintext&exsentences=1&exlimit=max&generator=search&callback=?" + additionalPart;
         };
         return this;
     }
 
     var exports = {
         "parseSearchResponse": function (data) {
-            return JSON.parse(data).query.search;
+            var pages = data.query.pages;
+            return Object.keys(pages)
+                .map(function (id) {
+                    return pages[id];
+                }).sort(function (a, b) {
+                    return a.index - b.index;
+                });
         },
         "randomArticle": function () {
             // TODO: won't work until CORS is fixed

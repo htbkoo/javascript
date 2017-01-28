@@ -1,64 +1,84 @@
 {
   "batchcomplete": "",
   "continue": {
-    "sroffset": 20,
-    "continue": "-||"
+    "gsroffset": 10,
+    "continue": "gsroffset||"
   },
   "query": {
-    "searchinfo": {
-      "totalhits": 91152
-    },
-    "search": [
-      {
+    "pages": {
+      "32851": {
+        "pageid": 32851,
         "ns": 0,
-        "title": "Wiki (disambiguation)",
-        "snippet": "Wikipedia:Glossary. A <span class=\"searchmatch\">wiki</span> (or <span class=\"searchmatch\">wiki</span> <span class=\"searchmatch\">wiki</span>) is a collaborative website. <span class=\"searchmatch\">Wiki</span> or <span class=\"searchmatch\">wiki</span> <span class=\"searchmatch\">wiki</span> may also refer to the following:   <span class=\"searchmatch\">Wiki</span><span class=\"searchmatch\">Wiki</span>Web, the original <span class=\"searchmatch\">wiki</span> website,"
+        "title": "Wiki",
+        "index": 1,
+        "extract": "A wiki (/ˈwɪki/ WIK-ee) is a website that provides collaborative modification of its content and structure directly from the web browser."
       },
-      {
+      "32864": {
+        "pageid": 32864,
         "ns": 0,
-        "title": "WikiProject",
-        "snippet": "project page on <span class=\"searchmatch\">Wiki</span>Projects, see Wikipedia:<span class=\"searchmatch\">Wiki</span>Project. A <span class=\"searchmatch\">Wiki</span>Project (or Wikiproject) is the organization of a group of participants in a <span class=\"searchmatch\">wiki</span> established"
+        "title": "WikiWikiWeb",
+        "index": 7,
+        "extract": "The WikiWikiWeb is the first ever wiki, or user-editable website."
       },
-      {
+      "33164": {
+        "pageid": 33164,
         "ns": 0,
-        "title": "Comparison of wiki hosting services",
-        "snippet": "This comparison of <span class=\"searchmatch\">wiki</span> hosting services details notable online services which host <span class=\"searchmatch\">wiki</span>-style editable web pages. General characteristics of cost, presence"
+        "title": "Wiki software",
+        "index": 2,
+        "extract": "Wiki software (also known as a wiki engine or wiki application) is collaborative software that runs a wiki, which allows users to create and collaboratively edit \"pages\" or entries via a web browser."
       },
-      {
+      "333752": {
+        "pageid": 333752,
         "ns": 0,
-        "title": "MeatballWiki",
-        "snippet": "&quot;MeatBall&quot; redirects here. For the food, see Meatball. Meatball<span class=\"searchmatch\">Wiki</span> was a <span class=\"searchmatch\">wiki</span> dedicated to online communities, network culture, and hypermedia. According"
+        "title": "Wiki markup",
+        "index": 4,
+        "extract": "Wiki markup, also known as wikitext language and wikicode, is a lightweight markup language used to write pages at wiki-based websites (such as Wikipedia) that is a simplified/alternative/intermediate to HTML. Its purpose is to be converted by wiki software into HTML, which, in turn, is served to web browsers."
       },
-      {
+      "487926": {
+        "pageid": 487926,
         "ns": 0,
-        "title": "History of wikis",
-        "snippet": "2010   <span class=\"searchmatch\">Wiki</span>History page on <span class=\"searchmatch\">Wiki</span><span class=\"searchmatch\">Wiki</span>Web <span class=\"searchmatch\">Wiki</span>MindWipe discussion on <span class=\"searchmatch\">Wiki</span><span class=\"searchmatch\">Wiki</span>Web <span class=\"searchmatch\">Wiki</span>Reductionist story on <span class=\"searchmatch\">Wiki</span><span class=\"searchmatch\">Wiki</span>Web <span class=\"searchmatch\">Wiki</span>History page on Meatball<span class=\"searchmatch\">Wiki</span> Cunningham's"
+        "title": "List of wiki software",
+        "index": 6,
+        "extract": "This is a list of notable wiki software applications."
       },
-      {
+      "1263703": {
+        "pageid": 1263703,
         "ns": 0,
-        "title": "Personal wiki",
-        "snippet": "A personal <span class=\"searchmatch\">wiki</span> is a <span class=\"searchmatch\">wiki</span> maintained primarily for personal use. Personal <span class=\"searchmatch\">wikis</span> allow people to organize information on their desktop or mobile computing"
+        "title": "Wiki Wiki",
+        "index": 8,
+        "extract": "Wiki Wiki can mean:"
       },
-      {
+      "3118940": {
+        "pageid": 3118940,
         "ns": 0,
-        "title": "List of wikis",
-        "snippet": "<span class=\"searchmatch\">wikis</span> <span class=\"searchmatch\">Wiki</span>Index a <span class=\"searchmatch\">wiki</span> of <span class=\"searchmatch\">wikis</span> listed by size, popularity and topic A <span class=\"searchmatch\">wiki</span> search engine <span class=\"searchmatch\">Wiki</span>Papers (a <span class=\"searchmatch\">wiki</span> about publications about list of <span class=\"searchmatch\">wikis</span>)"
+        "title": "Semantic wiki",
+        "index": 10,
+        "extract": "A semantic wiki is a wiki that has an underlying model of the knowledge described in its pages."
       },
-      {
+      "3351748": {
+        "pageid": 3351748,
         "ns": 0,
-        "title": "PmWiki",
-        "snippet": "Pm<span class=\"searchmatch\">Wiki</span> is <span class=\"searchmatch\">wiki</span> software written by Patrick R. Michaud in the PHP programming language. It is free software, licensed under the terms of the GNU General"
+        "title": "Wiki Wiki Shuttle",
+        "index": 3,
+        "extract": "The Wiki Wiki Shuttle is a fare-free shuttle bus system at the Honolulu International Airport."
       },
-      {
+      "25133016": {
+        "pageid": 25133016,
         "ns": 0,
-        "title": "The Wiki Way",
-        "snippet": "major book published about using <span class=\"searchmatch\">wikis</span>. Cunningham is the inventor of <span class=\"searchmatch\">wikis</span>, having created <span class=\"searchmatch\">Wiki</span><span class=\"searchmatch\">Wiki</span>Web, the first <span class=\"searchmatch\">wiki</span> website software. The book is about"
+        "title": "Wiki hosting service",
+        "index": 5,
+        "extract": "A wiki hosting service or wiki farm is a server or an array of servers that offer users tools to simplify the creation and development of individual, independent wikis."
       },
-      {
+      "34488787": {
+        "pageid": 34488787,
         "ns": 0,
-        "title": "Ruben Wiki",
-        "snippet": "Ruben James <span class=\"searchmatch\">Wiki</span>, ONZM (born 21 January 1973) is a former professional rugby league footballer of the 1990s and 2000s. A New Zealand national representative"
+        "title": "The Hidden Wiki",
+        "index": 9,
+        "extract": "The Hidden Wiki is the name of several censorship-resistant wikis operating as Tor hidden services that anyone can anonymously edit after registering on the site."
       }
-    ]
+    }
+  },
+  "limits": {
+    "extracts": 20
   }
 }

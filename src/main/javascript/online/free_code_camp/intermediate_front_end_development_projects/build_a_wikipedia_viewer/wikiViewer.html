@@ -7,6 +7,7 @@
     <style>
         body {
             background-color: #000040;
+            overflow-y: hidden;
         }
 
         .title {
@@ -14,13 +15,17 @@
         }
 
         #query {
-            /*width: 200px;*/
             float: right;
         }
 
         #panel-title {
             padding-top: 8px;
             margin-right: 100px;
+        }
+
+        #resultDisplay{
+            overflow-y: auto;
+            max-height: 500px;
         }
     </style>
 </head>
@@ -36,7 +41,6 @@
                 <h4 class="panel-title pull-left" id="panel-title"></h4>
                 <label class="sr-only" for="query">Query:</label>
                 <div class="input-group">
-                    <!--<div class="input-group-addon"></div>-->
                     <input type="text" class="form-control" placeholder="Search Wikipedia" id="query"/>
                     <div class="input-group-btn">
                         <button id="search" type="button" title="search" class="btn btn-default">

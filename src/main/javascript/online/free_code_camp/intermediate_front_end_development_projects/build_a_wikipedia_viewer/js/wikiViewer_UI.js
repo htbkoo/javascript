@@ -12,21 +12,30 @@ var WIKI_RANDOM_ARTICLE_URL = WIKI_HOST_URL + "/wiki/Special:Random";
         "use strict";
         var $resultDisplay = $("#resultDisplay");
 
+        $("#query").keyup(function(event){
+            if(event.key==="Enter"){
+                $('#search').click();
+                event.preventDefault();
+            }
+        });
+
         $('#random').click(function () {
             Viewer.randomArticle();
             window.open(WIKI_RANDOM_ARTICLE_URL);
         });
         $('#search').click(function () {
             var keyword = $("#query").val();
-            $.getJSON(Viewer.newSearchUrlBuilder().withQuery(keyword).build(), {}, function (data) {
-                var searchResults = Viewer.parseSearchResponse(data);
+            if (keyword !== "") {
+                $.getJSON(Viewer.newSearchUrlBuilder().withQuery(keyword).build(), {}, function (data) {
+                    var searchResults = Viewer.parseSearchResponse(data);
 
-                setResultDisplayToListGroup();
+                    setResultDisplayToListGroup();
 
-                searchResults.forEach(function (item) {
-                    addSearchResult(item);
+                    searchResults.forEach(function (item) {
+                        addSearchResult(item);
+                    });
                 });
-            });
+            }
         });
 
         function setResultDisplayToListGroup() {
@@ -35,9 +44,9 @@ var WIKI_RANDOM_ARTICLE_URL = WIKI_HOST_URL + "/wiki/Special:Random";
         }
 
         function addSearchResult(item) {
-            var $a_item = $('<a href="#" class="list-group-item"></a>');
+            var $a_item = $('<a href="https://en.wikipedia.org/?curid=' + item.pageid + '" class="list-group-item" target="_blank"></a>');
             $a_item.append($('<h4 class="list-group-item-heading">' + item.title + '</h4>'));
-            $a_item.append($('<p class="list-group-item-text">' + item.snippet + '</p>'));
+            $a_item.append($('<p class="list-group-item-text">' + item.extract + '</p>'));
 
             $resultDisplay.find(".list-group").append($a_item);
         }
