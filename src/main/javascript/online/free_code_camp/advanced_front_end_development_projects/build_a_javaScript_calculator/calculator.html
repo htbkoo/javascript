@@ -12,7 +12,7 @@
         body {
             background-color: #333333;
             font-family: 'Orbitron', sans-serif;
-            /*overflow-y: hidden;*/
+            overflow-y: hidden;
         }
 
         .calculator-title {
@@ -40,7 +40,29 @@
         }
 
         .calculator {
-            margin: 160px 240px 240px;
+            /* basic styling */
+            border: 1px solid #555;
+
+            /* flexbox setup */
+            display: flex;
+            flex-direction: row;
+
+            justify-content:center;
+            align-items:center;
+
+            height: 100vh;
+        }
+
+        .flex-item:nth-child(1) {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: auto;
+        }
+
+        .stretch-container-height {
+            min-height: 100vh;
+            max-height: 100vh;
+            overflow-y: auto;
         }
 
         .footer {
@@ -65,7 +87,7 @@
 
 <body>
 
-<div class="container">
+<div class="container stretch-container-height">
     <div class="calculator">
         <div class="well well-lg" id="holder">
 
