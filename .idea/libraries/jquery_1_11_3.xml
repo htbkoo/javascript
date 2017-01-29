@@ -7,10 +7,9 @@
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../../../Library/jQuery/jquery-1.11.3/jquery-1.11.3.min.js" />
+      <root url="file://$PROJECT_DIR$/../../../Library/jQuery/jquery-1.11.3/jquery-1.11.3.js" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="file://$PROJECT_DIR$/../../../Library/jQuery/jquery-1.11.3/jquery-1.11.3.js" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>
