@@ -1,9 +1,9 @@
 syntax:regexp
 \.idea/workspace.xml
 \.idea/typescript-compiler.xml
-\.idea/shelf/*
-node_modules/*
-out/*
+\.idea/shelf/
+node_modules/
+/out/
 
-src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/coverage/*
-src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/public/js/*
+src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/coverage/
+src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/public/js/

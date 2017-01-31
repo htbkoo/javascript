@@ -12,6 +12,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/advanced_front_end_development_projects/build_a_javaScript_calculator/js/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/intermediate_front_end_development_projects/build_a_wikipedia_viewer/js/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/intermediate_front_end_development_projects/build_a_wikipedia_viewer/js/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/intermediate_front_end_development_projects/show_the_local_weather/js/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/intermediate_front_end_development_projects/show_the_local_weather/js/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
