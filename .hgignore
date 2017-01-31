@@ -3,7 +3,8 @@ syntax:regexp
 \.idea/typescript-compiler.xml
 \.idea/shelf/
 node_modules/
-/out/
 
 src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/coverage/
 src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/public/js/
+^out/
+
