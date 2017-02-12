@@ -1,0 +1,41 @@
+{
+  "coord": {
+    "lon": 105,
+    "lat": 13
+  },
+  "weather": [
+    {
+      "id": 801,
+      "main": "Clouds",
+      "description": "few clouds",
+      "icon": "02n"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 295.729,
+    "pressure": 1020.78,
+    "humidity": 59,
+    "temp_min": 295.729,
+    "temp_max": 295.729,
+    "sea_level": 1029.81,
+    "grnd_level": 1020.78
+  },
+  "wind": {
+    "speed": 1.83,
+    "deg": 89.001
+  },
+  "clouds": {
+    "all": 20
+  },
+  "dt": 1486914664,
+  "sys": {
+    "message": 0.0061,
+    "country": "KH",
+    "sunrise": 1486855404,
+    "sunset": 1486897511
+  },
+  "id": 1831722,
+  "name": "Kingdom of Cambodia",
+  "cod": 200
+}
