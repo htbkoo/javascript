@@ -15,7 +15,7 @@ function getRelativePath(pathFromFile) {
 }
 var pathToHtml = getRelativePath("/../../weather.html");
 
-describe("FreeCodeCamp", function () {
+describe("Weather - UI part - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
         describe("Weather - UI part", function () {

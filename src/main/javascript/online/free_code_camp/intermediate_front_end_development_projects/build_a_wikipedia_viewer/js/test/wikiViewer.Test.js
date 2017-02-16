@@ -9,7 +9,7 @@ var path = require('path');
 
 var Viewer = require('../wikiViewer');
 
-describe("FreeCodeCamp", function () {
+describe("WikiViewer - model logic - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
         describe("WikiViewer - model logic", function () {

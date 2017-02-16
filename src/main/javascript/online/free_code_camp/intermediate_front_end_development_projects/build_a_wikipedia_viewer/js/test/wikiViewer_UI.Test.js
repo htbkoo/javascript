@@ -9,7 +9,7 @@ var format = require('string-format');
 var sinon = require('sinon');
 var fs = require('fs');
 
-describe("FreeCodeCamp", function () {
+describe("WikiViewer - UI part - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
         describe("WikiViewer - UI part", function () {

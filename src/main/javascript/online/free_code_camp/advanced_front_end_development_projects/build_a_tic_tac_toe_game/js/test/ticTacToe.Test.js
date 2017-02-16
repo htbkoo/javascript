@@ -12,7 +12,7 @@ var TTT_StartsWithX = TicTacToe.newBoardStartsWithX();
 var Test = require("chai");
 var format = require('string-format');
 
-describe("FreeCodeCamp", function () {
+describe("TicTacToe - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Advanced Project", function () {
         describe("TicTacToe", function () {
@@ -370,21 +370,6 @@ describe("FreeCodeCamp", function () {
                     it("should place immediately after player when playing with AI", function () {
                         // Given
                         ticTacToe = TTT_StartsWithO.vsHardAI();
-
-                        // When
-                        assertTurn("O");
-                        var results = ticTacToe.tryPlacingAt([1,0]);
-
-                        // Then
-                        assertTurn("O");
-                        Test.expect(results.aiPick).not.to.be.undefined;
-
-                    });
-                });
-                describe("Impossible AI", function () {
-                    it("should place immediately after player when playing with AI", function () {
-                        // Given
-                        ticTacToe = TTT_StartsWithO.vsImpossibleAI();
 
                         // When
                         assertTurn("O");

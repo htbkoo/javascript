@@ -7,7 +7,7 @@ var Calculator = require("../calculator");
 var Test = require("chai");
 var format = require('string-format');
 
-describe("FreeCodeCamp", function () {
+describe("Calculator - FreeCodeCamp", function () {
     "use strict";
 
     describe("FrontEnd - Advanced Project", function () {
