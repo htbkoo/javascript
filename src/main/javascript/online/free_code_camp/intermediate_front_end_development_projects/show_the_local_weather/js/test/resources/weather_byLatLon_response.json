@@ -1,41 +1,41 @@
 {
   "coord": {
-    "lon": 105,
-    "lat": 13
+    "lon": 141,
+    "lat": 43.19
   },
   "weather": [
     {
-      "id": 801,
+      "id": 804,
       "main": "Clouds",
-      "description": "few clouds",
-      "icon": "02n"
+      "description": "overcast clouds",
+      "icon": "04n"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 295.729,
-    "pressure": 1020.78,
-    "humidity": 59,
-    "temp_min": 295.729,
-    "temp_max": 295.729,
-    "sea_level": 1029.81,
-    "grnd_level": 1020.78
+    "temp": 272.564,
+    "pressure": 1007.99,
+    "humidity": 100,
+    "temp_min": 272.564,
+    "temp_max": 272.564,
+    "sea_level": 1034.9,
+    "grnd_level": 1007.99
   },
   "wind": {
-    "speed": 1.83,
-    "deg": 89.001
+    "speed": 4.36,
+    "deg": 343.002
   },
   "clouds": {
-    "all": 20
+    "all": 88
   },
-  "dt": 1486914664,
+  "dt": 1487029601,
   "sys": {
-    "message": 0.0061,
-    "country": "KH",
-    "sunrise": 1486855404,
-    "sunset": 1486897511
+    "message": 0.006,
+    "country": "JP",
+    "sunrise": 1486935343,
+    "sunset": 1486973115
   },
-  "id": 1831722,
-  "name": "Kingdom of Cambodia",
+  "id": 2128574,
+  "name": "Otaru",
   "cod": 200
 }

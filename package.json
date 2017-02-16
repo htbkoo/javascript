@@ -8,6 +8,7 @@
   "devDependencies": {
     "chai": "latest",
     "jquery": "latest",
+    "jsdom": "^9.9.1",
     "mocha": "latest",
     "qunit": "latest",
     "qunit-parameterize": "latest",

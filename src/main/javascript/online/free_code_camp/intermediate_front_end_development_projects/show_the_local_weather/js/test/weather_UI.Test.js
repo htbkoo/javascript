@@ -95,25 +95,70 @@ describe("FreeCodeCamp", function () {
                 }, done);
             }));
 
-            it("should get woeid from metaweather with mock position", sinon.test(function (done) {
+            it("should get weather information from hey-weather-server with mock position", sinon.test(function (done) {
                 var sinonThis = this;
                 setUpJsdomEnvAndAssertWith(function (err, window, $) {
                     //    Given
-                    var mockResponse_metaweather_location_search = fs.readSync(getRelativePath("/resources/metaweather_location_search_response.json"));
-
-                    var defaultPosition = {
+                    var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath("/resources/weather_byLatLon_response.json"));
+                    var somePosition = {
                         // coords of Otaru, Japan
                         coords: {
                             latitude: 43.1907,
                             longitude: 140.9947
                         }
                     };
+                    var $_getJSON = sinonThis.stub($, "getJSON");
+                    $_getJSON.withArgs(sinon.match(function (value) {
+                        return [
+                            "https://hey-weather-server.herokuapp.com/weather/byLatLon?",
+                            "lat=" + somePosition.coords.latitude,
+                            "lon=" + somePosition.coords.longitude,
+                            "callback=" + "?"
+                        ].every(function (part) {
+                            return value.indexOf(part) !== -1;
+                        });
+                    })).yields(mockResponse_weather_byLatLon);
+                    sinonThis.stub(window.Weather, "shouldFetchExternally").returns(true);
 
                     //    When
-                    var actualPosition = window.Weather.getGeolocationOrDefault(defaultPosition);
+                    window.Weather.getWeatherInfoByLatLon(somePosition, assertResponse);
 
                     //    Then
-                    Test.expect(arePositionsEqual(defaultPosition, actualPosition)).to.equal(true, "Should return default position if geolocation not avaiable");
+                    function assertResponse(data) {
+                        Test.expect(data).to.equal(mockResponse_weather_byLatLon, "The message should equals to the mock response");
+                        // Sanity check
+                        var parsedJsonData = JSON.parse(data);
+                        Test.expect(parsedJsonData.name).to.equal("Otaru", "City should be Otaru");
+                        Test.expect(parsedJsonData.main.temp).to.equal(272.564, "Temperature should be 272.564K, i.e. -0.586 C");
+                        Test.expect(parsedJsonData.weather[0].main).to.equal("Clouds", "Main should be Clouds");
+                        Test.expect(parsedJsonData.weather[0].description).to.equal("overcast clouds", "Description should be overcast clouds");
+
+                        done();
+                    }
+                });
+            }));
+
+            it("should show warning message instead of fetching externally when flag is disabled", sinon.test(function (done) {
+                var sinonThis = this;
+                setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                    //    Given
+                    var somePosition = {
+                        // coords of Otaru, Japan
+                        coords: {
+                            latitude: 43.1907,
+                            longitude: 140.9947
+                        }
+                    };
+                    var mock_$ = sinonThis.mock($);
+                    mock_$.expects("getJSON").never();
+                    sinonThis.stub(window.Weather, "shouldFetchExternally").returns(false);
+
+                    //    When
+                    window.Weather.getWeatherInfoByLatLon(somePosition);
+
+                    //    Then
+                    mock_$.verify();
+                    // Test.expect($("#city").text()).to.equal("Otaru", "City should be Otaru");
                 }, done);
             }));
 
@@ -133,7 +178,9 @@ describe("FreeCodeCamp", function () {
                         } finally {
                             window.close();
                         }
-                        done();
+                        if (typeof done === "function") {
+                            done();
+                        }
                     }
                 });
             }
