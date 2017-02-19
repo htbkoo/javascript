@@ -18,6 +18,72 @@ describe("Weather - UI part - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
         describe("Weather - logic part", function () {
+            describe("Geolocation related", function () {
+                it("should check if geolocation is available", function (done) {
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        Test.expect(window.navigator).to.not.be.undefined;
+                    }, done);
+                });
+
+                it("should get geolocation if available", sinon.test(function (done) {
+                    var sinonThis = this;
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        //    Given
+                        var defaultPosition = {
+                            // coords of Otaru, Japan
+                            coords: {
+                                latitude: 43.1907,
+                                longitude: 140.9947
+                            }
+                        };
+                        var expectedPosition = {
+                            // coords of Tokyo, Japan
+                            coords: {
+                                latitude: 35.670479,
+                                longitude: 139.740921
+                            }
+                        };
+
+                        (function mock_window_navigator_getCurrentPosition() {
+                            if ("getCurrentPosition" in window.navigator) {
+                                var window_navigator_getCurrentPosition = sinonThis.stub(window.navigator, "getCurrentPosition");
+                                window_navigator_getCurrentPosition.callsArgWith(0, expectedPosition);
+                            } else {
+                                window.navigator.getCurrentPosition = function (success, error) {
+                                    success(expectedPosition);
+                                };
+                            }
+                        }());
+
+                        //    When
+                        var actualPosition = window.Weather.getGeolocationOrDefault(defaultPosition);
+
+                        //    Then
+                        Test.expect(arePositionsEqual(expectedPosition, actualPosition)).to.equal(true, "Should return actual position if geolocation is avaiable");
+                    }, done);
+                }));
+
+                it("should return default position if geolocation not available", sinon.test(function (done) {
+                    var sinonThis = this;
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        //    Given
+                        var defaultPosition = {
+                            // coords of Otaru, Japan
+                            coords: {
+                                latitude: 43.1907,
+                                longitude: 140.9947
+                            }
+                        };
+
+                        //    When
+                        var actualPosition = window.Weather.getGeolocationOrDefault(defaultPosition);
+
+                        //    Then
+                        Test.expect(arePositionsEqual(defaultPosition, actualPosition)).to.equal(true, "Should return default position if geolocation not avaiable");
+                    }, done);
+                }));
+            });
+
             describe("GettingWeatherInfoByLatLon related", function () {
                 it("should get weather information from hey-weather-server with mock position", sinon.test(function (done) {
                     var sinonThis = this;
@@ -89,9 +155,9 @@ describe("Weather - UI part - FreeCodeCamp", function () {
             function setUpJsdomEnvAndAssertWith(furtherAssertion, done) {
                 jsdom.env({
                     html: "",
-                    src: [
-                        fs.readFileSync(getRelativePath("/../../../../lib/jquery-1.11.3/jquery-1.11.3.min.js")),
-                        fs.readFileSync(getRelativePath("/../weather.js"))
+                    scripts: [
+                        getRelativePath("/../../../../lib/jquery-1.11.3/jquery-1.11.3.min.js"),
+                        getRelativePath("/../weather.js")
                     ],
                     done: function (err, window) {
                         try {

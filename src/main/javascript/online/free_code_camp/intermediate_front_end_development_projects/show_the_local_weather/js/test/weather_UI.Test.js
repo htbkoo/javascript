@@ -19,7 +19,7 @@ describe("Weather - UI part - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
         describe("Weather - UI part", function () {
-            describe("Geolocation related", function () {
+            describe("page setup related", function () {
                 [
                     {name: "#temperature"},
                     {name: "#city"},
@@ -31,113 +31,57 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                         }, done);
                     });
                 });
-
-                it("should check if geolocation is available", function (done) {
-                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
-                        Test.expect(window.navigator).to.not.be.undefined;
-                    }, done);
-                });
-
-                it("should get geolocation if available", sinon.test(function (done) {
-                    var sinonThis = this;
-                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
-                        //    Given
-                        var defaultPosition = {
-                            // coords of Otaru, Japan
-                            coords: {
-                                latitude: 43.1907,
-                                longitude: 140.9947
-                            }
-                        };
-                        var expectedPosition = {
-                            // coords of Tokyo, Japan
-                            coords: {
-                                latitude: 35.670479,
-                                longitude: 139.740921
-                            }
-                        };
-
-                        (function mock_window_navigator_getCurrentPosition() {
-                            if ("getCurrentPosition" in window.navigator) {
-                                var window_navigator_getCurrentPosition = sinonThis.stub(window.navigator, "getCurrentPosition");
-                                window_navigator_getCurrentPosition.callsArgWith(0, expectedPosition);
-                            } else {
-                                window.navigator.getCurrentPosition = function (success, error) {
-                                    success(expectedPosition);
-                                };
-                            }
-                        }());
-
-                        //    When
-                        var actualPosition = window.Weather.getGeolocationOrDefault(defaultPosition);
-
-                        //    Then
-                        Test.expect(arePositionsEqual(expectedPosition, actualPosition)).to.equal(true, "Should return actual position if geolocation is avaiable");
-                    }, done);
-                }));
-
-                it("should return default position if geolocation not available", sinon.test(function (done) {
-                    var sinonThis = this;
-                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
-                        //    Given
-                        var defaultPosition = {
-                            // coords of Otaru, Japan
-                            coords: {
-                                latitude: 43.1907,
-                                longitude: 140.9947
-                            }
-                        };
-
-                        //    When
-                        var actualPosition = window.Weather.getGeolocationOrDefault(defaultPosition);
-
-                        //    Then
-                        Test.expect(arePositionsEqual(defaultPosition, actualPosition)).to.equal(true, "Should return default position if geolocation not avaiable");
-                    }, done);
-                }));
             });
 
             describe("GettingWeatherInfoByLatLon related", function () {
                 it("should get weather information from hey-weather-server with mock position", sinon.test(function (done) {
                     var sinonThis = this;
-                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
-                        //    Given
-                        var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath("/resources/weather_byLatLon_response.json"));
-                        var somePosition = {
-                            // coords of Otaru, Japan
-                            coords: {
-                                latitude: 43.1907,
-                                longitude: 140.9947
-                            }
-                        };
-                        var $_getJSON = sinonThis.stub($, "getJSON");
-                        $_getJSON.withArgs(sinon.match(function (value) {
-                            return [
-                                "https://hey-weather-server.herokuapp.com/weather/byLatLon?",
-                                "lat=" + somePosition.coords.latitude,
-                                "lon=" + somePosition.coords.longitude,
-                                "callback=" + "?"
-                            ].every(function (part) {
-                                return value.indexOf(part) !== -1;
-                            });
-                        })).yields(JSON.parse(mockResponse_weather_byLatLon));
-                        sinonThis.stub(window.Weather, "shouldFetchExternally").returns(true);
-
-                        //    When
-                        window.Weather.getWeatherInfoByLatLon(somePosition, assertResponse);
-
-                        //    Then
-                        function assertResponse(data) {
-                            Test.expect(data).to.deep.equal(JSON.parse(mockResponse_weather_byLatLon), "The message should equals to the mock response");
-                            // Sanity check
-                            Test.expect(data.name).to.equal("Otaru", "City should be Otaru");
-                            Test.expect(data.main.temp).to.equal(272.564, "Temperature should be 272.564K, i.e. -0.586 C");
-                            Test.expect(data.weather[0].main).to.equal("Clouds", "Main should be Clouds");
-                            Test.expect(data.weather[0].description).to.equal("overcast clouds", "Description should be overcast clouds");
-
-                            done();
+                    //    Given
+                    var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath("/resources/weather_byLatLon_response.json"));
+                    var somePosition = {
+                        // coords of Otaru, Japan
+                        coords: {
+                            latitude: 43.1907,
+                            longitude: 140.9947
                         }
-                    });
+                    };
+
+                    var created = function (err, window) {
+                        if (typeof window.Weather === "undefined") {
+                            window.Weather = {
+                                "getWeatherInfoByLatLon": function(){
+                                },
+                                "convertTemperature": {
+                                    "fromK":{
+                                        "toC": function(t){
+                                            if (t===272.564){
+                                                return -0.586;
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+                            var Weather_getWeatherInfoByLatLon = sinonThis.stub(window.Weather, "getWeatherInfoByLatLon");
+                            Weather_getWeatherInfoByLatLon.withArgs(sinon.match(function (value) {
+                                return [
+                                    "latitude",
+                                    "longitude"
+                                ].every(function (field) {
+                                    return value.coords[field] === somePosition.coords[field];
+                                });
+                            })).yields(JSON.parse(mockResponse_weather_byLatLon));
+                        }
+                    };
+
+                    //    When
+                    // Loaded
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        //    Then
+                        Test.expect($("#city").text()).to.equal("Otaru", "City should be Otaru");
+                        Test.expect($("#temperature").text()).to.equal("-0.586", "Temperature should be 272.564K, i.e. -0.586 C");
+                        Test.expect($("#description").text()).to.equal("Clouds (overcast clouds)", "Description should be 'Clouds (overcast clouds)'");
+                        done();
+                    }, undefined, created);
                 }));
 
                 // TODO: warning message not tested yet
@@ -166,13 +110,14 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                 }));
             });
 
-            function setUpJsdomEnvAndAssertWith(furtherAssertion, done) {
+            function setUpJsdomEnvAndAssertWith(furtherAssertion, done, created) {
                 jsdom.env({
                     file: pathToHtml,
-                    features: {
-                        FetchExternalResources: ['script'],
-                        ProcessExternalResources: ['script']
-                    },
+                    scripts: [
+                        getRelativePath("/../../../../lib/jquery-1.11.3/jquery-1.11.3.min.js"),
+                        getRelativePath("/../weather_UI.js")
+                    ],
+                    created: created,
                     done: function (err, window) {
                         var $ = window.$;
                         Test.expect(window.$).to.be.a('function');
