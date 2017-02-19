@@ -1,49 +1,7 @@
 /**
- * Created by Hey on 17 Jan 2017
+ * Created by Hey on 18 Feb 2017
  */
-
-var Weather = {
-    "getGeolocationOrDefault": function (defaultPosition) {
-        "use strict";
-        var returnPosition = defaultPosition;
-        if ("getCurrentPosition" in window.navigator) {
-            window.navigator.getCurrentPosition(function (position) {
-                returnPosition = position;
-            });
-        }
-        return returnPosition;
-    },
-    "getWeatherInfoByLatLon": function (position, callback) {
-        "use strict";
-        if (Weather.shouldFetchExternally()) {
-            $.getJSON(Weather.HEY_WEATHER_SERVER_URL.byLatLon + "&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude,
-                {},
-                callback
-            );
-        }
-    },
-    "convertTemperature": {
-        "fromK": {
-            "toC": function (t) {
-                "use strict";
-                var temperatureAsString = t.toString();
-                var dp = temperatureAsString.length - temperatureAsString.indexOf(".") - 1;
-                return +((t - Weather.KELVIN_CONSTANT).toFixed(dp));
-            }
-        }
-    },
-    "shouldFetchExternally": function () {
-        "use strict";
-        return true;
-    },
-    "KELVIN_CONSTANT": 273.15,
-
-    // Please do not spam this - it is only my little attempt to host a proxy server on a free Heroku dyno :)
-    "HEY_WEATHER_SERVER_URL": {
-        "basePath": "https://hey-weather-server.herokuapp.com/weather",
-        "byLatLon": "https://hey-weather-server.herokuapp.com/weather/byLatLon?callback=?"
-    }
-};
+var Weather = Weather || ((typeof require !== "undefined") ? require("./weather") : {});
 
 (
     function () {
