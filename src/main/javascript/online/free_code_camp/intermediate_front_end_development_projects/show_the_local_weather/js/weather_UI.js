@@ -20,7 +20,10 @@ var Weather = Weather || ((typeof require !== "undefined") ? require("./weather"
                     $('#city').text(data.name);
                     var absoluteTemperature = data.main.temp;
                     $('#temperature').text(Weather.convertTemperature.fromK.toC(absoluteTemperature));
-                    $('#description').text(data.weather[0].main + " (" + data.weather[0].description + ")");
+                    var weather = data.weather[0];
+                    $('#description').text(weather.main + " (" + weather.description + ")");
+                    var iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
+                    $('#icon').attr("src", iconUrl);
                 } catch (e) {
                     //    TODO: handle exception
                 }

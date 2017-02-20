@@ -21,13 +21,18 @@ describe("Weather - UI part - FreeCodeCamp", function () {
         describe("Weather - UI part", function () {
             describe("page setup related", function () {
                 [
-                    {name: "#temperature"},
-                    {name: "#city"},
-                    {name: "#description"}
+                    {name: "#city", type: "h2"},
+                    {name: "#temperature", type: "h1"},
+                    {name: "#description", type: "h3"},
+                    {name: "#icon", type: "img"}
                 ].forEach(function (selector) {
                     it(format("should have {} on the page", selector.name), function (done) {
                         setUpJsdomEnvAndAssertWith(function (err, window, $) {
-                            Test.expect($(selector.name).length).equal(1, format("There should be a placeholder for {}", selector.name));
+                            var $elems = $(selector.name);
+                            Test.expect($elems.length).equal(1, format("There should be a placeholder for {}", selector.name));
+                            if (typeof selector.type !== 'undefined') {
+                                Test.expect($elems.is(selector.type)).to.equal(true, format("Element $('{}') should be a {}", selector.name, selector.type));
+                            }
                         }, done);
                     });
                 });
@@ -78,6 +83,7 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                         Test.expect($("#city").text()).to.equal("Otaru", "City should be Otaru");
                         Test.expect($("#temperature").text()).to.equal("-0.586", "Temperature should be 272.564K, i.e. -0.586 C");
                         Test.expect($("#description").text()).to.equal("Clouds (overcast clouds)", "Description should be 'Clouds (overcast clouds)'");
+                        Test.expect($("#icon").attr("src")).to.equal("http://openweathermap.org/img/w/04n.png", "Icon src should be 'http://openweathermap.org/img/w/04n.png'");
                         done();
                     }, undefined, created);
                 }));
@@ -133,6 +139,7 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                         Test.expect($("#city").text()).to.equal("Xianeibu", "City should be Xianeibu");
                         Test.expect($("#temperature").text()).to.equal("18.317", "Temperature should be 291.467K, i.e. 18.317 C");
                         Test.expect($("#description").text()).to.equal("Clouds (scattered clouds)", "Description should be 'Clouds (scattered clouds)'");
+                        Test.expect($("#icon").attr("src")).to.equal("http://openweathermap.org/img/w/03n.png", "Icon src should be 'http://openweathermap.org/img/w/03n.png'");
                         done();
                     }, undefined, created);
                 }));
