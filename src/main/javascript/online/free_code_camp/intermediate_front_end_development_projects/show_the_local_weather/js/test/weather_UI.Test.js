@@ -49,26 +49,24 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                     var created = function (err, window) {
                         if (typeof window.Weather === "undefined") {
                             window.Weather = {
-                                "getWeatherInfoByLatLon": function(){
+                                "getWeatherInfoByLatLon": function () {
                                 },
                                 "convertTemperature": {
-                                    "fromK":{
-                                        "toC": function(t){
-                                            if (t===272.564){
+                                    "fromK": {
+                                        "toC": function (t) {
+                                            if (t === 272.564) {
                                                 return -0.586;
                                             }
                                         }
                                     }
+                                },
+                                "getGeolocationOrDefault": function (def) {
+                                    return def;
                                 }
                             };
                             var Weather_getWeatherInfoByLatLon = sinonThis.stub(window.Weather, "getWeatherInfoByLatLon");
                             Weather_getWeatherInfoByLatLon.withArgs(sinon.match(function (value) {
-                                return [
-                                    "latitude",
-                                    "longitude"
-                                ].every(function (field) {
-                                    return value.coords[field] === somePosition.coords[field];
-                                });
+                                return arePositionsEqual(somePosition, value);
                             })).yields(JSON.parse(mockResponse_weather_byLatLon));
                         }
                     };
@@ -80,6 +78,61 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                         Test.expect($("#city").text()).to.equal("Otaru", "City should be Otaru");
                         Test.expect($("#temperature").text()).to.equal("-0.586", "Temperature should be 272.564K, i.e. -0.586 C");
                         Test.expect($("#description").text()).to.equal("Clouds (overcast clouds)", "Description should be 'Clouds (overcast clouds)'");
+                        done();
+                    }, undefined, created);
+                }));
+
+                it("should get weather information from hey-weather-server with 'local' position", sinon.test(function (done) {
+                    var sinonThis = this;
+                    //    Given
+                    var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath("/resources/weather_byLatLon_response_local.json"));
+                    var defaultPosition = {
+                        // coords of Otaru, Japan
+                        coords: {
+                            latitude: 43.1907,
+                            longitude: 140.9947
+                        }
+                    };
+                    var localPosition = {
+                        // coords of Taipei
+                        coords: {
+                            latitude: 25.0330,
+                            longitude: 121.5654
+                        }
+                    };
+
+                    var created = function (err, window) {
+                        if (typeof window.Weather === "undefined") {
+                            window.Weather = {
+                                "getWeatherInfoByLatLon": function () {
+                                },
+                                "convertTemperature": {
+                                    "fromK": {
+                                        "toC": function (t) {
+                                            if (t === 291.467) {
+                                                return 18.317;
+                                            }
+                                        }
+                                    }
+                                },
+                                "getGeolocationOrDefault": function () {
+                                    return localPosition;
+                                }
+                            };
+                            var Weather_getWeatherInfoByLatLon = sinonThis.stub(window.Weather, "getWeatherInfoByLatLon");
+                            Weather_getWeatherInfoByLatLon.withArgs(sinon.match(function (value) {
+                                return arePositionsEqual(localPosition, value);
+                            })).yields(JSON.parse(mockResponse_weather_byLatLon));
+                        }
+                    };
+
+                    //    When
+                    // Loaded
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        //    Then
+                        Test.expect($("#city").text()).to.equal("Xianeibu", "City should be Xianeibu");
+                        Test.expect($("#temperature").text()).to.equal("18.317", "Temperature should be 291.467K, i.e. 18.317 C");
+                        Test.expect($("#description").text()).to.equal("Clouds (scattered clouds)", "Description should be 'Clouds (scattered clouds)'");
                         done();
                     }, undefined, created);
                 }));

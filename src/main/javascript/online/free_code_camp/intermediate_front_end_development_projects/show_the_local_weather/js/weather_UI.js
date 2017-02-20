@@ -6,14 +6,15 @@ var Weather = Weather || ((typeof require !== "undefined") ? require("./weather"
 (
     function () {
         "use strict";
-        var somePosition = {
+        var defaultPosition = {
             // coords of Otaru, Japan
             coords: {
                 latitude: 43.1907,
                 longitude: 140.9947
             }
         };
-        Weather.getWeatherInfoByLatLon(somePosition,
+        var localPosition = Weather.getGeolocationOrDefault(defaultPosition);
+        Weather.getWeatherInfoByLatLon(localPosition,
             function (data) {
                 try {
                     $('#city').text(data.name);

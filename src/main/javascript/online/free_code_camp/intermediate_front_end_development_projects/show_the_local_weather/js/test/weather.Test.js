@@ -14,7 +14,7 @@ function getRelativePath(pathFromFile) {
     return path.normalize(__dirname + pathFromFile);
 }
 
-describe("Weather - UI part - FreeCodeCamp", function () {
+describe("Weather - logic part - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
         describe("Weather - logic part", function () {
@@ -125,30 +125,6 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                             done();
                         }
                     });
-                }));
-
-                // TODO: warning message not tested yet
-                xit("should show warning message instead of fetching externally when flag is disabled", sinon.test(function (done) {
-                    var sinonThis = this;
-                    //    Given
-                    var somePosition = {
-                        // coords of Otaru, Japan
-                        coords: {
-                            latitude: 43.1907,
-                            longitude: 140.9947
-                        }
-                    };
-                    var mock_$ = sinonThis.mock($);
-                    mock_$.expects("getJSON").never();
-                    sinonThis.stub(window.Weather, "shouldFetchExternally").returns(false);
-
-                    //    When
-                    window.Weather.getWeatherInfoByLatLon(somePosition);
-
-                    //    Then
-                    mock_$.verify();
-                    // Test.expect($("#city").text()).to.equal("Otaru", "City should be Otaru");
-                    // done();
                 }));
             });
 
