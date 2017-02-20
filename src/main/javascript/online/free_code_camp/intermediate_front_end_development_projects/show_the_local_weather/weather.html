@@ -138,8 +138,26 @@
         #icon {
             width: 200%;
             height: auto;
+            animation: 2s breathing infinite;
         }
 
+        @keyframes breathing {
+            0% {
+                opacity: 1;
+                width: 200%;
+                height: auto;
+            }
+            50% {
+                opacity: 0.9;
+                width: 220%;
+                height: auto;
+            }
+            100% {
+                opacity: 1;
+                width: 200%;
+                height: auto;
+            }
+        }
     </style>
 </head>
 
