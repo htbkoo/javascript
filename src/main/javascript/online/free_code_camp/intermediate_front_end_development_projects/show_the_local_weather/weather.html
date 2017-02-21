@@ -111,7 +111,7 @@
         header, footer {
             display: block;
             max-height: 10vh;
-            border: 1px solid #eebb55;
+            /*border: 1px solid #eebb55;*/
             /*margin: 4px;*/
             /*padding: 5px;*/
             /*border-radius: 0;*/
@@ -162,7 +162,16 @@
 </head>
 
 <body>
-<header></header>
+<header class="pull-right">
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+            <input type="radio" name="tempScale" id="radio_celsius" autocomplete="off" checked> Celsius
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="tempScale" id="radio_fahrenheit" autocomplete="off"> Fahrenheit
+        </label>
+    </div>
+</header>
 <div class="container">
     <div class="weather">
         <div>
