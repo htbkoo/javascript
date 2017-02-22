@@ -165,10 +165,10 @@
 <header class="pull-right">
     <div class="btn-group" data-toggle="buttons">
         <label class="btn btn-primary active">
-            <input type="radio" name="tempScale" id="radio_celsius" autocomplete="off" checked> Celsius
+            <input type="radio" name="tempScale" id="radio_celsius" autocomplete="off" data-value="C" checked> Celsius
         </label>
         <label class="btn btn-primary">
-            <input type="radio" name="tempScale" id="radio_fahrenheit" autocomplete="off"> Fahrenheit
+            <input type="radio" name="tempScale" id="radio_fahrenheit" autocomplete="off" data-value="F"> Fahrenheit
         </label>
     </div>
 </header>
@@ -178,9 +178,9 @@
             <h2 id="city">City</h2>
         </div>
         <div>
-            <h1 id="temperature">?</h1>
+            <h1 id="temperature">0</h1>
             <h1 id="degree"> °</h1>
-            <h1 id="celsius">C</h1>
+            <h1 id="symbol">C</h1>
         </div>
         <div>
             <h3 id="description">Weather Description</h3>

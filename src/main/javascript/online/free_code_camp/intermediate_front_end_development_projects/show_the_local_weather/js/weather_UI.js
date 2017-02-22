@@ -13,13 +13,16 @@ var Weather = Weather || ((typeof require !== "undefined") ? require("./weather"
                 longitude: 140.9947
             }
         };
+
+        var $symbol = $("#symbol");
+        var $temperature = $('#temperature');
         var localPosition = Weather.getGeolocationOrDefault(defaultPosition);
         Weather.getWeatherInfoByLatLon(localPosition,
             function (data) {
                 try {
                     $('#city').text(data.name);
                     var absoluteTemperature = data.main.temp;
-                    $('#temperature').text(Weather.convertTemperature.fromK.toC(absoluteTemperature));
+                    $temperature.text(Weather.convertTemperature.fromK.toC(absoluteTemperature));
                     var weather = data.weather[0];
                     $('#description').text(weather.main + " (" + weather.description + ")");
                     var iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
@@ -27,6 +30,16 @@ var Weather = Weather || ((typeof require !== "undefined") ? require("./weather"
                 } catch (e) {
                     //    TODO: handle exception
                 }
-            });
+            }
+        );
+
+        $("input[type=radio][name=tempScale]").change(function () {
+            var from = $symbol.text();
+            var to = $(this).attr("data-value");
+            var strTemperature = $temperature.text();
+            $symbol.text(to);
+            $temperature.text(Weather.convertTemperature["from" + from]["to" + to](parseFloat(strTemperature)));
+        });
+
     }()
 );

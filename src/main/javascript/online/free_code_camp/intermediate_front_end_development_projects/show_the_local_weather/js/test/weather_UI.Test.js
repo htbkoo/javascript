@@ -170,6 +170,50 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                 }));
             });
 
+            describe("Temperature scale change related", function () {
+                it("should switch from Celsius to Fahrenheit when clicked", sinon.test(function (done) {
+                    var sinonThis = this;
+
+                    var created = function (err, window) {
+                        if (typeof window.Weather === "undefined") {
+                            window.Weather = {
+                                "getWeatherInfoByLatLon": function () {
+                                },
+                                "getGeolocationOrDefault": function () {
+                                },
+                                "convertTemperature": {
+                                    "fromC": {
+                                        "toF": function (t) {
+                                            if (t === 40.0) {
+                                                return 104.0;
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+                        }
+                    };
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        //    Given
+                        $("#radio_celsius").prop("checked", true);
+                        var $temperature = $("#temperature");
+                        $temperature.text("40.0");
+
+                        //    When
+                        selectRadio($("#radio_fahrenheit"));
+
+                        //    Then
+                        Test.expect($("#symbol").text()).to.equal("F", "Temperature symbol should have changed to F");
+                        Test.expect($temperature.text()).to.equal("104", "40C should equal to 104F");
+                    }, done, created);
+                }));
+
+                function selectRadio($elem) {
+                    // $elem.prop("checked", true).trigger("click").change();
+                    $elem.prop("checked", true).change();
+                }
+            });
+
             function setUpJsdomEnvAndAssertWith(furtherAssertion, done, created) {
                 jsdom.env({
                     file: pathToHtml,
