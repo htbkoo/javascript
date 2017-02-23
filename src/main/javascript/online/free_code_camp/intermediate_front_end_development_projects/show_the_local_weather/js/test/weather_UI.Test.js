@@ -41,96 +41,76 @@ describe("Weather - UI part - FreeCodeCamp", function () {
             });
 
             describe("GettingWeatherInfoByLatLon related", function () {
-                it("should get weather information from hey-weather-server with mock position", sinon.test(function (done) {
-                    var sinonThis = this;
-                    //    Given
-                    var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath("/resources/weather_byLatLon_response.json"));
-                    var somePosition = {
-                        // coords of Otaru, Japan
-                        coords: {
-                            latitude: 43.1907,
-                            longitude: 140.9947
+                [
+                    {
+                        testCaseName: "mock position",
+                        relativePathToMockResponse: "/resources/weather_byLatLon_response.json",
+                        obtainedPos: {
+                            // coords of Otaru, Japan
+                            coords: {
+                                latitude: 43.1907,
+                                longitude: 140.9947
+                            }
+                        },
+                        fromTemperatureInK: 272.564,
+                        toTemperatureInC: -0.586,
+                        expected: {
+                            city: "Otaru",
+                            description: "Clouds (overcast clouds)",
+                            icon: "http://openweathermap.org/img/w/04n.png"
                         }
-                    };
-
-                    var Weather_getWeatherInfoByLatLon = sinonThis.stub(Weather, "getWeatherInfoByLatLon");
-                    Weather_getWeatherInfoByLatLon.withArgs(sinon.match(function (value) {
-                        return arePositionsEqual(somePosition, value);
-                    })).yields(JSON.parse(mockResponse_weather_byLatLon));
-                    var Weather_convertTemperatureFromKToC = sinonThis.stub(Weather.convertTemperature.fromK, "toC");
-                    Weather_convertTemperatureFromKToC.withArgs(272.564).returns(-0.586);
-                    var Weather_getGeolocationOrDefault = sinonThis.stub(Weather, "getGeolocationOrDefault");
-                    Weather_getGeolocationOrDefault.returnsArg(0);
-
-                    //    When
-                    // Loaded
-                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
-                        //    Then
-                        Test.expect($("#city").text()).to.equal("Otaru", "City should be Otaru");
-                        Test.expect($("#temperature").text()).to.equal("-0.586", "Temperature should be 272.564K, i.e. -0.586 C");
-                        Test.expect($("#description").text()).to.equal("Clouds (overcast clouds)", "Description should be 'Clouds (overcast clouds)'");
-                        Test.expect($("#icon").attr("src")).to.equal("http://openweathermap.org/img/w/04n.png", "Icon src should be 'http://openweathermap.org/img/w/04n.png'");
-                        done();
-                    }, undefined, overrideCreated);
-                }));
-
-                // TODO: refactor this
-                xit("should get weather information from hey-weather-server with 'local' position", sinon.test(function (done) {
-                    var sinonThis = this;
-                    //    Given
-                    var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath("/resources/weather_byLatLon_response_local.json"));
-                    var defaultPosition = {
-                        // coords of Otaru, Japan
-                        coords: {
-                            latitude: 43.1907,
-                            longitude: 140.9947
-                        }
-                    };
-                    var localPosition = {
+                    }, {
+                    testCaseName: "local position",
+                    relativePathToMockResponse: "/resources/weather_byLatLon_response_local.json",
+                    obtainedPos: {
                         // coords of Taipei
                         coords: {
                             latitude: 25.0330,
                             longitude: 121.5654
                         }
-                    };
-                    // sinonThis.stub(Weather.convertTemperature.from)
+                    },
+                    fromTemperatureInK: 291.467,
+                    toTemperatureInC: 18.317,
+                    expected: {
+                        city: "Xianeibu",
+                        description: "Clouds (scattered clouds)",
+                        icon: "http://openweathermap.org/img/w/03n.png"
+                    }
+                }
+                ].forEach(function (params) {
+                    it(format("should get weather information from hey-weather-server with {}", params.testCaseName), sinon.test(function (done) {
+                        var sinonThis = this;
+                        //    Given
+                        var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath(params.relativePathToMockResponse));
+                        var somePosition = {
+                            // coords of Otaru, Japan
+                            coords: {
+                                latitude: 43.1907,
+                                longitude: 140.9947
+                            }
+                        };
 
-                    var created = function (err, window) {
-                        if (typeof window.Weather === "undefined") {
-                            window.Weather = {
-                                "getWeatherInfoByLatLon": function () {
-                                },
-                                "convertTemperature": {
-                                    "fromK": {
-                                        "toC": function (t) {
-                                            if (t === 291.467) {
-                                                return 18.317;
-                                            }
-                                        }
-                                    }
-                                },
-                                "getGeolocationOrDefault": function () {
-                                    return localPosition;
-                                }
-                            };
-                            var Weather_getWeatherInfoByLatLon = sinonThis.stub(window.Weather, "getWeatherInfoByLatLon");
-                            Weather_getWeatherInfoByLatLon.withArgs(sinon.match(function (value) {
-                                return arePositionsEqual(localPosition, value);
-                            })).yields(JSON.parse(mockResponse_weather_byLatLon));
-                        }
-                    };
+                        var Weather_getWeatherInfoByLatLon = sinonThis.stub(Weather, "getWeatherInfoByLatLon");
+                        Weather_getWeatherInfoByLatLon.withArgs(sinon.match(function (value) {
+                            return arePositionsEqual(params.obtainedPos, value);
+                        })).yields(JSON.parse(mockResponse_weather_byLatLon));
+                        var Weather_convertTemperatureFromKToC = sinonThis.stub(Weather.convertTemperature.fromK, "toC");
+                        Weather_convertTemperatureFromKToC.withArgs(params.fromTemperatureInK).returns(params.toTemperatureInC);
+                        var Weather_getGeolocationOrDefault = sinonThis.stub(Weather, "getGeolocationOrDefault");
+                        Weather_getGeolocationOrDefault.returns(params.obtainedPos);
 
-                    //    When
-                    // Loaded
-                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
-                        //    Then
-                        Test.expect($("#city").text()).to.equal("Xianeibu", "City should be Xianeibu");
-                        Test.expect($("#temperature").text()).to.equal("18.317", "Temperature should be 291.467K, i.e. 18.317 C");
-                        Test.expect($("#description").text()).to.equal("Clouds (scattered clouds)", "Description should be 'Clouds (scattered clouds)'");
-                        Test.expect($("#icon").attr("src")).to.equal("http://openweathermap.org/img/w/03n.png", "Icon src should be 'http://openweathermap.org/img/w/03n.png'");
-                        done();
-                    }, undefined, overrideCreated);
-                }));
+                        //    When
+                        // Loaded
+                        setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                            //    Then
+                            Test.expect($("#city").text()).to.equal(params.expected.city, format("City should be {}", params.expected.city));
+                            Test.expect($("#temperature").text()).to.equal(params.toTemperatureInC.toString(), format("Temperature should be {}K, i.e. {}C", params.fromTemperatureInK, params.toTemperatureInC));
+                            Test.expect($("#description").text()).to.equal(params.expected.description, format("Description should be '{}'", params.expected.description));
+                            Test.expect($("#icon").attr("src")).to.equal(params.expected.icon, format("Icon src should be '{}'", params.expected.icon));
+                            done();
+                        }, undefined, overrideCreated);
+                    }));
+                });
 
                 // TODO: warning message not tested yet
                 xit("should show warning message instead of fetching externally when flag is disabled", sinon.test(function (done) {
