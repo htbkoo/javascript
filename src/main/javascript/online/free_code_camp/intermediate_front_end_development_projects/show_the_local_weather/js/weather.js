@@ -3,6 +3,13 @@
  */
 var Weather = (function () {
     "use strict";
+    var KELVIN_CONSTANT = 273.15;
+    var convert = function (t, convertFunc) {
+        var temperatureAsString = t.toString();
+        var dp = temperatureAsString.length - temperatureAsString.indexOf(".") - 1;
+        return +(convertFunc().toFixed(dp));
+    };
+
     var exports = {
         "getGeolocationOrDefault": function (defaultPosition) {
             var returnPosition = defaultPosition;
@@ -23,18 +30,25 @@ var Weather = (function () {
         },
         "convertTemperature": {
             "fromK": {
+                //TODO: add unit test
                 "toC": function (t) {
-                    var temperatureAsString = t.toString();
-                    var dp = temperatureAsString.length - temperatureAsString.indexOf(".") - 1;
-                    return +((t - Weather.KELVIN_CONSTANT).toFixed(dp));
+                    convert(t, function () {
+                        return t + KELVIN_CONSTANT;
+                    });
+                }
+            },
+            "fromC": {
+                "toF": function (t) {
+                }
+            },
+            "fromF": {
+                "toC": function (t) {
                 }
             }
         },
         "shouldFetchExternally": function () {
-            return true;
+            return false;
         },
-        "KELVIN_CONSTANT": 273.15,
-
         // Please do not spam this - it is only my little attempt to host a proxy server on a free Heroku dyno :)
         "HEY_WEATHER_SERVER_URL": {
             "basePath": "https://hey-weather-server.herokuapp.com/weather",

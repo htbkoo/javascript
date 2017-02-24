@@ -89,15 +89,18 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                                 longitude: 140.9947
                             }
                         };
-
-                        var Weather_getWeatherInfoByLatLon = sinonThis.stub(Weather, "getWeatherInfoByLatLon");
-                        Weather_getWeatherInfoByLatLon.withArgs(sinon.match(function (value) {
-                            return arePositionsEqual(params.obtainedPos, value);
-                        })).yields(JSON.parse(mockResponse_weather_byLatLon));
-                        var Weather_convertTemperatureFromKToC = sinonThis.stub(Weather.convertTemperature.fromK, "toC");
-                        Weather_convertTemperatureFromKToC.withArgs(params.fromTemperatureInK).returns(params.toTemperatureInC);
-                        var Weather_getGeolocationOrDefault = sinonThis.stub(Weather, "getGeolocationOrDefault");
-                        Weather_getGeolocationOrDefault.returns(params.obtainedPos);
+                        mockWeather(sinonThis,
+                            function (stub) {
+                                stub.withArgs(sinon.match(function (value) {
+                                    return arePositionsEqual(params.obtainedPos, value);
+                                })).yields(JSON.parse(mockResponse_weather_byLatLon));
+                            },
+                            function (stub) {
+                                stub.withArgs(params.fromTemperatureInK).returns(params.toTemperatureInC);
+                            },
+                            function (stub) {
+                                stub.returns(params.obtainedPos);
+                            });
 
                         //    When
                         // Loaded
@@ -233,6 +236,21 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                             })
                         ) && (pos1.coords[property] === pos2.coords[property]);
                 });
+            }
+
+            function mockWeather(sinonThis, stubGetWeatherInfoByLatLon, stubConvertTemperatureFromKToC, stubgetGeolocationOrDefault) {
+                stubByFunctionOrBlankByDefault(Weather, "getWeatherInfoByLatLon", stubGetWeatherInfoByLatLon);
+                stubByFunctionOrBlankByDefault(Weather.convertTemperature.fromK, "toC", stubConvertTemperatureFromKToC);
+                stubByFunctionOrBlankByDefault(Weather, "getGeolocationOrDefault", stubgetGeolocationOrDefault);
+
+                function stubByFunctionOrBlankByDefault(obj, method, stubFunc) {
+                    var stub = sinonThis.stub(obj, method);
+                    if (typeof stubFunc !== "undefined") {
+                        stubFunc(stub);
+                    } else {
+                        stub.returns();
+                    }
+                }
             }
         });
     });
