@@ -146,6 +146,7 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                     {
                         from: "Celsius",
                         to: "Fahrenheit",
+                        fromSymbol: "C",
                         expectedSymbol: "F",
                         fromTemperature: "40",
                         expectedTemperature: "104",
@@ -157,6 +158,7 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                     {
                         from: "Fahrenheit",
                         to: "Celsius",
+                        fromSymbol: "F",
                         expectedSymbol: "C",
                         fromTemperature: "104",
                         expectedTemperature: "40",
@@ -168,11 +170,14 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                 ].forEach(function (params) {
                     it(format("should switch from {} to {} when clicked", params.from, params.to), sinon.test(function (done) {
                         var sinonThis = this;
+                        mockWeather(sinonThis);
 
                         setUpJsdomEnvAndAssertWith(function (err, window, $) {
                             //    Given
                             $(format("#radio_{}", params.from.toLowerCase())).prop("checked", true);
                             var $temperature = $("#temperature");
+                            var $symbol = $("#symbol");
+                            $symbol.text(params.fromSymbol);
                             $temperature.text(params.fromTemperature);
                             params.doMock(sinonThis);
 
@@ -180,7 +185,7 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                             selectRadio($(format("#radio_{}", params.to.toLowerCase())));
 
                             //    Then
-                            Test.expect($("#symbol").text()).to.equal(params.expectedSymbol, format("Temperature symbol should have changed to {}", params.expectedSymbol));
+                            Test.expect($symbol.text()).to.equal(params.expectedSymbol, format("Temperature symbol should have changed to {}", params.expectedSymbol));
                             Test.expect($temperature.text()).to.equal(params.expectedTemperature, format("{}{} should equal to {}{}", params.fromTemperature, params.from[0], params.expectedTemperature, params.to[0]));
                         }, done, overrideCreated);
                     }));
