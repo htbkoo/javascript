@@ -3,7 +3,7 @@
  */
 var Weather = (function () {
     "use strict";
-    var KELVIN_CONSTANT = 273.15;
+    var KELVIN_CONSTANT = -273.15;
     var convert = function (t, convertFunc) {
         var temperatureAsString = t.toString();
         var dp = temperatureAsString.length - temperatureAsString.indexOf(".") - 1;
@@ -28,21 +28,27 @@ var Weather = (function () {
                 );
             }
         },
+        //TODO: add unit test
         "convertTemperature": {
             "fromK": {
-                //TODO: add unit test
                 "toC": function (t) {
-                    convert(t, function () {
+                    return convert(t, function () {
                         return t + KELVIN_CONSTANT;
                     });
                 }
             },
             "fromC": {
                 "toF": function (t) {
+                    return convert(t, function () {
+                        return 9 * t / 5 + 32;
+                    });
                 }
             },
             "fromF": {
                 "toC": function (t) {
+                    return convert(t, function () {
+                        return 5 * (t - 32) / 9;
+                    });
                 }
             }
         },
