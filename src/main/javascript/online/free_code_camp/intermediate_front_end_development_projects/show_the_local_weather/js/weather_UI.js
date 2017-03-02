@@ -16,7 +16,7 @@ var Weather = Weather || ((typeof require !== "undefined") ? require("./weather"
 
         var $symbol = $("#symbol");
         var $temperature = $('#temperature');
-        var localPosition = Weather.getGeolocationOrDefault(defaultPosition);
+        var localPosition = Weather.getCurrentLocationOrDefault(defaultPosition);
         Weather.getWeatherInfoByLatLon(localPosition,
             function (data) {
                 try {

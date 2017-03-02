@@ -11,9 +11,9 @@ var Weather = (function () {
     };
 
     var exports = {
-        "getGeolocationOrDefault": function (defaultPosition) {
+        "getCurrentLocationOrDefault": function (defaultPosition) {
             var returnPosition = defaultPosition;
-            if ("getCurrentPosition" in window.navigator) {
+            if (exports.isGeolocationAvailable()) {
                 window.navigator.getCurrentPosition(function (position) {
                     returnPosition = position;
                 });
@@ -54,6 +54,9 @@ var Weather = (function () {
         },
         "shouldFetchExternally": function () {
             return false;
+        },
+        "isGeolocationAvailable": function () {
+            return "getCurrentPosition" in window.navigator;
         },
         // Please do not spam this - it is only my little attempt to host a proxy server on a free Heroku dyno :)
         "HEY_WEATHER_SERVER_URL": {

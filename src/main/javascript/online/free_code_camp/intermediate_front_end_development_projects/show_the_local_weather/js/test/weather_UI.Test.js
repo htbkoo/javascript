@@ -243,10 +243,10 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                 });
             }
 
-            function mockWeather(sinonThis, stubGetWeatherInfoByLatLon, stubConvertTemperatureFromKToC, stubgetGeolocationOrDefault) {
+            function mockWeather(sinonThis, stubGetWeatherInfoByLatLon, stubConvertTemperatureFromKToC, stubGetCurrentLocationOrDefault) {
                 stubByFunctionOrBlankByDefault(Weather, "getWeatherInfoByLatLon", stubGetWeatherInfoByLatLon);
                 stubByFunctionOrBlankByDefault(Weather.convertTemperature.fromK, "toC", stubConvertTemperatureFromKToC);
-                stubByFunctionOrBlankByDefault(Weather, "getGeolocationOrDefault", stubgetGeolocationOrDefault);
+                stubByFunctionOrBlankByDefault(Weather, "getCurrentLocationOrDefault", stubGetCurrentLocationOrDefault);
 
                 function stubByFunctionOrBlankByDefault(obj, method, stubFunc) {
                     var stub = sinonThis.stub(obj, method);

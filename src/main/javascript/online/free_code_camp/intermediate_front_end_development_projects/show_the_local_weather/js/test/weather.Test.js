@@ -18,6 +18,14 @@ describe("Weather - logic part - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
         describe("Weather - logic part", function () {
+            var defaultPosition = {
+                // coords of Otaru, Japan
+                coords: {
+                    latitude: 43.1907,
+                    longitude: 140.9947
+                }
+            };
+
             describe("Geolocation related", function () {
                 it("should check if geolocation is available", function (done) {
                     setUpJsdomEnvAndAssertWith(function (err, window, $) {
@@ -29,13 +37,6 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                     var sinonThis = this;
                     setUpJsdomEnvAndAssertWith(function (err, window, $) {
                         //    Given
-                        var defaultPosition = {
-                            // coords of Otaru, Japan
-                            coords: {
-                                latitude: 43.1907,
-                                longitude: 140.9947
-                            }
-                        };
                         var expectedPosition = {
                             // coords of Tokyo, Japan
                             coords: {
@@ -56,7 +57,7 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                         }());
 
                         //    When
-                        var actualPosition = window.Weather.getGeolocationOrDefault(defaultPosition);
+                        var actualPosition = window.Weather.getCurrentLocationOrDefault(defaultPosition);
 
                         //    Then
                         Test.expect(arePositionsEqual(expectedPosition, actualPosition)).to.equal(true, "Should return actual position if geolocation is avaiable");
@@ -67,21 +68,43 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                     var sinonThis = this;
                     setUpJsdomEnvAndAssertWith(function (err, window, $) {
                         //    Given
-                        var defaultPosition = {
-                            // coords of Otaru, Japan
-                            coords: {
-                                latitude: 43.1907,
-                                longitude: 140.9947
-                            }
-                        };
+                        sinonThis.stub(window.Weather, "isGeolocationAvailable", function () {
+                            return false;
+                        });
 
                         //    When
-                        var actualPosition = window.Weather.getGeolocationOrDefault(defaultPosition);
+                        var actualPosition = window.Weather.getCurrentLocationOrDefault(defaultPosition);
 
                         //    Then
                         Test.expect(arePositionsEqual(defaultPosition, actualPosition)).to.equal(true, "Should return default position if geolocation not avaiable");
                     }, done);
                 }));
+            });
+
+            describe("IPInfo related", function () {
+                it("should not get from ipInfo if geolocation available", sinon.test(function (done) {
+                    var sinonThis = this;
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        //    Given
+
+                        //    When
+
+                        //    Then
+
+                    }, done);
+                }));
+                it("should get location info from ipInfo if geolocation not available", function (done) {
+                    var sinonThis = this;
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        //    Given
+
+                        //    When
+
+                        //    Then
+
+
+                    }, done);
+                });
             });
 
             describe("GettingWeatherInfoByLatLon related", function () {
@@ -90,19 +113,12 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                     setUpJsdomEnvAndAssertWith(function (err, window, $) {
                         //    Given
                         var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath("/resources/weather_byLatLon_response.json"));
-                        var somePosition = {
-                            // coords of Otaru, Japan
-                            coords: {
-                                latitude: 43.1907,
-                                longitude: 140.9947
-                            }
-                        };
                         var $_getJSON = sinonThis.stub($, "getJSON");
                         $_getJSON.withArgs(sinon.match(function (value) {
                             return [
                                 "https://hey-weather-server.herokuapp.com/weather/byLatLon?",
-                                "lat=" + somePosition.coords.latitude,
-                                "lon=" + somePosition.coords.longitude,
+                                "lat=" + defaultPosition.coords.latitude,
+                                "lon=" + defaultPosition.coords.longitude,
                                 "callback=" + "?"
                             ].every(function (part) {
                                 return value.indexOf(part) !== -1;
@@ -111,7 +127,7 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                         sinonThis.stub(window.Weather, "shouldFetchExternally").returns(true);
 
                         //    When
-                        window.Weather.getWeatherInfoByLatLon(somePosition, assertResponse);
+                        window.Weather.getWeatherInfoByLatLon(defaultPosition, assertResponse);
 
                         //    Then
                         function assertResponse(data) {
