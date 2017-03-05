@@ -57,7 +57,7 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                         }());
 
                         //    When
-                        var actualPosition = window.Weather.getCurrentLocationOrDefault(defaultPosition);
+                        var actualPosition = window.Weather.getGeolocationOrDefault(defaultPosition);
 
                         //    Then
                         Test.expect(arePositionsEqual(expectedPosition, actualPosition)).to.equal(true, "Should return actual position if geolocation is avaiable");
@@ -73,7 +73,7 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                         });
 
                         //    When
-                        var actualPosition = window.Weather.getCurrentLocationOrDefault(defaultPosition);
+                        var actualPosition = window.Weather.getGeolocationOrDefault(defaultPosition);
 
                         //    Then
                         Test.expect(arePositionsEqual(defaultPosition, actualPosition)).to.equal(true, "Should return default position if geolocation not avaiable");
@@ -82,29 +82,26 @@ describe("Weather - logic part - FreeCodeCamp", function () {
             });
 
             describe("IPInfo related", function () {
-                it("should not get from ipInfo if geolocation available", sinon.test(function (done) {
+                it("should get location info from ipInfo", sinon.test(function (done) {
                     var sinonThis = this;
                     setUpJsdomEnvAndAssertWith(function (err, window, $) {
                         //    Given
+                        var stub_$_getJSON = sinonThis.stub($, "getJSON");
+                        var mockResponse_ipinfo = fs.readFileSync(getRelativePath("/resources/ipinfo_response.json"));
+                        stub_$_getJSON.withArgs(areAllUrlPartsMatch([
+                            "http://ipinfo.io/json?",
+                            "callback=?"
+                        ])).yields(JSON.parse(mockResponse_ipinfo));
 
                         //    When
+                        window.Weather.getLocationFromIpInfoWithCallBack(assertResponse);
 
                         //    Then
-
+                        function assertResponse(data) {
+                            Test.expect(data.loc).to.equal("37.385999999999996,-122.0838", "location should be '37.385999999999996,-122.0838'");
+                        }
                     }, done);
                 }));
-                it("should get location info from ipInfo if geolocation not available", function (done) {
-                    var sinonThis = this;
-                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
-                        //    Given
-
-                        //    When
-
-                        //    Then
-
-
-                    }, done);
-                });
             });
 
             describe("GettingWeatherInfoByLatLon related", function () {
@@ -114,16 +111,12 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                         //    Given
                         var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath("/resources/weather_byLatLon_response.json"));
                         var $_getJSON = sinonThis.stub($, "getJSON");
-                        $_getJSON.withArgs(sinon.match(function (value) {
-                            return [
-                                "https://hey-weather-server.herokuapp.com/weather/byLatLon?",
-                                "lat=" + defaultPosition.coords.latitude,
-                                "lon=" + defaultPosition.coords.longitude,
-                                "callback=" + "?"
-                            ].every(function (part) {
-                                return value.indexOf(part) !== -1;
-                            });
-                        })).yields(JSON.parse(mockResponse_weather_byLatLon));
+                        $_getJSON.withArgs(areAllUrlPartsMatch([
+                            "https://hey-weather-server.herokuapp.com/weather/byLatLon?",
+                            "lat=" + defaultPosition.coords.latitude,
+                            "lon=" + defaultPosition.coords.longitude,
+                            "callback=" + "?"
+                        ])).yields(JSON.parse(mockResponse_weather_byLatLon));
                         sinonThis.stub(window.Weather, "shouldFetchExternally").returns(true);
 
                         //    When
@@ -177,6 +170,14 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                                 return typeof(pos[property]) !== "undefined";
                             })
                         ) && (pos1.coords[property] === pos2.coords[property]);
+                });
+            }
+
+            function areAllUrlPartsMatch(allUrlParts) {
+                return sinon.match(function (value) {
+                    return allUrlParts.every(function (part) {
+                        return value.indexOf(part) !== -1;
+                    });
                 });
             }
         });
