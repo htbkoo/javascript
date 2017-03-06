@@ -99,8 +99,9 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                         //    Then
                         function assertResponse(data) {
                             Test.expect(data.loc).to.equal("37.385999999999996,-122.0838", "location should be '37.385999999999996,-122.0838'");
+                            done();
                         }
-                    }, done);
+                    });
                 }));
             });
 

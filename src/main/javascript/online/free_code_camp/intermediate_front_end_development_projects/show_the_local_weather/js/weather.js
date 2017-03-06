@@ -4,6 +4,14 @@
 var Weather = (function () {
     "use strict";
     var KELVIN_CONSTANT = -273.15;
+    var IPINFO_URL = "http://ipinfo.io/json?callback=?";
+    // Please do not spam this - it is only my little attempt to host a proxy server on a free Heroku dyno :)
+    var HEY_WEATHER_SERVER_URL = {
+        "basePath": "https://hey-weather-server.herokuapp.com/weather"
+    };
+    HEY_WEATHER_SERVER_URL.byLatLon = HEY_WEATHER_SERVER_URL.basePath + "/byLatLon?callback=?";
+
+
     var convert = function (t, convertFunc) {
         var temperatureAsString = t.toString();
         var dp = temperatureAsString.length - temperatureAsString.indexOf(".") - 1;
@@ -11,7 +19,7 @@ var Weather = (function () {
     };
 
     var exports = {
-        "getCurrentLocationOrDefault": function (defaultPosition) {
+        "getGeolocationOrDefault": function (defaultPosition) {
             var returnPosition = defaultPosition;
             if (exports.isGeolocationAvailable()) {
                 window.navigator.getCurrentPosition(function (position) {
@@ -20,9 +28,15 @@ var Weather = (function () {
             }
             return returnPosition;
         },
+        "getLocationFromIpInfoWithCallBack": function (callback) {
+            $.getJSON(IPINFO_URL,
+                {},
+                callback
+            );
+        },
         "getWeatherInfoByLatLon": function (position, callback) {
             if (Weather.shouldFetchExternally()) {
-                $.getJSON(Weather.HEY_WEATHER_SERVER_URL.byLatLon + "&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude,
+                $.getJSON(HEY_WEATHER_SERVER_URL.byLatLon + "&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude,
                     {},
                     callback
                 );
@@ -57,11 +71,6 @@ var Weather = (function () {
         },
         "isGeolocationAvailable": function () {
             return "getCurrentPosition" in window.navigator;
-        },
-        // Please do not spam this - it is only my little attempt to host a proxy server on a free Heroku dyno :)
-        "HEY_WEATHER_SERVER_URL": {
-            "basePath": "https://hey-weather-server.herokuapp.com/weather",
-            "byLatLon": "https://hey-weather-server.herokuapp.com/weather/byLatLon?callback=?"
         }
     };
 
