@@ -11,11 +11,21 @@ var Weather = (function () {
     };
     HEY_WEATHER_SERVER_URL.byLatLon = HEY_WEATHER_SERVER_URL.basePath + "/byLatLon?callback=?";
 
-
     var convert = function (t, convertFunc) {
         var temperatureAsString = t.toString();
         var dp = temperatureAsString.length - temperatureAsString.indexOf(".") - 1;
         return +(convertFunc().toFixed(dp));
+    };
+
+    var parseResponseFromIpInfo = function (strResponse) {
+        // e.g. "37.385999999999996,-122.0838"
+        var coords = strResponse.loc.split(",");
+        return {
+            coords: {
+                "latitude": parseFloat(coords[0]),
+                "longitude": parseFloat(coords[1])
+            }
+        };
     };
 
     var exports = {
@@ -31,7 +41,10 @@ var Weather = (function () {
         "getLocationFromIpInfoWithCallBack": function (callback) {
             $.getJSON(IPINFO_URL,
                 {},
-                callback
+                function (data) {
+                    var pos = parseResponseFromIpInfo(data);
+                    callback(pos);
+                }
             );
         },
         "getWeatherInfoByLatLon": function (position, callback) {
