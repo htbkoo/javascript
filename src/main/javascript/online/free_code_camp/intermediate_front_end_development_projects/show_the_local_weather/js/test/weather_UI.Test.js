@@ -40,6 +40,61 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                 });
             });
 
+            describe("IPInfo related", function () {
+                it("should get location information from IPInfo if geolocation not available", sinon.test(function (done) {
+                    var sinonThis = this;
+                    // Given
+                    var params = {
+                        testCaseName: "mock position",
+                        relativePathToMockResponse: "/resources/weather_byLatLon_response_ipinfo.json",
+                        obtainedPos: {
+                            // coords of Mountain View, California
+                            coords: {
+                                latitude: 37.385999999999996,
+                                longitude: -122.0838
+                            }
+                        },
+                        fromTemperatureInK: 288.26,
+                        toTemperatureInC: 15.11,
+                        expected: {
+                            city: "Mountain View",
+                            description: "Clear (clear sky)",
+                            icon: "http://openweathermap.org/img/w/01d.png"
+                        }
+                    };
+                    sinonThis.stub(Weather, "isGeolocationAvailable", function () {
+                        return false;
+                    });
+                    var stub_Weather_getLocationFromIpInfoWithCallBack = sinonThis.stub(Weather, "getLocationFromIpInfoWithCallBack");
+                    stub_Weather_getLocationFromIpInfoWithCallBack.yields(params.obtainedPos);
+                    var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath(params.relativePathToMockResponse));
+
+                    var BLANK_FUNCTION = function () {
+                    };
+                    mockWeather(sinonThis,
+                        function (stub) {
+                            stub.withArgs(sinon.match(function (value) {
+                                return arePositionsEqual(params.obtainedPos, value);
+                            })).yields(JSON.parse(mockResponse_weather_byLatLon));
+                        },
+                        function (stub) {
+                            stub.withArgs(params.fromTemperatureInK).returns(params.toTemperatureInC);
+                        },
+                        BLANK_FUNCTION);
+
+                    //    When
+                    // Loaded
+                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
+                        //    Then
+                        Test.expect($("#city").text()).to.equal(params.expected.city, format("City should be {}", params.expected.city));
+                        Test.expect($("#temperature").text()).to.equal(params.toTemperatureInC.toString(), format("Temperature should be {}K, i.e. {}C", params.fromTemperatureInK, params.toTemperatureInC));
+                        Test.expect($("#description").text()).to.equal(params.expected.description, format("Description should be '{}'", params.expected.description));
+                        Test.expect($("#icon").attr("src")).to.equal(params.expected.icon, format("Icon src should be '{}'", params.expected.icon));
+                        done();
+                    }, undefined, overrideCreated);
+                }));
+            });
+
             describe("GettingWeatherInfoByLatLon related", function () {
                 [
                     {
@@ -89,6 +144,7 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                                 longitude: 140.9947
                             }
                         };
+
                         mockWeather(sinonThis,
                             function (stub) {
                                 stub.withArgs(sinon.match(function (value) {

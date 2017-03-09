@@ -1,0 +1,42 @@
+{
+  "coord": {
+    "lon": -122.08,
+    "lat": 37.39
+  },
+  "weather": [
+    {
+      "id": 800,
+      "main": "Clear",
+      "description": "clear sky",
+      "icon": "01d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 288.26,
+    "pressure": 1026,
+    "humidity": 76,
+    "temp_min": 286.15,
+    "temp_max": 290.15
+  },
+  "visibility": 16093,
+  "wind": {
+    "speed": 5.7,
+    "deg": 320
+  },
+  "clouds": {
+    "all": 1
+  },
+  "dt": 1488929700,
+  "sys": {
+    "type": 1,
+    "id": 392,
+    "message": 0.0081,
+    "country": "US",
+    "sunrise": 1488896945,
+    "sunset": 1488938963
+  },
+  "id": 5375480,
+  "name": "Mountain View",
+  "cod": 200
+}

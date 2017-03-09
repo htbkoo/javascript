@@ -16,22 +16,13 @@ var Weather = Weather || ((typeof require !== "undefined") ? require("./weather"
 
         var $symbol = $("#symbol");
         var $temperature = $('#temperature');
-        var localPosition = Weather.getGeolocationOrDefault(defaultPosition);
-        Weather.getWeatherInfoByLatLon(localPosition,
-            function (data) {
-                try {
-                    $('#city').text(data.name);
-                    var absoluteTemperature = data.main.temp;
-                    $temperature.text(Weather.convertTemperature.fromK.toC(absoluteTemperature));
-                    var weather = data.weather[0];
-                    $('#description').text(weather.main + " (" + weather.description + ")");
-                    var iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
-                    $('#icon').attr("src", iconUrl);
-                } catch (e) {
-                    //    TODO: handle exception
-                }
-            }
-        );
+
+        if (Weather.isGeolocationAvailable()) {
+            var localPosition = Weather.getGeolocationOrDefault(defaultPosition);
+            getWeatherInfoByPos(localPosition);
+        } else {
+            Weather.getLocationFromIpInfoWithCallBack(getWeatherInfoByPos);
+        }
 
         $("input[type=radio][name=tempScale]").change(function () {
             var from = $symbol.text();
@@ -41,5 +32,22 @@ var Weather = Weather || ((typeof require !== "undefined") ? require("./weather"
             $temperature.text(Weather.convertTemperature["from" + from]["to" + to](parseFloat(strTemperature)));
         });
 
+        function getWeatherInfoByPos(position) {
+            Weather.getWeatherInfoByLatLon(position,
+                function (data) {
+                    try {
+                        $('#city').text(data.name);
+                        var absoluteTemperature = data.main.temp;
+                        $temperature.text(Weather.convertTemperature.fromK.toC(absoluteTemperature));
+                        var weather = data.weather[0];
+                        $('#description').text(weather.main + " (" + weather.description + ")");
+                        var iconUrl = "http://openweathermap.org/img/w/" + weather.icon + ".png";
+                        $('#icon').attr("src", iconUrl);
+                    } catch (e) {
+                        //    TODO: handle exception
+                    }
+                }
+            );
+        }
     }()
 );
