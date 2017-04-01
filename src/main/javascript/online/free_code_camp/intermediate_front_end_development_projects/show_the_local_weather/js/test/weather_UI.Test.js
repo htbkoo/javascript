@@ -62,9 +62,7 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                             icon: "http://openweathermap.org/img/w/01d.png"
                         }
                     };
-                    // sinonThis.stub(Weather, "isGeolocationAvailable", function () {
-                    //     return false;
-                    // });
+
                     var stub_Weather_getLocationFromIpInfoWithCallBack = sinonThis.stub(Weather, "getLocationFromIpInfoWithCallBack");
                     stub_Weather_getLocationFromIpInfoWithCallBack.yields(params.obtainedPos);
                     var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath(params.relativePathToMockResponse));
@@ -180,31 +178,6 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                         }, undefined, overrideCreated);
                     }));
                 });
-
-                // TODO: warning message not tested yet
-                xit("should show warning message instead of fetching externally when flag is disabled", sinon.test(function (done) {
-                    var sinonThis = this;
-                    setUpJsdomEnvAndAssertWith(function (err, window, $) {
-                        //    Given
-                        var somePosition = {
-                            // coords of Otaru, Japan
-                            coords: {
-                                latitude: 43.1907,
-                                longitude: 140.9947
-                            }
-                        };
-                        var mock_$ = sinonThis.mock($);
-                        mock_$.expects("getJSON").never();
-                        sinonThis.stub(window.Weather, "shouldFetchExternally").returns(false);
-
-                        //    When
-                        window.Weather.getWeatherInfoByLatLon(somePosition);
-
-                        //    Then
-                        mock_$.verify();
-                        // Test.expect($("#city").text()).to.equal("Otaru", "City should be Otaru");
-                    }, done);
-                }));
             });
 
             describe("Temperature scale change related", function () {
@@ -264,7 +237,6 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                 });
 
                 function selectRadio($elem) {
-                    // $elem.prop("checked", true).trigger("click").change();
                     $elem.prop("checked", true).change();
                 }
             });
