@@ -62,16 +62,14 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                             icon: "http://openweathermap.org/img/w/01d.png"
                         }
                     };
-                    sinonThis.stub(Weather, "isGeolocationAvailable", function () {
-                        return false;
-                    });
+                    // sinonThis.stub(Weather, "isGeolocationAvailable", function () {
+                    //     return false;
+                    // });
                     var stub_Weather_getLocationFromIpInfoWithCallBack = sinonThis.stub(Weather, "getLocationFromIpInfoWithCallBack");
                     stub_Weather_getLocationFromIpInfoWithCallBack.yields(params.obtainedPos);
                     var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath(params.relativePathToMockResponse));
 
-                    var BLANK_FUNCTION = function () {
-                    };
-                    mockWeather(sinonThis,
+                    mockWeather.call(this,
                         function (stub) {
                             stub.withArgs(sinon.match(function (value) {
                                 return arePositionsEqual(params.obtainedPos, value);
@@ -80,7 +78,11 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                         function (stub) {
                             stub.withArgs(params.fromTemperatureInK).returns(params.toTemperatureInC);
                         },
-                        BLANK_FUNCTION);
+                        BLANK_FUNCTION,
+                        function (stub) {
+                            stub.returns(false);
+                        }
+                    );
 
                     //    When
                     // Loaded
@@ -114,24 +116,25 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                             description: "Clouds (overcast clouds)",
                             icon: "http://openweathermap.org/img/w/04n.png"
                         }
-                    }, {
-                    testCaseName: "local position",
-                    relativePathToMockResponse: "/resources/weather_byLatLon_response_local.json",
-                    obtainedPos: {
-                        // coords of Taipei
-                        coords: {
-                            latitude: 25.0330,
-                            longitude: 121.5654
-                        }
                     },
-                    fromTemperatureInK: 291.467,
-                    toTemperatureInC: 18.317,
-                    expected: {
-                        city: "Xianeibu",
-                        description: "Clouds (scattered clouds)",
-                        icon: "http://openweathermap.org/img/w/03n.png"
+                    {
+                        testCaseName: "local position",
+                        relativePathToMockResponse: "/resources/weather_byLatLon_response_local.json",
+                        obtainedPos: {
+                            // coords of Taipei
+                            coords: {
+                                latitude: 25.0330,
+                                longitude: 121.5654
+                            }
+                        },
+                        fromTemperatureInK: 291.467,
+                        toTemperatureInC: 18.317,
+                        expected: {
+                            city: "Xianeibu",
+                            description: "Clouds (scattered clouds)",
+                            icon: "http://openweathermap.org/img/w/03n.png"
+                        }
                     }
-                }
                 ].forEach(function (params) {
                     it(format("should get weather information from hey-weather-server with {}", params.testCaseName), sinon.test(function (done) {
                         var sinonThis = this;
@@ -145,7 +148,7 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                             }
                         };
 
-                        mockWeather(sinonThis,
+                        mockWeather.call(this,
                             function (stub) {
                                 stub.withArgs(sinon.match(function (value) {
                                     return arePositionsEqual(params.obtainedPos, value);
@@ -156,7 +159,11 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                             },
                             function (stub) {
                                 stub.returns(params.obtainedPos);
-                            });
+                            },
+                            function (stub) {
+                                stub.returns(true);
+                            }
+                        );
 
                         //    When
                         // Loaded
@@ -226,7 +233,14 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                 ].forEach(function (params) {
                     it(format("should switch from {} to {} when clicked", params.from, params.to), sinon.test(function (done) {
                         var sinonThis = this;
-                        mockWeather(sinonThis);
+                        mockWeather.call(this,
+                            BLANK_FUNCTION,
+                            BLANK_FUNCTION,
+                            BLANK_FUNCTION,
+                            function (stub) {
+                                stub.returns(true);
+                            }
+                        );
 
                         setUpJsdomEnvAndAssertWith(function (err, window, $) {
                             //    Given
@@ -299,13 +313,14 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                 });
             }
 
-            function mockWeather(sinonThis, stubGetWeatherInfoByLatLon, stubConvertTemperatureFromKToC, stubGetGeolocationOrDefault) {
-                stubByFunctionOrBlankByDefault(Weather, "getWeatherInfoByLatLon", stubGetWeatherInfoByLatLon);
-                stubByFunctionOrBlankByDefault(Weather.convertTemperature.fromK, "toC", stubConvertTemperatureFromKToC);
-                stubByFunctionOrBlankByDefault(Weather, "getGeolocationOrDefault", stubGetGeolocationOrDefault);
+            function mockWeather(stubGetWeatherInfoByLatLon, stubConvertTemperatureFromKToC, stubGetGeolocationOrDefault, stubIsGeolocationAvailable) {
+                stubByFunctionOrBlankByDefault.call(this, Weather, "getWeatherInfoByLatLon", stubGetWeatherInfoByLatLon);  // jshint ignore:line
+                stubByFunctionOrBlankByDefault.call(this, Weather.convertTemperature.fromK, "toC", stubConvertTemperatureFromKToC); // jshint ignore:line
+                stubByFunctionOrBlankByDefault.call(this, Weather, "getGeolocationOrDefault", stubGetGeolocationOrDefault); // jshint ignore:line
+                stubByFunctionOrBlankByDefault.call(this, Weather, "isGeolocationAvailable", stubIsGeolocationAvailable); // jshint ignore:line
 
                 function stubByFunctionOrBlankByDefault(obj, method, stubFunc) {
-                    var stub = sinonThis.stub(obj, method);
+                    var stub = this.stub(obj, method); // jshint ignore:line
                     if (typeof stubFunc !== "undefined") {
                         stubFunc(stub);
                     } else {
@@ -313,6 +328,9 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                     }
                 }
             }
+
+            var BLANK_FUNCTION = function () {
+            };
         });
     });
 });
