@@ -314,19 +314,36 @@ describe("Weather - UI part - FreeCodeCamp", function () {
             }
 
             function mockWeather(stubGetWeatherInfoByLatLon, stubConvertTemperatureFromKToC, stubGetGeolocationOrDefault, stubIsGeolocationAvailable) {
-                stubByFunctionOrBlankByDefault.call(this, Weather, "getWeatherInfoByLatLon", stubGetWeatherInfoByLatLon);  // jshint ignore:line
-                stubByFunctionOrBlankByDefault.call(this, Weather.convertTemperature.fromK, "toC", stubConvertTemperatureFromKToC); // jshint ignore:line
-                stubByFunctionOrBlankByDefault.call(this, Weather, "getGeolocationOrDefault", stubGetGeolocationOrDefault); // jshint ignore:line
-                stubByFunctionOrBlankByDefault.call(this, Weather, "isGeolocationAvailable", stubIsGeolocationAvailable); // jshint ignore:line
+                [
+                    {
+                        "method": "getWeatherInfoByLatLon",
+                        "func": stubGetWeatherInfoByLatLon
+                    },
+                    {
+                        "method": "toC",
+                        "obj": Weather.convertTemperature.fromK,
+                        "func": stubConvertTemperatureFromKToC
+                    },
+                    {
+                        "method": "getGeolocationOrDefault",
+                        "func": stubGetGeolocationOrDefault
+                    },
+                    {
+                        "method": "isGeolocationAvailable",
+                        "func": stubIsGeolocationAvailable
+                    }
+                ].forEach((function (param) {
+                    var obj = 'obj' in param ? param.obj : Weather,
+                        method = param.method,
+                        stubFunc = param.func;
 
-                function stubByFunctionOrBlankByDefault(obj, method, stubFunc) {
                     var stub = this.stub(obj, method); // jshint ignore:line
                     if (typeof stubFunc !== "undefined") {
                         stubFunc(stub);
                     } else {
                         stub.returns();
                     }
-                }
+                }).bind(this)); // jshint ignore:line
             }
 
             var BLANK_FUNCTION = function () {
