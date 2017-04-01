@@ -70,17 +70,18 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                     var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath(params.relativePathToMockResponse));
 
                     mockWeather.call(this,
-                        function (stub) {
-                            stub.withArgs(sinon.match(function (value) {
-                                return arePositionsEqual(params.obtainedPos, value);
-                            })).yields(JSON.parse(mockResponse_weather_byLatLon));
-                        },
-                        function (stub) {
-                            stub.withArgs(params.fromTemperatureInK).returns(params.toTemperatureInC);
-                        },
-                        BLANK_FUNCTION,
-                        function (stub) {
-                            stub.returns(false);
+                        {
+                            "getWeatherInfoByLatLon": function (stub) {
+                                stub.withArgs(sinon.match(function (value) {
+                                    return arePositionsEqual(params.obtainedPos, value);
+                                })).yields(JSON.parse(mockResponse_weather_byLatLon));
+                            },
+                            "toC": function (stub) {
+                                stub.withArgs(params.fromTemperatureInK).returns(params.toTemperatureInC);
+                            },
+                            "isGeolocationAvailable": function (stub) {
+                                stub.returns(false);
+                            }
                         }
                     );
 
@@ -149,19 +150,21 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                         };
 
                         mockWeather.call(this,
-                            function (stub) {
-                                stub.withArgs(sinon.match(function (value) {
-                                    return arePositionsEqual(params.obtainedPos, value);
-                                })).yields(JSON.parse(mockResponse_weather_byLatLon));
-                            },
-                            function (stub) {
-                                stub.withArgs(params.fromTemperatureInK).returns(params.toTemperatureInC);
-                            },
-                            function (stub) {
-                                stub.returns(params.obtainedPos);
-                            },
-                            function (stub) {
-                                stub.returns(true);
+                            {
+                                "getWeatherInfoByLatLon": function (stub) {
+                                    stub.withArgs(sinon.match(function (value) {
+                                        return arePositionsEqual(params.obtainedPos, value);
+                                    })).yields(JSON.parse(mockResponse_weather_byLatLon));
+                                },
+                                "toC": function (stub) {
+                                    stub.withArgs(params.fromTemperatureInK).returns(params.toTemperatureInC);
+                                },
+                                "getGeolocationOrDefault": function (stub) {
+                                    stub.returns(params.obtainedPos);
+                                },
+                                "isGeolocationAvailable": function (stub) {
+                                    stub.returns(true);
+                                }
                             }
                         );
 
@@ -234,11 +237,10 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                     it(format("should switch from {} to {} when clicked", params.from, params.to), sinon.test(function (done) {
                         var sinonThis = this;
                         mockWeather.call(this,
-                            BLANK_FUNCTION,
-                            BLANK_FUNCTION,
-                            BLANK_FUNCTION,
-                            function (stub) {
-                                stub.returns(true);
+                            {
+                                "isGeolocationAvailable": function (stub) {
+                                    stub.returns(true);
+                                }
                             }
                         );
 
@@ -313,41 +315,32 @@ describe("Weather - UI part - FreeCodeCamp", function () {
                 });
             }
 
-            function mockWeather(stubGetWeatherInfoByLatLon, stubConvertTemperatureFromKToC, stubGetGeolocationOrDefault, stubIsGeolocationAvailable) {
+            function mockWeather(stubFunctions) {
                 [
                     {
-                        "method": "getWeatherInfoByLatLon",
-                        "func": stubGetWeatherInfoByLatLon
+                        "method": "getWeatherInfoByLatLon"
                     },
                     {
                         "method": "toC",
-                        "obj": Weather.convertTemperature.fromK,
-                        "func": stubConvertTemperatureFromKToC
+                        "obj": Weather.convertTemperature.fromK
                     },
                     {
-                        "method": "getGeolocationOrDefault",
-                        "func": stubGetGeolocationOrDefault
+                        "method": "getGeolocationOrDefault"
                     },
                     {
-                        "method": "isGeolocationAvailable",
-                        "func": stubIsGeolocationAvailable
+                        "method": "isGeolocationAvailable"
                     }
                 ].forEach((function (param) {
-                    var obj = 'obj' in param ? param.obj : Weather,
-                        method = param.method,
-                        stubFunc = param.func;
-
-                    var stub = this.stub(obj, method); // jshint ignore:line
-                    if (typeof stubFunc !== "undefined") {
-                        stubFunc(stub);
+                    var method = param.method,
+                        obj = 'obj' in param ? param.obj : Weather,
+                        stub = this.stub(obj, method); // jshint ignore:line
+                    if (param.method in stubFunctions) {
+                        stubFunctions[param.method](stub);
                     } else {
                         stub.returns();
                     }
                 }).bind(this)); // jshint ignore:line
             }
-
-            var BLANK_FUNCTION = function () {
-            };
         });
     });
 });
