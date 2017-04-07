@@ -7,6 +7,7 @@
     <inspection_tool class="JSCheckFunctionSignatures" enabled="true" level="INFO" enabled_by_default="true" />
     <inspection_tool class="JSHint" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="JSLint" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JSMethodCanBeStatic" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="JSUnresolvedFunction" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <scope name="Production" level="WARNING" enabled="true" />
     </inspection_tool>
