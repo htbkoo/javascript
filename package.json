@@ -19,5 +19,17 @@
   },
   "scripts": {
     "test": "mocha --opts mocha.opts"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 5,
+      "sourceType": "script",
+      "ecmaFeatures": {
+      }
+    },
+    "env":{
+      "node": true,
+      "mocha": true
+    }
   }
 }
