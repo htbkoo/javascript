@@ -42,7 +42,7 @@
     <entry_points version="2.0" />
   </component>
   <component name="JavaScriptSettings">
-    <option name="languageLevel" value="ES5" />
+    <option name="languageLevel" value="JSX" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
