@@ -1,10 +1,16 @@
 import format from "string-format";
 import {expect} from "chai";
+import sinon from "sinon";
+import sinonTest from "sinon-test";
 
 import React from "react";
 import {shallow} from "enzyme";
 
 import App, {TwitchStreamerTable, TwitchStreamerTableBody} from "./App";
+import * as logic from "./logic";
+
+sinon.test = sinonTest.configureTest(sinon);
+sinon.testCase = sinonTest.configureTestCase(sinon);
 
 describe("TwitchTV - FreeCodeCamp", function () {
     "use strict";
@@ -43,20 +49,18 @@ describe("TwitchTV - FreeCodeCamp", function () {
                 });
             });
             describe('<TwitchStreamerTableBody />', function () {
-                it("should onload call props.onLoadHandler", function (done) {
+                it("should, onLoad, call logic.getJsonFromTwitchTV", sinon.test(function () {
                     // Given
-                    let mockOnLoadHandler = function () {
-                        // Then
-                        done();
-                    };
-
-                    const wrapper = shallow(<TwitchStreamerTableBody onLoadHandler={mockOnLoadHandler}/>);
+                    const mockGetJsonFromTwitchTV = this.mock(logic);
+                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().returns();
+                    const wrapper = shallow(<TwitchStreamerTableBody/>);
 
                     // When
-                    wrapper.find('div').simulate('load')
+                    wrapper.find('div').simulate('load');
 
-
-                });
+                    // Then
+                    mockGetJsonFromTwitchTV.verify();
+                }));
             });
         });
     });

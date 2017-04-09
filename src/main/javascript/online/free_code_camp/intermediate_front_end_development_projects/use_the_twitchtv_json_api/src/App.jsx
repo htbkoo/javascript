@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import * as logic from "./logic";
 
 class App extends Component {
     constructor(props) {
@@ -38,7 +39,7 @@ class TwitchStreamerTable extends Component {
 class TwitchStreamerTableBody extends Component {
     constructor(props) {
         super(props);
-        this.onLoadHandler = props.onLoadHandler.bind(this);
+        this.onLoadHandler = logic.getJsonFromTwitchTV.bind(this);
     }
 
     render() {
