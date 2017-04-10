@@ -9,6 +9,8 @@ import {shallow} from "enzyme";
 import App, {TwitchStreamerTable, TwitchStreamerTableBody} from "./App";
 import * as logic from "./logic";
 
+import a_TwtichTV_API_response from "../test/resources/TwitchTV_sample_API_response.json";
+
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
 
@@ -52,8 +54,10 @@ describe("TwitchTV - FreeCodeCamp", function () {
                 it("should, onLoad, call logic.getJsonFromTwitchTV", sinon.test(function () {
                     // Given
                     const mockGetJsonFromTwitchTV = this.mock(logic);
-                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().returns();
+                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().returns(a_TwtichTV_API_response);
                     const wrapper = shallow(<TwitchStreamerTableBody/>);
+                    // expect(wrapper.contains(<div onLoad={logic.getJsonFromTwitchTV}/>)).to.equal(true);
+                    expect(wrapper.find('div')).to.have.length(1);
 
                     // When
                     wrapper.find('div').simulate('load');
