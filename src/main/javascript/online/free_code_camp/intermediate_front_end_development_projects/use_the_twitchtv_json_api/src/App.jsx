@@ -39,7 +39,11 @@ class TwitchStreamerTable extends Component {
 class TwitchStreamerTableBody extends Component {
     constructor(props) {
         super(props);
-        this.onLoadHandler = logic.getJsonFromTwitchTV.bind(this);
+        this.onLoadHandler = () => {
+            logic.getJsonFromTwitchTV.call(this, () => {
+
+            });
+        }
     }
 
     render() {

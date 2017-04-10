@@ -54,9 +54,8 @@ describe("TwitchTV - FreeCodeCamp", function () {
                 it("should, onLoad, call logic.getJsonFromTwitchTV", sinon.test(function () {
                     // Given
                     const mockGetJsonFromTwitchTV = this.mock(logic);
-                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().returns(a_TwtichTV_API_response);
+                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().yields(a_TwtichTV_API_response);
                     const wrapper = shallow(<TwitchStreamerTableBody/>);
-                    // expect(wrapper.contains(<div onLoad={logic.getJsonFromTwitchTV}/>)).to.equal(true);
                     expect(wrapper.find('div')).to.have.length(1);
 
                     // When
@@ -64,6 +63,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
 
                     // Then
                     mockGetJsonFromTwitchTV.verify();
+                    
                 }));
             });
         });
