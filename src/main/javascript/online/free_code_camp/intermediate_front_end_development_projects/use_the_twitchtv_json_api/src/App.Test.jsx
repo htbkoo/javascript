@@ -54,7 +54,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                 it("should, onLoad, call logic.getJsonFromTwitchTV", sinon.test(function () {
                     // Given
                     const mockGetJsonFromTwitchTV = this.mock(logic);
-                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().yields(a_TwtichTV_API_response);
+                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().yields();
                     const wrapper = shallow(<TwitchStreamerTableBody/>);
                     expect(wrapper.find('div')).to.have.length(1);
 
@@ -63,7 +63,21 @@ describe("TwitchTV - FreeCodeCamp", function () {
 
                     // Then
                     mockGetJsonFromTwitchTV.verify();
-                    
+                }));
+                it("should, onLoad, call and handle response from logic.getJsonFromTwitchTV by callback", sinon.test(function () {
+                    // Given
+                    const mockGetJsonFromTwitchTV = this.mock(logic);
+                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().yields(a_TwtichTV_API_response);
+                    const wrapper = shallow(<TwitchStreamerTableBody/>);
+                    expect(wrapper.find('div')).to.have.length(1);
+                    expect(wrapper.find('div').find('li')).to.have.length(0);
+
+                    // When
+                    wrapper.find('div').simulate('load');
+
+                    // Then
+                    mockGetJsonFromTwitchTV.verify();
+                    expect(wrapper.find('div').find('li')).to.have.length(5);
                 }));
             });
         });

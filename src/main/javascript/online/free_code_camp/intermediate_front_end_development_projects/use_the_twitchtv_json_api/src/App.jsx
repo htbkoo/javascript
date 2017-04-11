@@ -4,10 +4,6 @@ import "./App.css";
 import * as logic from "./logic";
 
 class App extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
             <div className="App">
@@ -25,10 +21,6 @@ class App extends Component {
 }
 
 class TwitchStreamerTable extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
             <TwitchStreamerTableBody />
@@ -39,16 +31,27 @@ class TwitchStreamerTable extends Component {
 class TwitchStreamerTableBody extends Component {
     constructor(props) {
         super(props);
+        this.state = {"streams": []};
         this.onLoadHandler = () => {
-            logic.getJsonFromTwitchTV.call(this, () => {
-
+            logic.getJsonFromTwitchTV.call(this, (data) => {
+                this.setState({
+                    "streams": data
+                });
             });
-        }
+        };
     }
 
     render() {
         return (
-            <div onLoad={this.onLoadHandler}/>
+            <div onLoad={this.onLoadHandler}>
+                <ul>
+                    {
+                        this.state.streams.map((stream) => {
+                            return <li key={stream.display_name}/>
+                        })
+                    }
+                </ul>
+            </div>
         )
     }
 }
