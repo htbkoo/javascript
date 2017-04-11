@@ -51,23 +51,22 @@ describe("TwitchTV - FreeCodeCamp", function () {
                 });
             });
             describe('<TwitchStreamerTableBody />', function () {
-                it("should, onLoad, call logic.getJsonFromTwitchTV", sinon.test(function () {
-                    // Given
+                function mockLogicMethodToYield(map) {
                     const mockGetJsonFromTwitchTV = this.mock(logic);
-                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().yields();
-                    const wrapper = shallow(<TwitchStreamerTableBody/>);
-                    expect(wrapper.find('div')).to.have.length(1);
+                    Object.keys(map).forEach((methodName) => {
+                            mockGetJsonFromTwitchTV.expects(methodName).once().yields(map[methodName].data);
+                        }
+                    );
+                    return mockGetJsonFromTwitchTV;
+                }
 
-                    // When
-                    wrapper.find('div').simulate('load');
-
-                    // Then
-                    mockGetJsonFromTwitchTV.verify();
-                }));
                 it("should, onLoad, call and handle response from logic.getJsonFromTwitchTV by callback", sinon.test(function () {
                     // Given
-                    const mockGetJsonFromTwitchTV = this.mock(logic);
-                    mockGetJsonFromTwitchTV.expects("getJsonFromTwitchTV").once().yields(a_TwtichTV_API_response);
+                    const mockGetJsonFromTwitchTV = mockLogicMethodToYield.call(this, {
+                        "getJsonFromTwitchTV": {
+                            "data": a_TwtichTV_API_response
+                        }
+                    });
                     const wrapper = shallow(<TwitchStreamerTableBody/>);
                     expect(wrapper.find('div')).to.have.length(1);
                     expect(wrapper.find('div').find('li')).to.have.length(0);
