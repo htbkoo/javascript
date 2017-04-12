@@ -31,11 +31,11 @@ class TwitchStreamerTable extends Component {
 class TwitchStreamerTableBody extends Component {
     constructor(props) {
         super(props);
-        this.state = {"streams": []};
+        this.state = {"responses": []};
         this.onLoadHandler = () => {
             logic.getJsonFromTwitchTV.call(this, (data) => {
                 this.setState({
-                    "streams": data
+                    "responses": data
                 });
             });
         };
@@ -44,12 +44,24 @@ class TwitchStreamerTableBody extends Component {
     render() {
         return (
             <div onLoad={this.onLoadHandler}>
-                    {
-                        this.state.streams.map((stream) => {
-                            let key = 'display_name' in stream ? stream.display_name : stream.message;
-                            return <TwitchStreamerTableBodyItem key={key}/>
-                        })
-                    }
+                {
+                    this.state.responses.map((response) => {
+                        let key = (function getDisplayNameFromResponse() {
+                            let displayName = "";
+                            if ('display_name' in response) {
+                                displayName = response.display_name;
+                            } else if (('stream' in response ) && ('display_name' in response.stream)) {
+                                displayName = response.stream.display_name;
+                            } else if ('message' in response) {
+                                displayName = response.message;
+                            } else {
+                                displayName = response.toString();
+                            }
+                            return displayName;
+                        })();
+                        return <TwitchStreamerTableBodyItem key={key}/>
+                    })
+                }
             </div>
         )
     }
