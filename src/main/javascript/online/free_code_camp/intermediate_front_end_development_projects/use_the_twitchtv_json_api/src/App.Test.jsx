@@ -6,7 +6,7 @@ import sinonTest from "sinon-test";
 import React from "react";
 import {shallow} from "enzyme";
 
-import App, {TwitchStreamerTable, TwitchStreamerTableBody} from "./App";
+import App, {TwitchStreamerTable, TwitchStreamerTableBody, TwitchStreamerTableBodyItem} from "./App";
 import * as logic from "./logic";
 
 import a_TwtichTV_API_response from "../test/resources/TwitchTV_sample_API_response.json";
@@ -69,14 +69,15 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     });
                     const wrapper = shallow(<TwitchStreamerTableBody/>);
                     expect(wrapper.find('div')).to.have.length(1);
-                    expect(wrapper.find('div').find('li')).to.have.length(0);
+                    expect(wrapper.find('div').find(TwitchStreamerTableBodyItem)).to.have.length(0);
 
                     // When
                     wrapper.find('div').simulate('load');
 
                     // Then
                     mockGetJsonFromTwitchTV.verify();
-                    expect(wrapper.find('div').find('li')).to.have.length(5);
+                    const liUnderWrapper = wrapper.find('div').find(TwitchStreamerTableBodyItem);
+                    expect(liUnderWrapper).to.have.length(4);
                 }));
             });
         });

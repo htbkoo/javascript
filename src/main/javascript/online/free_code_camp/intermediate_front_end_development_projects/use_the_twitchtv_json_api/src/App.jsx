@@ -44,17 +44,20 @@ class TwitchStreamerTableBody extends Component {
     render() {
         return (
             <div onLoad={this.onLoadHandler}>
-                <ul>
                     {
                         this.state.streams.map((stream) => {
-                            return <li key={stream.display_name}/>
+                            let key = 'display_name' in stream ? stream.display_name : stream.message;
+                            return <TwitchStreamerTableBodyItem key={key}/>
                         })
                     }
-                </ul>
             </div>
         )
     }
 }
 
+class TwitchStreamerTableBodyItem extends Component {
+
+}
+
 export default App;
-export {TwitchStreamerTable, TwitchStreamerTableBody}
+export {TwitchStreamerTable, TwitchStreamerTableBody, TwitchStreamerTableBodyItem}
