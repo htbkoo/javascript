@@ -23,9 +23,16 @@ class App extends Component {
 class TwitchStreamerTable extends Component {
     render() {
         return (
-            <TwitchStreamerTableBody />
+            <table>
+                <TwitchStreamerTableHead />
+                <TwitchStreamerTableBody />
+            </table>
         )
     }
+}
+
+class TwitchStreamerTableHead extends Component {
+
 }
 
 class TwitchStreamerTableBody extends Component {
@@ -43,26 +50,26 @@ class TwitchStreamerTableBody extends Component {
 
     render() {
         return (
-            <div onLoad={this.onLoadHandler}>
-                {
-                    this.state.responses.map((response) => {
-                        let key = (function getDisplayNameFromResponse() {
-                            let displayName = "";
-                            if ('display_name' in response) {
-                                displayName = response.display_name;
-                            } else if (('stream' in response ) && ('display_name' in response.stream)) {
-                                displayName = response.stream.display_name;
-                            } else if ('message' in response) {
-                                displayName = response.message;
-                            } else {
-                                displayName = response.toString();
-                            }
-                            return displayName;
-                        })();
-                        return <TwitchStreamerTableBodyItem key={key} response={response}/>
-                    })
-                }
-            </div>
+            <tbody onLoad={this.onLoadHandler}>
+            {
+                this.state.responses.map((response) => {
+                    let key = (function getDisplayNameFromResponse() {
+                        let displayName = "";
+                        if ('display_name' in response) {
+                            displayName = response.display_name;
+                        } else if (('stream' in response ) && ('display_name' in response.stream)) {
+                            displayName = response.stream.display_name;
+                        } else if ('message' in response) {
+                            displayName = response.message;
+                        } else {
+                            displayName = response.toString();
+                        }
+                        return displayName;
+                    })();
+                    return <TwitchStreamerTableBodyItem key={key} response={response}/>
+                })
+            }
+            </tbody>
         )
     }
 }
@@ -72,4 +79,4 @@ class TwitchStreamerTableBodyItem extends Component {
 }
 
 export default App;
-export {TwitchStreamerTable, TwitchStreamerTableBody, TwitchStreamerTableBodyItem}
+export {TwitchStreamerTable, TwitchStreamerTableHead, TwitchStreamerTableBody, TwitchStreamerTableBodyItem}

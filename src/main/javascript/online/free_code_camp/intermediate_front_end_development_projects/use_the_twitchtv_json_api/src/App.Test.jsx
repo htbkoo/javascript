@@ -6,7 +6,7 @@ import sinonTest from "sinon-test";
 import React from "react";
 import {shallow} from "enzyme";
 
-import App, {TwitchStreamerTable, TwitchStreamerTableBody, TwitchStreamerTableBodyItem} from "./App";
+import App, {TwitchStreamerTable, TwitchStreamerTableHead, TwitchStreamerTableBody, TwitchStreamerTableBodyItem} from "./App";
 import * as logic from "./logic";
 
 import a_TwtichTV_API_response from "../test/resources/TwitchTV_sample_API_response.json";
@@ -50,6 +50,20 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     });
                 });
             });
+            describe('<TwitchStreamerTable/>', function () {
+                it("should have table head and table body within <TwitchStreamerTable/>", function () {
+                    //    Given
+                    const wrapper = shallow(<TwitchStreamerTable/>);
+
+                    //    When
+                    //    Then
+                    const tableUnderWrapper = wrapper.find('table');
+                    expect(tableUnderWrapper).to.have.length(1);
+                    expect(tableUnderWrapper.find('TwitchStreamerTableHead')).to.have.length(1);
+                    expect(tableUnderWrapper.find('TwitchStreamerTableBody')).to.have.length(1);
+                })
+            });
+
             describe('<TwitchStreamerTableBody />', function () {
                 function mockLogicMethodToYield(map) {
                     const mockGetJsonFromTwitchTV = this.mock(logic);
@@ -68,15 +82,15 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         }
                     });
                     const wrapper = shallow(<TwitchStreamerTableBody/>);
-                    expect(wrapper.find('div')).to.have.length(1);
-                    expect(wrapper.find('div').find(TwitchStreamerTableBodyItem)).to.have.length(0);
+                    expect(wrapper.find('tbody')).to.have.length(1);
+                    expect(wrapper.find('tbody').find(TwitchStreamerTableBodyItem)).to.have.length(0);
 
                     // When
-                    wrapper.find('div').simulate('load');
+                    wrapper.find('tbody').simulate('load');
 
                     // Then
                     mockGetJsonFromTwitchTV.verify();
-                    const itemsUnderWrapper = wrapper.find('div').find(TwitchStreamerTableBodyItem);
+                    const itemsUnderWrapper = wrapper.find('tbody').find(TwitchStreamerTableBodyItem);
                     expect(itemsUnderWrapper).to.have.length(4);
 
                     itemsUnderWrapper.nodes.forEach((node) => {
