@@ -59,7 +59,7 @@ class TwitchStreamerTableBody extends Component {
                             }
                             return displayName;
                         })();
-                        return <TwitchStreamerTableBodyItem key={key}/>
+                        return <TwitchStreamerTableBodyItem key={key} response={response}/>
                     })
                 }
             </div>

@@ -76,8 +76,13 @@ describe("TwitchTV - FreeCodeCamp", function () {
 
                     // Then
                     mockGetJsonFromTwitchTV.verify();
-                    const liUnderWrapper = wrapper.find('div').find(TwitchStreamerTableBodyItem);
-                    expect(liUnderWrapper).to.have.length(4);
+                    const itemsUnderWrapper = wrapper.find('div').find(TwitchStreamerTableBodyItem);
+                    expect(itemsUnderWrapper).to.have.length(4);
+
+                    Array(4).fill(0).forEach((_, i) => {
+                        expect(a_TwtichTV_API_response).deep.include(itemsUnderWrapper.get(i).props.response);
+                    });
+                    // [...Array(n).keys()]
                 }));
             });
         });
