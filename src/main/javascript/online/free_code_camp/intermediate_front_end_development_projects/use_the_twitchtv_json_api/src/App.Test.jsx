@@ -141,6 +141,12 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         expect(displayNameDiv).to.have.length(1);
                         expect(displayNameDiv.get(0).props.children).to.equal(a_TwitchTV_stream_example.stream.display_name);
                     })();
+
+                    (function assertStatus() {
+                        const statusDiv = shallow(cells.get(2)).find('div');
+                        expect(statusDiv).to.have.length(1);
+                        expect(statusDiv.get(0).props.children).to.equal(a_TwitchTV_stream_example.stream.status);
+                    })();
                 });
             });
 

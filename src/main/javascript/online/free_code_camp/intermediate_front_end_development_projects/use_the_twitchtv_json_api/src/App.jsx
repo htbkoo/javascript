@@ -85,7 +85,9 @@ class TwitchStreamerTableBodyItem extends Component {
                 <td>
                     <div>{this.props.response.stream.display_name}</div>
                 </td>
-                <td/>
+                <td>
+                    <div>{this.props.response.stream.status}</div>
+                </td>
             </tr>
         )
     }
