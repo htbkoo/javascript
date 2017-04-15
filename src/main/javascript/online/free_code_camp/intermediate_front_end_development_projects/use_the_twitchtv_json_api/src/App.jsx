@@ -79,8 +79,12 @@ class TwitchStreamerTableBodyItem extends Component {
     render() {
         return (
             <tr>
-                <td><img src={this.props.response.stream.logo} alt={this.props.response.stream.name}/></td>
-                <td/>
+                <td>
+                    <img src={this.props.response.stream.logo} alt={this.props.response.stream.name}/>
+                </td>
+                <td>
+                    <div>{this.props.response.stream.display_name}</div>
+                </td>
                 <td/>
             </tr>
         )
