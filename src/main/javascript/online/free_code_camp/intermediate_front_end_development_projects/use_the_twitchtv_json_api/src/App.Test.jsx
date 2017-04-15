@@ -69,6 +69,19 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     expect(tableUnderWrapper.find('TwitchStreamerTableBody')).to.have.length(1);
                 })
             });
+            describe('<TwitchStreamerTableHead/>', function () {
+                it("should have <thead/> within <TwitchStreamerTableHead/>", function () {
+                    //    Given
+                    const wrapper = shallow(<TwitchStreamerTableHead/>);
+
+                    //    When
+                    //    Then
+                    const tableUnderWrapper = wrapper.find('thead');
+                    expect(tableUnderWrapper).to.have.length(1);
+                    expect(tableUnderWrapper.find('tr')).to.have.length(1);
+                    expect(tableUnderWrapper.find('th')).to.have.length(2);
+                })
+            });
 
             describe('<TwitchStreamerTableBody />', function () {
                 function mockLogicMethodToYield(map) {
@@ -120,6 +133,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         const logoImg = shallow(cells.get(0)).find('img');
                         expect(logoImg).to.have.length(1);
                         expect(logoImg.get(0).props.src).to.equal(a_TwitchTV_stream_example.stream.logo);
+                        expect(logoImg.get(0).props.alt).to.equal(a_TwitchTV_stream_example.stream.name);
                     })();
                 });
             });
