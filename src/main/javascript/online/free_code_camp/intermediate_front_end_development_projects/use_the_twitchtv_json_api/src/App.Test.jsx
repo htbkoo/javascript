@@ -22,6 +22,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
         describe("TwitchTV", function () {
+
             describe('<App />', function () {
                 describe("Import test", function () {
                     [
@@ -74,11 +75,25 @@ describe("TwitchTV - FreeCodeCamp", function () {
 
                     //    When
                     //    Then
+                    const theadUnderWrapper = wrapper.find('thead');
+                    expect(theadUnderWrapper).to.have.length(1);
+                    expect(theadUnderWrapper.find('tr')).to.have.length(1);
+                    expect(theadUnderWrapper.find('th')).to.have.length(2);
+                });
+
+                it("should show 'Twitch Streamers' within <TwitchStreamerTableHead/>", function () {
+                    //    Given
+                    const wrapper = shallow(<TwitchStreamerTableHead/>);
+
+                    //    When
+                    //    Then
                     const tableUnderWrapper = wrapper.find('thead');
-                    expect(tableUnderWrapper).to.have.length(1);
-                    expect(tableUnderWrapper.find('tr')).to.have.length(1);
-                    expect(tableUnderWrapper.find('th')).to.have.length(2);
-                })
+                    const thTitle = shallow(tableUnderWrapper.find('th').get(0));
+                    const titleDiv = thTitle.find('div');
+                    expect(titleDiv).to.have.length(1);
+                    expect(titleDiv.hasClass('twitch-streamer-table')).to.be.true;
+                    assertChildrenContent(titleDiv.get(0), "Twitch Streamers");
+                });
             });
 
             describe('<TwitchStreamerTableBodyItem />', function () {
@@ -103,16 +118,20 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     (function assertDisplayName() {
                         const displayNameDiv = shallow(cells.get(1)).find('div');
                         expect(displayNameDiv).to.have.length(1);
-                        expect(displayNameDiv.get(0).props.children).to.equal(a_TwitchTV_stream_example.stream.display_name);
+                        assertChildrenContent(displayNameDiv.get(0), a_TwitchTV_stream_example.stream.display_name);
                     })();
 
                     (function assertStatus() {
                         const statusDiv = shallow(cells.get(2)).find('div');
                         expect(statusDiv).to.have.length(1);
-                        expect(statusDiv.get(0).props.children).to.equal(a_TwitchTV_stream_example.stream.status);
+                        assertChildrenContent(statusDiv.get(0), a_TwitchTV_stream_example.stream.status);
                     })();
                 });
             });
+
+            function assertChildrenContent(element, expectedString) {
+                expect(element.props.children).to.equal(expectedString);
+            }
 
         });
     });

@@ -46,11 +46,21 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     return mockGetJsonFromTwitchTV;
                 }
 
-                it('calls componentDidMount', () => {
+                it('calls componentDidMount', sinon.test(function () {
+                    // Given
+                    const mockGetJsonFromTwitchTV = mockLogicMethodToYield.call(this, {
+                        "getJsonFromTwitchTV": {
+                            "data": a_TwtichTV_API_response
+                        }
+                    });
                     sinon.spy(TwitchStreamerTableBody.prototype, 'componentDidMount');
+
+                    // When
                     const wrapper = mount(<TwitchStreamerTableBody />);
+
+                    // Then
                     expect(TwitchStreamerTableBody.prototype.componentDidMount.calledOnce).to.equal(true);
-                });
+                }));
 
                 it("should, onLoad, call and handle response from logic.getJsonFromTwitchTV by callback", sinon.test(function () {
                     // Given
@@ -59,12 +69,9 @@ describe("TwitchTV - FreeCodeCamp", function () {
                             "data": a_TwtichTV_API_response
                         }
                     });
-                    // expect(wrapper.find('tbody')).to.have.length(1);
-                    // expect(wrapper.find('tbody').find(TwitchStreamerTableBodyItem)).to.have.length(0);
 
                     // When
                     const wrapper = mount(<TwitchStreamerTableBody/>);
-                    // wrapper.find('tbody').simulate('load');
 
                     // Then
                     mockGetJsonFromTwitchTV.verify();
@@ -75,25 +82,6 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         expect(a_TwtichTV_API_response).deep.include(node.props.response);
                     });
                 }));
-
-                /*
-                 it('allows us to set props', () => {
-                 const wrapper = mount(<Foo bar="baz" />);
-                 expect(wrapper.props().bar).to.equal("baz");
-                 wrapper.setProps({ bar: "foo" });
-                 expect(wrapper.props().bar).to.equal("foo");
-                 });
-                 */
-                /*
-                 it('simulates click events', () => {
-                 const onButtonClick = sinon.spy();
-                 const wrapper = mount(
-                 <Foo onButtonClick={onButtonClick} />
-                 );
-                 wrapper.find('button').simulate('click');
-                 expect(onButtonClick.calledOnce).to.equal(true);
-                 });
-                 */
             });
         });
     });

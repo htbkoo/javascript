@@ -28,7 +28,9 @@ class TwitchStreamerTableHead extends Component {
         return (
             <thead>
             <tr>
-                <th/>
+                <th>
+                    <div className="twitch-streamer-table">Twitch Streamers</div>
+                </th>
                 <th/>
             </tr>
             </thead>
