@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import * as logic from "./logic";
 
@@ -8,13 +7,6 @@ class App extends Component {
         return (
             <div className="App">
                 <TwitchStreamerTable />
-                <div className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h2>Welcome to React</h2>
-                </div>
-                <p className="App-intro">
-                    To get started, edit <code>src/App.jsx</code> and save to reload.
-                </p>
             </div>
         );
     }
@@ -75,7 +67,15 @@ class TwitchStreamerTableBody extends Component {
 }
 
 class TwitchStreamerTableBodyItem extends Component {
-
+    render() {
+        return (
+            <tr>
+                <td><img src={this.props.response.stream.logo}/></td>
+                <td></td>
+                <td></td>
+            </tr>
+        )
+    }
 }
 
 export default App;
