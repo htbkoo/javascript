@@ -40,18 +40,19 @@ class TwitchStreamerTableBody extends Component {
     constructor(props) {
         super(props);
         this.state = {"responses": []};
-        this.onLoadHandler = () => {
-            logic.getJsonFromTwitchTV.call(this, (data) => {
-                this.setState({
-                    "responses": data
-                });
+    }
+
+    componentDidMount() {
+        logic.getJsonFromTwitchTV.call(this, (data) => {
+            this.setState({
+                "responses": data
             });
-        };
+        });
     }
 
     render() {
         return (
-            <tbody onLoad={this.onLoadHandler}>
+            <tbody>
             {
                 this.state.responses.map((response) => {
                     let key = (function getDisplayNameFromResponse() {

@@ -40,14 +40,6 @@
     }
   },
   {
-    "stream": null,
-    "display_name": "OgamingSC2",
-    "_links": {
-      "self": "https://api.twitch.tv/kraken/streams/ogamingsc2",
-      "channel": "https://api.twitch.tv/kraken/channels/ogamingsc2"
-    }
-  },
-  {
     "stream": {
       "mature": false,
       "status": "RERUN: StarCraft 2 - Kane vs. HuK (ZvP) - WCS Season 3 Challenger AM - Match 4",
@@ -86,10 +78,5 @@
       "self": "https://api.twitch.tv/kraken/streams/esl_sc2",
       "channel": "https://api.twitch.tv/kraken/channels/esl_sc2"
     }
-  },
-  {
-    "error": "Not Found",
-    "status": 404,
-    "message": "Channel 'not-a-valid-account' does not exist"
   }
 ]
