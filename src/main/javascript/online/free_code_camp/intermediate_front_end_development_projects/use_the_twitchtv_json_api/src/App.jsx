@@ -24,7 +24,16 @@ class TwitchStreamerTable extends Component {
 }
 
 class TwitchStreamerTableHead extends Component {
-
+    render() {
+        return (
+            <thead>
+            <tr>
+                <th/>
+                <th/>
+            </tr>
+            </thead>
+        )
+    }
 }
 
 class TwitchStreamerTableBody extends Component {
@@ -70,9 +79,9 @@ class TwitchStreamerTableBodyItem extends Component {
     render() {
         return (
             <tr>
-                <td><img src={this.props.response.stream.logo}/></td>
-                <td></td>
-                <td></td>
+                <td><img src={this.props.response.stream.logo} alt={this.props.response.stream.name}/></td>
+                <td/>
+                <td/>
             </tr>
         )
     }
