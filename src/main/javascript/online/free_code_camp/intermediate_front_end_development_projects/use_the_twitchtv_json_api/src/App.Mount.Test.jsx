@@ -50,7 +50,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     // Given
                     const mockGetJsonFromTwitchTV = mockLogicMethodToYield.call(this, {
                         "getJsonFromTwitchTV": {
-                            "data": a_TwtichTV_API_response
+                            "data": ""
                         }
                     });
                     sinon.spy(TwitchStreamerTableBody.prototype, 'componentDidMount');
@@ -62,7 +62,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     expect(TwitchStreamerTableBody.prototype.componentDidMount.calledOnce).to.equal(true);
                 }));
 
-                it("should, onLoad, call and handle response from logic.getJsonFromTwitchTV by callback", sinon.test(function () {
+                it("should, when componentDidMount, call and handle response from logic.getJsonFromTwitchTV by callback", sinon.test(function () {
                     // Given
                     const mockGetJsonFromTwitchTV = mockLogicMethodToYield.call(this, {
                         "getJsonFromTwitchTV": {
@@ -76,11 +76,28 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     // Then
                     mockGetJsonFromTwitchTV.verify();
                     const itemsUnderWrapper = wrapper.find('tbody').find(TwitchStreamerTableBodyItem);
-                    expect(itemsUnderWrapper).to.have.length(2);
+                    expect(itemsUnderWrapper).to.have.length(4);
 
                     itemsUnderWrapper.nodes.forEach((node) => {
                         expect(a_TwtichTV_API_response).deep.include(node.props.response);
                     });
+                }));
+
+                it("should render properly even when empty response is returned", sinon.test(function () {
+                    // Given
+                    const mockGetJsonFromTwitchTV = mockLogicMethodToYield.call(this, {
+                        "getJsonFromTwitchTV": {
+                            "data": ""
+                        }
+                    });
+
+                    // When
+                    const wrapper = mount(<TwitchStreamerTableBody/>);
+
+                    // Then
+                    mockGetJsonFromTwitchTV.verify();
+                    const itemsUnderWrapper = wrapper.find('tbody').find(TwitchStreamerTableBodyItem);
+                    expect(itemsUnderWrapper).to.have.length(0);
                 }));
             });
         });

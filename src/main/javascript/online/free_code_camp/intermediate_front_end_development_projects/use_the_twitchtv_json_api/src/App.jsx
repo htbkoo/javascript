@@ -2,6 +2,9 @@ import React, {Component} from "react";
 import "./App.css";
 import * as logic from "./logic";
 
+const DUMMY_LOCO_SRC = "https://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F";
+const DUMMY_LOCO_ALT = "0x3F";
+
 class App extends Component {
     render() {
         return (
@@ -45,7 +48,12 @@ class TwitchStreamerTableBody extends Component {
     }
 
     componentDidMount() {
+        function isNonNullObject(possiblyObj) {
+            return possiblyObj !== null && typeof possiblyObj === 'object';
+        }
+
         logic.getJsonFromTwitchTV.call(this, (data) => {
+            data = Array.isArray(data) ? data : isNonNullObject(data) ? [data] : [];
             this.setState({
                 "responses": data
             });
@@ -80,16 +88,32 @@ class TwitchStreamerTableBody extends Component {
 
 class TwitchStreamerTableBodyItem extends Component {
     render() {
+        function getStreamFieldOrElse(field, defaultReturnValue) {
+            function isFieldValid(field) {
+                return ('stream' in response) && (response.stream !== null)
+                    && (field in response.stream) && (response.stream[field] !== null);
+            }
+
+            return isFieldValid(field) ? response.stream[field] : defaultReturnValue;
+        }
+
+        let response = this.props.response;
+
+        function getResponseFieldOrElse(field) {
+            return field in response ? response[field] : "";
+        }
+
         return (
             <tr>
                 <td>
-                    <img src={this.props.response.stream.logo} alt={this.props.response.stream.name}/>
+                    <img src={getStreamFieldOrElse('logo', DUMMY_LOCO_SRC)}
+                         alt={getStreamFieldOrElse('name', DUMMY_LOCO_ALT)}/>
                 </td>
                 <td>
-                    <div>{this.props.response.stream.display_name}</div>
+                    <div>{getStreamFieldOrElse('display_name', getResponseFieldOrElse('display_name'))}</div>
                 </td>
                 <td>
-                    <div>{this.props.response.stream.status}</div>
+                    <div>{getStreamFieldOrElse('status', getResponseFieldOrElse('message'))}</div>
                 </td>
             </tr>
         )
