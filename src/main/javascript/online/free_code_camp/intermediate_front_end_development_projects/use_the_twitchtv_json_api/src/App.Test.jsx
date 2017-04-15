@@ -6,10 +6,16 @@ import sinonTest from "sinon-test";
 import React from "react";
 import {shallow} from "enzyme";
 
-import App, {TwitchStreamerTable, TwitchStreamerTableHead, TwitchStreamerTableBody, TwitchStreamerTableBodyItem} from "./App";
+import App, {
+    TwitchStreamerTable,
+    TwitchStreamerTableHead,
+    TwitchStreamerTableBody,
+    TwitchStreamerTableBodyItem
+} from "./App";
 import * as logic from "./logic";
 
 import a_TwtichTV_API_response from "../test/resources/TwitchTV_sample_API_response.json";
+import a_TwitchTV_stream_example from "../test/resources/TwitchTV_a_stream_example.json";
 
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
@@ -98,6 +104,26 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     });
                 }));
             });
+            describe('<TwitchStreamerTableBodyItem />', function () {
+                it("should render normal response as a table row, with logo, display_name, status and url", function () {
+                    //    Given
+                    let wrapper = shallow(<TwitchStreamerTableBodyItem response={a_TwitchTV_stream_example}/>);
+
+                    //    When
+                    //    Then
+                    const row = wrapper.find('tr');
+                    expect(row).to.have.length(1);
+                    const cells = row.find('td');
+                    expect(cells).to.have.length(3);
+
+                    (function assertLogo() {
+                        const logoImg = shallow(cells.get(0)).find('img');
+                        expect(logoImg).to.have.length(1);
+                        expect(logoImg.get(0).props.src).to.equal(a_TwitchTV_stream_example.stream.logo);
+                    })();
+                });
+            });
+
         });
     });
 });
