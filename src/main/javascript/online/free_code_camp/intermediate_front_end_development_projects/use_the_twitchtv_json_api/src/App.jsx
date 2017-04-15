@@ -97,11 +97,11 @@ class TwitchStreamerTableBodyItem extends Component {
             return isFieldValid(field) ? response.stream[field] : defaultReturnValue;
         }
 
-        let response = this.props.response;
-
         function getResponseFieldOrElse(field) {
             return field in response ? response[field] : "";
         }
+
+        let response = this.props.response;
 
         return (
             <tr>
@@ -110,7 +110,9 @@ class TwitchStreamerTableBodyItem extends Component {
                          alt={getStreamFieldOrElse('name', DUMMY_LOCO_ALT)}/>
                 </td>
                 <td>
-                    <div>{getStreamFieldOrElse('display_name', getResponseFieldOrElse('display_name'))}</div>
+                    <div>
+                        <a href={getStreamFieldOrElse('url', "")}>{getStreamFieldOrElse('display_name', getResponseFieldOrElse('display_name'))}</a>
+                    </div>
                 </td>
                 <td>
                     <div>{getStreamFieldOrElse('status', getResponseFieldOrElse('message'))}</div>

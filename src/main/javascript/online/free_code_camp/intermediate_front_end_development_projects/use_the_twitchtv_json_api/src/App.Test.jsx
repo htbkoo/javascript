@@ -118,7 +118,10 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     (function assertDisplayName() {
                         const displayNameDiv = shallow(cells.get(1)).find('div');
                         expect(displayNameDiv).to.have.length(1);
-                        assertChildrenContent(displayNameDiv.get(0), a_TwitchTV_stream_example.stream.display_name);
+                        const displayNameA = shallow(displayNameDiv.get(0)).find('a');
+                        expect(displayNameA).to.have.length(1);
+                        expect(displayNameA.get(0).props.href).to.equal(a_TwitchTV_stream_example.stream.url);
+                        assertChildrenContent(displayNameA.get(0), a_TwitchTV_stream_example.stream.display_name);
                     })();
 
                     (function assertStatus() {
