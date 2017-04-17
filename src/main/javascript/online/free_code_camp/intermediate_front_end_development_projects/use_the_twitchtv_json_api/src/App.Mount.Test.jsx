@@ -32,10 +32,10 @@ global.navigator = {
 // documentRef = document;
 
 
-describe("TwitchTV - FreeCodeCamp", function () {
+describe("TwitchTV - FreeCodeCamp - Mount test", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
-        describe("Mount - TwitchTV", function () {
+        describe("TwitchTV (Mount part)", function () {
             describe('<TwitchStreamerTableBody />', function () {
                 function mockLogicMethodToYield(map) {
                     const mockGetJsonFromTwitchTV = this.mock(logic);
