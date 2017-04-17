@@ -24,10 +24,9 @@
     "parserOptions": {
       "ecmaVersion": 5,
       "sourceType": "script",
-      "ecmaFeatures": {
-      }
+      "ecmaFeatures": {}
     },
-    "env":{
+    "env": {
       "node": true,
       "mocha": true
     }
