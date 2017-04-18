@@ -5,10 +5,10 @@ import {TwitchStreamerTableBody, TwitchStreamerTableBodyItem} from "./App";
 import babelRegister from 'babel-register';
 import sinon from 'sinon';
 import {jsdom} from 'jsdom';
-import sinonTest from "sinon-test";
 import a_TwtichTV_API_response from "../test/resources/TwitchTV_sample_API_response.json";
 import * as logic from "./logic";
 
+import sinonTest from "sinon-test";
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
 
@@ -34,22 +34,10 @@ describe("TwitchTV - FreeCodeCamp - Mount test", function () {
     describe("FrontEnd - Intermediate Project", function () {
         describe("TwitchTV (Mount part)", function () {
             describe('<TwitchStreamerTableBody />', function () {
-                function mockLogicMethodToYield(map) {
-                    const mockGetJsonFromTwitchTV = this.mock(logic);
-                    Object.keys(map).forEach((methodName) => {
-                            mockGetJsonFromTwitchTV.expects(methodName).once().yields(map[methodName].data);
-                        }
-                    );
-                    return mockGetJsonFromTwitchTV;
-                }
-
                 it('calls componentDidMount', sinon.test(function () {
                     // Given
-                    const mockGetJsonFromTwitchTV = mockLogicMethodToYield.call(this, {
-                        "getJsonFromTwitchTV": {
-                            "data": ""
-                        }
-                    });
+                    const stubGetJsonFromTwitchTV = this.stub(logic, "getJsonFromTwitchTV");
+                    stubGetJsonFromTwitchTV.yields("");
                     sinon.spy(TwitchStreamerTableBody.prototype, 'componentDidMount');
 
                     // When
@@ -61,38 +49,32 @@ describe("TwitchTV - FreeCodeCamp - Mount test", function () {
 
                 it("should, when componentDidMount, call and handle response from logic.getJsonFromTwitchTV by callback", sinon.test(function () {
                     // Given
-                    const mockGetJsonFromTwitchTV = mockLogicMethodToYield.call(this, {
-                        "getJsonFromTwitchTV": {
-                            "data": a_TwtichTV_API_response
-                        }
+                    const stubGetJsonFromTwitchTV = this.stub(logic, "getJsonFromTwitchTV");
+                    Object.keys(a_TwtichTV_API_response).forEach((key) => {
+                        stubGetJsonFromTwitchTV.withArgs(key).yields(a_TwtichTV_API_response[key]);
                     });
 
                     // When
                     const wrapper = mount(<TwitchStreamerTableBody/>);
 
                     // Then
-                    mockGetJsonFromTwitchTV.verify();
                     const itemsUnderWrapper = wrapper.find('tbody').find(TwitchStreamerTableBodyItem);
                     expect(itemsUnderWrapper).to.have.length(4);
 
                     itemsUnderWrapper.nodes.forEach((node) => {
-                        expect(a_TwtichTV_API_response).deep.include(node.props.response);
+                        expect(node.props.response).to.deep.equal(a_TwtichTV_API_response[node.props.id]);
                     });
                 }));
 
                 it("should render properly even when empty response is returned", sinon.test(function () {
                     // Given
-                    const mockGetJsonFromTwitchTV = mockLogicMethodToYield.call(this, {
-                        "getJsonFromTwitchTV": {
-                            "data": ""
-                        }
-                    });
+                    const stubGetJsonFromTwitchTV = this.stub(logic, "getJsonFromTwitchTV");
+                    stubGetJsonFromTwitchTV.yields("");
 
                     // When
                     const wrapper = mount(<TwitchStreamerTableBody/>);
 
                     // Then
-                    mockGetJsonFromTwitchTV.verify();
                     const itemsUnderWrapper = wrapper.find('tbody').find(TwitchStreamerTableBodyItem);
                     expect(itemsUnderWrapper).to.have.length(0);
                 }));

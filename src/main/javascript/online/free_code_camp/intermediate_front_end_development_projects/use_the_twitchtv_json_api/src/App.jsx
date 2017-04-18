@@ -4,6 +4,7 @@ import * as logic from "./logic";
 
 const DUMMY_LOCO_SRC = "https://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F";
 const DUMMY_LOCO_ALT = "0x3F";
+const TWITCH_TV_USERNAMES = ["esl_sc2", "ogamingsc2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "not-a-valid-account"];
 
 class App extends Component {
     render() {
@@ -52,10 +53,15 @@ class TwitchStreamerTableBody extends Component {
             return possiblyObj !== null && typeof possiblyObj === 'object';
         }
 
-        logic.getJsonFromTwitchTV.call(this, (data) => {
-            data = Array.isArray(data) ? data : isNonNullObject(data) ? [data] : [];
-            this.setState({
-                "responses": data
+        let responses = {};
+        TWITCH_TV_USERNAMES.forEach((username) => {
+            logic.getJsonFromTwitchTV.call(this, username, (data) => {
+                if (isNonNullObject(data)) {
+                    responses[username] = data;
+                }
+                this.setState({
+                    "responses": responses
+                });
             });
         });
     }
@@ -64,21 +70,10 @@ class TwitchStreamerTableBody extends Component {
         return (
             <tbody>
             {
-                this.state.responses.map((response) => {
-                    let key = (function getDisplayNameFromResponse() {
-                        let displayName = "";
-                        if ('display_name' in response) {
-                            displayName = response.display_name;
-                        } else if (('stream' in response ) && ('display_name' in response.stream)) {
-                            displayName = response.stream.display_name;
-                        } else if ('message' in response) {
-                            displayName = response.message;
-                        } else {
-                            displayName = response.toString();
-                        }
-                        return displayName;
-                    })();
-                    return <TwitchStreamerTableBodyItem key={key} response={response}/>
+                Object.keys(this.state.responses).map((streamerId) => {
+                    return <TwitchStreamerTableBodyItem key={streamerId}
+                                                        id={streamerId}
+                                                        response={this.state.responses[streamerId]}/>
                 })
             }
             </tbody>

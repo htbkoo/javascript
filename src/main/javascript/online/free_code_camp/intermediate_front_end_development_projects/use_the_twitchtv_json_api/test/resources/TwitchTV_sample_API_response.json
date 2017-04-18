@@ -1,5 +1,5 @@
-[
-  {
+{
+  "freecodecamp": {
     "stream": {
       "mature": false,
       "status": "Greg working on Electron-Vue boilerplate w/ Akira #programming #vuejs #electron",
@@ -39,7 +39,7 @@
       "channel": "https://api.twitch.tv/kraken/channels/freecodecamp"
     }
   },
-  {
+  "ogamingsc2": {
     "stream": null,
     "display_name": "OgamingSC2",
     "_links": {
@@ -47,7 +47,7 @@
       "channel": "https://api.twitch.tv/kraken/channels/ogamingsc2"
     }
   },
-  {
+  "esl_sc2": {
     "stream": {
       "mature": false,
       "status": "RERUN: StarCraft 2 - Kane vs. HuK (ZvP) - WCS Season 3 Challenger AM - Match 4",
@@ -87,9 +87,9 @@
       "channel": "https://api.twitch.tv/kraken/channels/esl_sc2"
     }
   },
-  {
+  "not-a-valid-account": {
     "error": "Not Found",
     "status": 404,
     "message": "Channel 'not-a-valid-account' does not exist"
   }
-]
+}
