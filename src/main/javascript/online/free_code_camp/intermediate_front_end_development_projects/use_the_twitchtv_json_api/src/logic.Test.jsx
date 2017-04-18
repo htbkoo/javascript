@@ -23,40 +23,41 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
 
             describe('getJsonFromTwitchTV', function () {
                 it('should, with request for 1 valid streamer id, get response from TwitchTV API', sinon.test(function (done) {
-                    let sinonThis = this;
-                    jsdom.env({
-                        'html': "<html></html>",
-                        scripts: [
-                            require.resolve("../../../lib/jquery-1.11.3/jquery-1.11.3.min.js")
-                        ],
-                        'virtualConsole': jsdom.createVirtualConsole().sendTo(console),
-                        'done': function (err, window) {
-                            //    Given
-                            let a_valid_response = [a_valid_response_obj];
-                            let $ = window.$;
+                    setupJsdomAndAssertWith((err, window, $) => {
+                        //    Given
+                        let a_valid_response = [a_valid_response_obj];
+                        let $_getJSON = this.stub($, "getJSON");
+                        $_getJSON.yields(a_valid_response);
 
-                            global.$ = $;
-
-                            let $_getJSON = sinonThis.stub($, "getJSON");
-                            $_getJSON.yields(a_valid_response);
-
-
-                            SystemJS.import('./logic.jsx').then(function (logic) {
-                                //    When
-                                logic.getJsonFromTwitchTV((data) => {
-                                    //    Then
-                                    done();
-                                });
-                            })
-                                .catch(function (err) {
-                                    console.log(err); // wont be called either
-                                });
-
-                        }
+                        SystemJS.import('./logic.jsx').then(function (logic) {
+                            //    When
+                            logic.getJsonFromTwitchTV((data) => {
+                                //    Then
+                                done();
+                            });
+                        }).catch(function (err) {
+                            console.log(err); // wont be called either
+                        });
                     });
                 }));
             });
         });
+
+        function setupJsdomAndAssertWith(doAssertionPart) {
+            jsdom.env({
+                'html': "<html></html>",
+                scripts: [
+                    require.resolve("../../../lib/jquery-1.11.3/jquery-1.11.3.min.js")
+                ],
+                'virtualConsole': jsdom.createVirtualConsole().sendTo(console),
+                'done': (err, window) => {
+                    let $ = window.$;
+                    global.$ = $;
+
+                    doAssertionPart(err, window, $);
+                }
+            });
+        }
     });
 });
 
