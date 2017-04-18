@@ -29,9 +29,6 @@ global.navigator = {
     userAgent: 'node.js'
 };
 
-// documentRef = document;
-
-
 describe("TwitchTV - FreeCodeCamp - Mount test", function () {
     "use strict";
     describe("FrontEnd - Intermediate Project", function () {
