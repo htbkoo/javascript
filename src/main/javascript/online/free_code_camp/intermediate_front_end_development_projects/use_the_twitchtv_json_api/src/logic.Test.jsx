@@ -16,6 +16,8 @@ SystemJS.config({
 });
 
 import a_valid_response_obj from '../test/resources/TwitchTV_a_stream_example.json';
+import an_invalid_response_obj from '../test/resources/TwitchTV_an_invalid_stream_example.json';
+import an_offline_response_obj from '../test/resources/TwitchTV_an_offline_stream_example.json';
 
 describe("TwitchTV - FreeCodeCamp - logic test", function () {
     "use strict";
@@ -29,6 +31,16 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
                         'mock_getJSON_response': a_valid_response_obj,
                         'streamer_id': "freecodecamp",
                     },
+                    {
+                        'testName': 'should, with request for 1 invalid streamer id, get response from TwitchTV API',
+                        'mock_getJSON_response': an_invalid_response_obj,
+                        'streamer_id': "not-a-valid-account",
+                    },
+                    {
+                        'testName': 'should, with request for 1 offline streamer id, get response from TwitchTV API',
+                        'mock_getJSON_response': an_offline_response_obj,
+                        'streamer_id': "ogamingsc2",
+                    }
                 ].forEach((params) => {
                     it(params.testName, sinon.test(function (done) {
                         setupJsdomAndAssertWith((err, window, $) => {
@@ -45,7 +57,7 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
 
                             SystemJS.import('./logic.jsx').then(function (logic) {
                                 //    When
-                                logic.getJsonFromTwitchTV((data) => {
+                                logic.getJsonFromTwitchTV(params.streamer_id, (data) => {
                                     //    Then
                                     expect(data).to.equal(params.mock_getJSON_response);
                                     done();
