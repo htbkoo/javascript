@@ -27,12 +27,20 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
                         //    Given
                         let a_valid_response = [a_valid_response_obj];
                         let $_getJSON = this.stub($, "getJSON");
-                        $_getJSON.yields(a_valid_response);
+                        $_getJSON.withArgs(sinon.match((actualUrl) => {
+                            return [
+                                "https://wind-bow.gomix.me/twitch-api/streams/freecodecamp?",
+                                "callback=?"
+                            ].every((expectedPart) => {
+                                return actualUrl.indexOf(expectedPart) !== -1;
+                            });
+                        })).yields(a_valid_response);
 
                         SystemJS.import('./logic.jsx').then(function (logic) {
                             //    When
                             logic.getJsonFromTwitchTV((data) => {
                                 //    Then
+                                expect(data).to.equal(a_valid_response);
                                 done();
                             });
                         }).catch(function (err) {
