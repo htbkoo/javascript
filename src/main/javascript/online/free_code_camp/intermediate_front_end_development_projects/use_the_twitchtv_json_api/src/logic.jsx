@@ -1,5 +1,5 @@
 function getJsonFromTwitchTV(callback) {
+    $.getJSON("", {}, callback);
 }
 
-export default getJsonFromTwitchTV;
 export {getJsonFromTwitchTV};

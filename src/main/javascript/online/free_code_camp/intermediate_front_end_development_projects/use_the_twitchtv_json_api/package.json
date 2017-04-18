@@ -13,12 +13,15 @@
     "chai": "^3.5.0",
     "enzyme": "^2.8.0",
     "ignore-styles": "^5.0.1",
+    "jsdom": "^9.12.0",
     "mocha": "^3.2.0",
     "react-addons-test-utils": "^15.4.2",
     "react-scripts": "0.9.5",
     "sinon": "^2.1.0",
     "sinon-test": "^1.0.1",
-    "string-format": "^0.5.0"
+    "string-format": "^0.5.0",
+    "systemjs": "^0.20.12",
+    "systemjs-plugin-babel": "0.0.21"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,8 +31,8 @@
   },
   "babel": {
     "presets": [
-      "react",
-      "es2015"
+      "es2015",
+      "react"
     ]
   }
 }
