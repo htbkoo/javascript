@@ -111,8 +111,8 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     (function assertLogo() {
                         const logoImg = shallow(cells.get(0)).find('img');
                         expect(logoImg).to.have.length(1);
-                        expect(logoImg.get(0).props.src).to.equal(a_TwitchTV_stream_example.stream.logo);
-                        expect(logoImg.get(0).props.alt).to.equal(a_TwitchTV_stream_example.stream.name);
+                        expect(logoImg.get(0).props.src).to.equal(a_TwitchTV_stream_example.stream.channel.logo);
+                        expect(logoImg.get(0).props.alt).to.equal(a_TwitchTV_stream_example.stream.channel.name);
                     })();
 
                     (function assertDisplayName() {
@@ -120,14 +120,14 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         expect(displayNameDiv).to.have.length(1);
                         const displayNameA = shallow(displayNameDiv.get(0)).find('a');
                         expect(displayNameA).to.have.length(1);
-                        expect(displayNameA.get(0).props.href).to.equal(a_TwitchTV_stream_example.stream.url);
-                        assertChildrenContent(displayNameA.get(0), a_TwitchTV_stream_example.stream.display_name);
+                        expect(displayNameA.get(0).props.href).to.equal(a_TwitchTV_stream_example.stream.channel.url);
+                        assertChildrenContent(displayNameA.get(0), a_TwitchTV_stream_example.stream.channel.display_name);
                     })();
 
                     (function assertStatus() {
                         const statusDiv = shallow(cells.get(2)).find('div');
                         expect(statusDiv).to.have.length(1);
-                        assertChildrenContent(statusDiv.get(0), a_TwitchTV_stream_example.stream.status);
+                        assertChildrenContent(statusDiv.get(0), a_TwitchTV_stream_example.stream.channel.status);
                     })();
                 });
             });

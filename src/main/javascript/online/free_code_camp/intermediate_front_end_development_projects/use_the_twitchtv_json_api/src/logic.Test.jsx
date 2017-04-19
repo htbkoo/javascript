@@ -57,6 +57,7 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
 
                             SystemJS.import('./logic.jsx').then(function (logic) {
                                 //    When
+                                //noinspection JSUnresolvedFunction
                                 logic.getJsonFromTwitchTV(params.streamer_id, (data) => {
                                     //    Then
                                     expect(data).to.equal(params.mock_getJSON_response);
@@ -75,12 +76,12 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
             jsdom.env({
                 'html': "<html></html>",
                 scripts: [
-                    require.resolve("../../../lib/jquery-1.11.3/jquery-1.11.3.min.js")
+                    require.resolve("../public/jquery-1.11.3/jquery-1.11.3.min.js")
                 ],
                 'virtualConsole': jsdom.createVirtualConsole().sendTo(console),
                 'done': (err, window) => {
                     let $ = window.$;
-                    global.$ = $;
+                    global.window = window;
 
                     doAssertionPart(err, window, $);
                 }

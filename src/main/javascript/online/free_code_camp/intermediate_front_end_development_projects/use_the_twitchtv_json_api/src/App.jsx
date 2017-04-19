@@ -83,34 +83,35 @@ class TwitchStreamerTableBody extends Component {
 
 class TwitchStreamerTableBodyItem extends Component {
     render() {
-        function getStreamFieldOrElse(field, defaultReturnValue) {
+        let response = this.props.response;
+
+        function getStreamChannelFieldOrElse(field, defaultReturnValue) {
             function isFieldValid(field) {
                 return ('stream' in response) && (response.stream !== null)
-                    && (field in response.stream) && (response.stream[field] !== null);
+                    && ('channel' in response.stream) && (response.stream.channel !== null)
+                    && (field in response.stream.channel) && (response.stream.channel[field] !== null);
             }
 
-            return isFieldValid(field) ? response.stream[field] : defaultReturnValue;
+            return isFieldValid(field) ? response.stream.channel[field] : defaultReturnValue;
         }
 
         function getResponseFieldOrElse(field) {
             return field in response ? response[field] : "";
         }
 
-        let response = this.props.response;
-
         return (
             <tr>
                 <td>
-                    <img src={getStreamFieldOrElse('logo', DUMMY_LOCO_SRC)}
-                         alt={getStreamFieldOrElse('name', DUMMY_LOCO_ALT)}/>
+                    <img src={getStreamChannelFieldOrElse('logo', DUMMY_LOCO_SRC)}
+                         alt={getStreamChannelFieldOrElse('name', DUMMY_LOCO_ALT)}/>
                 </td>
                 <td>
                     <div>
-                        <a href={getStreamFieldOrElse('url', "")}>{getStreamFieldOrElse('display_name', getResponseFieldOrElse('display_name'))}</a>
+                        <a href={getStreamChannelFieldOrElse('url', "")}>{getStreamChannelFieldOrElse('display_name', getResponseFieldOrElse('display_name'))}</a>
                     </div>
                 </td>
                 <td>
-                    <div>{getStreamFieldOrElse('status', getResponseFieldOrElse('message'))}</div>
+                    <div>{getStreamChannelFieldOrElse('status', getResponseFieldOrElse('message'))}</div>
                 </td>
             </tr>
         )
