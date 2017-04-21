@@ -45,7 +45,7 @@ class TwitchStreamerTableHead extends Component {
 class TwitchStreamerTableBody extends Component {
     constructor(props) {
         super(props);
-        this.state = {"responses": []};
+        this.state = {"streams": []};
     }
 
     componentDidMount() {
@@ -53,14 +53,14 @@ class TwitchStreamerTableBody extends Component {
             return possiblyObj !== null && typeof possiblyObj === 'object';
         }
 
-        let responses = {};
+        let streams = {};
         TWITCH_TV_USERNAMES.forEach((username) => {
             logic.getStreamJsonFromTwitchTV.call(this, username, (data) => {
                 if (isNonNullObject(data)) {
-                    responses[username] = data;
+                    streams[username] = data;
                 }
                 this.setState({
-                    "responses": responses
+                    "streams": streams
                 });
             });
         });
@@ -70,10 +70,10 @@ class TwitchStreamerTableBody extends Component {
         return (
             <tbody>
             {
-                Object.keys(this.state.responses).map((streamerId) => {
+                Object.keys(this.state.streams).map((streamerId) => {
                     return <TwitchStreamerTableBodyItem key={streamerId}
                                                         id={streamerId}
-                                                        response={this.state.responses[streamerId]}/>
+                                                        response={this.state.streams[streamerId]}/>
                 })
             }
             </tbody>
