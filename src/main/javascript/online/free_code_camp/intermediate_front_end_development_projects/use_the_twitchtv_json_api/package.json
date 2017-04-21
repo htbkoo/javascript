@@ -29,6 +29,23 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "parserOptions": {
+        "ecmaFeatures": {
+          "jsx": true,
+          "modules": true
+        }
+      }
+    },
+    "env": {
+      "node": true,
+      "mocha": true
+    },
+    "parser": "babel-eslint"
+  },
   "babel": {
     "presets": [
       "es2015",
