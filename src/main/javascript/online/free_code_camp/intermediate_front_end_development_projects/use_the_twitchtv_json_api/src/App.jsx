@@ -55,7 +55,7 @@ class TwitchStreamerTableBody extends Component {
 
         let responses = {};
         TWITCH_TV_USERNAMES.forEach((username) => {
-            logic.getJsonFromTwitchTV.call(this, username, (data) => {
+            logic.getStreamJsonFromTwitchTV.call(this, username, (data) => {
                 if (isNonNullObject(data)) {
                     responses[username] = data;
                 }

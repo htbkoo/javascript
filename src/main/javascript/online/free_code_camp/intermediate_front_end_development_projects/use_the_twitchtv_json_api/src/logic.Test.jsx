@@ -24,7 +24,7 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
     describe("FrontEnd - Intermediate Project", function () {
         describe("TwitchTV (logic part)", function () {
 
-            describe('getJsonFromTwitchTV', function () {
+            describe('getStreamJsonFromTwitchTV', function () {
                 [
                     {
                         'testName': 'should, with request for 1 valid streamer id, get response from TwitchTV API',
@@ -58,7 +58,7 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
                             SystemJS.import('./logic.jsx').then(function (logic) {
                                 //    When
                                 //noinspection JSUnresolvedFunction
-                                logic.getJsonFromTwitchTV(params.streamer_id, (data) => {
+                                logic.getStreamJsonFromTwitchTV(params.streamer_id, (data) => {
                                     //    Then
                                     expect(data).to.equal(params.mock_getJSON_response);
                                     done();

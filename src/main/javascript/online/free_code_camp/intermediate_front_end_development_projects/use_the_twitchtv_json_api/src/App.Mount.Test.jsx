@@ -36,7 +36,7 @@ describe("TwitchTV - FreeCodeCamp - Mount test", function () {
             describe('<TwitchStreamerTableBody />', function () {
                 it('calls componentDidMount', sinon.test(function () {
                     // Given
-                    const stubGetJsonFromTwitchTV = this.stub(logic, "getJsonFromTwitchTV");
+                    const stubGetJsonFromTwitchTV = this.stub(logic, "getStreamJsonFromTwitchTV");
                     stubGetJsonFromTwitchTV.yields("");
                     sinon.spy(TwitchStreamerTableBody.prototype, 'componentDidMount');
 
@@ -47,9 +47,9 @@ describe("TwitchTV - FreeCodeCamp - Mount test", function () {
                     expect(TwitchStreamerTableBody.prototype.componentDidMount.calledOnce).to.equal(true);
                 }));
 
-                it("should, when componentDidMount, call and handle response from logic.getJsonFromTwitchTV by callback", sinon.test(function () {
+                it("should, when componentDidMount, call and handle response from logic.getStreamJsonFromTwitchTV by callback", sinon.test(function () {
                     // Given
-                    const stubGetJsonFromTwitchTV = this.stub(logic, "getJsonFromTwitchTV");
+                    const stubGetJsonFromTwitchTV = this.stub(logic, "getStreamJsonFromTwitchTV");
                     Object.keys(a_TwtichTV_API_response).forEach((key) => {
                         stubGetJsonFromTwitchTV.withArgs(key).yields(a_TwtichTV_API_response[key]);
                     });
@@ -68,7 +68,7 @@ describe("TwitchTV - FreeCodeCamp - Mount test", function () {
 
                 it("should render properly even when empty response is returned", sinon.test(function () {
                     // Given
-                    const stubGetJsonFromTwitchTV = this.stub(logic, "getJsonFromTwitchTV");
+                    const stubGetJsonFromTwitchTV = this.stub(logic, "getStreamJsonFromTwitchTV");
                     stubGetJsonFromTwitchTV.yields("");
 
                     // When
