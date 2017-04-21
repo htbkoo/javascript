@@ -73,7 +73,7 @@ class TwitchStreamerTableBody extends Component {
                 Object.keys(this.state.streams).map((streamerId) => {
                     return <TwitchStreamerTableBodyItem key={streamerId}
                                                         id={streamerId}
-                                                        response={this.state.streams[streamerId]}/>
+                                                        stream={this.state.streams[streamerId]}/>
                 })
             }
             </tbody>
@@ -83,20 +83,20 @@ class TwitchStreamerTableBody extends Component {
 
 class TwitchStreamerTableBodyItem extends Component {
     render() {
-        let response = this.props.response;
+        let stream = this.props.stream;
 
         function getStreamChannelFieldOrElse(field, defaultReturnValue) {
             function isFieldValid(field) {
-                return ('stream' in response) && (response.stream !== null)
-                    && ('channel' in response.stream) && (response.stream.channel !== null)
-                    && (field in response.stream.channel) && (response.stream.channel[field] !== null);
+                return ('stream' in stream) && (stream.stream !== null)
+                    && ('channel' in stream.stream) && (stream.stream.channel !== null)
+                    && (field in stream.stream.channel) && (stream.stream.channel[field] !== null);
             }
 
-            return isFieldValid(field) ? response.stream.channel[field] : defaultReturnValue;
+            return isFieldValid(field) ? stream.stream.channel[field] : defaultReturnValue;
         }
 
-        function getResponseFieldOrElse(field) {
-            return field in response ? response[field] : "";
+        function getStreamFieldOrElse(field) {
+            return field in stream ? stream[field] : "";
         }
 
         return (
@@ -107,11 +107,11 @@ class TwitchStreamerTableBodyItem extends Component {
                 </td>
                 <td>
                     <div>
-                        <a href={getStreamChannelFieldOrElse('url', "")}>{getStreamChannelFieldOrElse('display_name', getResponseFieldOrElse('display_name'))}</a>
+                        <a href={getStreamChannelFieldOrElse('url', "")}>{getStreamChannelFieldOrElse('display_name', getStreamFieldOrElse('display_name'))}</a>
                     </div>
                 </td>
                 <td>
-                    <div>{getStreamChannelFieldOrElse('status', getResponseFieldOrElse('message'))}</div>
+                    <div>{getStreamChannelFieldOrElse('status', getStreamFieldOrElse('message'))}</div>
                 </td>
             </tr>
         )

@@ -130,7 +130,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                 ].forEach((params) => {
                     it(params.test_name, function () {
                         //    Given
-                        let wrapper = shallow(<TwitchStreamerTableBodyItem response={params.mock_response}/>);
+                        let wrapper = shallow(<TwitchStreamerTableBodyItem stream={params.mock_response}/>);
 
                         //    When
                         //    Then

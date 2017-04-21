@@ -62,11 +62,11 @@ describe("TwitchTV - FreeCodeCamp - Mount test", function () {
                     expect(itemsUnderWrapper).to.have.length(4);
 
                     itemsUnderWrapper.nodes.forEach((node) => {
-                        expect(node.props.response).to.deep.equal(a_TwtichTV_API_response[node.props.id]);
+                        expect(node.props.stream).to.deep.equal(a_TwtichTV_API_response[node.props.id]);
                     });
                 }));
 
-                it("should render properly even when empty response is returned", sinon.test(function () {
+                it("should render properly even when empty response is returned from logic.getStreamJsonFromTwitchTV", sinon.test(function () {
                     // Given
                     const stubGetJsonFromTwitchTV = this.stub(logic, "getStreamJsonFromTwitchTV");
                     stubGetJsonFromTwitchTV.yields("");
