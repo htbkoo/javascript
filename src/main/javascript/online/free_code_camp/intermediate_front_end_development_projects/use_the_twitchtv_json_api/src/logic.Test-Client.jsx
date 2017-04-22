@@ -18,6 +18,8 @@ SystemJS.config({
 import a_valid_response_obj from '../test/resources/TwitchTV_a_stream_example.json';
 import an_invalid_response_obj from '../test/resources/TwitchTV_an_invalid_stream_example.json';
 import an_offline_response_obj from '../test/resources/TwitchTV_an_offline_stream_example.json';
+import a_valid_channel_obj from '../test/resources/TwitchTV_a_channel_example.json';
+import an_invalid_channel_obj from '../test/resources/TwitchTV_an_invalid_channel_example.json';
 
 describe("TwitchTV - FreeCodeCamp - logic test", function () {
     "use strict";
@@ -29,7 +31,7 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
                     {
                         'testName': 'should, with request for 1 valid streamer id, get response from TwitchTV API',
                         'mock_getJSON_response': a_valid_response_obj,
-                        'streamer_id': "freecodecamp",
+                        'streamer_id': "ogamingsc2",
                     },
                     {
                         'testName': 'should, with request for 1 invalid streamer id, get response from TwitchTV API',
@@ -59,6 +61,48 @@ describe("TwitchTV - FreeCodeCamp - logic test", function () {
                                 //    When
                                 //noinspection JSUnresolvedFunction
                                 logic.getStreamJsonFromTwitchTV(params.streamer_id, (data) => {
+                                    //    Then
+                                    expect(data).to.equal(params.mock_getJSON_response);
+                                    done();
+                                });
+                            }).catch(function (err) {
+                                console.log(err); // wont be called either
+                            });
+                        });
+                    }));
+                });
+            });
+
+            describe('getChannelJsonFromTwitchTV', function () {
+                [
+                    {
+                        'testName': 'should, with request for 1 valid streamer id, get channel information from TwitchTV API',
+                        'mock_getJSON_response': a_valid_channel_obj,
+                        'streamer_id': "ogamingsc2",
+                    },
+                    {
+                        'testName': 'should, with request for 1 invalid streamer id, get channel information from TwitchTV API',
+                        'mock_getJSON_response': an_invalid_channel_obj,
+                        'streamer_id': "not-a-valid-account",
+                    }
+                ].forEach((params) => {
+                    it(params.testName, sinon.test(function (done) {
+                        setupJsdomAndAssertWith((err, window, $) => {
+                            //    Given
+                            let $_getJSON = this.stub($, "getJSON");
+                            $_getJSON.withArgs(sinon.match((actualUrl) => {
+                                return [
+                                    format("https://wind-bow.gomix.me/twitch-api/channels/{}\?", params.streamer_id),
+                                    "callback=?"
+                                ].every((expectedPart) => {
+                                    return actualUrl.indexOf(expectedPart) !== -1;
+                                });
+                            })).yields(params.mock_getJSON_response);
+
+                            SystemJS.import('./logic.jsx').then(function (logic) {
+                                //    When
+                                //noinspection JSUnresolvedFunction
+                                logic.getChannelJsonFromTwitchTV(params.streamer_id, (data) => {
                                     //    Then
                                     expect(data).to.equal(params.mock_getJSON_response);
                                     done();

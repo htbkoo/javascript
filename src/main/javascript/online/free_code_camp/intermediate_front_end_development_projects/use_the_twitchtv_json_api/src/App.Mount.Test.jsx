@@ -6,6 +6,7 @@ import babelRegister from 'babel-register';
 import sinon from 'sinon';
 import {jsdom} from 'jsdom';
 import a_TwtichTV_API_response from "../test/resources/TwitchTV_sample_API_response.json";
+import a_TwtichTV_API_channels_response from "../test/resources/TwitchTV_sample_API_channels_response.json";
 import * as logic from "./logic";
 
 import sinonTest from "sinon-test";
@@ -38,6 +39,8 @@ describe("TwitchTV - FreeCodeCamp - Mount test", function () {
                     // Given
                     const stubGetJsonFromTwitchTV = this.stub(logic, "getStreamJsonFromTwitchTV");
                     stubGetJsonFromTwitchTV.yields("");
+                    const stubGetChannelJsonFromTwitchTV = this.stub(logic, "getChannelJsonFromTwitchTV");
+                    stubGetChannelJsonFromTwitchTV.yields("");
                     sinon.spy(TwitchStreamerTableBody.prototype, 'componentDidMount');
 
                     // When
@@ -49,9 +52,14 @@ describe("TwitchTV - FreeCodeCamp - Mount test", function () {
 
                 it("should, when componentDidMount, call and handle response from logic.getStreamJsonFromTwitchTV by callback", sinon.test(function () {
                     // Given
-                    const stubGetJsonFromTwitchTV = this.stub(logic, "getStreamJsonFromTwitchTV");
+                    const stubGetSttreamJsonFromTwitchTV = this.stub(logic, "getStreamJsonFromTwitchTV");
                     Object.keys(a_TwtichTV_API_response).forEach((key) => {
-                        stubGetJsonFromTwitchTV.withArgs(key).yields(a_TwtichTV_API_response[key]);
+                        stubGetSttreamJsonFromTwitchTV.withArgs(key).yields(a_TwtichTV_API_response[key]);
+                    });
+
+                    const stubGetChannelJsonFromTwitchTV = this.stub(logic, "getChannelJsonFromTwitchTV");
+                    Object.keys(a_TwtichTV_API_channels_response).forEach((key) => {
+                        stubGetChannelJsonFromTwitchTV.withArgs(key).yields(a_TwtichTV_API_channels_response[key]);
                     });
 
                     // When
@@ -63,13 +71,17 @@ describe("TwitchTV - FreeCodeCamp - Mount test", function () {
 
                     itemsUnderWrapper.nodes.forEach((node) => {
                         expect(node.props.stream).to.deep.equal(a_TwtichTV_API_response[node.props.id]);
+                        expect(node.props.channel).to.deep.equal(a_TwtichTV_API_channels_response[node.props.id]);
                     });
                 }));
 
                 it("should render properly even when empty response is returned from logic.getStreamJsonFromTwitchTV", sinon.test(function () {
                     // Given
-                    const stubGetJsonFromTwitchTV = this.stub(logic, "getStreamJsonFromTwitchTV");
-                    stubGetJsonFromTwitchTV.yields("");
+                    const stubGetStreamJsonFromTwitchTV = this.stub(logic, "getStreamJsonFromTwitchTV");
+                    stubGetStreamJsonFromTwitchTV.yields("");
+
+                    const stubGetChannelJsonFromTwitchTV = this.stub(logic, "getChannelJsonFromTwitchTV");
+                    stubGetChannelJsonFromTwitchTV.yields("");
 
                     // When
                     const wrapper = mount(<TwitchStreamerTableBody/>);
