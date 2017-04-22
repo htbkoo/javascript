@@ -5,6 +5,7 @@ import * as logic from "./logic";
 const DUMMY_LOCO_SRC = "https://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F";
 const DUMMY_LOCO_ALT = "0x3F";
 const TWITCH_TV_USERNAMES = ["esl_sc2", "ogamingsc2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "not-a-valid-account"];
+const OFFLINE_STATUS = "Offline";
 
 class App extends Component {
     render() {
@@ -73,7 +74,8 @@ class TwitchStreamerTableBody extends Component {
                 Object.keys(this.state.streams).map((streamerId) => {
                     return <TwitchStreamerTableBodyItem key={streamerId}
                                                         id={streamerId}
-                                                        stream={this.state.streams[streamerId]}/>
+                                                        stream={this.state.streams[streamerId]}
+                                                        channel={{}}/>
                 })
             }
             </tbody>
@@ -84,6 +86,7 @@ class TwitchStreamerTableBody extends Component {
 class TwitchStreamerTableBodyItem extends Component {
     render() {
         let stream = this.props.stream;
+        let channel = this.props.channel;
 
         function safeGetPathOrElse(root, pathsArray, defaultReturnValue) {
             let shouldReturnDefault = false;
@@ -101,23 +104,23 @@ class TwitchStreamerTableBodyItem extends Component {
             }, root);
         }
 
-        function getStreamChannelFieldOrElse(field, defaultReturnValue) {
-            return safeGetPathOrElse(stream, ['stream', 'channel', field], defaultReturnValue);
+        function getStreamOrChannelFieldOrElse(field, defaultReturnValue) {
+            return safeGetPathOrElse(stream, ['stream', 'channel', field], safeGetPathOrElse(channel, [field], defaultReturnValue));
         }
 
         return (
             <tr>
                 <td>
-                    <img src={getStreamChannelFieldOrElse('logo', DUMMY_LOCO_SRC)}
-                         alt={getStreamChannelFieldOrElse('name', DUMMY_LOCO_ALT)}/>
+                    <img src={getStreamOrChannelFieldOrElse('logo', DUMMY_LOCO_SRC)}
+                         alt={getStreamOrChannelFieldOrElse('name', DUMMY_LOCO_ALT)}/>
                 </td>
                 <td>
                     <div>
-                        <a href={getStreamChannelFieldOrElse('url', "")}>{getStreamChannelFieldOrElse('display_name', safeGetPathOrElse(stream, ['display_name'], ""))}</a>
+                        <a href={getStreamOrChannelFieldOrElse('url', "")}>{getStreamOrChannelFieldOrElse('display_name', safeGetPathOrElse(stream, ['display_name'], ""))}</a>
                     </div>
                 </td>
                 <td>
-                    <div>{getStreamChannelFieldOrElse('status', safeGetPathOrElse(stream, ['message'], ""))}</div>
+                    <div>{safeGetPathOrElse(stream, ['stream', 'channel', 'status'], OFFLINE_STATUS)}</div>
                 </td>
             </tr>
         )

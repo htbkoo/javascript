@@ -13,7 +13,9 @@ import App, {
     TwitchStreamerTableBodyItem
 } from "./App";
 
-import a_valid_response_obj from "../test/resources/TwitchTV_a_stream_example.json";
+import a_valid_stream_obj from "../test/resources/TwitchTV_a_stream_example.json";
+import an_offline_stream_obj from "../test/resources/TwitchTV_an_offline_stream_example.json";
+import a_valid_channel_obj from "../test/resources/TwitchTV_a_channel_example.json";
 
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
@@ -98,39 +100,42 @@ describe("TwitchTV - FreeCodeCamp", function () {
 
             describe('<TwitchStreamerTableBodyItem />', function () {
                 [{
-                    'test_name': "should render normal response as a table row, with logo, display_name, status and url",
-                    'mock_response': a_valid_response_obj,
+                    'test_name': "should render normal stream response as a table row, with logo, display_name, status and url",
+                    "mock_stream_response": a_valid_stream_obj,
+                    "mock_channel_response": a_valid_channel_obj,
                     'assertion': {
                         'logo': (cells) => {
-                            const logoImg = shallow(cells.get(0)).find('img');
-                            expect(logoImg).to.have.length(1);
-                            expect(logoImg.get(0).props.src).to.equal(a_valid_response_obj.stream.channel.logo);
-                            expect(logoImg.get(0).props.alt).to.equal(a_valid_response_obj.stream.channel.name);
+                            assertLogo(cells, a_valid_stream_obj.stream.channel.logo, a_valid_stream_obj.stream.channel.name);
                         },
                         'display_name': (cells) => {
-                            const displayNameDiv = shallow(cells.get(1)).find('div');
-                            expect(displayNameDiv).to.have.length(1);
-                            const displayNameA = shallow(displayNameDiv.get(0)).find('a');
-                            expect(displayNameA).to.have.length(1);
-                            expect(displayNameA.get(0).props.href).to.equal(a_valid_response_obj.stream.channel.url);
-                            assertChildrenContent(displayNameA.get(0), a_valid_response_obj.stream.channel.display_name);
+                            assertDisplayName(cells, a_valid_stream_obj.stream.channel.url, a_valid_stream_obj.stream.channel.display_name)
                         },
                         'status': (cells) => {
-                            const statusDiv = shallow(cells.get(2)).find('div');
-                            expect(statusDiv).to.have.length(1);
-                            assertChildrenContent(statusDiv.get(0), a_valid_response_obj.stream.channel.status);
-                        },
+                            assertStatus(cells, a_valid_stream_obj.stream.channel.status);
+                        }
                     }
                 },
                     {
                         'test_name': "should render offline response with logo, display_name, url and 'offline' message as status",
-                        'mock_response': a_valid_response_obj,
-                        'assertion': {}
+                        "mock_stream_response": an_offline_stream_obj,
+                        "mock_channel_response": a_valid_channel_obj,
+                        'assertion': {
+                            'logo': (cells) => {
+                                assertLogo(cells, a_valid_channel_obj.logo, a_valid_channel_obj.name);
+                            },
+                            'display_name': (cells) => {
+                                assertDisplayName(cells, a_valid_channel_obj.url, a_valid_channel_obj.display_name)
+                            },
+                            'status': (cells) => {
+                                assertStatus(cells, "Offline");
+                            }
+                        }
                     }
                 ].forEach((params) => {
                     it(params.test_name, function () {
                         //    Given
-                        let wrapper = shallow(<TwitchStreamerTableBodyItem stream={params.mock_response}/>);
+                        let wrapper = shallow(<TwitchStreamerTableBodyItem stream={params.mock_stream_response}
+                                                                           channel={params.mock_channel_response}/>);
 
                         //    When
                         //    Then
@@ -144,6 +149,26 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         });
                     });
                 });
+
+                let assertLogo = (cells, expectedSrc, expectedUrl) => {
+                    const logoImg = shallow(cells.get(0)).find('img');
+                    expect(logoImg).to.have.length(1);
+                    expect(logoImg.get(0).props.src).to.equal(expectedSrc);
+                    expect(logoImg.get(0).props.alt).to.equal(expectedUrl);
+                };
+                let assertDisplayName = (cells, expectedUrl, expectedText) => {
+                    const displayNameDiv = shallow(cells.get(1)).find('div');
+                    expect(displayNameDiv).to.have.length(1);
+                    const displayNameA = shallow(displayNameDiv.get(0)).find('a');
+                    expect(displayNameA).to.have.length(1);
+                    expect(displayNameA.get(0).props.href).to.equal(expectedUrl);
+                    assertChildrenContent(displayNameA.get(0), expectedText);
+                };
+                let assertStatus = (cells, expectedStatus) => {
+                    const statusDiv = shallow(cells.get(2)).find('div');
+                    expect(statusDiv).to.have.length(1);
+                    assertChildrenContent(statusDiv.get(0), expectedStatus);
+                }
             });
 
             function assertChildrenContent(element, expectedString) {
