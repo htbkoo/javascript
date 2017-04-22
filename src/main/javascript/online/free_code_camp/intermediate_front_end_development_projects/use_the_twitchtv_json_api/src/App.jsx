@@ -85,7 +85,7 @@ class TwitchStreamerTableBodyItem extends Component {
     render() {
         let stream = this.props.stream;
 
-        function safeGetPath(root, pathsArray, defaultReturnValue) {
+        function safeGetPathOrElse(root, pathsArray, defaultReturnValue) {
             let shouldReturnDefault = false;
             return pathsArray.reduce((prev, path) => {
                 if (!shouldReturnDefault) {
@@ -102,11 +102,7 @@ class TwitchStreamerTableBodyItem extends Component {
         }
 
         function getStreamChannelFieldOrElse(field, defaultReturnValue) {
-            return safeGetPath(stream, ['stream', 'channel', field], defaultReturnValue);
-        }
-
-        function getStreamFieldOrElse(field) {
-            return field in stream ? stream[field] : "";
+            return safeGetPathOrElse(stream, ['stream', 'channel', field], defaultReturnValue);
         }
 
         return (
@@ -117,11 +113,11 @@ class TwitchStreamerTableBodyItem extends Component {
                 </td>
                 <td>
                     <div>
-                        <a href={getStreamChannelFieldOrElse('url', "")}>{getStreamChannelFieldOrElse('display_name', getStreamFieldOrElse('display_name'))}</a>
+                        <a href={getStreamChannelFieldOrElse('url', "")}>{getStreamChannelFieldOrElse('display_name', safeGetPathOrElse(stream, ['display_name'], ""))}</a>
                     </div>
                 </td>
                 <td>
-                    <div>{getStreamChannelFieldOrElse('status', getStreamFieldOrElse('message'))}</div>
+                    <div>{getStreamChannelFieldOrElse('status', safeGetPathOrElse(stream, ['message'], ""))}</div>
                 </td>
             </tr>
         )
