@@ -1,8 +1,11 @@
+function getJsonFromTwitchTV(path, streamerId, callback) {
+    window.$.getJSON("https://wind-bow.gomix.me/twitch-api/" + path + "/" + streamerId + "?callback=?", {}, callback);
+}
 function getStreamJsonFromTwitchTV(streamerId, callback) {
-    window.$.getJSON("https://wind-bow.gomix.me/twitch-api/streams/" + streamerId + "?callback=?", {}, callback);
+    getJsonFromTwitchTV("streams", streamerId, callback);
 }
 function getChannelJsonFromTwitchTV(streamerId, callback) {
-    window.$.getJSON("https://wind-bow.gomix.me/twitch-api/channels/" + streamerId + "?callback=?", {}, callback);
+    getJsonFromTwitchTV("channels", streamerId, callback);
 }
 
 export {getStreamJsonFromTwitchTV, getChannelJsonFromTwitchTV};
