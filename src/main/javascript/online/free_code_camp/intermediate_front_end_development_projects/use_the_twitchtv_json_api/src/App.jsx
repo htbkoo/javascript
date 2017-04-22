@@ -85,14 +85,24 @@ class TwitchStreamerTableBodyItem extends Component {
     render() {
         let stream = this.props.stream;
 
-        function getStreamChannelFieldOrElse(field, defaultReturnValue) {
-            function isFieldValid(field) {
-                return ('stream' in stream) && (stream.stream !== null)
-                    && ('channel' in stream.stream) && (stream.stream.channel !== null)
-                    && (field in stream.stream.channel) && (stream.stream.channel[field] !== null);
-            }
+        function safeGetPath(root, pathsArray, defaultReturnValue) {
+            let shouldReturnDefault = false;
+            return pathsArray.reduce((prev, path) => {
+                if (!shouldReturnDefault) {
+                    if (path in prev) {
+                        let next = prev[path];
+                        if (next !== null) {
+                            return next;
+                        }
+                    }
+                }
+                shouldReturnDefault = true;
+                return defaultReturnValue;
+            }, root);
+        }
 
-            return isFieldValid(field) ? stream.stream.channel[field] : defaultReturnValue;
+        function getStreamChannelFieldOrElse(field, defaultReturnValue) {
+            return safeGetPath(stream, ['stream', 'channel', field], defaultReturnValue);
         }
 
         function getStreamFieldOrElse(field) {
