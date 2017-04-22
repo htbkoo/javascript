@@ -100,6 +100,7 @@ class TwitchStreamerTableBodyItem extends Component {
     render() {
         let stream = this.props.stream;
         let channel = this.props.channel;
+        let id = this.props.id;
 
         function safeGetPathOrElse(root, pathsArray, defaultReturnValue) {
             let shouldReturnDefault = false;
@@ -121,6 +122,17 @@ class TwitchStreamerTableBodyItem extends Component {
             return safeGetPathOrElse(stream, ['stream', 'channel', field], safeGetPathOrElse(channel, [field], defaultReturnValue));
         }
 
+        let displayName = null, status = null;
+        if (!('error' in stream)) {
+            displayName = <a href={getStreamOrChannelFieldOrElse('url', "")}>
+                {getStreamOrChannelFieldOrElse('display_name', safeGetPathOrElse(stream, ['display_name'], ""))}
+            </a>;
+            status = safeGetPathOrElse(stream, ['stream', 'channel', 'status'], OFFLINE_STATUS);
+        } else {
+            displayName = id;
+            status = safeGetPathOrElse(stream, ['message'], OFFLINE_STATUS)
+        }
+
         return (
             <tr>
                 <td>
@@ -129,11 +141,11 @@ class TwitchStreamerTableBodyItem extends Component {
                 </td>
                 <td>
                     <div>
-                        <a href={getStreamOrChannelFieldOrElse('url', "")}>{getStreamOrChannelFieldOrElse('display_name', safeGetPathOrElse(stream, ['display_name'], ""))}</a>
+                        {displayName}
                     </div>
                 </td>
                 <td>
-                    <div>{safeGetPathOrElse(stream, ['stream', 'channel', 'status'], OFFLINE_STATUS)}</div>
+                    <div>{status}</div>
                 </td>
             </tr>
         )

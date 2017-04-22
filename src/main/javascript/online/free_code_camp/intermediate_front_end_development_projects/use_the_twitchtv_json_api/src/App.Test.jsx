@@ -15,7 +15,9 @@ import App, {
 
 import a_valid_stream_obj from "../test/resources/TwitchTV_a_stream_example.json";
 import an_offline_stream_obj from "../test/resources/TwitchTV_an_offline_stream_example.json";
+import an_invalid_stream_obj from "../test/resources/TwitchTV_an_invalid_stream_example.json";
 import a_valid_channel_obj from "../test/resources/TwitchTV_a_channel_example.json";
+import an_invalid_channel_obj from "../test/resources/TwitchTV_an_invalid_channel_example.json";
 
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
@@ -99,22 +101,23 @@ describe("TwitchTV - FreeCodeCamp", function () {
             });
 
             describe('<TwitchStreamerTableBodyItem />', function () {
-                [{
-                    'test_name': "should render normal stream response as a table row, with logo, display_name, status and url",
-                    "mock_stream_response": a_valid_stream_obj,
-                    "mock_channel_response": a_valid_channel_obj,
-                    'assertion': {
-                        'logo': (cells) => {
-                            assertLogo(cells, a_valid_stream_obj.stream.channel.logo, a_valid_stream_obj.stream.channel.name);
-                        },
-                        'display_name': (cells) => {
-                            assertDisplayName(cells, a_valid_stream_obj.stream.channel.url, a_valid_stream_obj.stream.channel.display_name)
-                        },
-                        'status': (cells) => {
-                            assertStatus(cells, a_valid_stream_obj.stream.channel.status);
+                [
+                    {
+                        'test_name': "should render normal stream response as a table row, with logo, display_name, status and url",
+                        "mock_stream_response": a_valid_stream_obj,
+                        "mock_channel_response": a_valid_channel_obj,
+                        'assertion': {
+                            'logo': (cells) => {
+                                assertLogo(cells, a_valid_stream_obj.stream.channel.logo, a_valid_stream_obj.stream.channel.name);
+                            },
+                            'display_name': (cells) => {
+                                assertDisplayName(cells, a_valid_stream_obj.stream.channel.url, a_valid_stream_obj.stream.channel.display_name)
+                            },
+                            'status': (cells) => {
+                                assertStatus(cells, a_valid_stream_obj.stream.channel.status);
+                            }
                         }
-                    }
-                },
+                    },
                     {
                         'test_name': "should render offline response with logo, display_name, url and 'offline' message as status",
                         "mock_stream_response": an_offline_stream_obj,
@@ -130,12 +133,32 @@ describe("TwitchTV - FreeCodeCamp", function () {
                                 assertStatus(cells, "Offline");
                             }
                         }
+                    },
+                    {
+                        'test_name': "should render invalid response with logo, display_name, url and 'offline' message as status",
+                        "mock_stream_response": an_invalid_stream_obj,
+                        "mock_channel_response": an_invalid_channel_obj,
+                        "streamer_id": "not-a-valid-account",
+                        'assertion': {
+                            'logo': (cells) => {
+                                assertLogo(cells, "https://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F", "0x3F");
+                            },
+                            'display_name': (cells) => {
+                                const displayNameDiv = shallow(cells.get(1)).find('div');
+                                expect(displayNameDiv).to.have.length(1);
+                                assertChildrenContent(displayNameDiv.get(0), "not-a-valid-account");
+                            },
+                            'status': (cells) => {
+                                assertStatus(cells, an_invalid_stream_obj.message);
+                            }
+                        }
                     }
                 ].forEach((params) => {
                     it(params.test_name, function () {
                         //    Given
                         let wrapper = shallow(<TwitchStreamerTableBodyItem stream={params.mock_stream_response}
-                                                                           channel={params.mock_channel_response}/>);
+                                                                           channel={params.mock_channel_response}
+                                                                           id={params.streamer_id}/>);
 
                         //    When
                         //    Then
