@@ -152,6 +152,25 @@ describe("TwitchTV - FreeCodeCamp", function () {
                                 assertStatus(cells, an_invalid_stream_obj.message);
                             }
                         }
+                    },
+                    {
+                        'test_name': "should render corrupted or missing response with default values",
+                        "streamer_id": "not-exist",
+                        "mock_stream_response": undefined,
+                        "mock_channel_response": undefined,
+                        'assertion': {
+                            'logo': (cells) => {
+                                assertLogo(cells, "https://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F", "0x3F");
+                            },
+                            'display_name': (cells) => {
+                                const displayNameDiv = shallow(cells.get(1)).find('div');
+                                expect(displayNameDiv).to.have.length(1);
+                                assertChildrenContent(displayNameDiv.get(0), "not-exist");
+                            },
+                            'status': (cells) => {
+                                assertStatus(cells, "Offline");
+                            }
+                        }
                     }
                 ].forEach((params) => {
                     it(params.test_name, function () {

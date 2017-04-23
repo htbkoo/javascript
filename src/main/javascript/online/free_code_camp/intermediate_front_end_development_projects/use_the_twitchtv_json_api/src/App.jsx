@@ -99,6 +99,9 @@ class TwitchStreamerTableBodyItem extends Component {
         let id = this.props.id;
 
         function safeGetPathOrElse(root, pathsArray, defaultReturnValue) {
+            if (!isNonNullObject(root)) {
+                return defaultReturnValue;
+            }
             let shouldReturnDefault = false;
             return pathsArray.reduce((prev, path) => {
                 if (!shouldReturnDefault) {
@@ -118,15 +121,16 @@ class TwitchStreamerTableBodyItem extends Component {
             return safeGetPathOrElse(stream, ['stream', 'channel', field], safeGetPathOrElse(channel, [field], defaultReturnValue));
         }
 
-        let displayName = null, status = null;
-        if (!('error' in stream)) {
-            displayName = <a href={getStreamOrChannelFieldOrElse('url', "")}>
-                {getStreamOrChannelFieldOrElse('display_name', safeGetPathOrElse(stream, ['display_name'], ""))}
-            </a>;
-            status = safeGetPathOrElse(stream, ['stream', 'channel', 'status'], OFFLINE_STATUS);
-        } else {
-            displayName = id;
-            status = safeGetPathOrElse(stream, ['message'], OFFLINE_STATUS)
+        let displayName = id, status = OFFLINE_STATUS;
+        if (typeof stream !== "undefined") {
+            if (!('error' in stream)) {
+                displayName = <a href={getStreamOrChannelFieldOrElse('url', "")}>
+                    {getStreamOrChannelFieldOrElse('display_name', safeGetPathOrElse(stream, ['display_name'], ""))}
+                </a>;
+                status = safeGetPathOrElse(stream, ['stream', 'channel', 'status'], OFFLINE_STATUS);
+            } else {
+                status = safeGetPathOrElse(stream, ['message'], OFFLINE_STATUS)
+            }
         }
 
         return (
