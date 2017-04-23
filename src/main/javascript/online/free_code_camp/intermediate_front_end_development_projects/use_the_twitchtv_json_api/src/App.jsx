@@ -34,7 +34,7 @@ class TwitchStreamerTableHead extends Component {
             <thead>
             <tr>
                 <th>
-                    <div className="twitch-streamer-table">Twitch Streamers</div>
+                    <div className="twitch-streamer-title">Twitch Streamers</div>
                 </th>
                 <th/>
             </tr>

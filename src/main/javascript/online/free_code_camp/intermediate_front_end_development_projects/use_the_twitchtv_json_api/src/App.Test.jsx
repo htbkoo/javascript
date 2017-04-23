@@ -95,7 +95,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     const thTitle = shallow(tableUnderWrapper.find('th').get(0));
                     const titleDiv = thTitle.find('div');
                     expect(titleDiv).to.have.length(1);
-                    expect(titleDiv.hasClass('twitch-streamer-table')).to.be.true;
+                    expect(titleDiv.hasClass('twitch-streamer-title')).to.be.true;
                     assertChildrenContent(titleDiv.get(0), "Twitch Streamers");
                 });
             });
