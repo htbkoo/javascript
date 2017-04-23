@@ -53,10 +53,6 @@ class TwitchStreamerTableBody extends Component {
     }
 
     componentDidMount() {
-        function isNonNullObject(possiblyObj) {
-            return possiblyObj !== null && typeof possiblyObj === 'object';
-        }
-
         let streams = {}, channels = {};
         TWITCH_TV_USERNAMES.forEach((username) => {
             logic.getStreamJsonFromTwitchTV.call(this, username, (data) => {
@@ -150,6 +146,10 @@ class TwitchStreamerTableBodyItem extends Component {
             </tr>
         )
     }
+}
+
+function isNonNullObject(possiblyObj) {
+    return possiblyObj !== null && typeof possiblyObj === 'object';
 }
 
 export default App;
