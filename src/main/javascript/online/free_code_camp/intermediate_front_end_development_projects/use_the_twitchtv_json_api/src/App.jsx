@@ -6,6 +6,8 @@ const DUMMY_LOCO_SRC = "https://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F
 const DUMMY_LOCO_ALT = "0x3F";
 const TWITCH_TV_USERNAMES = ["esl_sc2", "ogamingsc2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "not-a-valid-account"];
 const OFFLINE_STATUS = "Offline";
+const ROW_ONLINE_STATUS = "tr-online";
+const ROW_OFFLINE_STATUS = "tr-offline";
 
 class App extends Component {
     render() {
@@ -96,6 +98,7 @@ class TwitchStreamerTableBodyItem extends Component {
         let stream = this.props.stream;
         let channel = this.props.channel;
         let id = this.props.id;
+        let displayName = id, status = OFFLINE_STATUS, row_status = ROW_OFFLINE_STATUS;
 
         function safeGetPathOrElse(root, pathsArray, defaultReturnValue) {
             if (!isNonNullObject(root)) {
@@ -120,20 +123,26 @@ class TwitchStreamerTableBodyItem extends Component {
             return safeGetPathOrElse(stream, ['stream', 'channel', field], safeGetPathOrElse(channel, [field], defaultReturnValue));
         }
 
-        let displayName = id, status = OFFLINE_STATUS;
+        function isOnline() {
+            return (typeof stream !== undefined) && (stream.stream !== null);
+        }
+
         if (typeof stream !== "undefined") {
             if (!('error' in stream)) {
                 displayName = <a href={getStreamOrChannelFieldOrElse('url', "")}>
                     {getStreamOrChannelFieldOrElse('display_name', safeGetPathOrElse(stream, ['display_name'], ""))}
                 </a>;
                 status = safeGetPathOrElse(stream, ['stream', 'channel', 'status'], OFFLINE_STATUS);
+                if (isOnline()) {
+                    row_status = ROW_ONLINE_STATUS;
+                }
             } else {
                 status = safeGetPathOrElse(stream, ['message'], OFFLINE_STATUS)
             }
         }
 
         return (
-            <tr>
+            <tr className={row_status}>
                 <td>
                     <img src={getStreamOrChannelFieldOrElse('logo', DUMMY_LOCO_SRC)}
                          alt={getStreamOrChannelFieldOrElse('name', DUMMY_LOCO_ALT)}/>

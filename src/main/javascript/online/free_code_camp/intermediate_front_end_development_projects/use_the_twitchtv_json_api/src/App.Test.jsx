@@ -82,7 +82,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     const theadUnderWrapper = wrapper.find('thead');
                     expect(theadUnderWrapper).to.have.length(1);
                     expect(theadUnderWrapper.find('tr')).to.have.length(1);
-                    expect(theadUnderWrapper.find('th')).to.have.length(2);
+                    expect(theadUnderWrapper.find('th')).to.have.length(1);
                 });
 
                 it("should show 'Twitch Streamers' within <TwitchStreamerTableHead/>", function () {
@@ -96,7 +96,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                     const titleDiv = thTitle.find('div');
                     expect(titleDiv).to.have.length(1);
                     expect(titleDiv.hasClass('twitch-streamer-title')).to.be.true;
-                    assertChildrenContent(titleDiv.get(0), "Twitch Streamers");
+                    assertChildrenContent(titleDiv.get(0), "TWITCH STREAMERS");
                 });
             });
 
@@ -106,6 +106,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         'test_name': "should render normal stream response as a table row, with logo, display_name, status and url",
                         "mock_stream_response": a_valid_stream_obj,
                         "mock_channel_response": a_valid_channel_obj,
+                        "row_status": "tr-online",
                         'assertion': {
                             'logo': (cells) => {
                                 assertLogo(cells, a_valid_stream_obj.stream.channel.logo, a_valid_stream_obj.stream.channel.name);
@@ -122,6 +123,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         'test_name': "should render offline response with logo, display_name, url and 'offline' message as status",
                         "mock_stream_response": an_offline_stream_obj,
                         "mock_channel_response": a_valid_channel_obj,
+                        "row_status": "tr-offline",
                         'assertion': {
                             'logo': (cells) => {
                                 assertLogo(cells, a_valid_channel_obj.logo, a_valid_channel_obj.name);
@@ -138,6 +140,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         'test_name': "should render invalid response with logo, display_name, url and 'offline' message as status",
                         "mock_stream_response": an_invalid_stream_obj,
                         "mock_channel_response": an_invalid_channel_obj,
+                        "row_status": "tr-offline",
                         "streamer_id": "not-a-valid-account",
                         'assertion': {
                             'logo': (cells) => {
@@ -158,6 +161,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         "streamer_id": "not-exist",
                         "mock_stream_response": undefined,
                         "mock_channel_response": undefined,
+                        "row_status": "tr-offline",
                         'assertion': {
                             'logo': (cells) => {
                                 assertLogo(cells, "https://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F", "0x3F");
@@ -183,6 +187,7 @@ describe("TwitchTV - FreeCodeCamp", function () {
                         //    Then
                         const row = wrapper.find('tr');
                         expect(row).to.have.length(1);
+                        expect(row.get(0).props.className).to.equal(params.row_status);
                         const cells = row.find('td');
                         expect(cells).to.have.length(3);
 
