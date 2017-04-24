@@ -33,10 +33,9 @@ class TwitchStreamerTableHead extends Component {
         return (
             <thead>
             <tr>
-                <th>
-                    <div className="twitch-streamer-title">Twitch Streamers</div>
+                <th colSpan={3}>
+                    <div className="twitch-streamer-title">TWITCH STREAMERS</div>
                 </th>
-                <th/>
             </tr>
             </thead>
         )
