@@ -8,24 +8,24 @@ describe("SimonGame - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Advanced Project", function () {
         describe("SimonGame", function () {
+            describe("<App/>", function () {
+                it("should contain <Dashboard/> and <ButtonsPanel/>", function () {
+                    // Given
+                    const wrapperApp = shallow(<App/>);
 
-            it('shallow renders App without crashing', () => {
-                // Given
-                shallow(<App/>);
+                    // When
+                    // Then
+                    [
+                        <Dashboard/>,
+                        <ButtonsPanel/>
+                    ].forEach((component) => {
+                        chai.expect(wrapperApp.contains(component)).to.be.true;
+                    });
 
-                // When
-                // Then
+                    // chai.expect(wrapperApp.contains(<ButtonsPanel/>)).to.be.true;
+                });
             });
 
-            it('should, under App, have Dashboard and ButtonsPanel', function () {
-                // Given
-                const wrapperApp = shallow(<App/>);
-
-                // When
-                // Then
-                chai.expect(wrapperApp.contains(<Dashboard/>)).to.be.true;
-                chai.expect(wrapperApp.contains(<ButtonsPanel/>)).to.be.true;
-            });
         });
     });
 });
