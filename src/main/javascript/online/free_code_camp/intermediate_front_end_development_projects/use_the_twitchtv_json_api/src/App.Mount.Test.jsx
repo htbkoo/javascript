@@ -2,7 +2,6 @@ import React from 'react';
 import {expect} from 'chai';
 import {mount} from 'enzyme';
 import {TwitchStreamerTableBody, TwitchStreamerTableBodyItem} from "./App";
-import babelRegister from 'babel-register';
 import sinon from 'sinon';
 import {jsdom} from 'jsdom';
 import a_TwtichTV_API_response from "../test/resources/TwitchTV_sample_API_response.json";
@@ -12,8 +11,6 @@ import * as logic from "./logic";
 import sinonTest from "sinon-test";
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
-
-babelRegister();
 
 let exposedProperties = ['window', 'navigator', 'document'];
 
