@@ -2,7 +2,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import chai from 'chai';
 
-import App, {Dashboard, ButtonsPanel} from './App';
+import App, {Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton} from './App';
 
 describe("SimonGame - FreeCodeCamp", function () {
     "use strict";
@@ -15,17 +15,39 @@ describe("SimonGame - FreeCodeCamp", function () {
 
                     // When
                     // Then
-                    [
-                        <Dashboard/>,
-                        <ButtonsPanel/>
-                    ].forEach((component) => {
-                        chai.expect(wrapperApp.contains(component)).to.be.true;
-                    });
-
-                    // chai.expect(wrapperApp.contains(<ButtonsPanel/>)).to.be.true;
+                    containsAllComponents(wrapperApp,
+                        [
+                            <Dashboard/>,
+                            <ButtonsPanel/>
+                        ]
+                    );
                 });
             });
 
+            describe("<Dashboard/>", function () {
+                it("should contain <Title/>, <Score/>, <StrictSwitch/>, <StartButton/>", function () {
+                    //    Given
+                    const wrapperDashboard = shallow(<Dashboard/>);
+                    //    When
+
+                    //    Then
+                    containsAllComponents(wrapperDashboard,
+                        [
+                            <Title/>,
+                            <Score/>,
+                            <StrictSwitch/>,
+                            <StartButton/>
+                        ]
+                    );
+                });
+            });
+
+            let containsAllComponents = (wrapper, components) => {
+                components.forEach((component) => {
+                    chai.expect(wrapper.contains(component)).to.be.true;
+                });
+
+            }
         });
     });
 });
