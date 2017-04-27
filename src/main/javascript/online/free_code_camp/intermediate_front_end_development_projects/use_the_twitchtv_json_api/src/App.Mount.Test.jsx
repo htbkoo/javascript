@@ -12,20 +12,19 @@ import sinonTest from "sinon-test";
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
 
-let exposedProperties = ['window', 'navigator', 'document'];
+before(function () {
+    global.document = jsdom('');
+    global.window = document.defaultView;
+    Object.keys(document.defaultView).forEach((property) => {
+        if (typeof global[property] === 'undefined') {
+            global[property] = document.defaultView[property];
+        }
+    });
 
-global.document = jsdom('');
-global.window = document.defaultView;
-Object.keys(document.defaultView).forEach((property) => {
-    if (typeof global[property] === 'undefined') {
-        exposedProperties.push(property);
-        global[property] = document.defaultView[property];
-    }
+    global.navigator = {
+        userAgent: 'node.js'
+    };
 });
-
-global.navigator = {
-    userAgent: 'node.js'
-};
 
 describe("TwitchTV - FreeCodeCamp - Mount test", function () {
     "use strict";
