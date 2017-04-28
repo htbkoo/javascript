@@ -1,15 +1,29 @@
 /**
- * Created by Hey on 25 Apr 2017.
+ * Created by Hey on 25 Apr 2017
  */
 
-export default (function () {
-    "use strict";
-    return {
-        "initialize": function () {
 
-        },
-        "getScore": function () {
-            return 0;
+class Game {
+    initialize() {
+
+    };
+
+    getScore() {
+        return 0;
+    }
+
+    start() {
+
+    }
+
+    getStatus() {
+        return {
+            'isStarting': () => {
+                return true;
+            }
         }
     }
-})();
+
+}
+
+export default Game;
