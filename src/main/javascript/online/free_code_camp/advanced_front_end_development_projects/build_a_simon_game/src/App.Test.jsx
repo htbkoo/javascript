@@ -28,8 +28,8 @@ describe("SimonGame - FreeCodeCamp", function () {
                 it("should contain <Title/>, <Score/>, <StrictSwitch/>, <StartButton/>", function () {
                     //    Given
                     const wrapperDashboard = shallow(<Dashboard/>);
-                    //    When
 
+                    //    When
                     //    Then
                     containsAllComponents(wrapperDashboard,
                         [
@@ -39,6 +39,19 @@ describe("SimonGame - FreeCodeCamp", function () {
                             <StartButton/>
                         ]
                     );
+                });
+            });
+
+            describe("<Title/>", function () {
+                it("should contain <div>{title}</div>", function () {
+                    //    Given
+                    const wrapperTitle = shallow(<Title/>);
+
+                    //    When
+                    const divTitle = wrapperTitle.find("div").get(0);
+
+                    //    Then
+                    chai.expect(divTitle.props.children).to.equal("Simon® Game")
                 });
             });
 

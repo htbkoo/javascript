@@ -37,7 +37,7 @@ class ButtonsPanel extends React.Component {
 class Title extends React.Component {
     render() {
         return (
-            <div/>
+            <div>Simon® Game</div>
         );
     }
 }
