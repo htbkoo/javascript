@@ -45,7 +45,9 @@ class Title extends React.Component {
 class Score extends React.Component {
     render() {
         return (
-            <div/>
+            <div>
+                01
+            </div>
         );
     }
 }
