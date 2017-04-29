@@ -1,7 +1,5 @@
 import format from "string-format";
 import {expect} from "chai";
-import sinon from "sinon";
-import sinonTest from "sinon-test";
 
 import React from "react";
 import {shallow} from "enzyme";
@@ -18,9 +16,6 @@ import an_offline_stream_obj from "../test/resources/TwitchTV_an_offline_stream_
 import an_invalid_stream_obj from "../test/resources/TwitchTV_an_invalid_stream_example.json";
 import a_valid_channel_obj from "../test/resources/TwitchTV_a_channel_example.json";
 import an_invalid_channel_obj from "../test/resources/TwitchTV_an_invalid_channel_example.json";
-
-sinon.test = sinonTest.configureTest(sinon);
-sinon.testCase = sinonTest.configureTestCase(sinon);
 
 describe("TwitchTV - FreeCodeCamp", function () {
     "use strict";
