@@ -16,6 +16,10 @@ class Game {
 
     }
 
+    toggleStrict(){
+
+    }
+
     getStatus() {
         return {
             'isStarting': () => {

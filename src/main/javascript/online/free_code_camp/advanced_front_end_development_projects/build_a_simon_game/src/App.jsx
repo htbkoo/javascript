@@ -71,12 +71,17 @@ class Score extends React.Component {
 }
 
 class StrictSwitch extends React.Component {
+    componentDidMount() {
+        window.$("[name='strict-mode-checkbox']").bootstrapSwitch();
+    }
+
     render() {
         return (
-            <div className="btn-group" data-toggle="buttons">
-                <label className="btn btn-danger">
-                    <input type="checkbox" autoComplete="false"/>Strict Mode
-                </label>
+            <div>
+                <input type="checkbox" name="strict-mode-checkbox" data-label-text="Strict"
+                       onClick={() => {
+                           game.toggleStrict();
+                       }}/>
             </div>
         );
     }

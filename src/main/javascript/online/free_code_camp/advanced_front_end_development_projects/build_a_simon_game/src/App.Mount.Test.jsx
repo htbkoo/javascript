@@ -1,6 +1,6 @@
 import React from 'react';
 import {mount} from 'enzyme';
-import {jsdom} from 'jsdom';
+import jsdom from 'jsdom';
 
 import sinon from 'sinon';
 import sinonTest from 'sinon-test';
@@ -11,17 +11,23 @@ import App from './App';
 import Game from './game';
 
 before(function () {
-    global.document = jsdom('');
-    global.window = document.defaultView;
-    Object.keys(document.defaultView).forEach((property) => {
-        if (typeof global[property] === 'undefined') {
-            global[property] = document.defaultView[property];
-        }
-    });
+    jsdom.env('', [
+        require.resolve("../public/jquery-1.11.3/jquery-1.11.3.min.js"),
+        require.resolve("../public/bootstrap-switch-3.3.4/bootstrap-switch-master/js/bootstrap-switch.js")
+    ], function (err, window) {
+        // global.window = document.defaultView;
+        global.window = window;
+        global.document = window.document;
+        Object.keys(document.defaultView).forEach((property) => {
+            if (typeof global[property] === 'undefined') {
+                global[property] = document.defaultView[property];
+            }
+        });
 
-    global.navigator = {
-        userAgent: 'node.js'
-    };
+        global.navigator = {
+            userAgent: 'node.js'
+        };
+    });
 });
 
 
@@ -34,7 +40,7 @@ describe("SimonGame (Full render test) - FreeCodeCamp", function () {
                     // Given
                     this.stub(Game.prototype, "getStatus").callsFake(() => {
                         return {
-                            "isStarted":()=>{
+                            "isStarted": () => {
                                 return false;
                             }
                         }
