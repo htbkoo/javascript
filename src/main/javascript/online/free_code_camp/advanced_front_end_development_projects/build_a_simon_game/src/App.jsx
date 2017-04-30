@@ -78,7 +78,7 @@ class StrictSwitch extends React.Component {
     render() {
         return (
             <div>
-                <input type="checkbox" name="strict-mode-checkbox" data-label-text="Strict"
+                <input type="checkbox" name="strict-mode-checkbox" data-label-text="Strict" data-on-color="warning"
                        onClick={() => {
                            game.toggleStrict();
                        }}/>
