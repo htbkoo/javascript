@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
                 <Title/>
                 <Score/>
                 <StrictSwitch/>
-                <StartButton/>
+                <StartButton onClick={this.props.onRestartClicked}/>
             </div>
         );
 

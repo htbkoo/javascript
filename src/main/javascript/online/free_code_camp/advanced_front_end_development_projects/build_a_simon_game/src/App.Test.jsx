@@ -21,12 +21,10 @@ describe("SimonGame - FreeCodeCamp", function () {
 
                     // When
                     // Then
-                    containsAllComponents(wrapperApp,
-                        [
-                            <Dashboard/>,
-                            <ButtonsPanel/>
-                        ]
-                    );
+                    chai.expect(wrapperApp.containsAllMatchingElements([
+                        <Dashboard/>,
+                        <ButtonsPanel/>
+                    ])).to.equal(true, "<App/> should contain <Dashboard/> and <ButtonsPanel/>");
                 });
             });
 
@@ -37,14 +35,29 @@ describe("SimonGame - FreeCodeCamp", function () {
 
                     //    When
                     //    Then
-                    containsAllComponents(wrapperDashboard,
-                        [
-                            <Title/>,
-                            <Score/>,
-                            <StrictSwitch/>,
-                            <StartButton/>
-                        ]
-                    );
+                    chai.expect(wrapperDashboard.containsAllMatchingElements([
+                        <Title/>,
+                        <Score/>,
+                        <StrictSwitch/>,
+                        <StartButton/>
+                    ])).to.equal(true, "<Dashboard/> should contain <Title/>, <Score/>, <StrictSwitch/>, <StartButton/>");
+                });
+
+                it("should pass handleRestart callback to onClick at <StartButton/>", function () {
+                    //    Given
+                    let mockHandleRestartTriggered = false;
+                    const mockHandleRestart = () => {
+                        mockHandleRestartTriggered = true
+                    };
+
+                    const wrapperDashboard = shallow(<Dashboard onRestartClicked={mockHandleRestart}/>);
+                    const wrapperStartButton = wrapperDashboard.find("StartButton").get(0);
+
+                    //    When
+                    wrapperStartButton.props.onClick();
+
+                    //    Then
+                    chai.expect(mockHandleRestartTriggered).to.be.true;
                 });
             });
 
@@ -181,14 +194,6 @@ describe("SimonGame - FreeCodeCamp", function () {
                     chai.expect(mockClickCallbackTriggered).to.be.true;
                 }));
             });
-
-            // TODO: to improve error message when failed comparison
-            let containsAllComponents = (wrapper, components) => {
-                components.forEach((component) => {
-                    chai.expect(wrapper.contains(component)).to.be.true;
-                });
-
-            }
         });
     });
 });
