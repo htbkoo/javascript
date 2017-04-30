@@ -62,49 +62,52 @@ describe("SimonGame - FreeCodeCamp", function () {
             });
 
             describe("<Score/>", function () {
-                it("should show step as '--' if game is not started yet", sinon.test(function () {
-                    //    Given
-                    this.stub(Game.prototype, "getStatus")
-                        .callsFake(() => {
-                            return {
-                                'isStarted': () => {
-                                    return false;
+                [
+                    {
+                        "testName": "should show step as '--' if game is not started yet",
+                        "isStarted": false,
+                        "expectedScore": "--"
+                    },
+                    {
+                        "testName": "should show 0 score (from game.getScore) as step '01'",
+                        "isStarted": true,
+                        "score": 0,
+                        "expectedScore": "01"
+                    }
+                ].forEach((testcase) => {
+                    it(testcase.testName, sinon.test(function () {
+                        //    Given
+                        [
+                            {
+                                "method": "getStatus",
+                                "fn": () => {
+                                    return {
+                                        'isStarted': () => {
+                                            return testcase.isStarted;
+                                        }
+                                    };
                                 }
-                            };
-                        });
-
-                    //    When
-                    const wrapperScore = shallow(<Score/>);
-                    const divScore = wrapperScore.find("div").get(0);
-
-
-                    //    Then
-                    chai.expect(divScore.props.children).to.equal("--")
-                }));
-
-                it("should show 0 score (from game.getScore) as step '01'", sinon.test(function () {
-                    //    Given
-                    this.stub(Game.prototype, "getStatus")
-                        .callsFake(() => {
-                            return {
-                                'isStarted': ()=>{
-                                    return true;
+                            },
+                            {
+                                "method": "getScore",
+                                "fn": () => {
+                                    return testcase.score;
                                 }
-                            };
+                            }
+                        ].forEach((params) => {
+                            this.stub(Game.prototype, params.method)
+                                .callsFake(params.fn);
                         });
 
-                    this.stub(Game.prototype, "getScore")
-                        .callsFake(() => {
-                            return 0;
-                        });
+                        //    When
+                        const wrapperScore = shallow(<Score/>);
+                        const divScore = wrapperScore.find("div").get(0);
 
-                    //    When
-                    const wrapperScore = shallow(<Score/>);
-                    const divScore = wrapperScore.find("div").get(0);
 
-                    //    Then
-                    chai.expect(divScore.props.children).to.equal("01")
-                }));
+                        //    Then
+                        chai.expect(divScore.props.children).to.equal(testcase.expectedScore)
+                    }));
+                });
             });
 
             // TODO: to improve error message when failed comparison
