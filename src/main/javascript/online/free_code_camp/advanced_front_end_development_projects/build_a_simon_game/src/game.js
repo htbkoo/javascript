@@ -20,6 +20,9 @@ class Game {
         return {
             'isStarting': () => {
                 return true;
+            },
+            'isStarted': () => {
+                return false;
             }
         }
     }

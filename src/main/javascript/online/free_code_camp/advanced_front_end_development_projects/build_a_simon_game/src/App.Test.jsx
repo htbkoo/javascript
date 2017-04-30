@@ -131,6 +131,23 @@ describe("SimonGame - FreeCodeCamp", function () {
                 });
             });
 
+            describe("<StrictSwitch/>", function () {
+                it("should have a checkbox (unselected by default)", function () {
+                    //    Given
+                    //    When
+                    const wrapperStrictSwitch = shallow(<StrictSwitch/>);
+                    const divCheckbox = wrapperStrictSwitch.find("input").get(0);
+
+                    //    Then
+                    chai.expect("checked" in divCheckbox.props).to.be.false;
+                    chai.expect(divCheckbox.props.type).to.equal("checkbox");
+
+                });
+            });
+
+            describe("<StartButton/>", function () {
+            });
+
             // TODO: to improve error message when failed comparison
             let containsAllComponents = (wrapper, components) => {
                 components.forEach((component) => {

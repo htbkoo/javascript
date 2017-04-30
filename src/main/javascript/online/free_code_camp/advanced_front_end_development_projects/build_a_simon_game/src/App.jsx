@@ -73,7 +73,11 @@ class Score extends React.Component {
 class StrictSwitch extends React.Component {
     render() {
         return (
-            <div/>
+            <div className="btn-group" data-toggle="buttons">
+                <label className="btn btn-danger">
+                    <input type="checkbox" autoComplete="false"/>Strict Mode
+                </label>
+            </div>
         );
     }
 }
