@@ -26,6 +26,40 @@ describe("SimonGame - FreeCodeCamp", function () {
                         <ButtonsPanel/>
                     ])).to.equal(true, "<App/> should contain <Dashboard/> and <ButtonsPanel/>");
                 });
+
+                it("should set score and status obtained from game on construction", sinon.test(function () {
+                    // Given
+                    this.stub(Game.prototype, "getScore").returns(0);
+                    this.stub(Game.prototype, "getStatus").returns("initial Status");
+
+                    // When
+                    const wrapperApp = shallow(<App/>);
+
+                    // Then
+                    chai.expect(wrapperApp.state().score).to.equal(0);
+                    chai.expect(wrapperApp.state('status')).to.equal("initial Status");
+
+                }));
+
+                it("should pass onRestartClicked callback to Dashboard which would trigger state reset", sinon.test(function () {
+                    // Given
+                    this.stub(Game.prototype, "getScore")
+                        .onFirstCall().returns(0)
+                        .onSecondCall().returns(100);
+                    this.stub(Game.prototype, "getStatus")
+                        .onFirstCall().returns("initial")
+                        .onSecondCall().returns("someStatus");
+
+                    // When
+                    const wrapperApp = shallow(<App/>);
+
+                    const wrapperDashboard = wrapperApp.find("Dashboard").get(0);
+                    wrapperDashboard.props.onRestartClicked();
+
+                    // Then
+                    chai.expect(wrapperApp.state().score).to.equal(100);
+                    chai.expect(wrapperApp.state().status).to.equal("someStatus");
+                }));
             });
 
             describe("<Dashboard/>", function () {

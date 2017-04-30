@@ -5,102 +5,115 @@ import './App.css';
 let game = new Game();
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            'score': game.getScore(),
+            'status': game.getStatus()
+        };
+    }
+
     render() {
         return (
             <div className="App">
-                <Dashboard/>
-                <ButtonsPanel/>
-            </div>
-        );
-    }
-}
+                <Dashboard onRestartClicked={() => {
+                    this.setState({
+                        'score': game.getScore(),
+                        'status': game.getStatus()
+                    })
+                }}/>
+                    <ButtonsPanel/>
+                    </div>
+                    );
+                }
+                }
 
-class Dashboard extends React.Component {
-    render() {
-        return (
-            <div>
+                class Dashboard extends React.Component {
+                render() {
+                return (
+                <div>
                 <Title/>
                 <Score/>
                 <StrictSwitch/>
                 <StartButton onClick={this.props.onRestartClicked}/>
-            </div>
-        );
+                </div>
+                );
 
-    }
-}
+            }
+            }
 
-class ButtonsPanel extends React.Component {
-    render() {
-        return (
-            <div/>
-        );
-    }
-}
+                 class ButtonsPanel extends React.Component {
+                render() {
+                return (
+                <div/>
+                );
+            }
+            }
 
-class Title extends React.Component {
-    render() {
-        return (
-            <div>Simon® Game</div>
-        );
-    }
-}
+                 class Title extends React.Component {
+                render() {
+                return (
+                <div>Simon® Game</div>
+                );
+            }
+            }
 
-class Score extends React.Component {
-    render() {
-        let stepText;
-        if (game.getStatus().isStarted()) {
-            (function formatScore() {
+                 class Score extends React.Component {
+                render() {
+                let stepText;
+                if (game.getStatus().isStarted()) {
+                (function formatScore() {
                 const gameScore = game.getScore() + 1;
                 if ((gameScore >= 0) && (gameScore < 10)) {
-                    stepText = "0" + (gameScore);
-                } else {
-                    stepText = "" + (gameScore);
-                }
+                stepText = "0" + (gameScore);
+            } else {
+                stepText = "" + (gameScore);
+            }
             })();
 
-        } else {
-            stepText = '--';
-        }
+            } else {
+                stepText = '--';
+            }
 
-        return (
-            <div>
+                return (
+                <div>
                 {stepText}
-            </div>
-        );
-    }
-}
+                </div>
+                );
+            }
+            }
 
-class StrictSwitch extends React.Component {
-    componentDidMount() {
-        window.$("[name='strict-mode-checkbox']").bootstrapSwitch();
-    }
+                 class StrictSwitch extends React.Component {
+                componentDidMount() {
+                window.$("[name='strict-mode-checkbox']").bootstrapSwitch();
+            }
 
-    render() {
-        return (
-            <div>
+                render() {
+                return (
+                <div>
                 <input type="checkbox" name="strict-mode-checkbox" data-label-text="Strict" data-on-color="warning"
-                       onClick={() => {
-                           game.toggleStrict();
-                       }}/>
-            </div>
-        );
-    }
-}
+                onClick={() => {
+                    game.toggleStrict();
+                }}/>
+                </div>
+                );
+            }
+            }
 
-class StartButton extends React.Component {
-    render() {
-        return (
-            <div>
+                 class StartButton extends React.Component {
+                render() {
+                return (
+                <div>
                 <button type="button" className="btn btn-primary" onClick={() => {
                     game.restart();
                     this.props.onClick();
                 }}>
-                    Restart
+                Restart
                 </button>
-            </div>
-        );
-    }
-}
+                </div>
+                );
+            }
+            }
 
-export default App;
-export {Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton};
+                 export default App;
+                export {Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton};
