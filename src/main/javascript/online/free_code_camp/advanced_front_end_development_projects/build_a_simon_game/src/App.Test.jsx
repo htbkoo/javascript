@@ -159,6 +159,27 @@ describe("SimonGame - FreeCodeCamp", function () {
             });
 
             describe("<StartButton/>", function () {
+                it("should have a button for restarting, i.e. calling game.restart() when clicked and cause state update", sinon.test(function () {
+                    //    Given
+                    const mockGame = this.mock(Game.prototype);
+                    mockGame.expects("restart").once().returns("");
+
+                    let mockClickCallbackTriggered = false;
+                    const mockClickCallback = () => {
+                        // ensure game.restart() is triggered first
+                        mockGame.verify();
+                        mockClickCallbackTriggered = true;
+                    };
+
+                    const wrapperStartButton = shallow(<StartButton onClick={mockClickCallback}/>);
+                    const buttonRestart = shallow(wrapperStartButton.find("button").get(0));
+
+                    //    When
+                    buttonRestart.simulate('click');
+
+                    //    Then
+                    chai.expect(mockClickCallbackTriggered).to.be.true;
+                }));
             });
 
             // TODO: to improve error message when failed comparison

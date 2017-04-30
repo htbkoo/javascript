@@ -12,7 +12,7 @@ class Game {
         return 0;
     }
 
-    start() {
+    restart() {
 
     }
 

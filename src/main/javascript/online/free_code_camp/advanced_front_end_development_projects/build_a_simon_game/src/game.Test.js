@@ -31,7 +31,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 let game = new Game();
 
                 //    When
-                game.start();
+                game.restart();
 
                 //    Then
                 chai.expect(game.getScore()).to.equal(0, "Score should be 0 when initialized");

@@ -90,7 +90,14 @@ class StrictSwitch extends React.Component {
 class StartButton extends React.Component {
     render() {
         return (
-            <div/>
+            <div>
+                <button type="button" className="btn btn-primary" onClick={() => {
+                    game.restart();
+                    this.props.onClick();
+                }}>
+                    Restart
+                </button>
+            </div>
         );
     }
 }
