@@ -73,31 +73,52 @@ describe("SimonGame - FreeCodeCamp", function () {
                         "isStarted": true,
                         "score": 0,
                         "expectedScore": "01"
+                    },
+                    {
+                        "testName": "should show 1 score (from game.getScore) as step '02'",
+                        "isStarted": true,
+                        "score": 1,
+                        "expectedScore": "02"
+                    },
+                    {
+                        "testName": "should show 9 score (from game.getScore) as step '10'",
+                        "isStarted": true,
+                        "score": 9,
+                        "expectedScore": "10"
+                    },
+                    {
+                        "testName": "should show 19 score (from game.getScore) as step '20'",
+                        "isStarted": true,
+                        "score": 19,
+                        "expectedScore": "20"
                     }
                 ].forEach((testcase) => {
                     it(testcase.testName, sinon.test(function () {
                         //    Given
-                        [
-                            {
-                                "method": "getStatus",
-                                "fn": () => {
-                                    return {
-                                        'isStarted': () => {
-                                            return testcase.isStarted;
-                                        }
-                                    };
+                        // stubGame
+                        (function () {
+                            [
+                                {
+                                    "method": "getStatus",
+                                    "fn": () => {
+                                        return {
+                                            'isStarted': () => {
+                                                return testcase.isStarted;
+                                            }
+                                        };
+                                    }
+                                },
+                                {
+                                    "method": "getScore",
+                                    "fn": () => {
+                                        return testcase.score;
+                                    }
                                 }
-                            },
-                            {
-                                "method": "getScore",
-                                "fn": () => {
-                                    return testcase.score;
-                                }
-                            }
-                        ].forEach((params) => {
-                            this.stub(Game.prototype, params.method)
-                                .callsFake(params.fn);
-                        });
+                            ].forEach((params) => {
+                                this.stub(Game.prototype, params.method)
+                                    .callsFake(params.fn);
+                            });
+                        }).call(this);
 
                         //    When
                         const wrapperScore = shallow(<Score/>);

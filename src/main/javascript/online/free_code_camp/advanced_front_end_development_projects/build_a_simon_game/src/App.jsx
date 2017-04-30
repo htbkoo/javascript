@@ -47,16 +47,24 @@ class Title extends React.Component {
 
 class Score extends React.Component {
     render() {
-        let score;
+        let stepText;
         if (game.getStatus().isStarted()) {
-            score = '01';
+            (function formatScore() {
+                const gameScore = game.getScore() + 1;
+                if ((gameScore >= 0) && (gameScore < 10)) {
+                    stepText = "0" + (gameScore);
+                } else {
+                    stepText = "" + (gameScore);
+                }
+            })();
+
         } else {
-            score = '--';
+            stepText = '--';
         }
 
         return (
             <div>
-                {score}
+                {stepText}
             </div>
         );
     }
