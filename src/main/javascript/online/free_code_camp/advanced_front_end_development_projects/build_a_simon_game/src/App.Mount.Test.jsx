@@ -2,7 +2,13 @@ import React from 'react';
 import {mount} from 'enzyme';
 import {jsdom} from 'jsdom';
 
+import sinon from 'sinon';
+import sinonTest from 'sinon-test';
+sinon.test = sinonTest.configureTest(sinon);
+sinon.testCase = sinonTest.configureTestCase(sinon);
+
 import App from './App';
+import Game from './game';
 
 before(function () {
     global.document = jsdom('');
@@ -24,13 +30,21 @@ describe("SimonGame (Full render test) - FreeCodeCamp", function () {
     describe("FrontEnd - Advanced Project", function () {
         describe("SimonGame", function () {
             describe("<App/>", function () {
-                it('shallow renders App without crashing', () => {
+                it('shallow renders App without crashing', sinon.test(function () {
                     // Given
-                    mount(<App/>);
+                    this.stub(Game.prototype, "getStatus").callsFake(() => {
+                        return {
+                            "isStarted":()=>{
+                                return false;
+                            }
+                        }
+                    });
 
                     // When
+                    mount(<App/>);
+
                     // Then
-                });
+                }));
             });
         });
     });

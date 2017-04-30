@@ -1,5 +1,8 @@
 import React from 'react';
+import Game from './game';
 import './App.css';
+
+let game = new Game();
 
 class App extends React.Component {
     render() {
@@ -44,9 +47,16 @@ class Title extends React.Component {
 
 class Score extends React.Component {
     render() {
+        let score;
+        if (game.getStatus().isStarted()) {
+            score = '01';
+        } else {
+            score = '--';
+        }
+
         return (
             <div>
-                01
+                {score}
             </div>
         );
     }
