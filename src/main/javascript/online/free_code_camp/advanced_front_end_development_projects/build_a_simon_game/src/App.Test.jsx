@@ -60,6 +60,19 @@ describe("SimonGame - FreeCodeCamp", function () {
                     chai.expect(wrapperApp.state().score).to.equal(100);
                     chai.expect(wrapperApp.state().status).to.equal("someStatus");
                 }));
+
+                it("should pass score to Dashboard", sinon.test(function () {
+                    // Given
+                    this.stub(Game.prototype, "getScore").returns("someScore");
+
+                    // When
+                    const wrapperApp = shallow(<App/>);
+
+                    const wrapperDashboard = wrapperApp.find("Dashboard").get(0);
+
+                    // Then
+                    chai.expect(wrapperDashboard.props.score).to.equal("someScore");
+                }));
             });
 
             describe("<Dashboard/>", function () {
@@ -93,6 +106,16 @@ describe("SimonGame - FreeCodeCamp", function () {
                     //    Then
                     chai.expect(mockHandleRestartTriggered).to.be.true;
                 });
+
+                it("should pass score to score at <Score/>", function () {
+                    //    Given
+                    //    When
+                    const wrapperDashboard = shallow(<Dashboard score="someScore"/>);
+                    const wrapperStartButton = wrapperDashboard.find("Score").get(0);
+
+                    //    Then
+                    chai.expect(wrapperStartButton.props.score).to.equal("someScore");
+                });
             });
 
             describe("<Title/>", function () {
@@ -109,73 +132,15 @@ describe("SimonGame - FreeCodeCamp", function () {
             });
 
             describe("<Score/>", function () {
-                [
-                    {
-                        "testName": "should show step as '--' if game is not started yet",
-                        "isStarted": false,
-                        "expectedScore": "--"
-                    },
-                    {
-                        "testName": "should show 0 score (from game.getScore) as step '01'",
-                        "isStarted": true,
-                        "score": 0,
-                        "expectedScore": "01"
-                    },
-                    {
-                        "testName": "should show 1 score (from game.getScore) as step '02'",
-                        "isStarted": true,
-                        "score": 1,
-                        "expectedScore": "02"
-                    },
-                    {
-                        "testName": "should show 9 score (from game.getScore) as step '10'",
-                        "isStarted": true,
-                        "score": 9,
-                        "expectedScore": "10"
-                    },
-                    {
-                        "testName": "should show 19 score (from game.getScore) as step '20'",
-                        "isStarted": true,
-                        "score": 19,
-                        "expectedScore": "20"
-                    }
-                ].forEach((testcase) => {
-                    it(testcase.testName, sinon.test(function () {
-                        //    Given
-                        // stubGame
-                        (function () {
-                            [
-                                {
-                                    "method": "getStatus",
-                                    "fn": () => {
-                                        return {
-                                            'isStarted': () => {
-                                                return testcase.isStarted;
-                                            }
-                                        };
-                                    }
-                                },
-                                {
-                                    "method": "getScore",
-                                    "fn": () => {
-                                        return testcase.score;
-                                    }
-                                }
-                            ].forEach((params) => {
-                                this.stub(Game.prototype, params.method)
-                                    .callsFake(params.fn);
-                            });
-                        }).call(this);
+                it("should display this.props.score", sinon.test(function () {
+                    //    Given
+                    //    When
+                    const wrapperScore = shallow(<Score score="someScore"/>);
+                    const divScore = wrapperScore.find("div").get(0);
 
-                        //    When
-                        const wrapperScore = shallow(<Score/>);
-                        const divScore = wrapperScore.find("div").get(0);
-
-
-                        //    Then
-                        chai.expect(divScore.props.children).to.equal(testcase.expectedScore)
-                    }));
-                });
+                    //    Then
+                    chai.expect(divScore.props.children).to.equal("someScore")
+                }));
             });
 
             describe("<StrictSwitch/>", function () {

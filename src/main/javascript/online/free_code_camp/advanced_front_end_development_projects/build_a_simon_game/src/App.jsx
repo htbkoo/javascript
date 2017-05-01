@@ -24,7 +24,7 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <Dashboard onRestartClicked={this.updateState}/>
+                <Dashboard onRestartClicked={this.updateState} score={this.state.score}/>
                 <ButtonsPanel/>
             </div>
         );
@@ -36,7 +36,7 @@ class Dashboard extends React.Component {
         return (
             <div>
                 <Title/>
-                <Score/>
+                <Score score={this.props.score}/>
                 <StrictSwitch/>
                 <StartButton onClick={this.props.onRestartClicked}/>
             </div>
@@ -63,24 +63,9 @@ class Title extends React.Component {
 
 class Score extends React.Component {
     render() {
-        let stepText;
-        if (game.getStatus().isStarted()) {
-            (function formatScore() {
-                const gameScore = game.getScore() + 1;
-                if ((gameScore >= 0) && (gameScore < 10)) {
-                    stepText = "0" + (gameScore);
-                } else {
-                    stepText = "" + (gameScore);
-                }
-            })();
-
-        } else {
-            stepText = '--';
-        }
-
         return (
             <div>
-                {stepText}
+                {this.props.score}
             </div>
         );
     }
