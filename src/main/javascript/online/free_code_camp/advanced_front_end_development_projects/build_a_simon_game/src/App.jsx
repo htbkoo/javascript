@@ -11,17 +11,20 @@ class App extends React.Component {
             'score': game.getScore(),
             'status': game.getStatus()
         };
+        this.updateState = this.updateState.bind(this)
+    }
+
+    updateState() {
+        this.setState({
+            'score': game.getScore(),
+            'status': game.getStatus()
+        })
     }
 
     render() {
         return (
             <div className="App">
-                <Dashboard onRestartClicked={() => {
-                    this.setState({
-                        'score': game.getScore(),
-                        'status': game.getStatus()
-                    })
-                }}/>
+                <Dashboard onRestartClicked={this.updateState}/>
                 <ButtonsPanel/>
             </div>
         );
