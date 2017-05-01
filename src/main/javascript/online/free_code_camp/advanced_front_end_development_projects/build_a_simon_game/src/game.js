@@ -33,4 +33,26 @@ class Game {
 
 }
 
+
+let scoreFormatter = {
+    "format": function (isStarted, rawScore) {
+        let stepText;
+        if (isStarted) {
+            (function formatScore() {
+                const gameScore = rawScore + 1;
+                if ((gameScore >= 0) && (gameScore < 10)) {
+                    stepText = "0" + (gameScore);
+                } else {
+                    stepText = "" + (gameScore);
+                }
+            })();
+
+        } else {
+            stepText = '--';
+        }
+        return stepText;
+    }
+};
+
 export default Game;
+export {scoreFormatter};
