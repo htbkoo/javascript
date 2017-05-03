@@ -8,7 +8,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            'score': game.getScore(),
+            'score': game.getFormattedScore(),
             'status': game.getStatus()
         };
         this.updateState = this.updateState.bind(this)
@@ -16,7 +16,7 @@ class App extends React.Component {
 
     updateState() {
         this.setState({
-            'score': game.getScore(),
+            'score': game.getFormattedScore(),
             'status': game.getStatus()
         })
     }

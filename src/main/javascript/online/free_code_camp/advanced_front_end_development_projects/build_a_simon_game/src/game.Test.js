@@ -23,7 +23,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     //    When
 
                     //    Then
-                    chai.expect(game.getScore()).to.equal(0, "Score should be 0 when initialized");
+                    chai.expect(game.getFormattedScore()).to.equal('--', "Score should be '--' when not started");
                 });
             });
 
@@ -36,9 +36,29 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     game.restart();
 
                     //    Then
-                    chai.expect(game.getScore()).to.equal(0, "Score should be 0 when initialized");
-                    chai.expect(game.getStatus().isStarting()).to.equal(true, "Status should be 'starting' when start");
+                    chai.expect(game.getFormattedScore()).to.equal('01', "Score should be 0 when started");
+                    // chai.expect(game.getStatus().isStarting()).to.equal(true, "Status should be 'starting' when start");
                 });
+            });
+
+            describe("score", function () {
+                it("should get formatted score", sinon.test(function () {
+                        //    Given
+                        const mockScoreFormatter = this.mock(scoreFormatter);
+                        mockScoreFormatter.expects("format")
+                            .withArgs(false, 0)
+                            .once()
+                            .returns('formatted score');
+
+                        //    When
+                        let game = new Game();
+
+                        //    Then
+                        chai.expect(game.getFormattedScore()).to.equal('formatted score');
+                        mockScoreFormatter.verify();
+                    }
+                ))
+                ;
             });
         });
 
@@ -50,25 +70,25 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     "expectedScore": "--"
                 },
                 {
-                    "testName": "should format 0 score (from game.getScore) as '01'",
+                    "testName": "should format 0 raw score as '01'",
                     "isStarted": true,
                     "score": 0,
                     "expectedScore": "01"
                 },
                 {
-                    "testName": "should format 1 score (from game.getScore) as '02'",
+                    "testName": "should format 1 raw score as '02'",
                     "isStarted": true,
                     "score": 1,
                     "expectedScore": "02"
                 },
                 {
-                    "testName": "should format 9 score (from game.getScore) as '10'",
+                    "testName": "should format 9 raw score as '10'",
                     "isStarted": true,
                     "score": 9,
                     "expectedScore": "10"
                 },
                 {
-                    "testName": "should format 19 score (from game.getScore) as '20'",
+                    "testName": "should format 19 raw score as '20'",
                     "isStarted": true,
                     "score": 19,
                     "expectedScore": "20"

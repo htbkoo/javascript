@@ -2,18 +2,28 @@
  * Created by Hey on 25 Apr 2017
  */
 
+let scores = new WeakMap();
+let statuses = new WeakMap();
+
+let STATUS_ENUM = {
+    "NOT_STARTED": Symbol("NOT_STARTED"),
+    "STARTING": Symbol("STARTING"),
+    "DEMOING": Symbol("DEMOING"),
+    "PLAYING": Symbol("PLAYING"),
+};
 
 class Game {
-    initialize() {
-
+    constructor() {
+        scores.set(this, 0);
+        statuses.set(this, STATUS_ENUM.NOT_STARTED);
     };
 
-    getScore() {
-        return 0;
+    getFormattedScore() {
+        return scoreFormatter.format(this.getStatus().isStarted(), scores.get(this));
     }
 
     restart() {
-
+        statuses.set(this, STATUS_ENUM.STARTING)
     }
 
     toggleStrict() {
@@ -26,7 +36,7 @@ class Game {
                 return true;
             },
             'isStarted': () => {
-                return false;
+                return statuses.get(this) !== STATUS_ENUM.NOT_STARTED;
             }
         }
     }

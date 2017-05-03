@@ -29,7 +29,7 @@ describe("SimonGame - FreeCodeCamp", function () {
 
                 it("should set score and status obtained from game on construction", sinon.test(function () {
                     // Given
-                    this.stub(Game.prototype, "getScore").returns(0);
+                    this.stub(Game.prototype, "getFormattedScore").returns(0);
                     this.stub(Game.prototype, "getStatus").returns("initial Status");
 
                     // When
@@ -43,7 +43,7 @@ describe("SimonGame - FreeCodeCamp", function () {
 
                 it("should pass onRestartClicked callback to Dashboard which would trigger state reset", sinon.test(function () {
                     // Given
-                    this.stub(Game.prototype, "getScore")
+                    this.stub(Game.prototype, "getFormattedScore")
                         .onFirstCall().returns(0)
                         .onSecondCall().returns(100);
                     this.stub(Game.prototype, "getStatus")
@@ -63,7 +63,7 @@ describe("SimonGame - FreeCodeCamp", function () {
 
                 it("should pass score to Dashboard", sinon.test(function () {
                     // Given
-                    this.stub(Game.prototype, "getScore").returns("someScore");
+                    this.stub(Game.prototype, "getFormattedScore").returns("someScore");
 
                     // When
                     const wrapperApp = shallow(<App/>);
