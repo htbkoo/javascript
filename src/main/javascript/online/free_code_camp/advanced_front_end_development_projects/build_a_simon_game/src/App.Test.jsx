@@ -1,6 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import chai from 'chai';
+import format from 'string-format';
 
 import sinon from 'sinon';
 import sinonTest from 'sinon-test';
@@ -15,7 +16,7 @@ describe("SimonGame - FreeCodeCamp", function () {
     describe("FrontEnd - Advanced Project", function () {
         describe("SimonGame", function () {
             describe("<App/>", function () {
-                it("should contain <Dashboard/> and <ButtonsPanel/>", function () {
+                it("should contain <Title/>, <Dashboard/> and <ButtonsPanel/>", function () {
                     // Given
                     const wrapperApp = shallow(<App/>);
 
@@ -25,7 +26,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                         <Title/>,
                         <Dashboard/>,
                         <ButtonsPanel/>
-                    ])).to.equal(true, "<App/> should contain <Dashboard/> and <ButtonsPanel/>");
+                    ])).to.equal(true, "<App/> should contain <Title/>, <Dashboard/> and <ButtonsPanel/>");
                 });
 
                 it("should set score and status obtained from game on construction", sinon.test(function () {
@@ -91,17 +92,23 @@ describe("SimonGame - FreeCodeCamp", function () {
             });
 
             describe("<Dashboard/>", function () {
-                it("should contain <Title/>, <Score/>, <StrictSwitch/>, <StartButton/>", function () {
+                it("should contain <Score/>, <StrictSwitch/>, <StartButton/>", function () {
                     //    Given
                     const wrapperDashboard = shallow(<Dashboard/>);
-
                     //    When
                     //    Then
-                    chai.expect(wrapperDashboard.containsAllMatchingElements([
-                        <Score/>,
-                        <StrictSwitch/>,
-                        <StartButton/>
-                    ])).to.equal(true, "<Dashboard/> should contain <Title/>, <Score/>, <StrictSwitch/>, <StartButton/>");
+                    const containers = wrapperDashboard.find('Container');
+                    chai.expect(containers).to.have.length(3);
+
+                    [
+                        [<Score/>, "<Score/>"],
+                        [<StrictSwitch/>, "<StrictSwitch/>"],
+                        [<StartButton/>, "<StartButton/>"]
+                    ].forEach((element, i) => {
+                        let container = shallow(containers.get(i));
+                        chai.expect(container.containsMatchingElement(element[0]))
+                            .to.equal(true, format("<Dashboard/> should contain {}", element[1]));
+                    });
                 });
 
                 it("should pass handleRestart callback to onClick at <StartButton/>", function () {

@@ -46,9 +46,15 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div className="Dashboard">
-                <Score score={this.props.score}/>
-                <StrictSwitch/>
-                <StartButton onClick={this.props.onRestartClicked}/>
+                <Container>
+                    <Score score={this.props.score}/>
+                </Container>
+                <Container>
+                    <StrictSwitch/>
+                </Container>
+                <Container>
+                    <StartButton onClick={this.props.onRestartClicked}/>
+                </Container>
             </div>
         );
 
