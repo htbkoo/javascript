@@ -24,6 +24,7 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
+                <Title/>
                 <Dashboard onRestartClicked={this.updateState} score={this.state.score}/>
                 <ButtonsPanel/>
             </div>
@@ -34,8 +35,7 @@ class App extends React.Component {
 class Dashboard extends React.Component {
     render() {
         return (
-            <div>
-                <Title/>
+            <div className="Dashboard">
                 <Score score={this.props.score}/>
                 <StrictSwitch/>
                 <StartButton onClick={this.props.onRestartClicked}/>
@@ -56,7 +56,7 @@ class ButtonsPanel extends React.Component {
 class Title extends React.Component {
     render() {
         return (
-            <div>Simon® Game</div>
+            <div className="App-title">Simon® Game</div>
         );
     }
 }
@@ -92,7 +92,7 @@ class StartButton extends React.Component {
     render() {
         return (
             <div>
-                <button type="button" className="btn btn-primary" onClick={() => {
+                <button type="button" className="btn btn-default" onClick={() => {
                     game.restart();
                     this.props.onClick();
                 }}>

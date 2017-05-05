@@ -22,6 +22,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                     // When
                     // Then
                     chai.expect(wrapperApp.containsAllMatchingElements([
+                        <Title/>,
                         <Dashboard/>,
                         <ButtonsPanel/>
                     ])).to.equal(true, "<App/> should contain <Dashboard/> and <ButtonsPanel/>");
@@ -83,7 +84,6 @@ describe("SimonGame - FreeCodeCamp", function () {
                     //    When
                     //    Then
                     chai.expect(wrapperDashboard.containsAllMatchingElements([
-                        <Title/>,
                         <Score/>,
                         <StrictSwitch/>,
                         <StartButton/>
