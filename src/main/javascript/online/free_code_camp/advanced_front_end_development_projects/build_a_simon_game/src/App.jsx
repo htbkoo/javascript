@@ -35,7 +35,7 @@ class App extends React.Component {
 class Container extends React.Component {
     render() {
         return (
-            <div>
+            <div className="App-container">
                 {this.props.children}
             </div>
         )
