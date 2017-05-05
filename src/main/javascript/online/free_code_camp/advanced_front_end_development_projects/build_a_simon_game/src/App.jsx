@@ -32,6 +32,16 @@ class App extends React.Component {
     }
 }
 
+class Container extends React.Component {
+    render() {
+        return (
+            <div>
+                {this.props.children}
+            </div>
+        )
+    }
+}
+
 class Dashboard extends React.Component {
     render() {
         return (
@@ -104,4 +114,4 @@ class StartButton extends React.Component {
 }
 
 export default App;
-export {Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton};
+export {Container, Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton};

@@ -7,7 +7,7 @@ import sinonTest from 'sinon-test';
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
 
-import App, {Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton} from './App';
+import App, {Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton, Container} from './App';
 import Game from './game';
 
 describe("SimonGame - FreeCodeCamp", function () {
@@ -74,6 +74,20 @@ describe("SimonGame - FreeCodeCamp", function () {
                     // Then
                     chai.expect(wrapperDashboard.props.score).to.equal("someScore");
                 }));
+            });
+
+            describe("<Container/>", function () {
+                it("should be a container which has a div.Container which hold the props.children", function () {
+                    //    Given
+                    let aChild = shallow(<img/>);
+
+                    //    When
+                    const wrapperContainer = shallow(<Container>{aChild}</Container>);
+                    const divUnderContainer = wrapperContainer.find('div').get(0);
+
+                    //    Then
+                    chai.expect(divUnderContainer.props.children).to.equal(aChild);
+                });
             });
 
             describe("<Dashboard/>", function () {
