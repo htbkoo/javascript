@@ -72,9 +72,9 @@ class ButtonsPanel extends React.Component {
                         'green',
                         'blue',
                         'yellow'
-                    ].map(() =>
+                    ].map((colour) =>
                         <Container>
-                            <GameButton/>
+                            <GameButton colour={colour}/>
                         </Container>
                     )
                 }

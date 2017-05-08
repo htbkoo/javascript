@@ -235,6 +235,9 @@ describe("SimonGame - FreeCodeCamp", function () {
                             const container = shallow(containers.get(i));
                             chai.expect(container.containsMatchingElement(<GameButton/>))
                                 .to.equal(true, format("colour: '{}' - <ButtonsPanel/> should contain <GameButton/>", colour));
+
+                            const gameButton = container.find('GameButton');
+                            chai.expect(gameButton.get(0).props.colour).to.equal(colour, format("Colour should be '{}'", colour));
                         });
                     });
                 });
