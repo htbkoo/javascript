@@ -64,7 +64,20 @@ class Dashboard extends React.Component {
 class ButtonsPanel extends React.Component {
     render() {
         return (
-            <div/>
+            <div>
+                <Container>
+                    <GameButton/>
+                </Container>
+                <Container>
+                    <GameButton/>
+                </Container>
+                <Container>
+                    <GameButton/>
+                </Container>
+                <Container>
+                    <GameButton/>
+                </Container>
+            </div>
         );
     }
 }
@@ -119,5 +132,13 @@ class StartButton extends React.Component {
     }
 }
 
+class GameButton extends React.Component {
+    render() {
+        return (
+            <div/>
+        );
+    }
+}
+
 export default App;
-export {Container, Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton};
+export {Container, Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton, GameButton};

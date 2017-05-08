@@ -8,7 +8,7 @@ import sinonTest from 'sinon-test';
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
 
-import App, {Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton, Container} from './App';
+import App, {Dashboard, ButtonsPanel, Title, Score, StrictSwitch, StartButton, Container, GameButton} from './App';
 import Game from './game';
 
 describe("SimonGame - FreeCodeCamp", function () {
@@ -212,6 +212,30 @@ describe("SimonGame - FreeCodeCamp", function () {
                             //    Then
                             chai.expect(mockClickCallbackTriggered).to.be.true;
                         }));
+                    });
+                });
+
+                describe("<ButtonsPanel/>", function () {
+                    it("should have 4 <GameButton/> that have ['red', 'green', 'blue', 'yellow'] as this.props.colour respectively", function () {
+                        //    Given
+                        const wrapperButtonsPanel = shallow(<ButtonsPanel/>);
+
+                        //    When
+                        const containers = wrapperButtonsPanel.find("Container");
+
+                        //    Then
+                        chai.expect(containers).to.have.length(4);
+
+                        [
+                            'red',
+                            'green',
+                            'blue',
+                            'yellow'
+                        ].forEach((colour, i) => {
+                            const container = shallow(containers.get(i));
+                            chai.expect(container.containsMatchingElement(<GameButton/>))
+                                .to.equal(true, format("colour: '{}' - <ButtonsPanel/> should contain <GameButton/>", colour));
+                        });
                     });
                 });
             });
