@@ -4,6 +4,13 @@ import './App.css';
 
 let game = new Game();
 
+const BUTTON_COLOUR_MAPPING = {
+    "red": "btn-danger",
+    "green": "btn-primary",
+    "blue": "btn-success",
+    "yellow": "btn-warning"
+};
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -64,7 +71,7 @@ class Dashboard extends React.Component {
 class ButtonsPanel extends React.Component {
     render() {
         return (
-            <div>
+            <div className="ButtonPanel">
                 {
                     [
                         'red',
@@ -72,7 +79,7 @@ class ButtonsPanel extends React.Component {
                         'blue',
                         'yellow'
                     ].map((colour) =>
-                        <Container>
+                        <Container key={colour}>
                             <GameButton colour={colour}/>
                         </Container>
                     )
@@ -134,9 +141,11 @@ class StartButton extends React.Component {
 
 class GameButton extends React.Component {
     render() {
+        let btnClassName = (this.props.colour in BUTTON_COLOUR_MAPPING) ? BUTTON_COLOUR_MAPPING[this.props.colour] : "btn_default";
+
         return (
             <div>
-                <input type="button" className={"btn btn-default " + this.props.colour}/>
+                <input type="button" className={"btn GameButton " + btnClassName}/>
             </div>
         );
     }

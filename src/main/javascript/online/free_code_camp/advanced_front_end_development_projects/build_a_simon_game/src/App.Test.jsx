@@ -242,15 +242,22 @@ describe("SimonGame - FreeCodeCamp", function () {
                     });
 
                     describe("<GameButton/>", function () {
-                        it("should contain <input type='button'/> with this.props.colour as className", function () {
-                            //    Given
-                            //    When
-                            const wrapperGameButton = shallow(<GameButton colour="someColour"/>);
+                        [
+                            {"colour":"red", "mappedValue":"btn-danger"},
+                            {"colour":"green", "mappedValue":"btn-primary"},
+                            {"colour":"blue", "mappedValue":"btn-success"},
+                            {"colour":"yellow", "mappedValue":"btn-warning"}
+                        ].forEach((param) => {
+                            it(format("should contain <input type='button'/> with className as a value ({}) mapped from this.props.colour ({})", param.mappedValue, param.colour), function () {
+                                //    Given
+                                //    When
+                                const wrapperGameButton = shallow(<GameButton colour={param.colour}/>);
 
-                            //    Then
-                            const inputButton = wrapperGameButton.find("input").get(0);
-                            chai.expect(inputButton.props.type).to.equal("button");
-                            chai.expect(inputButton.props.className).to.contains("someColour");
+                                //    Then
+                                const inputButton = wrapperGameButton.find("input").get(0);
+                                chai.expect(inputButton.props.type).to.equal("button");
+                                chai.expect(inputButton.props.className).to.contains(param.mappedValue);
+                            });
                         });
                     });
                 });
