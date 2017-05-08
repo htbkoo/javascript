@@ -63,7 +63,6 @@ class Dashboard extends React.Component {
 
 class ButtonsPanel extends React.Component {
     render() {
-
         return (
             <div>
                 {
@@ -136,7 +135,9 @@ class StartButton extends React.Component {
 class GameButton extends React.Component {
     render() {
         return (
-            <div/>
+            <div>
+                <input type="button"/>
+            </div>
         );
     }
 }

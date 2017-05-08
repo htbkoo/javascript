@@ -240,6 +240,18 @@ describe("SimonGame - FreeCodeCamp", function () {
                             chai.expect(gameButton.get(0).props.colour).to.equal(colour, format("Colour should be '{}'", colour));
                         });
                     });
+
+                    describe("<GameButton/>", function () {
+                        it("should contain <input type='button'/> with this.props.colour as className", function () {
+                            //    Given
+                            //    When
+                            const wrapperGameButton = shallow(<GameButton colour="someColour"/>);
+
+                            //    Then
+                            const inputButton = wrapperGameButton.find("input").get(0);
+                            chai.expect(inputButton.props.type).to.equal("button");
+                        });
+                    });
                 });
             });
         });
