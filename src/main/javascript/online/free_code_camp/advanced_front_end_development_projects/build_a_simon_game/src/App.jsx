@@ -136,7 +136,7 @@ class GameButton extends React.Component {
     render() {
         return (
             <div>
-                <input type="button"/>
+                <input type="button" className={this.props.colour}/>
             </div>
         );
     }
