@@ -250,7 +250,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                             //    Then
                             const inputButton = wrapperGameButton.find("input").get(0);
                             chai.expect(inputButton.props.type).to.equal("button");
-                            chai.expect(inputButton.props.className).to.equal("someColour");
+                            chai.expect(inputButton.props.className).to.contains("someColour");
                         });
                     });
                 });
