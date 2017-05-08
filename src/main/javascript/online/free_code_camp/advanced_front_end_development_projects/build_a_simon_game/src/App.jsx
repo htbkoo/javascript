@@ -63,20 +63,21 @@ class Dashboard extends React.Component {
 
 class ButtonsPanel extends React.Component {
     render() {
+
         return (
             <div>
-                <Container>
-                    <GameButton/>
-                </Container>
-                <Container>
-                    <GameButton/>
-                </Container>
-                <Container>
-                    <GameButton/>
-                </Container>
-                <Container>
-                    <GameButton/>
-                </Container>
+                {
+                    [
+                        'red',
+                        'green',
+                        'blue',
+                        'yellow'
+                    ].map(() =>
+                        <Container>
+                            <GameButton/>
+                        </Container>
+                    )
+                }
             </div>
         );
     }
