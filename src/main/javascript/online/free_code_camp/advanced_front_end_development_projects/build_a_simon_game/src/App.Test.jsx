@@ -243,10 +243,11 @@ describe("SimonGame - FreeCodeCamp", function () {
 
                     describe("<GameButton/>", function () {
                         [
-                            {"colour":"red", "mappedValue":"btn-danger"},
-                            {"colour":"green", "mappedValue":"btn-primary"},
-                            {"colour":"blue", "mappedValue":"btn-success"},
-                            {"colour":"yellow", "mappedValue":"btn-warning"}
+                            {"colour": "red", "mappedValue": "btn-danger"},
+                            {"colour": "green", "mappedValue": "btn-primary"},
+                            {"colour": "blue", "mappedValue": "btn-success"},
+                            {"colour": "yellow", "mappedValue": "btn-warning"},
+                            {"colour": "not-existing-colour", "mappedValue": "btn-default"}
                         ].forEach((param) => {
                             it(format("should contain <input type='button'/> with className as a value ({}) mapped from this.props.colour ({})", param.mappedValue, param.colour), function () {
                                 //    Given
@@ -259,6 +260,18 @@ describe("SimonGame - FreeCodeCamp", function () {
                                 chai.expect(inputButton.props.className).to.contains(param.mappedValue);
                             });
                         });
+
+                        it("should still render mappedValue as 'btn-default' if colour is omitted", function () {
+                            //    Given
+                            //    When
+                            const wrapperGameButton = shallow(<GameButton/>);
+
+                            //    Then
+                            const inputButton = wrapperGameButton.find("input").get(0);
+                            chai.expect(inputButton.props.type).to.equal("button");
+                            chai.expect(inputButton.props.className).to.contains("btn-default");
+                        });
+
                     });
                 });
             });

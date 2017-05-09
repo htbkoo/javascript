@@ -141,7 +141,7 @@ class StartButton extends React.Component {
 
 class GameButton extends React.Component {
     render() {
-        let btnClassName = (this.props.colour in BUTTON_COLOUR_MAPPING) ? BUTTON_COLOUR_MAPPING[this.props.colour] : "btn_default";
+        let btnClassName = (this.props.colour in BUTTON_COLOUR_MAPPING) ? BUTTON_COLOUR_MAPPING[this.props.colour] : "btn-default";
 
         return (
             <div>
