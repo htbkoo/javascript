@@ -275,15 +275,20 @@ describe("SimonGame - FreeCodeCamp", function () {
                             const inputButton = assertAndGetButton(wrapperGameButton);
                             chai.expect(inputButton.props.className).to.contains("btn-default");
                         });
+                        
+                        [
+                            true,
+                            false
+                        ].forEach((isDisabled)=>{
+                            it(format("should use this.props.isDisabled(={}) as the value of 'disabled' attribute", isDisabled.toString()), function () {
+                                //    Given
+                                //    When
+                                const wrapperGameButton = shallow(<GameButton isDisabled={isDisabled}/>);
 
-                        it("should use this.props.isDisabled as the value of 'disabled' attribute", function () {
-                            //    Given
-                            //    When
-                            const wrapperGameButton = shallow(<GameButton isDisabled={true}/>);
-
-                            //    Then
-                            const inputButton = assertAndGetButton(wrapperGameButton);
-                            chai.expect('disabled' in inputButton.props).to.equal(true);
+                                //    Then
+                                const inputButton = assertAndGetButton(wrapperGameButton);
+                                chai.expect(inputButton.props.disabled).to.equal(isDisabled);
+                            }); 
                         });
                     });
                 });
