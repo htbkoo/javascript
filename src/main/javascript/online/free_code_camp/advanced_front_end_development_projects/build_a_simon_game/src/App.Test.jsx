@@ -216,9 +216,10 @@ describe("SimonGame - FreeCodeCamp", function () {
                 });
 
                 describe("<ButtonsPanel/>", function () {
-                    it("should have 4 <GameButton/> that have ['red', 'green', 'blue', 'yellow'] as this.props.colour respectively", function () {
+                    it("should have 4 <GameButton/> that have ['red', 'green', 'blue', 'yellow'] as this.props.colour and 'areButtonsDisabled' as this.props.isDisabled respectively", function () {
                         //    Given
-                        const wrapperButtonsPanel = shallow(<ButtonsPanel/>);
+                        const someDisabledValue = "someDisabledValue";
+                        const wrapperButtonsPanel = shallow(<ButtonsPanel areButtonsDisabled={someDisabledValue}/>);
 
                         //    When
                         const containers = wrapperButtonsPanel.find("Container");
@@ -237,7 +238,8 @@ describe("SimonGame - FreeCodeCamp", function () {
                                 .to.equal(true, format("colour: '{}' - <ButtonsPanel/> should contain <GameButton/>", colour));
 
                             const gameButton = container.find('GameButton');
-                            chai.expect(gameButton.get(0).props.colour).to.equal(colour, format("Colour should be '{}'", colour));
+                            chai.expect(gameButton.get(0).props.colour).to.equal(colour, format("colour should be '{}'", colour));
+                            chai.expect(gameButton.get(0).props.isDisabled).to.equal(someDisabledValue, format("isDisabled should be '{}'", someDisabledValue));
                         });
                     });
 
@@ -275,11 +277,11 @@ describe("SimonGame - FreeCodeCamp", function () {
                             const inputButton = assertAndGetButton(wrapperGameButton);
                             chai.expect(inputButton.props.className).to.contains("btn-default");
                         });
-                        
+
                         [
                             true,
                             false
-                        ].forEach((isDisabled)=>{
+                        ].forEach((isDisabled) => {
                             it(format("should use this.props.isDisabled(={}) as the value of 'disabled' attribute", isDisabled.toString()), function () {
                                 //    Given
                                 //    When
@@ -288,7 +290,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                                 //    Then
                                 assertAndGetButton(wrapperGameButton);
                                 chai.expect(wrapperGameButton.find('input').html().includes('disabled=""')).to.equal(isDisabled);
-                            }); 
+                            });
                         });
 
                         it("should still render disabled as 'false' if isDisabled is omitted", function () {

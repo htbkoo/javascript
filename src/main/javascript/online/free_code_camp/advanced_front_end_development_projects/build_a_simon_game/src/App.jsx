@@ -80,7 +80,7 @@ class ButtonsPanel extends React.Component {
                         'yellow'
                     ].map((colour) =>
                         <Container key={colour}>
-                            <GameButton colour={colour}/>
+                            <GameButton colour={colour} isDisabled={this.props.areButtonsDisabled}/>
                         </Container>
                     )
                 }
