@@ -16,7 +16,8 @@ class App extends React.Component {
         super(props);
         this.state = {
             'score': game.getFormattedScore(),
-            'status': game.getStatus()
+            'status': game.getStatus(),
+            'areButtonsDisabled': game.isInputDisabled()
         };
         this.updateState = this.updateState.bind(this)
     }
@@ -24,7 +25,8 @@ class App extends React.Component {
     updateState() {
         this.setState({
             'score': game.getFormattedScore(),
-            'status': game.getStatus()
+            'status': game.getStatus(),
+            'areButtonsDisabled': game.isInputDisabled()
         })
     }
 
@@ -32,8 +34,9 @@ class App extends React.Component {
         return (
             <div className="App">
                 <Title/>
-                <Dashboard onRestartClicked={this.updateState} score={this.state.score}/>
-                <ButtonsPanel/>
+                <Dashboard onRestartClicked={this.updateState}
+                           score={this.state.score}/>
+                <ButtonsPanel areButtonsDisabled={this.state.areButtonsDisabled}/>
             </div>
         );
     }

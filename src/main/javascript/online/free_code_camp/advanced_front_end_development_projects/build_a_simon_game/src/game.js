@@ -50,6 +50,10 @@ class Game {
 
     }
 
+    isInputDisabled() {
+        return false;
+    }
+
     getStatus() {
         return {
             'isStarting': () => {

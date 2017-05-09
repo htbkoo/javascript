@@ -76,6 +76,18 @@ describe("SimonGame - FreeCodeCamp", function () {
                     chai.expect(wrapperDashboard.props.score).to.equal("someScore");
                 }));
 
+                it("should pass areButtonsDisabled to Dashboard", sinon.test(function () {
+                    // Given
+                    this.stub(Game.prototype, "isInputDisabled").returns(false);
+
+                    // When
+                    const wrapperApp = shallow(<App/>);
+                    const wrapperButtonsPanel = wrapperApp.find("ButtonsPanel").get(0);
+
+                    // Then
+                    chai.expect(wrapperButtonsPanel.props.areButtonsDisabled).to.equal(false);
+                }));
+
                 describe("<Container/>", function () {
                     it("should be a container which has a div.Container which hold the props.children", function () {
                         //    Given
