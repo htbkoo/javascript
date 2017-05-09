@@ -242,6 +242,12 @@ describe("SimonGame - FreeCodeCamp", function () {
                     });
 
                     describe("<GameButton/>", function () {
+                        let assertAndGetButton = (wrapperGameButton) => {
+                            let inputButton = wrapperGameButton.find("input").get(0);
+                            chai.expect(inputButton.props.type).to.equal("button");
+                            return inputButton;
+                        };
+
                         [
                             {"colour": "red", "mappedValue": "btn-danger"},
                             {"colour": "green", "mappedValue": "btn-primary"},
@@ -255,8 +261,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                                 const wrapperGameButton = shallow(<GameButton colour={param.colour}/>);
 
                                 //    Then
-                                const inputButton = wrapperGameButton.find("input").get(0);
-                                chai.expect(inputButton.props.type).to.equal("button");
+                                const inputButton = assertAndGetButton(wrapperGameButton);
                                 chai.expect(inputButton.props.className).to.contains(param.mappedValue);
                             });
                         });
@@ -267,8 +272,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                             const wrapperGameButton = shallow(<GameButton/>);
 
                             //    Then
-                            const inputButton = wrapperGameButton.find("input").get(0);
-                            chai.expect(inputButton.props.type).to.equal("button");
+                            const inputButton = assertAndGetButton(wrapperGameButton);
                             chai.expect(inputButton.props.className).to.contains("btn-default");
                         });
 
