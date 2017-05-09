@@ -286,9 +286,19 @@ describe("SimonGame - FreeCodeCamp", function () {
                                 const wrapperGameButton = shallow(<GameButton isDisabled={isDisabled}/>);
 
                                 //    Then
-                                const inputButton = assertAndGetButton(wrapperGameButton);
-                                chai.expect(inputButton.props.disabled).to.equal(isDisabled);
+                                assertAndGetButton(wrapperGameButton);
+                                chai.expect(wrapperGameButton.find('input').html().includes('disabled=""')).to.equal(isDisabled);
                             }); 
+                        });
+
+                        it("should still render disabled as 'false' if isDisabled is omitted", function () {
+                            //    Given
+                            //    When
+                            const wrapperGameButton = shallow(<GameButton/>);
+
+                            //    Then
+                            const inputButton = assertAndGetButton(wrapperGameButton);
+                            chai.expect(wrapperGameButton.find('input').html().includes('disabled=""')).to.equal(false);
                         });
                     });
                 });
