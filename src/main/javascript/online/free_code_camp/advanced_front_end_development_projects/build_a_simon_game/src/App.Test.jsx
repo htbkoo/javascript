@@ -276,6 +276,15 @@ describe("SimonGame - FreeCodeCamp", function () {
                             chai.expect(inputButton.props.className).to.contains("btn-default");
                         });
 
+                        it("should use this.props.isDisabled as the value of 'disabled' attribute", function () {
+                            //    Given
+                            //    When
+                            const wrapperGameButton = shallow(<GameButton isDisabled={true}/>);
+
+                            //    Then
+                            const inputButton = assertAndGetButton(wrapperGameButton);
+                            chai.expect('disabled' in inputButton.props).to.equal(true);
+                        });
                     });
                 });
             });

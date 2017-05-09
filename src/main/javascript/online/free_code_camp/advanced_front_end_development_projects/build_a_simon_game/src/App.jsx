@@ -145,7 +145,7 @@ class GameButton extends React.Component {
 
         return (
             <div>
-                <input type="button" className={"btn GameButton " + btnClassName}/>
+                <input type="button" className={"btn GameButton " + btnClassName} disabled={this.props.isDisabled}/>
             </div>
         );
     }
