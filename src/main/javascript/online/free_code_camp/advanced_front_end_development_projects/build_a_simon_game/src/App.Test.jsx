@@ -33,6 +33,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                     // Given
                     this.stub(Game.prototype, "getFormattedScore").returns(0);
                     this.stub(Game.prototype, "getStatus").returns("initial Status");
+                    this.stub(Game.prototype, "isInputDisabled").returns(true);
 
                     // When
                     const wrapperApp = shallow(<App/>);
@@ -51,6 +52,9 @@ describe("SimonGame - FreeCodeCamp", function () {
                     this.stub(Game.prototype, "getStatus")
                         .onFirstCall().returns("initial")
                         .onSecondCall().returns("someStatus");
+                    this.stub(Game.prototype, "isInputDisabled")
+                        .onFirstCall().returns(true)
+                        .onSecondCall().returns(false);
 
                     // When
                     const wrapperApp = shallow(<App/>);

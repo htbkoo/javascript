@@ -32,6 +32,11 @@ let scoreFormatter = {
     }
 };
 
+let isStatus = function (status) {
+    "use strict";
+    return status === statuses.get(this);
+};
+
 class Game {
     constructor() {
         scores.set(this, 0);
@@ -43,7 +48,14 @@ class Game {
     }
 
     restart() {
-        statuses.set(this, STATUS_ENUM.STARTING)
+        statuses.set(this, STATUS_ENUM.STARTING);
+    }
+
+    started() {
+        statuses.set(this, STATUS_ENUM.DEMOING);
+    }
+    demoed() {
+        statuses.set(this, STATUS_ENUM.PLAYING);
     }
 
     toggleStrict() {
@@ -51,7 +63,7 @@ class Game {
     }
 
     isInputDisabled() {
-        return false;
+        return !this.getStatus().isPlaying();
     }
 
     getStatus() {
@@ -61,6 +73,9 @@ class Game {
             },
             'isStarted': () => {
                 return statuses.get(this) !== STATUS_ENUM.NOT_STARTED;
+            },
+            "isPlaying": () => {
+                return isStatus.call(this, STATUS_ENUM.PLAYING);
             }
         }
     }

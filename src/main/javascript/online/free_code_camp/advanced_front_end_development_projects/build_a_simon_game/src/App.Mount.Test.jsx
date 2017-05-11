@@ -21,6 +21,9 @@ describe("SimonGame (Full render test) - FreeCodeCamp", function () {
                         return {
                             "isStarted": () => {
                                 return false;
+                            },
+                            "isPlaying": () => {
+                                return false;
                             }
                         }
                     });

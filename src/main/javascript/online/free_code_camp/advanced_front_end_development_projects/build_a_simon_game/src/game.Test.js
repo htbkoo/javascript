@@ -40,6 +40,31 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 });
             });
 
+            describe("isInputDisabled", function () {
+                it("should return true if game.getStatus().isPlaying() return false, i.e. when status is not Playing", function () {
+                    //    Given
+                    //    When
+                    let game = new Game();
+
+                    //    Then
+                    chai.expect(game.getStatus().isPlaying()).to.equal(false, "Status should not be 'playing' before demo is done");
+                    chai.expect(game.isInputDisabled()).to.equal(true, "Input should be disabled when is not Playing");
+                });
+
+                it("should return false if game.getStatus().isPlaying() return true, i.e. when status is Playing", function () {
+                    //    Given
+                    //    When
+                    let game = new Game();
+                    game.restart();
+                    game.started();
+                    game.demoed();
+
+                    //    Then
+                    chai.expect(game.getStatus().isPlaying()).to.equal(true, "Status should be 'playing' when demo is done");
+                    chai.expect(game.isInputDisabled()).to.equal(false, "Input should not be disabled when isPlaying");
+                });
+            });
+
             describe("score", function () {
                 it("should get formatted score", sinon.test(function () {
                         //    Given
