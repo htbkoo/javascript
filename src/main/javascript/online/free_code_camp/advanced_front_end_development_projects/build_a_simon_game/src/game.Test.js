@@ -36,8 +36,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     game.restart();
 
                     //    Then
-                    chai.expect(game.getFormattedScore()).to.equal('01', "Score should be 0 when started");
-                    // chai.expect(game.getStatus().isStarting()).to.equal(true, "Status should be 'starting' when start");
+                    chai.expect(game.getStatus().isStarting()).to.equal(true, "Status should be 'starting' when start");
                 });
             });
 
