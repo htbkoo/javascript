@@ -54,6 +54,7 @@ class Game {
     started() {
         statuses.set(this, STATUS_ENUM.DEMOING);
     }
+
     demoed() {
         statuses.set(this, STATUS_ENUM.PLAYING);
     }
@@ -72,7 +73,7 @@ class Game {
                 return true;
             },
             'isStarted': () => {
-                return statuses.get(this) !== STATUS_ENUM.NOT_STARTED;
+                return false;
             },
             "isPlaying": () => {
                 return isStatus.call(this, STATUS_ENUM.PLAYING);
