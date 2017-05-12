@@ -8,3 +8,6 @@ src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld
 src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/public/js/
 ^out/
 
+build/
+
+npm-debug.log*
