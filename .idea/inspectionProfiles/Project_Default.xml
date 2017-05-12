@@ -9,7 +9,8 @@
     <inspection_tool class="JSLint" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="JSMethodCanBeStatic" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="JSUnresolvedFunction" enabled="true" level="WEAK WARNING" enabled_by_default="true">
-      <scope name="Production" level="WARNING" enabled="true" />
+      <scope name="FreeCodeCamp" level="WEAK WARNING" enabled="true" />
+      <scope name="Production" level="WEAK WARNING" enabled="true" />
     </inspection_tool>
     <inspection_tool class="JSUnusedGlobalSymbols" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="Tests" level="WEAK WARNING" enabled="true" />
