@@ -19,7 +19,7 @@ describe("SimonGame (Full render test) - FreeCodeCamp", function () {
                     // Given
                     this.stub(Game.prototype, "getStatus").callsFake(() => {
                         return {
-                            "isStarted": () => {
+                            "isIdle": () => {
                                 return false;
                             },
                             "isPlaying": () => {

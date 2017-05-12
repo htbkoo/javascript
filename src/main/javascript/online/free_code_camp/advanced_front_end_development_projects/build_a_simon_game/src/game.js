@@ -6,16 +6,18 @@ let scores = new WeakMap();
 let statuses = new WeakMap();
 
 let STATUS_ENUM = {
-    "NOT_STARTED": Symbol("NOT_STARTED"),
+    "IDLE": Symbol("IDLE"),
     "STARTING": Symbol("STARTING"),
     "DEMOING": Symbol("DEMOING"),
     "PLAYING": Symbol("PLAYING"),
 };
 
 let scoreFormatter = {
-    "format": function (isStarted, rawScore) {
+    "format": function (isIdle, rawScore) {
         let stepText;
-        if (isStarted) {
+        if (isIdle) {
+            stepText = '--';
+        } else {
             (function formatScore() {
                 const gameScore = rawScore + 1;
                 if ((gameScore >= 0) && (gameScore < 10)) {
@@ -25,8 +27,6 @@ let scoreFormatter = {
                 }
             })();
 
-        } else {
-            stepText = '--';
         }
         return stepText;
     }
@@ -40,11 +40,11 @@ let isStatus = function (status) {
 class Game {
     constructor() {
         scores.set(this, 0);
-        statuses.set(this, STATUS_ENUM.NOT_STARTED);
+        statuses.set(this, STATUS_ENUM.IDLE);
     };
 
     getFormattedScore() {
-        return scoreFormatter.format(this.getStatus().isStarted(), scores.get(this));
+        return scoreFormatter.format(this.getStatus().isIdle(), scores.get(this));
     }
 
     restart() {
@@ -72,8 +72,8 @@ class Game {
             'isStarting': () => {
                 return true;
             },
-            'isStarted': () => {
-                return false;
+            "isIdle": () => {
+                return true;
             },
             "isPlaying": () => {
                 return isStatus.call(this, STATUS_ENUM.PLAYING);

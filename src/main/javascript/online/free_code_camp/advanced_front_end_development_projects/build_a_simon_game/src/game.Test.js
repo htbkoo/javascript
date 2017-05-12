@@ -70,7 +70,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         //    Given
                         const mockScoreFormatter = this.mock(scoreFormatter);
                         mockScoreFormatter.expects("format")
-                            .withArgs(false, 0)
+                            .withArgs(true, 0)
                             .once()
                             .returns('formatted score');
 
@@ -90,30 +90,30 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             [
                 {
                     "testName": "should format score as '--' if game is not started yet",
-                    "isStarted": false,
+                    "isIdle": true,
                     "expectedScore": "--"
                 },
                 {
                     "testName": "should format 0 raw score as '01'",
-                    "isStarted": true,
+                    "isIdle": false,
                     "score": 0,
                     "expectedScore": "01"
                 },
                 {
                     "testName": "should format 1 raw score as '02'",
-                    "isStarted": true,
+                    "isIdle": false,
                     "score": 1,
                     "expectedScore": "02"
                 },
                 {
                     "testName": "should format 9 raw score as '10'",
-                    "isStarted": true,
+                    "isIdle": false,
                     "score": 9,
                     "expectedScore": "10"
                 },
                 {
                     "testName": "should format 19 raw score as '20'",
-                    "isStarted": true,
+                    "isIdle": false,
                     "score": 19,
                     "expectedScore": "20"
                 }
@@ -122,7 +122,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     //    Given
                     //    When
                     //    Then
-                    chai.expect(scoreFormatter.format(testcase.isStarted, testcase.score)).to.equal(testcase.expectedScore)
+                    chai.expect(scoreFormatter.format(testcase.isIdle, testcase.score)).to.equal(testcase.expectedScore)
                 }));
             });
         });
