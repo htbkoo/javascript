@@ -3,6 +3,7 @@
  */
 
 import chai from "chai";
+import format from 'string-format';
 
 import sinon from "sinon";
 import sinonTest from "sinon-test";
@@ -28,15 +29,29 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             describe("status", function () {
-                it("should get status as 'IDLE' before start", function () {
-                    //    Given
-                    let game = new Game();
+                let NONE = () => {
+                };
 
-                    //    When
+                [
+                    {
+                        "testName": "'IDLE' before start",
+                        "actionToGame": NONE,
+                        "expectedStatus": "isIdle",
+                        "errorMessage": "Status should be 'idle' before start"
+                    }
+                ].forEach((testCase)=>{
+                    it(format("should get status as {}", testCase.testName), function () {
+                        //    Given
+                        let game = new Game();
 
-                    //    Then
-                    chai.expect(game.getStatus().isIdle()).to.equal(true, "Status should be 'idle' before start");
+                        //    When
+                        testCase.actionToGame();
+
+                        //    Then
+                        chai.expect(game.getStatus()[testCase.expectedStatus]()).to.equal(true, testCase.errorMessage);
+                    });
                 });
+
 
                 it("should get status as 'STARTING' when start", function () {
                     //    Given
