@@ -28,6 +28,16 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             describe("status", function () {
+                it("should get status as 'IDLE' before start", function () {
+                    //    Given
+                    let game = new Game();
+
+                    //    When
+
+                    //    Then
+                    chai.expect(game.getStatus().isIdle()).to.equal(true, "Status should be 'idle' before start");
+                });
+
                 it("should get status as 'STARTING' when start", function () {
                     //    Given
                     let game = new Game();
@@ -36,6 +46,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     game.restart();
 
                     //    Then
+                    chai.expect(game.getStatus().isIdle()).to.equal(false, "Status should be 'idle' before start");
                     chai.expect(game.getStatus().isStarting()).to.equal(true, "Status should be 'starting' when start");
                 });
             });

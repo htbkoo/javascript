@@ -73,7 +73,7 @@ class Game {
                 return true;
             },
             "isIdle": () => {
-                return true;
+                return isStatus.call(this, STATUS_ENUM.IDLE);
             },
             "isPlaying": () => {
                 return isStatus.call(this, STATUS_ENUM.PLAYING);
