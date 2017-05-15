@@ -32,15 +32,10 @@ let scoreFormatter = {
     }
 };
 
-let isStatus = function (status) {
-    "use strict";
-    return status === statuses.get(this);
-};
-
 let createStatusObj = function () {
     "use strict";
     return Object.keys(STATUS_ENUM).reduce((prev, key) => {
-        prev[key] = () => isStatus.call(this, STATUS_ENUM[key]);
+        prev[key] = () => (STATUS_ENUM[key] === statuses.get(this));
         return prev;
     }, {});
 };
