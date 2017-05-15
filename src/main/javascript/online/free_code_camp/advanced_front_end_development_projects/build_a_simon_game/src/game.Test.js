@@ -18,7 +18,7 @@ let testCases = {
             "testName": "'isIdle' before start",
             "performAction": () => {
             },
-            "expectedTrueStatuName": "isIdle",
+            "expectedTrueStatusName": "isIdle",
             "errorMessage": "Status should be 'idle' before start"
         },
         {
@@ -26,32 +26,27 @@ let testCases = {
             "performAction": (game) => {
                 game.restart();
             },
-            "expectedTrueStatuName": "isStarting",
+            "expectedTrueStatusName": "isStarting",
             "errorMessage": "Status should be 'starting' when start"
         },
         {
-            "testName": "'isStarting' when start",
+            "testName": "'isDemoing' when started",
             "performAction": (game) => {
                 game.restart();
+                game.started();
             },
-            "expectedTrueStatuName": "isStarting",
-            "errorMessage": "Status should be 'starting' when start"
+            "expectedTrueStatusName": "isDemoing",
+            "errorMessage": "Status should be 'demoing' when started"
         },
         {
-            "testName": "'isStarting' when start",
+            "testName": "'isPlaying' when demoed",
             "performAction": (game) => {
                 game.restart();
+                game.started();
+                game.demoed();
             },
-            "expectedTrueStatuName": "isStarting",
-            "errorMessage": "Status should be 'starting' when start"
-        },
-        {
-            "testName": "'isStarting' when start",
-            "performAction": (game) => {
-                game.restart();
-            },
-            "expectedTrueStatuName": "isStarting",
-            "errorMessage": "Status should be 'starting' when start"
+            "expectedTrueStatusName": "isPlaying",
+            "errorMessage": "Status should be 'playing' when demoed"
         }
     ],
     "scoreFormatter": [
@@ -114,7 +109,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                         //    Then
                         Object.keys(game.getStatus()).forEach((statusFnName) => {
-                            const expectedStatus = (statusFnName === testCase.expectedTrueStatuName);
+                            const expectedStatus = (statusFnName === testCase.expectedTrueStatusName);
                             const actualStatus = game.getStatus()[statusFnName]();
                             chai.expect(actualStatus).to.equal(expectedStatus, format("{} - wrong status for <'{}'>", testCase.errorMessage, statusFnName));
                         });
