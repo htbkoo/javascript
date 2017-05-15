@@ -12,6 +12,81 @@ sinon.testCase = sinonTest.configureTestCase(sinon);
 
 import Game, {scoreFormatter} from "./game";
 
+let testCases = {
+    "status": [
+        {
+            "testName": "'isIdle' before start",
+            "performAction": () => {
+            },
+            "expectedTrueStatuName": "isIdle",
+            "errorMessage": "Status should be 'idle' before start"
+        },
+        {
+            "testName": "'isStarting' when start",
+            "performAction": (game) => {
+                game.restart();
+            },
+            "expectedTrueStatuName": "isStarting",
+            "errorMessage": "Status should be 'starting' when start"
+        },
+        {
+            "testName": "'isStarting' when start",
+            "performAction": (game) => {
+                game.restart();
+            },
+            "expectedTrueStatuName": "isStarting",
+            "errorMessage": "Status should be 'starting' when start"
+        },
+        {
+            "testName": "'isStarting' when start",
+            "performAction": (game) => {
+                game.restart();
+            },
+            "expectedTrueStatuName": "isStarting",
+            "errorMessage": "Status should be 'starting' when start"
+        },
+        {
+            "testName": "'isStarting' when start",
+            "performAction": (game) => {
+                game.restart();
+            },
+            "expectedTrueStatuName": "isStarting",
+            "errorMessage": "Status should be 'starting' when start"
+        }
+    ],
+    "scoreFormatter": [
+        {
+            "testName": "should format score as '--' if game is not started yet",
+            "isIdle": true,
+            "expectedScore": "--"
+        },
+        {
+            "testName": "should format 0 raw score as '01'",
+            "isIdle": false,
+            "score": 0,
+            "expectedScore": "01"
+        },
+        {
+            "testName": "should format 1 raw score as '02'",
+            "isIdle": false,
+            "score": 1,
+            "expectedScore": "02"
+        },
+        {
+            "testName": "should format 9 raw score as '10'",
+            "isIdle": false,
+            "score": 9,
+            "expectedScore": "10"
+        },
+        {
+            "testName": "should format 19 raw score as '20'",
+            "isIdle": false,
+            "score": 19,
+            "expectedScore": "20"
+        }
+    ]
+};
+
 describe("SimonGame (logic) - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Advanced Project", function () {
@@ -29,25 +104,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             describe("status", function () {
-                let NONE = () => {
-                };
-
-                [
-                    {
-                        "testName": "'isIdle' before start",
-                        "performAction": NONE,
-                        "expectedTrueStatuName": "isIdle",
-                        "errorMessage": "Status should be 'idle' before start"
-                    },
-                    {
-                        "testName": "'isStarting' when start",
-                        "performAction": (game) => {
-                            game.restart();
-                        },
-                        "expectedTrueStatuName": "isStarting",
-                        "errorMessage": "Status should be 'starting' when start"
-                    }
-                ].forEach((testCase) => {
+                testCases.status.forEach((testCase) => {
                     it(format("should get status as {}", testCase.testName), function () {
                         //    Given
                         let game = new Game();
@@ -112,37 +169,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
         });
 
         describe("scoreFormatter", function () {
-            [
-                {
-                    "testName": "should format score as '--' if game is not started yet",
-                    "isIdle": true,
-                    "expectedScore": "--"
-                },
-                {
-                    "testName": "should format 0 raw score as '01'",
-                    "isIdle": false,
-                    "score": 0,
-                    "expectedScore": "01"
-                },
-                {
-                    "testName": "should format 1 raw score as '02'",
-                    "isIdle": false,
-                    "score": 1,
-                    "expectedScore": "02"
-                },
-                {
-                    "testName": "should format 9 raw score as '10'",
-                    "isIdle": false,
-                    "score": 9,
-                    "expectedScore": "10"
-                },
-                {
-                    "testName": "should format 19 raw score as '20'",
-                    "isIdle": false,
-                    "score": 19,
-                    "expectedScore": "20"
-                }
-            ].forEach((testcase) => {
+            testCases.scoreFormatter.forEach((testcase) => {
                 it(testcase.testName, sinon.test(function () {
                     //    Given
                     //    When
