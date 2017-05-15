@@ -6,10 +6,10 @@ let scores = new WeakMap();
 let statuses = new WeakMap();
 
 let STATUS_ENUM = {
-    "IDLE": Symbol("IDLE"),
-    "STARTING": Symbol("STARTING"),
-    "DEMOING": Symbol("DEMOING"),
-    "PLAYING": Symbol("PLAYING"),
+    "isIdle": Symbol("isIdle"),
+    "isStarting": Symbol("isStarting"),
+    "isDemoing": Symbol("isDemoing"),
+    "isPlaying": Symbol("isPlaying"),
 };
 
 let scoreFormatter = {
@@ -37,10 +37,18 @@ let isStatus = function (status) {
     return status === statuses.get(this);
 };
 
+let createStatusObj = function () {
+    "use strict";
+    return Object.keys(STATUS_ENUM).reduce((prev, key) => {
+        prev[key] = () => isStatus.call(this, STATUS_ENUM[key]);
+        return prev;
+    }, {});
+};
+
 class Game {
     constructor() {
         scores.set(this, 0);
-        statuses.set(this, STATUS_ENUM.IDLE);
+        statuses.set(this, STATUS_ENUM.isIdle);
     };
 
     getFormattedScore() {
@@ -48,15 +56,15 @@ class Game {
     }
 
     restart() {
-        statuses.set(this, STATUS_ENUM.STARTING);
+        statuses.set(this, STATUS_ENUM.isStarting);
     }
 
     started() {
-        statuses.set(this, STATUS_ENUM.DEMOING);
+        statuses.set(this, STATUS_ENUM.isDemoing);
     }
 
     demoed() {
-        statuses.set(this, STATUS_ENUM.PLAYING);
+        statuses.set(this, STATUS_ENUM.isPlaying);
     }
 
     toggleStrict() {
@@ -68,17 +76,7 @@ class Game {
     }
 
     getStatus() {
-        return {
-            'isStarting': () => {
-                return true;
-            },
-            "isIdle": () => {
-                return isStatus.call(this, STATUS_ENUM.IDLE);
-            },
-            "isPlaying": () => {
-                return isStatus.call(this, STATUS_ENUM.PLAYING);
-            }
-        }
+        return createStatusObj.call(this);
     }
 
 }

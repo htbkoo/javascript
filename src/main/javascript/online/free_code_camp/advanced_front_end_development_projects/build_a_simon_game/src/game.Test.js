@@ -34,12 +34,12 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                 [
                     {
-                        "testName": "'IDLE' before start",
+                        "testName": "'isIdle' before start",
                         "actionToGame": NONE,
-                        "expectedStatus": "isIdle",
+                        "expectedTrueStatuName": "isIdle",
                         "errorMessage": "Status should be 'idle' before start"
                     }
-                ].forEach((testCase)=>{
+                ].forEach((testCase) => {
                     it(format("should get status as {}", testCase.testName), function () {
                         //    Given
                         let game = new Game();
@@ -48,12 +48,16 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         testCase.actionToGame();
 
                         //    Then
-                        chai.expect(game.getStatus()[testCase.expectedStatus]()).to.equal(true, testCase.errorMessage);
+                        Object.keys(game.getStatus()).forEach((statusFnName) => {
+                            const expectedStatus = (statusFnName === testCase.expectedTrueStatuName);
+                            const actualStatus = game.getStatus()[statusFnName]();
+                            chai.expect(actualStatus).to.equal(expectedStatus, format("{} - wrong status for <'{}'>", testCase.errorMessage, statusFnName));
+                        });
                     });
                 });
 
 
-                it("should get status as 'STARTING' when start", function () {
+                it("should get status as 'isStarting' when start", function () {
                     //    Given
                     let game = new Game();
 
