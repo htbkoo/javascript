@@ -35,9 +35,17 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 [
                     {
                         "testName": "'isIdle' before start",
-                        "actionToGame": NONE,
+                        "performAction": NONE,
                         "expectedTrueStatuName": "isIdle",
                         "errorMessage": "Status should be 'idle' before start"
+                    },
+                    {
+                        "testName": "'isStarting' when start",
+                        "performAction": (game) => {
+                            game.restart();
+                        },
+                        "expectedTrueStatuName": "isStarting",
+                        "errorMessage": "Status should be 'starting' when start"
                     }
                 ].forEach((testCase) => {
                     it(format("should get status as {}", testCase.testName), function () {
@@ -45,7 +53,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         let game = new Game();
 
                         //    When
-                        testCase.actionToGame();
+                        testCase.performAction(game);
 
                         //    Then
                         Object.keys(game.getStatus()).forEach((statusFnName) => {
@@ -54,19 +62,6 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                             chai.expect(actualStatus).to.equal(expectedStatus, format("{} - wrong status for <'{}'>", testCase.errorMessage, statusFnName));
                         });
                     });
-                });
-
-
-                it("should get status as 'isStarting' when start", function () {
-                    //    Given
-                    let game = new Game();
-
-                    //    When
-                    game.restart();
-
-                    //    Then
-                    chai.expect(game.getStatus().isIdle()).to.equal(false, "Status should be 'idle' before start");
-                    chai.expect(game.getStatus().isStarting()).to.equal(true, "Status should be 'starting' when start");
                 });
             });
 
