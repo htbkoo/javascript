@@ -32,14 +32,6 @@ let scoreFormatter = {
     }
 };
 
-let createStatusObj = function () {
-    "use strict";
-    return Object.keys(STATUS_ENUM).reduce((prev, key) => {
-        prev[key] = () => (STATUS_ENUM[key] === statuses.get(this));
-        return prev;
-    }, {});
-};
-
 class Game {
     constructor() {
         scores.set(this, 0);
@@ -71,7 +63,10 @@ class Game {
     }
 
     getStatus() {
-        return createStatusObj.call(this);
+        return Object.keys(STATUS_ENUM).reduce((prev, key) => {
+            prev[key] = () => (STATUS_ENUM[key] === statuses.get(this));
+            return prev;
+        }, {});
     }
 
 }
