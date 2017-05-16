@@ -165,12 +165,12 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
         describe("scoreFormatter", function () {
             testCases.scoreFormatter.forEach((testcase) => {
-                it(testcase.testName, sinon.test(function () {
+                it(testcase.testName, function () {
                     //    Given
                     //    When
                     //    Then
                     chai.expect(scoreFormatter.format(testcase.isIdle, testcase.score)).to.equal(testcase.expectedScore)
-                }));
+                });
             });
         });
     });
