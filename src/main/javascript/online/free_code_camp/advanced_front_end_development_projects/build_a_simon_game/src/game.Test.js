@@ -10,7 +10,8 @@ import sinonTest from "sinon-test";
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
 
-import Game, {scoreFormatter} from "./game";
+import Game from "./game";
+import scoreFormatter from "./scoreFormatter";
 
 let testCases = {
     "status": [
@@ -160,17 +161,6 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     }
                 ))
                 ;
-            });
-        });
-
-        describe("scoreFormatter", function () {
-            testCases.scoreFormatter.forEach((testcase) => {
-                it(testcase.testName, function () {
-                    //    Given
-                    //    When
-                    //    Then
-                    chai.expect(scoreFormatter.format(testcase.isIdle, testcase.score)).to.equal(testcase.expectedScore)
-                });
             });
         });
     });

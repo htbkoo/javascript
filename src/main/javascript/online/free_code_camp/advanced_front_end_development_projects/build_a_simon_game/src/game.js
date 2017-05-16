@@ -2,6 +2,8 @@
  * Created by Hey on 25 Apr 2017
  */
 
+import scoreFormatter from "./scoreFormatter";
+
 let scores = new WeakMap();
 let statuses = new WeakMap();
 
@@ -10,26 +12,6 @@ let STATUS_ENUM = {
     "isStarting": Symbol("isStarting"),
     "isDemoing": Symbol("isDemoing"),
     "isPlaying": Symbol("isPlaying"),
-};
-
-let scoreFormatter = {
-    "format": function (isIdle, rawScore) {
-        let stepText;
-        if (isIdle) {
-            stepText = '--';
-        } else {
-            (function formatScore() {
-                const gameScore = rawScore + 1;
-                if ((gameScore >= 0) && (gameScore < 10)) {
-                    stepText = "0" + (gameScore);
-                } else {
-                    stepText = "" + (gameScore);
-                }
-            })();
-
-        }
-        return stepText;
-    }
 };
 
 class Game {
@@ -72,4 +54,3 @@ class Game {
 }
 
 export default Game;
-export {scoreFormatter};
