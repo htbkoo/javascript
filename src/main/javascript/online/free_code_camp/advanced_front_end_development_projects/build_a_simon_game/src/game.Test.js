@@ -1,4 +1,4 @@
-;/**
+/**
  * Created by Hey on 25 Apr 2017
  */
 
@@ -57,15 +57,15 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
     describe("FrontEnd - Advanced Project", function () {
         describe("SimonGame (logic)", function () {
             describe("initialization", function () {
-                it("should get score as 0 when initialize", function () {
+                it("should get score as 0 when initialize", sinon.test(function () {
                     //    Given
                     let game = new Game();
-
+                    this.stub(scoreFormatter, "format").withArgs(true, 0).returns('someScore');
                     //    When
 
                     //    Then
-                    chai.expect(game.getFormattedScore()).to.equal('--', "Score should be '--' when not started");
-                });
+                    chai.expect(game.getFormattedScore()).to.equal('someScore', "isIdle should be true and score should be 0 when not started");
+                }));
             });
 
             describe("status", function () {
