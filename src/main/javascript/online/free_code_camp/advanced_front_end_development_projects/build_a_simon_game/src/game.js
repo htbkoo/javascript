@@ -3,16 +3,10 @@
  */
 
 import scoreFormatter from "./scoreFormatter";
+import STATUS_ENUM from "./StatusesEnum"
 
 let scores = new WeakMap();
 let statuses = new WeakMap();
-
-let STATUS_ENUM = {
-    "isIdle": Symbol("isIdle"),
-    "isStarting": Symbol("isStarting"),
-    "isDemoing": Symbol("isDemoing"),
-    "isPlaying": Symbol("isPlaying"),
-};
 
 class Game {
     constructor() {
