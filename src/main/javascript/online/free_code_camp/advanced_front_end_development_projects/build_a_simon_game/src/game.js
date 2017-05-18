@@ -23,7 +23,7 @@ class Game {
     };
 
     getFormattedScore() {
-        return scoreFormatter.format(this.getStatus().isIdle(), scores.get(this));
+        return scoreFormatter.format(this.status().isIdle(), scores.get(this));
     }
 
     restart() {
@@ -43,10 +43,10 @@ class Game {
     }
 
     isInputDisabled() {
-        return !this.getStatus().isPlaying();
+        return !this.status().isPlaying();
     }
 
-    getStatus() {
+    status() {
         return Object.keys(STATUS_ENUM).reduce((prev, key) => {
             prev[key] = () => (STATUS_ENUM[key] === statusManagers.get(this).checkStatus());
             return prev;

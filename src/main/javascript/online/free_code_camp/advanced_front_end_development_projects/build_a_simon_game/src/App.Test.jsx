@@ -32,7 +32,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                 it("should set score and status obtained from game on construction", sinon.test(function () {
                     // Given
                     this.stub(Game.prototype, "getFormattedScore").returns(0);
-                    this.stub(Game.prototype, "getStatus").returns("initial Status");
+                    this.stub(Game.prototype, "status").returns("initial Status");
                     this.stub(Game.prototype, "isInputDisabled").returns(true);
 
                     // When
@@ -49,7 +49,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                     this.stub(Game.prototype, "getFormattedScore")
                         .onFirstCall().returns(0)
                         .onSecondCall().returns(100);
-                    this.stub(Game.prototype, "getStatus")
+                    this.stub(Game.prototype, "status")
                         .onFirstCall().returns("initial")
                         .onSecondCall().returns("someStatus");
                     this.stub(Game.prototype, "isInputDisabled")

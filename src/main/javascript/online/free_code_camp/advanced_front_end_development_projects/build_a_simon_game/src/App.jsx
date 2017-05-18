@@ -16,7 +16,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             'score': game.getFormattedScore(),
-            'status': game.getStatus(),
+            'status': game.status(),
             'areButtonsDisabled': game.isInputDisabled()
         };
         this.updateState = this.updateState.bind(this)
@@ -25,7 +25,7 @@ class App extends React.Component {
     updateState() {
         this.setState({
             'score': game.getFormattedScore(),
-            'status': game.getStatus(),
+            'status': game.status(),
             'areButtonsDisabled': game.isInputDisabled()
         })
     }

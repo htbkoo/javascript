@@ -69,9 +69,9 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         // testCase.performAction(game);
 
                         //    Then
-                        Object.keys(game.getStatus()).forEach((statusFnName) => {
+                        Object.keys(game.status()).forEach((statusFnName) => {
                             const expectedStatus = (statusFnName === testCase.expectedTrueStatusName);
-                            const actualStatus = game.getStatus()[statusFnName]();
+                            const actualStatus = game.status()[statusFnName]();
                             chai.expect(actualStatus).to.equal(expectedStatus, format("{} - wrong status for <'{}'>", testCase.errorMessage, statusFnName));
                         });
                     }));
@@ -79,7 +79,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             describe("isInputDisabled", function () {
-                it("should return true if game.getStatus().isPlaying() return false, i.e. when status is not Playing", sinon.test(function () {
+                it("should return true if game.status().isPlaying() return false, i.e. when status is not Playing", sinon.test(function () {
                     //    Given
                     stubStatus.call(this, StatusesEnum.isIdle);
 
@@ -87,11 +87,11 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     let game = new Game();
 
                     //    Then
-                    chai.expect(game.getStatus().isPlaying()).to.equal(false, "Status should not be 'playing' before demo is done");
+                    chai.expect(game.status().isPlaying()).to.equal(false, "Status should not be 'playing' before demo is done");
                     chai.expect(game.isInputDisabled()).to.equal(true, "Input should be disabled when is not Playing");
                 }));
 
-                it("should return false if game.getStatus().isPlaying() return true, i.e. when status is Playing", sinon.test(function () {
+                it("should return false if game.status().isPlaying() return true, i.e. when status is Playing", sinon.test(function () {
                     //    Given
                     stubStatus.call(this, StatusesEnum.isPlaying);
 
@@ -99,7 +99,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     let game = new Game();
 
                     //    Then
-                    chai.expect(game.getStatus().isPlaying()).to.equal(true, "Status should be 'playing' when demo is done");
+                    chai.expect(game.status().isPlaying()).to.equal(true, "Status should be 'playing' when demo is done");
                     chai.expect(game.isInputDisabled()).to.equal(false, "Input should not be disabled when isPlaying");
                 }));
             });
