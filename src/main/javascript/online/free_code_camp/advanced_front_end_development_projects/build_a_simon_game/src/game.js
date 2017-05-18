@@ -48,7 +48,7 @@ class Game {
 
     status() {
         return Object.keys(STATUS_ENUM).reduce((prev, key) => {
-            prev[key] = () => (STATUS_ENUM[key] === statusManagers.get(this).checkStatus());
+            prev[key] = () => (STATUS_ENUM[key] === statusManagers.get(this).getStatus());
             return prev;
         }, {});
     }

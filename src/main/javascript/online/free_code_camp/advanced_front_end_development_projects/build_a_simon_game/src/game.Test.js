@@ -126,7 +126,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             function stubStatus(status) {
-                this.stub(StatusManager.prototype, "checkStatus").returns(status);
+                this.stub(StatusManager.prototype, "getStatus").returns(status);
             }
 
         });

@@ -3,7 +3,7 @@
  */
 
 export default class StatusManager{
-    checkStatus(){
+    getStatus(){
 
     }
     setStatus(){
