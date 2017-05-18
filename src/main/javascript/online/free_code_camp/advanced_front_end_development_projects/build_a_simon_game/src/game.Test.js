@@ -19,35 +19,21 @@ let testCases = {
     "status": [
         {
             "testName": "'isIdle' before start",
-            // "performAction": () => {
-            // },
             "expectedTrueStatusName": "isIdle",
             "errorMessage": "Status should be 'idle' before start"
         },
         {
             "testName": "'isStarting' when start",
-            // "performAction": (game) => {
-            //     game.restart();
-            // },
             "expectedTrueStatusName": "isStarting",
             "errorMessage": "Status should be 'starting' when start"
         },
         {
             "testName": "'isDemoing' when started",
-            // "performAction": (game) => {
-            //     game.restart();
-            //     game.started();
-            // },
             "expectedTrueStatusName": "isDemoing",
             "errorMessage": "Status should be 'demoing' when started"
         },
         {
             "testName": "'isPlaying' when demoed",
-            // "performAction": (game) => {
-            //     game.restart();
-            //     game.started();
-            //     game.demoed();
-            // },
             "expectedTrueStatusName": "isPlaying",
             "errorMessage": "Status should be 'playing' when demoed"
         }
@@ -61,7 +47,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             describe("initialization", function () {
                 it("should get score as 0 when initialize", sinon.test(function () {
                     //    Given
-                    this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum.isIdle);
+                    stubStatus.call(this, StatusesEnum.isIdle);
                     this.stub(scoreFormatter, "format").withArgs(true, 0).returns('someScore');
 
                     //    When
@@ -76,7 +62,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 testCases.status.forEach((testCase) => {
                     it(format("should get status as {}", testCase.testName), sinon.test(function () {
                         //    Given
-                        this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum[testCase.expectedTrueStatusName]);
+                        stubStatus.call(this, StatusesEnum[testCase.expectedTrueStatusName]);
 
                         //    When
                         let game = new Game();
@@ -95,7 +81,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             describe("isInputDisabled", function () {
                 it("should return true if game.getStatus().isPlaying() return false, i.e. when status is not Playing", sinon.test(function () {
                     //    Given
-                    this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum.isIdle);
+                    stubStatus.call(this, StatusesEnum.isIdle);
 
                     //    When
                     let game = new Game();
@@ -107,13 +93,10 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                 it("should return false if game.getStatus().isPlaying() return true, i.e. when status is Playing", sinon.test(function () {
                     //    Given
-                    this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum.isPlaying);
+                    stubStatus.call(this, StatusesEnum.isPlaying);
 
                     //    When
                     let game = new Game();
-                    // game.restart();
-                    // game.started();
-                    // game.demoed();
 
                     //    Then
                     chai.expect(game.getStatus().isPlaying()).to.equal(true, "Status should be 'playing' when demo is done");
@@ -125,7 +108,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 it("should get formatted score", sinon.test(function () {
                         //    Given
                         const mockScoreFormatter = this.mock(scoreFormatter);
-                        this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum.isIdle);
+                        stubStatus.call(this, StatusesEnum.isIdle);
                         mockScoreFormatter.expects("format")
                             .withArgs(true, 0)
                             .once()
@@ -141,6 +124,11 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 ))
                 ;
             });
+
+            function stubStatus(status) {
+                this.stub(StatusManager.prototype, "checkStatus").returns(status);
+            }
+
         });
     });
 });
