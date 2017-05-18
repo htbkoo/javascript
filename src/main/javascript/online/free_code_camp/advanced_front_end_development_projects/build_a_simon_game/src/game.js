@@ -4,14 +4,22 @@
 
 import scoreFormatter from "./scoreFormatter";
 import STATUS_ENUM from "./StatusesEnum"
+import StatusManager from "./statusManager";
 
 let scores = new WeakMap();
-let statuses = new WeakMap();
+let statusManagers = new WeakMap();
+
+let SIMPLE_NOTIFY_ACTIONS = [
+    "restart",
+    "started",
+    "demoed",
+    "won",
+];
 
 class Game {
     constructor() {
         scores.set(this, 0);
-        statuses.set(this, STATUS_ENUM.isIdle);
+        statusManagers.set(this, new StatusManager());
     };
 
     getFormattedScore() {
@@ -19,15 +27,15 @@ class Game {
     }
 
     restart() {
-        statuses.set(this, STATUS_ENUM.isStarting);
+        return statusManagers.get(this).setStatus(STATUS_ENUM.isStarting);
     }
 
     started() {
-        statuses.set(this, STATUS_ENUM.isDemoing);
+        return statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
     }
 
     demoed() {
-        statuses.set(this, STATUS_ENUM.isPlaying);
+        return statusManagers.get(this).setStatus(STATUS_ENUM.isPlaying);
     }
 
     toggleStrict() {
@@ -40,11 +48,10 @@ class Game {
 
     getStatus() {
         return Object.keys(STATUS_ENUM).reduce((prev, key) => {
-            prev[key] = () => (STATUS_ENUM[key] === statuses.get(this));
+            prev[key] = () => (STATUS_ENUM[key] === statusManagers.get(this).checkStatus());
             return prev;
         }, {});
     }
-
 }
 
 export default Game;

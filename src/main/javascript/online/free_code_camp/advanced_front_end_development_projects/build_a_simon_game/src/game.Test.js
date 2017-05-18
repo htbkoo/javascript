@@ -11,41 +11,43 @@ sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
 
 import Game from "./game";
+import StatusesEnum from "./StatusesEnum";
 import scoreFormatter from "./scoreFormatter";
+import StatusManager from "./statusManager";
 
 let testCases = {
     "status": [
         {
             "testName": "'isIdle' before start",
-            "performAction": () => {
-            },
+            // "performAction": () => {
+            // },
             "expectedTrueStatusName": "isIdle",
             "errorMessage": "Status should be 'idle' before start"
         },
         {
             "testName": "'isStarting' when start",
-            "performAction": (game) => {
-                game.restart();
-            },
+            // "performAction": (game) => {
+            //     game.restart();
+            // },
             "expectedTrueStatusName": "isStarting",
             "errorMessage": "Status should be 'starting' when start"
         },
         {
             "testName": "'isDemoing' when started",
-            "performAction": (game) => {
-                game.restart();
-                game.started();
-            },
+            // "performAction": (game) => {
+            //     game.restart();
+            //     game.started();
+            // },
             "expectedTrueStatusName": "isDemoing",
             "errorMessage": "Status should be 'demoing' when started"
         },
         {
             "testName": "'isPlaying' when demoed",
-            "performAction": (game) => {
-                game.restart();
-                game.started();
-                game.demoed();
-            },
+            // "performAction": (game) => {
+            //     game.restart();
+            //     game.started();
+            //     game.demoed();
+            // },
             "expectedTrueStatusName": "isPlaying",
             "errorMessage": "Status should be 'playing' when demoed"
         }
@@ -59,9 +61,11 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             describe("initialization", function () {
                 it("should get score as 0 when initialize", sinon.test(function () {
                     //    Given
-                    let game = new Game();
+                    this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum.isIdle);
                     this.stub(scoreFormatter, "format").withArgs(true, 0).returns('someScore');
+
                     //    When
+                    let game = new Game();
 
                     //    Then
                     chai.expect(game.getFormattedScore()).to.equal('someScore', "isIdle should be true and score should be 0 when not started");
@@ -70,12 +74,13 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
             describe("status", function () {
                 testCases.status.forEach((testCase) => {
-                    it(format("should get status as {}", testCase.testName), function () {
+                    it(format("should get status as {}", testCase.testName), sinon.test(function () {
                         //    Given
-                        let game = new Game();
+                        this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum[testCase.expectedTrueStatusName]);
 
                         //    When
-                        testCase.performAction(game);
+                        let game = new Game();
+                        // testCase.performAction(game);
 
                         //    Then
                         Object.keys(game.getStatus()).forEach((statusFnName) => {
@@ -83,39 +88,44 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                             const actualStatus = game.getStatus()[statusFnName]();
                             chai.expect(actualStatus).to.equal(expectedStatus, format("{} - wrong status for <'{}'>", testCase.errorMessage, statusFnName));
                         });
-                    });
+                    }));
                 });
             });
 
             describe("isInputDisabled", function () {
-                it("should return true if game.getStatus().isPlaying() return false, i.e. when status is not Playing", function () {
+                it("should return true if game.getStatus().isPlaying() return false, i.e. when status is not Playing", sinon.test(function () {
                     //    Given
+                    this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum.isIdle);
+
                     //    When
                     let game = new Game();
 
                     //    Then
                     chai.expect(game.getStatus().isPlaying()).to.equal(false, "Status should not be 'playing' before demo is done");
                     chai.expect(game.isInputDisabled()).to.equal(true, "Input should be disabled when is not Playing");
-                });
+                }));
 
-                it("should return false if game.getStatus().isPlaying() return true, i.e. when status is Playing", function () {
+                it("should return false if game.getStatus().isPlaying() return true, i.e. when status is Playing", sinon.test(function () {
                     //    Given
+                    this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum.isPlaying);
+
                     //    When
                     let game = new Game();
-                    game.restart();
-                    game.started();
-                    game.demoed();
+                    // game.restart();
+                    // game.started();
+                    // game.demoed();
 
                     //    Then
                     chai.expect(game.getStatus().isPlaying()).to.equal(true, "Status should be 'playing' when demo is done");
                     chai.expect(game.isInputDisabled()).to.equal(false, "Input should not be disabled when isPlaying");
-                });
+                }));
             });
 
             describe("score", function () {
                 it("should get formatted score", sinon.test(function () {
                         //    Given
                         const mockScoreFormatter = this.mock(scoreFormatter);
+                        this.stub(StatusManager.prototype, "checkStatus").returns(StatusesEnum.isIdle);
                         mockScoreFormatter.expects("format")
                             .withArgs(true, 0)
                             .once()
