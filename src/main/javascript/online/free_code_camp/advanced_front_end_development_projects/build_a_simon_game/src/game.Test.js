@@ -11,7 +11,7 @@ sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
 
 import Game from "./game";
-import StatusesEnum from "./StatusesEnum";
+import STATUS_ENUM from "./StatusesEnum";
 import scoreFormatter from "./scoreFormatter";
 import StatusManager from "./statusManager";
 
@@ -47,7 +47,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             describe("initialization", function () {
                 it("should get score as 0 when initialize", sinon.test(function () {
                     //    Given
-                    stubStatus.call(this, StatusesEnum.isIdle);
+                    stubStatus.call(this, STATUS_ENUM.isIdle);
                     this.stub(scoreFormatter, "format").withArgs(true, 0).returns('someScore');
 
                     //    When
@@ -62,7 +62,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 testCases.status.forEach((testCase) => {
                     it(format("should get status as {}", testCase.testName), sinon.test(function () {
                         //    Given
-                        stubStatus.call(this, StatusesEnum[testCase.expectedTrueStatusName]);
+                        stubStatus.call(this, STATUS_ENUM[testCase.expectedTrueStatusName]);
 
                         //    When
                         let game = new Game();
@@ -81,7 +81,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             describe("isInputDisabled", function () {
                 it("should return true if game.status().isPlaying() return false, i.e. when status is not Playing", sinon.test(function () {
                     //    Given
-                    stubStatus.call(this, StatusesEnum.isIdle);
+                    stubStatus.call(this, STATUS_ENUM.isIdle);
 
                     //    When
                     let game = new Game();
@@ -93,7 +93,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                 it("should return false if game.status().isPlaying() return true, i.e. when status is Playing", sinon.test(function () {
                     //    Given
-                    stubStatus.call(this, StatusesEnum.isPlaying);
+                    stubStatus.call(this, STATUS_ENUM.isPlaying);
 
                     //    When
                     let game = new Game();
@@ -108,7 +108,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 it("should get formatted score", sinon.test(function () {
                         //    Given
                         const mockScoreFormatter = this.mock(scoreFormatter);
-                        stubStatus.call(this, StatusesEnum.isIdle);
+                        stubStatus.call(this, STATUS_ENUM.isIdle);
                         mockScoreFormatter.expects("format")
                             .withArgs(true, 0)
                             .once()
