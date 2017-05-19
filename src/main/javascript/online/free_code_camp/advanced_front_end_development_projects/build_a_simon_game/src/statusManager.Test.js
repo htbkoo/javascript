@@ -7,6 +7,11 @@ import chai from "chai";
 import StatusManager from "./statusManager";
 import STATUS_ENUM from "./StatusesEnum";
 
+let isIdle = STATUS_ENUM.isIdle,
+    isStarting = STATUS_ENUM.isStarting,
+    isDemoing = STATUS_ENUM.isDemoing,
+    isPlaying = STATUS_ENUM.isPlaying;
+
 describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Advanced Project", function () {
@@ -18,7 +23,7 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                     let statusManager = new StatusManager();
 
                     //    Then
-                    chai.expect(statusManager.getStatus()).to.equal(STATUS_ENUM.isIdle);
+                    chai.expect(statusManager.getStatus()).to.equal(isIdle);
                 });
             });
 
@@ -29,9 +34,9 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                     let statusManager = new StatusManager();
 
                     //    Then
-                    chai.expect(statusManager.getStatus()).to.equal(STATUS_ENUM.isIdle);
-                    chai.expect(statusManager.setStatus(STATUS_ENUM.isIdle)).to.equal(false);
-                    chai.expect(statusManager.getStatus()).to.equal(STATUS_ENUM.isIdle);
+                    chai.expect(statusManager.getStatus()).to.equal(isIdle);
+                    chai.expect(statusManager.setStatus(isIdle)).to.equal(false);
+                    chai.expect(statusManager.getStatus()).to.equal(isIdle);
                 });
             });
 
@@ -42,9 +47,9 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                     let statusManager = new StatusManager();
 
                     //    Then
-                    chai.expect(statusManager.getStatus()).to.equal(STATUS_ENUM.isIdle);
-                    chai.expect(statusManager.setStatus(STATUS_ENUM.isStarting)).to.equal(true);
-                    chai.expect(statusManager.getStatus()).to.equal(STATUS_ENUM.isStarting);
+                    chai.expect(statusManager.getStatus()).to.equal(isIdle);
+                    chai.expect(statusManager.setStatus(isStarting)).to.equal(true);
+                    chai.expect(statusManager.getStatus()).to.equal(isStarting);
                 });
             });
         });
