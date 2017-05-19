@@ -23,7 +23,7 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                     let statusManager = new StatusManager();
 
                     //    Then
-                    chai.expect(statusManager.getStatus()).to.equal(isIdle);
+                    assertStatusChange(statusManager).from(isIdle);
                 });
             });
 
@@ -34,9 +34,11 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                     let statusManager = new StatusManager();
 
                     //    Then
-                    chai.expect(statusManager.getStatus()).to.equal(isIdle);
-                    chai.expect(statusManager.setStatus(isIdle)).to.equal(false);
-                    chai.expect(statusManager.getStatus()).to.equal(isIdle);
+                    assertStatusChange(statusManager).from(isIdle)
+                        .after(() => {
+                            chai.expect(statusManager.setStatus(isIdle)).to.equal(false);
+                        })
+                        .to(isIdle);
                 });
             });
 
@@ -47,11 +49,39 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                     let statusManager = new StatusManager();
 
                     //    Then
-                    chai.expect(statusManager.getStatus()).to.equal(isIdle);
-                    chai.expect(statusManager.setStatus(isStarting)).to.equal(true);
-                    chai.expect(statusManager.getStatus()).to.equal(isStarting);
+                    assertStatusChange(statusManager).from(isIdle)
+                        .after(() => {
+                            chai.expect(statusManager.setStatus(isStarting)).to.equal(true);
+                        })
+                        .to(isStarting);
                 });
             });
+
+            function assertStatusChange(statusManager) {
+                let assertStatus = (status) => {
+                    chai.expect(statusManager.getStatus()).to.equal(status);
+                };
+                return {
+                    from(fromStatus){
+                        assertStatus(fromStatus);
+                        return {
+                            after(action){
+                                action();
+                                return {
+                                    to(toStatus){
+                                        assertStatus(toStatus);
+                                        return {
+                                            then(){
+                                                return assertStatusChange(statusManager);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         });
     });
 });
