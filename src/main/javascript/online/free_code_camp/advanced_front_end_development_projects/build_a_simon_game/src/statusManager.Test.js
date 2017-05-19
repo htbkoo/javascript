@@ -55,6 +55,22 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                         })
                         .to(isStarting);
                 });
+                it("should return false by setStatus(isStarting) when status isStarting already", function () {
+                    //    Given
+                    //    When
+                    let statusManager = new StatusManager();
+
+                    //    Then
+                    assertStatusChange(statusManager).from(isIdle)
+                        .after(() => {
+                            chai.expect(statusManager.setStatus(isStarting)).to.equal(true);
+                        })
+                        .to(isStarting)
+                        .thenAfter(() => {
+                            chai.expect(statusManager.setStatus(isStarting)).to.equal(false);
+                        })
+                        .to(isStarting);
+                });
             });
 
             function assertStatusChange(statusManager) {
@@ -71,8 +87,11 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                                     to(toStatus){
                                         assertStatus(toStatus);
                                         return {
-                                            then(){
-                                                return assertStatusChange(statusManager);
+                                            thenFrom(anotherFromStatus){
+                                                return assertStatusChange(statusManager).from(anotherFromStatus);
+                                            },
+                                            thenAfter(anotherAction){
+                                                return assertStatusChange(statusManager).from(toStatus).after(anotherAction);
                                             }
                                         }
                                     }

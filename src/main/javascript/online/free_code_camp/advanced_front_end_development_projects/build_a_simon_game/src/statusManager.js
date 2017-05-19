@@ -6,6 +6,12 @@ import STATUS_ENUM from "./StatusesEnum"
 
 const statuses = new WeakMap();
 
+const VALID_TO_STATUS = {
+    [STATUS_ENUM.isIdle]: [STATUS_ENUM.isStarting],
+};
+
+const isTargetStatusValid = (from, to) => ((from in VALID_TO_STATUS) && (VALID_TO_STATUS[from].indexOf(to) !== -1));
+
 export default class StatusManager {
     constructor() {
         statuses.set(this, STATUS_ENUM.isIdle);
@@ -15,9 +21,9 @@ export default class StatusManager {
         return statuses.get(this);
     }
 
-    setStatus(status) {
-        if (status === STATUS_ENUM.isStarting) {
-            statuses.set(this, STATUS_ENUM.isStarting);
+    setStatus(toStatus) {
+        if (isTargetStatusValid(this.getStatus(), toStatus)) {
+            statuses.set(this, toStatus);
             return true;
         }
         return false;
