@@ -4,11 +4,22 @@
 
 import STATUS_ENUM from "./StatusesEnum"
 
-export default class StatusManager{
-    getStatus(){
-        return STATUS_ENUM.isIdle;
-    }
-    setStatus(){
+const statuses = new WeakMap();
 
+export default class StatusManager {
+    constructor() {
+        statuses.set(this, STATUS_ENUM.isIdle);
+    }
+
+    getStatus() {
+        return statuses.get(this);
+    }
+
+    setStatus(status) {
+        if (status === STATUS_ENUM.isStarting) {
+            statuses.set(this, STATUS_ENUM.isStarting);
+            return true;
+        }
+        return false;
     }
 }
