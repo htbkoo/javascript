@@ -73,6 +73,26 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                 });
             });
 
+
+            describe("setStatus(isDemoing)", function () {
+                it("should return true from setStatus(isDemoing) when status isStarting", function () {
+                    //    Given
+                    //    When
+                    let statusManager = new StatusManager();
+
+                    //    Then
+                    assertStatusChange(statusManager).from(isIdle)
+                        .after(() => {
+                            chai.expect(statusManager.setStatus(isStarting)).to.equal(true);
+                        })
+                        .to(isStarting)
+                        .thenAfter(() => {
+                            chai.expect(statusManager.setStatus(isDemoing)).to.equal(true);
+                        })
+                        .to(isDemoing);
+                });
+            });
+
             function assertStatusChange(statusManager) {
                 let assertStatus = (status) => {
                     chai.expect(statusManager.getStatus()).to.equal(status);
