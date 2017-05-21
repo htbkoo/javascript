@@ -209,13 +209,18 @@ describe("SimonGame - FreeCodeCamp", function () {
                     describe("<StartButton/>", function () {
                         it("should have a button for restarting, i.e. calling game.restart() when clicked and cause state update", sinon.test(function () {
                             //    Given
-                            const mockGame = this.mock(Game.prototype);
-                            mockGame.expects("restart").once().returns("");
+                            const mockGame_notifiyStatus = this.mock(Game.prototype);
+                            let notifyStatusRestartTriggered = false;
+                            mockGame_notifiyStatus.expects("notifyStatus").once().returns({
+                                restart(){
+                                    notifyStatusRestartTriggered = true;
+                                }
+                            });
 
                             let mockClickCallbackTriggered = false;
                             const mockClickCallback = () => {
                                 // ensure game.restart() is triggered first
-                                mockGame.verify();
+                                mockGame_notifiyStatus.verify();
                                 mockClickCallbackTriggered = true;
                             };
 
@@ -226,7 +231,12 @@ describe("SimonGame - FreeCodeCamp", function () {
                             buttonRestart.simulate('click');
 
                             //    Then
-                            chai.expect(mockClickCallbackTriggered).to.be.true;
+                            [
+                                mockClickCallbackTriggered,
+                                notifyStatusRestartTriggered
+                            ].forEach((shouldBeTriggered) => {
+                                chai.expect(shouldBeTriggered).to.be.true;
+                            });
                         }));
                     });
                 });

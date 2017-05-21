@@ -9,12 +9,12 @@ import StatusManager from "./statusManager";
 let scores = new WeakMap();
 let statusManagers = new WeakMap();
 
-let SIMPLE_NOTIFY_ACTIONS = [
-    "restart",
-    "started",
-    "demoed",
-    "won",
-];
+let SIMPLE_NOTIFY_ACTIONS = {
+    "restart": STATUS_ENUM.isStarting,
+    "started": STATUS_ENUM.isDemoing,
+    "demoed": STATUS_ENUM.isPlaying,
+    "won": STATUS_ENUM.isVictory
+};
 
 class Game {
     constructor() {
@@ -26,24 +26,20 @@ class Game {
         return scoreFormatter.format(this.status().isIdle(), scores.get(this));
     }
 
-    restart() {
-        return statusManagers.get(this).setStatus(STATUS_ENUM.isStarting);
-    }
-
-    started() {
-        return statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
-    }
-
-    demoed() {
-        return statusManagers.get(this).setStatus(STATUS_ENUM.isPlaying);
-    }
-
     toggleStrict() {
 
     }
 
     isInputDisabled() {
         return !this.status().isPlaying();
+    }
+
+    notifyStatus() {
+        return Object.keys(SIMPLE_NOTIFY_ACTIONS)
+            .reduce((prev, key) => {
+                prev[key] = () => statusManagers.get(this).setStatus(SIMPLE_NOTIFY_ACTIONS[key]);
+                return prev;
+            }, {});
     }
 
     status() {

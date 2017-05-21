@@ -132,7 +132,7 @@ class StartButton extends React.Component {
         return (
             <div>
                 <button type="button" className="btn btn-default" onClick={() => {
-                    game.restart();
+                    game.notifyStatus().restart();
                     this.props.onClick();
                 }}>
                     Restart

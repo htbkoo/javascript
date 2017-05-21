@@ -59,6 +59,19 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             describe("status", function () {
+                it("should set status as isStarting when notifyStatus().restart()", sinon.test(function () {
+                    //    Given
+                    const mockStatusManager = this.mock(StatusManager.prototype);
+                    mockStatusManager.expects("setStatus").withArgs(STATUS_ENUM.isStarting);
+
+                    //    When
+                    let game = new Game();
+                    game.notifyStatus().restart();
+
+                    //    Then
+                    mockStatusManager.verify();
+                }));
+
                 testCases.status.forEach((testCase) => {
                     it(format("should get status as {}", testCase.testName), sinon.test(function () {
                         //    Given
@@ -66,7 +79,6 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                         //    When
                         let game = new Game();
-                        // testCase.performAction(game);
 
                         //    Then
                         Object.keys(game.status()).forEach((statusFnName) => {
