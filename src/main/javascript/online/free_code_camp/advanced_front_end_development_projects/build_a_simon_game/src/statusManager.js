@@ -9,8 +9,8 @@ const statuses = new WeakMap();
 const VALID_TO_STATUS = {
     [STATUS_ENUM.isIdle]: [STATUS_ENUM.isStarting],
     [STATUS_ENUM.isStarting]: [STATUS_ENUM.isDemoing],
-    [STATUS_ENUM.isDemoing]: [STATUS_ENUM.isPlaying],
-    [STATUS_ENUM.isPlaying]: [STATUS_ENUM.isDemoing, STATUS_ENUM.isVictory],
+    [STATUS_ENUM.isDemoing]: [STATUS_ENUM.isPlaying, STATUS_ENUM.isStarting],
+    [STATUS_ENUM.isPlaying]: [STATUS_ENUM.isDemoing, STATUS_ENUM.isVictory, STATUS_ENUM.isStarting],
     [STATUS_ENUM.isVictory]: [STATUS_ENUM.isStarting],
 };
 
