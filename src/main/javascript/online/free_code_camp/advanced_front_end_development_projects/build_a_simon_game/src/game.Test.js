@@ -15,31 +15,6 @@ import STATUS_ENUM from "./StatusesEnum";
 import scoreFormatter from "./scoreFormatter";
 import StatusManager from "./statusManager";
 
-let testCases = {
-    "status": [
-        {
-            "action": "restart",
-            "expectedTargetStatusName": "isStarting",
-            "errorMessage": "Status should be set to 'isStarting' after restart"
-        },
-        {
-            "action": "started",
-            "expectedTargetStatusName": "isDemoing",
-            "errorMessage": "Status should be set to 'demoing' when started"
-        },
-        {
-            "action": "demoed",
-            "expectedTargetStatusName": "isPlaying",
-            "errorMessage": "Status should be set to 'playing' when demoed"
-        },
-        {
-            "action": "won",
-            "expectedTargetStatusName": "isVictory",
-            "errorMessage": "Status should be set to 'victory' when won"
-        }
-    ]
-};
-
 describe("SimonGame (logic) - FreeCodeCamp", function () {
     "use strict";
     describe("FrontEnd - Advanced Project", function () {
@@ -59,7 +34,24 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             describe("status", function () {
-                testCases.status.forEach((testCase) => {
+                [
+                    {
+                        "action": "restart",
+                        "expectedTargetStatusName": "isStarting",
+                    },
+                    {
+                        "action": "started",
+                        "expectedTargetStatusName": "isDemoing",
+                    },
+                    {
+                        "action": "demoed",
+                        "expectedTargetStatusName": "isPlaying",
+                    },
+                    {
+                        "action": "won",
+                        "expectedTargetStatusName": "isVictory",
+                    }
+                ].forEach((testCase) => {
                     it(format("should set status as {} when notifyStatus().{}()", testCase.expectedTargetStatusName, testCase.action), sinon.test(function () {
                         //    Given
                         const mockStatusManager = this.mock(StatusManager.prototype);
