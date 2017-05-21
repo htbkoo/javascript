@@ -10,7 +10,8 @@ import STATUS_ENUM from "./StatusesEnum";
 let isIdle = STATUS_ENUM.isIdle,
     isStarting = STATUS_ENUM.isStarting,
     isDemoing = STATUS_ENUM.isDemoing,
-    isPlaying = STATUS_ENUM.isPlaying;
+    isPlaying = STATUS_ENUM.isPlaying,
+    isVictory = STATUS_ENUM.isVictory;
 
 describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
     "use strict";
@@ -67,6 +68,19 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                         })
                         .to(isStarting);
                 });
+                it("should return true by setStatus(isStarting) when status isVictory", function () {
+                    //    Given
+                    //    When
+                    let statusManager = new StatusManager();
+
+                    //    Then
+                    setStatusFromIdleToPlaying(statusManager)
+                        .thenAfter(() => {
+                            chai.expect(statusManager.setStatus(isVictory)).to.equal(true);
+                            chai.expect(statusManager.setStatus(isStarting)).to.equal(true);
+                        })
+                        .to(isStarting);
+                });
             });
 
             describe("setStatus(isDemoing)", function () {
@@ -89,9 +103,8 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                     let statusManager = new StatusManager();
 
                     //    Then
-                    setStatusFromIdleToDemoing(statusManager)
+                    setStatusFromIdleToPlaying(statusManager)
                         .thenAfter(() => {
-                            chai.expect(statusManager.setStatus(isPlaying)).to.equal(true);
                             chai.expect(statusManager.setStatus(isDemoing)).to.equal(true);
                         })
                         .to(isDemoing);
@@ -112,19 +125,33 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                         .to(isPlaying);
                 });
 
-                it("should return true from setStatus(isPlaying) between status isStarting and isDemoing", function () {
+                it("should return true from setStatus(isPlaying) between status isPlaying and isDemoing", function () {
                     //    Given
                     //    When
                     let statusManager = new StatusManager();
 
                     //    Then
-                    setStatusFromIdleToDemoing(statusManager)
+                    setStatusFromIdleToPlaying(statusManager)
                         .thenAfter(() => {
-                            chai.expect(statusManager.setStatus(isPlaying)).to.equal(true);
                             chai.expect(statusManager.setStatus(isDemoing)).to.equal(true);
                             chai.expect(statusManager.setStatus(isPlaying)).to.equal(true);
                         })
                         .to(isPlaying);
+                });
+            });
+
+            describe("setStatus(isVictory)", function () {
+                it("should return true from setStatus(isVictory) when status isPlaying", function () {
+                    //    Given
+                    //    When
+                    let statusManager = new StatusManager();
+
+                    //    Then
+                    setStatusFromIdleToPlaying(statusManager)
+                        .thenAfter(() => {
+                            chai.expect(statusManager.setStatus(isVictory)).to.equal(true);
+                        })
+                        .to(isVictory);
                 });
             });
 
@@ -171,6 +198,14 @@ describe("SimonGame (StatusManager) - FreeCodeCamp", function () {
                         chai.expect(statusManager.setStatus(isDemoing)).to.equal(true);
                     })
                     .to(isDemoing);
+            }
+
+            function setStatusFromIdleToPlaying(statusManager) {
+                return setStatusFromIdleToDemoing(statusManager)
+                    .thenAfter(() => {
+                        chai.expect(statusManager.setStatus(isPlaying)).to.equal(true);
+                    })
+                    .to(isPlaying);
             }
         });
     });

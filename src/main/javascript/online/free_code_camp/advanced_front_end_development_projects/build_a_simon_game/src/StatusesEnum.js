@@ -7,6 +7,7 @@ const STATUS_ENUM = {
     "isStarting": Symbol("isStarting"),
     "isDemoing": Symbol("isDemoing"),
     "isPlaying": Symbol("isPlaying"),
+    "isVictory": Symbol("isVictory")
 };
 Object.freeze(STATUS_ENUM);
 
