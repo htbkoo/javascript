@@ -18,24 +18,24 @@ import StatusManager from "./statusManager";
 let testCases = {
     "status": [
         {
-            "testName": "'isIdle' before start",
-            "expectedTrueStatusName": "isIdle",
-            "errorMessage": "Status should be 'idle' before start"
+            "action": "restart",
+            "expectedTargetStatusName": "isStarting",
+            "errorMessage": "Status should be set to 'isStarting' after restart"
         },
         {
-            "testName": "'isStarting' when start",
-            "expectedTrueStatusName": "isStarting",
-            "errorMessage": "Status should be 'starting' when start"
+            "action": "started",
+            "expectedTargetStatusName": "isDemoing",
+            "errorMessage": "Status should be set to 'demoing' when started"
         },
         {
-            "testName": "'isDemoing' when started",
-            "expectedTrueStatusName": "isDemoing",
-            "errorMessage": "Status should be 'demoing' when started"
+            "action": "demoed",
+            "expectedTargetStatusName": "isPlaying",
+            "errorMessage": "Status should be set to 'playing' when demoed"
         },
         {
-            "testName": "'isPlaying' when demoed",
-            "expectedTrueStatusName": "isPlaying",
-            "errorMessage": "Status should be 'playing' when demoed"
+            "action": "won",
+            "expectedTargetStatusName": "isVictory",
+            "errorMessage": "Status should be set to 'victory' when won"
         }
     ]
 };
@@ -59,33 +59,18 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             describe("status", function () {
-                it("should set status as isStarting when notifyStatus().restart()", sinon.test(function () {
-                    //    Given
-                    const mockStatusManager = this.mock(StatusManager.prototype);
-                    mockStatusManager.expects("setStatus").withArgs(STATUS_ENUM.isStarting);
-
-                    //    When
-                    let game = new Game();
-                    game.notifyStatus().restart();
-
-                    //    Then
-                    mockStatusManager.verify();
-                }));
-
                 testCases.status.forEach((testCase) => {
-                    it(format("should get status as {}", testCase.testName), sinon.test(function () {
+                    it(format("should set status as {} when notifyStatus().{}()", testCase.expectedTargetStatusName, testCase.action), sinon.test(function () {
                         //    Given
-                        stubStatus.call(this, STATUS_ENUM[testCase.expectedTrueStatusName]);
+                        const mockStatusManager = this.mock(StatusManager.prototype);
+                        mockStatusManager.expects("setStatus").withArgs(STATUS_ENUM[testCase.expectedTargetStatusName]);
 
                         //    When
                         let game = new Game();
+                        game.notifyStatus()[testCase.action]();
 
                         //    Then
-                        Object.keys(game.status()).forEach((statusFnName) => {
-                            const expectedStatus = (statusFnName === testCase.expectedTrueStatusName);
-                            const actualStatus = game.status()[statusFnName]();
-                            chai.expect(actualStatus).to.equal(expectedStatus, format("{} - wrong status for <'{}'>", testCase.errorMessage, statusFnName));
-                        });
+                        mockStatusManager.verify();
                     }));
                 });
             });
