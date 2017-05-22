@@ -65,6 +65,31 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         mockStatusManager.verify();
                     }));
                 });
+
+                Object.keys(STATUS_ENUM).forEach((testStatus) => {
+                    it(format("should get true from status().{}() if the status is same from statusManager.getStatus()", testStatus), sinon.test(function () {
+                        //    Given
+                        stubStatus.call(this, STATUS_ENUM[testStatus]);
+
+                        //    When
+                        let game = new Game();
+
+                        //    Then
+                        chai.expect(game.status()[testStatus]()).to.be.true;
+                    }));
+
+                    it(format("should get false from status().{}() if the status is different from statusManager.getStatus()", testStatus), sinon.test(function () {
+                        //    Given
+                        const someOtherStatus = (testStatus === "isIdle") ? (STATUS_ENUM.isStarting) : (STATUS_ENUM.isIdle);
+                        stubStatus.call(this, someOtherStatus);
+
+                        //    When
+                        let game = new Game();
+
+                        //    Then
+                        chai.expect(game.status()[testStatus]()).to.be.false;
+                    }));
+                });
             });
 
             describe("isInputDisabled", function () {
