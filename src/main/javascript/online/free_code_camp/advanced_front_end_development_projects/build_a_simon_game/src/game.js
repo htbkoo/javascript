@@ -7,6 +7,7 @@ import STATUS_ENUM from "./StatusesEnum"
 import StatusManager from "./statusManager";
 
 let scores = new WeakMap();
+let strictModes = new WeakMap();
 let statusManagers = new WeakMap();
 
 let SIMPLE_NOTIFY_ACTIONS = {
@@ -19,6 +20,7 @@ let SIMPLE_NOTIFY_ACTIONS = {
 class Game {
     constructor() {
         scores.set(this, 0);
+        strictModes.set(this, false);
         statusManagers.set(this, new StatusManager());
     };
 
@@ -26,8 +28,12 @@ class Game {
         return scoreFormatter.format(this.status().isIdle(), scores.get(this));
     }
 
-    toggleStrict() {
+    isStrictMode() {
+        return strictModes.get(this);
+    }
 
+    toggleStrict() {
+        strictModes.set(this, !this.isStrictMode());
     }
 
     isInputDisabled() {

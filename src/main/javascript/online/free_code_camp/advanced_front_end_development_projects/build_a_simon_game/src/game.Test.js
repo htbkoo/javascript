@@ -3,17 +3,16 @@
  */
 
 import chai from "chai";
-import format from 'string-format';
+import format from "string-format";
 
 import sinon from "sinon";
 import sinonTest from "sinon-test";
-sinon.test = sinonTest.configureTest(sinon);
-sinon.testCase = sinonTest.configureTestCase(sinon);
-
 import Game from "./game";
 import STATUS_ENUM from "./StatusesEnum";
 import scoreFormatter from "./scoreFormatter";
 import StatusManager from "./statusManager";
+sinon.test = sinonTest.configureTest(sinon);
+sinon.testCase = sinonTest.configureTestCase(sinon);
 
 describe("SimonGame (logic) - FreeCodeCamp", function () {
     "use strict";
@@ -120,23 +119,53 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
             describe("score", function () {
                 it("should get formatted score", sinon.test(function () {
-                        //    Given
-                        const mockScoreFormatter = this.mock(scoreFormatter);
-                        stubStatus.call(this, STATUS_ENUM.isIdle);
-                        mockScoreFormatter.expects("format")
-                            .withArgs(true, 0)
-                            .once()
-                            .returns('formatted score');
+                    //    Given
+                    const mockScoreFormatter = this.mock(scoreFormatter);
+                    stubStatus.call(this, STATUS_ENUM.isIdle);
+                    mockScoreFormatter.expects("format")
+                        .withArgs(true, 0)
+                        .once()
+                        .returns('formatted score');
 
-                        //    When
-                        let game = new Game();
+                    //    When
+                    let game = new Game();
 
-                        //    Then
-                        chai.expect(game.getFormattedScore()).to.equal('formatted score');
-                        mockScoreFormatter.verify();
-                    }
-                ))
-                ;
+                    //    Then
+                    chai.expect(game.getFormattedScore()).to.equal('formatted score');
+                    mockScoreFormatter.verify();
+                }));
+            });
+
+            describe("strict mode", function () {
+                it("should get false for isStrictMode when initialize", function () {
+                    //    Given
+                    //    When
+                    let game = new Game();
+
+                    //    Then
+                    chai.expect(game.isStrictMode()).to.be.false;
+                });
+
+                it("should get true for isStrictMode after toggleStrict once", function () {
+                    //    Given
+                    //    When
+                    let game = new Game();
+                    game.toggleStrict();
+
+                    //    Then
+                    chai.expect(game.isStrictMode()).to.be.true;
+                });
+
+                it("should get false for isStrictMode after toggleStrict twice", function () {
+                    //    Given
+                    //    When
+                    let game = new Game();
+                    game.toggleStrict();
+                    game.toggleStrict();
+
+                    //    Then
+                    chai.expect(game.isStrictMode()).to.be.false;
+                });
             });
 
             function stubStatus(status) {
