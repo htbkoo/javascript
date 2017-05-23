@@ -26,18 +26,20 @@ describe("randomColourGenerator", function () {
             {"random": 2, "expectedNextColour": "BLUE"},
             {"random": 3, "expectedNextColour": "YELLOW"},
         ].forEach((testCase) => {
-            it(format("should, when Math.random() returns {}, get next colour as '{}' from randomColourGenerator.getNextColour()", testCase.random, testCase.expectedNextColour.toString()),
-                sinon.test(function () {
-                    //Given
-                    random = testCase.random;
-
-                    //When
-                    const actualNextColour = randomColourGenerator.getNextColour();
-
-                    //Then
-                    chai.expect(actualNextColour).to.equal(COLOUR_ENUM[testCase.expectedNextColour]);
-                })
+            const testName = format("should, when Math.random() returns {}, get next colour as '{}' from randomColourGenerator.getNextColour()",
+                testCase.random,
+                testCase.expectedNextColour.toString()
             );
+            it(testName, sinon.test(function () {
+                //Given
+                random = testCase.random;
+
+                //When
+                const actualNextColour = randomColourGenerator.getNextColour();
+
+                //Then
+                chai.expect(actualNextColour).to.equal(COLOUR_ENUM[testCase.expectedNextColour]);
+            }));
         });
     });
 });
