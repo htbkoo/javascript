@@ -1,6 +1,7 @@
 /**
  * Created by Hey on 23 May 2017
  */
+import "babel-polyfill";
 
 import chai from "chai";
 import format from "string-format";
@@ -44,19 +45,18 @@ describe("randomColourGenerator", function () {
     });
 
     describe("getSequenceOfColour", function () {
-        function createStubForGetNextRandomNumber(seq) {
-            let stub = sinon.stub();
-            seq.forEach((val, key) => {
-                stub.onCall(key).returns(val);
-            });
-            return stub;
+        let seq;
+
+        function* seqGenerator(arr) {
+            yield* arr;
         }
 
-        beforeEach(() => randomColourGenerator.__Rewire__('getNextRandomNumber', createStubForGetNextRandomNumber([0, 1, 2, 3, 3, 1, 2])));
+        beforeEach(() => randomColourGenerator.__Rewire__('getNextRandomNumber', () => seq.next().value));
         afterEach(() => randomColourGenerator.__ResetDependency__('getNextRandomNumber'));
 
         it("should randomColourGenerator.getSequenceOfColour()", function () {
             //Given
+            seq = seqGenerator([0, 1, 2, 3, 3, 1, 2]);
             let expectedSequence = [
                 COLOUR_ENUM.RED,
                 COLOUR_ENUM.GREEN,
