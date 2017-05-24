@@ -44,16 +44,19 @@ describe("randomColourGenerator", function () {
     });
 
     describe("getSequenceOfColour", function () {
+        function createStubForGetNextRandomNumber(seq) {
+            let stub = sinon.stub();
+            seq.forEach((val, key) => {
+                stub.onCall(key).returns(val);
+            });
+            return stub;
+        }
+
+        beforeEach(() => randomColourGenerator.__Rewire__('getNextRandomNumber', createStubForGetNextRandomNumber([0, 1, 2, 3, 3, 1, 2])));
+        afterEach(() => randomColourGenerator.__ResetDependency__('getNextRandomNumber'));
+
         it("should randomColourGenerator.getSequenceOfColour()", function () {
             //Given
-            function createStubForGetNextRandomNumber(seq) {
-                let stub = sinon.stub();
-                seq.forEach((val, key) => {
-                    stub.onCall(key).returns(val);
-                });
-                return stub;
-            }
-            randomColourGenerator.__Rewire__('getNextRandomNumber', createStubForGetNextRandomNumber([0, 1, 2, 3, 3, 1, 2]));
             let expectedSequence = [
                 COLOUR_ENUM.RED,
                 COLOUR_ENUM.GREEN,
@@ -68,8 +71,6 @@ describe("randomColourGenerator", function () {
 
             //Then
             chai.expect(actualColourSequence).to.deep.equal(expectedSequence.splice(0, 4));
-
-            randomColourGenerator.__ResetDependency__('getNextRandomNumber')
         });
     });
 });
