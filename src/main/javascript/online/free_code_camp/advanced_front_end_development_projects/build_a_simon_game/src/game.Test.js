@@ -172,7 +172,11 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
             describe("colour buttons", function () {
                 function stubColourSequenceManager_check(mockResultObject, enumColour) {
-                    this.stub(ColourSequenceManager.prototype, "check").withArgs(COLOUR_ENUM[enumColour]).returns(mockResultObject);
+                    let stub = this.stub(ColourSequenceManager.prototype, "check");
+                    if (typeof enumColour !== "undefined") {
+                        stub = stub.withArgs(COLOUR_ENUM[enumColour])
+                    }
+                    stub.returns(mockResultObject);
                 }
 
                 [
