@@ -171,20 +171,25 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             describe("colour buttons", function () {
-                it("should expose buttons.red() and return returnValue from colourSequenceManager.check(COLOUR_ENUM.RED)", sinon.test(function () {
-                    //    Given
-                    const mockResultObject = {
-                        "isInputCorrect": true
-                    };
-                    this.stub(ColourSequenceManager.prototype, "check").withArgs(COLOUR_ENUM.RED).returns(mockResultObject);
+                [
+                    true,
+                    false,
+                ].forEach((mockIsInputCorrect) => {
+                    it(format("should expose buttons.red() and return returnValue(={}) from colourSequenceManager.check(COLOUR_ENUM.RED)", mockIsInputCorrect), sinon.test(function () {
+                        //    Given
+                        const mockResultObject = {
+                            "isInputCorrect": mockIsInputCorrect
+                        };
+                        this.stub(ColourSequenceManager.prototype, "check").withArgs(COLOUR_ENUM.RED).returns(mockResultObject);
 
-                    //    When
-                    let game = new Game();
-                    let actualCheckResult = game.buttons().red();
+                        //    When
+                        let game = new Game();
+                        let actualCheckResult = game.buttons().red();
 
-                    //    Then
-                    chai.expect(actualCheckResult.isInputCorrect).to.be.true;
-                }));
+                        //    Then
+                        chai.expect(actualCheckResult.isInputCorrect).to.equal(mockIsInputCorrect);
+                    }));
+                });
             });
 
             function stubStatus(status) {

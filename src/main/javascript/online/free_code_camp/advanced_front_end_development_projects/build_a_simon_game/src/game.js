@@ -4,7 +4,9 @@
 
 import scoreFormatter from "./scoreFormatter";
 import STATUS_ENUM from "./StatusesEnum"
+import COLOUR_ENUM from "./ColoursEnum"
 import StatusManager from "./statusManager";
+import ColourSequenceManager from "./colourSequenceManager";
 
 let scores = new WeakMap();
 let strictModes = new WeakMap();
@@ -43,9 +45,7 @@ class Game {
     buttons() {
         return {
             red(){
-                return {
-                    "isInputCorrect": true
-                };
+                return new ColourSequenceManager().check(COLOUR_ENUM.RED);
             }
         }
     }
