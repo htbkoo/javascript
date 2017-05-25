@@ -9,8 +9,10 @@ import sinon from "sinon";
 import sinonTest from "sinon-test";
 import Game from "./game";
 import STATUS_ENUM from "./StatusesEnum";
+import COLOUR_ENUM from "./ColoursEnum";
 import scoreFormatter from "./scoreFormatter";
 import StatusManager from "./statusManager";
+import ColourSequenceManager from "./colourSequenceManager";
 sinon.test = sinonTest.configureTest(sinon);
 sinon.testCase = sinonTest.configureTestCase(sinon);
 
@@ -166,6 +168,23 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     //    Then
                     chai.expect(game.isStrictMode()).to.be.false;
                 });
+            });
+
+            describe("colour buttons", function () {
+                it("should expose buttons.red() and return returnValue from colourSequenceManager.check(COLOUR_ENUM.RED)", sinon.test(function () {
+                    //    Given
+                    const mockResultObject = {
+                        "isInputCorrect": true
+                    };
+                    this.stub(ColourSequenceManager.prototype, "check").withArgs(COLOUR_ENUM.RED).returns(mockResultObject);
+
+                    //    When
+                    let game = new Game();
+                    let actualCheckResult = game.buttons().red();
+
+                    //    Then
+                    chai.expect(actualCheckResult.isInputCorrect).to.be.true;
+                }));
             });
 
             function stubStatus(status) {

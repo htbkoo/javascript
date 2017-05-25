@@ -40,6 +40,16 @@ class Game {
         return !this.status().isPlaying();
     }
 
+    buttons() {
+        return {
+            red(){
+                return {
+                    "isInputCorrect": true
+                };
+            }
+        }
+    }
+
     notifyStatus() {
         return Object.keys(SIMPLE_NOTIFY_ACTIONS)
             .reduce((prev, key) => {
