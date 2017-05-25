@@ -171,6 +171,10 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
             });
 
             describe("colour buttons", function () {
+                function stubColourSequenceManager_check(mockResultObject, enumColour) {
+                    this.stub(ColourSequenceManager.prototype, "check").withArgs(COLOUR_ENUM[enumColour]).returns(mockResultObject);
+                }
+
                 [
                     {
                         "buttonsColour": "red",
@@ -195,10 +199,9 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     ].forEach((mockIsInputCorrect) => {
                         it(format("should expose buttons.{}() and return returnValue(={}) from colourSequenceManager.check(COLOUR_ENUM.{})", testcase.buttonsColour, mockIsInputCorrect, testcase.coloursEnumColour), sinon.test(function () {
                             //    Given
-                            const mockResultObject = {
+                            stubColourSequenceManager_check.call(this, {
                                 "isInputCorrect": mockIsInputCorrect
-                            };
-                            this.stub(ColourSequenceManager.prototype, "check").withArgs(COLOUR_ENUM[testcase.coloursEnumColour]).returns(mockResultObject);
+                            }, testcase.coloursEnumColour);
 
                             //    When
                             let game = new Game();
