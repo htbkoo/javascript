@@ -66,6 +66,7 @@ describe("randomColourGenerator", function () {
                 COLOUR_ENUM.GREEN,
                 COLOUR_ENUM.BLUE,
             ];
+
             //When
             const actualColourSequence = randomColourGenerator.getSequenceOfColour(4);
 
