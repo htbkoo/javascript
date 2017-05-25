@@ -172,23 +172,30 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
             describe("colour buttons", function () {
                 [
-                    true,
-                    false,
-                ].forEach((mockIsInputCorrect) => {
-                    it(format("should expose buttons.red() and return returnValue(={}) from colourSequenceManager.check(COLOUR_ENUM.RED)", mockIsInputCorrect), sinon.test(function () {
-                        //    Given
-                        const mockResultObject = {
-                            "isInputCorrect": mockIsInputCorrect
-                        };
-                        this.stub(ColourSequenceManager.prototype, "check").withArgs(COLOUR_ENUM.RED).returns(mockResultObject);
+                    {
+                        "buttonsColour": "red",
+                        "coloursEnumColour": "RED"
+                    }
+                ].forEach((testcase) => {
+                    [
+                        true,
+                        false
+                    ].forEach((mockIsInputCorrect) => {
+                        it(format("should expose buttons.{}() and return returnValue(={}) from colourSequenceManager.check(COLOUR_ENUM.{})", testcase.buttonsColour, mockIsInputCorrect, testcase.coloursEnumColour), sinon.test(function () {
+                            //    Given
+                            const mockResultObject = {
+                                "isInputCorrect": mockIsInputCorrect
+                            };
+                            this.stub(ColourSequenceManager.prototype, "check").withArgs(COLOUR_ENUM[testcase.coloursEnumColour]).returns(mockResultObject);
 
-                        //    When
-                        let game = new Game();
-                        let actualCheckResult = game.buttons().red();
+                            //    When
+                            let game = new Game();
+                            let actualCheckResult = game.buttons()[testcase.buttonsColour]();
 
-                        //    Then
-                        chai.expect(actualCheckResult.isInputCorrect).to.equal(mockIsInputCorrect);
-                    }));
+                            //    Then
+                            chai.expect(actualCheckResult.isInputCorrect).to.equal(mockIsInputCorrect);
+                        }));
+                    });
                 });
             });
 
