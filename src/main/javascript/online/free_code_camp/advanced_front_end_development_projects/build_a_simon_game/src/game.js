@@ -11,6 +11,7 @@ import ColourSequenceManager from "./colourSequenceManager";
 let scores = new WeakMap();
 let strictModes = new WeakMap();
 let statusManagers = new WeakMap();
+let colourSequenceManagers = new WeakMap();
 
 let SIMPLE_NOTIFY_ACTIONS = {
     "restart": STATUS_ENUM.isStarting,
@@ -24,6 +25,7 @@ class Game {
         scores.set(this, 0);
         strictModes.set(this, false);
         statusManagers.set(this, new StatusManager());
+        colourSequenceManagers.set(this, new ColourSequenceManager());
     };
 
     getFormattedScore() {
@@ -43,11 +45,11 @@ class Game {
     }
 
     buttons() {
-        return {
-            red(){
-                return new ColourSequenceManager().check(COLOUR_ENUM.RED);
-            }
-        }
+        return Object.keys(COLOUR_ENUM)
+            .reduce((prev, key) => {
+                prev[key.toLowerCase()] = () => colourSequenceManagers.get(this).check(COLOUR_ENUM[key]);
+                return prev;
+            }, {});
     }
 
     notifyStatus() {

@@ -175,6 +175,18 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     {
                         "buttonsColour": "red",
                         "coloursEnumColour": "RED"
+                    },
+                    {
+                        "buttonsColour": "green",
+                        "coloursEnumColour": "GREEN"
+                    },
+                    {
+                        "buttonsColour": "blue",
+                        "coloursEnumColour": "BLUE"
+                    },
+                    {
+                        "buttonsColour": "yellow",
+                        "coloursEnumColour": "YELLOW"
                     }
                 ].forEach((testcase) => {
                     [
