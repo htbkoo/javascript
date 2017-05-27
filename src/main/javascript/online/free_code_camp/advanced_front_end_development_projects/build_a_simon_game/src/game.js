@@ -47,7 +47,13 @@ class Game {
     buttons() {
         return Object.keys(COLOUR_ENUM)
             .reduce((prev, key) => {
-                prev[key.toLowerCase()] = () => colourSequenceManagers.get(this).check(COLOUR_ENUM[key]);
+                prev[key.toLowerCase()] = () => {
+                    const result = colourSequenceManagers.get(this).check(COLOUR_ENUM[key]);
+                    if (result.isSequenceCompleted) {
+                        statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
+                    }
+                    return result
+                };
                 return prev;
             }, {});
     }

@@ -217,11 +217,11 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     });
                 });
 
-                it("should, when buttons()[aColour](), handle the isInputCorrect=true and isSequenceCompleteed=false response from check()", sinon.test(function () {
+                it("should, when buttons()[aColour](), handle the isInputCorrect=true and isSequenceCompleted=false response from check()", sinon.test(function () {
                     //    Given
                     stubColourSequenceManager_check.call(this, {
                         "isInputCorrect": true,
-                        "isSequenceCompleteed": false
+                        "isSequenceCompleted": false
                     });
                     const aColour = "red";
                     const spyStatusManager_setStatus = this.spy(StatusManager.prototype, "setStatus");
@@ -232,8 +232,28 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                     //    Then
                     chai.expect(actualCheckResult.isInputCorrect).to.be.true;
-                    chai.expect(actualCheckResult.isSequenceCompleteed).to.be.false;
+                    chai.expect(actualCheckResult.isSequenceCompleted).to.be.false;
                     chai.expect(spyStatusManager_setStatus.notCalled).to.be.true;
+                }));
+
+                it("should, when buttons()[aColour](), handle the isInputCorrect=true and isSequenceCompleted=true response from check()", sinon.test(function () {
+                    //    Given
+                    stubColourSequenceManager_check.call(this, {
+                        "isInputCorrect": true,
+                        "isSequenceCompleted": true
+                    });
+                    const aColour = "red";
+                    const mockStatusManager = this.mock(StatusManager.prototype);
+                    mockStatusManager.expects("setStatus").withArgs(STATUS_ENUM.isDemoing).once();
+
+                    //    When
+                    let game = new Game();
+                    let actualCheckResult = game.buttons()[aColour]();
+
+                    //    Then
+                    chai.expect(actualCheckResult.isInputCorrect).to.be.true;
+                    chai.expect(actualCheckResult.isSequenceCompleted).to.be.true;
+                    mockStatusManager.verify();
                 }));
             });
 
