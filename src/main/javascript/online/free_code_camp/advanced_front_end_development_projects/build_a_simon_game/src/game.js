@@ -20,6 +20,9 @@ let SIMPLE_NOTIFY_ACTIONS = {
     "won": STATUS_ENUM.isVictory
 };
 
+function incScore() {
+    scores.set(this, scores.get(this) + 1);
+}
 class Game {
     constructor() {
         scores.set(this, 0);
@@ -47,9 +50,11 @@ class Game {
     buttons() {
         return Object.keys(COLOUR_ENUM)
             .reduce((prev, key) => {
-                prev[key.toLowerCase()] = () => {
+                prev[key.toLowerCase()] = (callbacks) => {
                     const result = colourSequenceManagers.get(this).check(COLOUR_ENUM[key]);
                     if (result.isSequenceCompleted) {
+                        callbacks.scoreCallBack();
+                        incScore.call(this);
                         statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
                     }
                     return result

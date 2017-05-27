@@ -179,6 +179,16 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     stub.returns(mockResultObject);
                 }
 
+                function createGameAndMoveToIsPlayingStatus() {
+                    let game = new Game();
+                    game.notifyStatus().restart();
+                    game.notifyStatus().started();
+                    game.notifyStatus().demoed();
+
+                    chai.expect(game.status().isPlaying()).to.be.true;
+                    return game;
+                }
+
                 [
                     {
                         "buttonsColour": "red",
@@ -238,22 +248,31 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                 it("should, when buttons()[aColour](), handle the isInputCorrect=true and isSequenceCompleted=true response from check()", sinon.test(function () {
                     //    Given
+                    const aColour = "red";
+                    let scoreCallBackCalled = false;
+                    const mockStatusManager = this.mock(StatusManager.prototype);
+
+                    let game = createGameAndMoveToIsPlayingStatus();
+                    chai.expect(game.getFormattedScore()).to.equal("01");
                     stubColourSequenceManager_check.call(this, {
                         "isInputCorrect": true,
                         "isSequenceCompleted": true
                     });
-                    const aColour = "red";
-                    const mockStatusManager = this.mock(StatusManager.prototype);
                     mockStatusManager.expects("setStatus").withArgs(STATUS_ENUM.isDemoing).once();
 
                     //    When
-                    let game = new Game();
-                    let actualCheckResult = game.buttons()[aColour]();
+                    let actualCheckResult = game.buttons()[aColour]({
+                        "scoreCallBack": () => {
+                            scoreCallBackCalled = true;
+                        }
+                    });
 
                     //    Then
                     chai.expect(actualCheckResult.isInputCorrect).to.be.true;
                     chai.expect(actualCheckResult.isSequenceCompleted).to.be.true;
                     mockStatusManager.verify();
+                    chai.expect(scoreCallBackCalled).to.be.true;
+                    chai.expect(game.getFormattedScore()).to.equal("02");
                 }));
             });
 
