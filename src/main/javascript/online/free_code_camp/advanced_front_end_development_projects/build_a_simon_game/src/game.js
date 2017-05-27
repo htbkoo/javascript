@@ -53,11 +53,16 @@ class Game {
                 prev[key.toLowerCase()] = (callbacks) => {
                     const result = colourSequenceManagers.get(this).check(COLOUR_ENUM[key]);
                     if (result.isSequenceCompleted) {
-                        callbacks.scoreCallBack();
                         incScore.call(this);
-                        statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
+                        if (scores.get(this) < 20) {
+                            callbacks.scoreCallBack();
+                            statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
+                        }else{
+                            callbacks.winCallBack();
+                            statusManagers.get(this).setStatus(STATUS_ENUM.isVictory);
+                        }
                     }
-                    return result
+                    return result;
                 };
                 return prev;
             }, {});

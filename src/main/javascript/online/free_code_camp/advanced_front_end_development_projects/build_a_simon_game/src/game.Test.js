@@ -246,7 +246,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     chai.expect(spyStatusManager_setStatus.notCalled).to.be.true;
                 }));
 
-                it("should, when buttons()[aColour](), handle the isInputCorrect=true and isSequenceCompleted=true response from check()", sinon.test(function () {
+                it("should, when buttons()[aColour](), call scoreCallBack if check() returns isInputCorrect=true and isSequenceCompleted=true and score<20", sinon.test(function () {
                     //    Given
                     const aColour = "red";
                     let scoreCallBackCalled = false;
@@ -273,6 +273,36 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     mockStatusManager.verify();
                     chai.expect(scoreCallBackCalled).to.be.true;
                     chai.expect(game.getFormattedScore()).to.equal("02");
+                }));
+
+                it("should, when buttons()[aColour](), call winCallBack if check() returns isInputCorrect=true and isSequenceCompleted=true and score=20", sinon.test(function () {
+                    //    Given
+                    const aColour = "red";
+                    let winCallBackCalled = false;
+                    const mockStatusManager = this.mock(StatusManager.prototype);
+
+                    let game = createGameAndMoveToIsPlayingStatus();
+                    Game.__GetDependency__("scores").set(game, 19);
+                    chai.expect(game.getFormattedScore()).to.equal("20");
+                    stubColourSequenceManager_check.call(this, {
+                        "isInputCorrect": true,
+                        "isSequenceCompleted": true
+                    });
+                    mockStatusManager.expects("setStatus").withArgs(STATUS_ENUM.isVictory).once();
+
+                    //    When
+                    let actualCheckResult = game.buttons()[aColour]({
+                        "winCallBack": () => {
+                            winCallBackCalled = true;
+                        }
+                    });
+
+                    //    Then
+                    chai.expect(actualCheckResult.isInputCorrect).to.be.true;
+                    chai.expect(actualCheckResult.isSequenceCompleted).to.be.true;
+                    mockStatusManager.verify();
+                    chai.expect(winCallBackCalled).to.be.true;
+                    chai.expect(game.getFormattedScore()).to.equal("21");
                 }));
             });
 
