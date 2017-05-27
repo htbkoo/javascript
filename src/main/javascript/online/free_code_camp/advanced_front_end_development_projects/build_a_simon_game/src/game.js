@@ -26,7 +26,8 @@ function incScore() {
 function isVictory() {
     return scores.get(this) >= 20;
 }
-class Game {
+
+export default class Game {
     constructor() {
         scores.set(this, 0);
         strictModes.set(this, false);
@@ -85,6 +86,4 @@ class Game {
             return prev;
         }, {});
     }
-}
-
-export default Game;
+};
