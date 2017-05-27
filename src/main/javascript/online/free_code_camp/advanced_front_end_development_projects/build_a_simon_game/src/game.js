@@ -23,6 +23,9 @@ let SIMPLE_NOTIFY_ACTIONS = {
 function incScore() {
     scores.set(this, scores.get(this) + 1);
 }
+function isVictory() {
+    return scores.get(this) >= 20;
+}
 class Game {
     constructor() {
         scores.set(this, 0);
@@ -54,12 +57,12 @@ class Game {
                     const result = colourSequenceManagers.get(this).check(COLOUR_ENUM[key]);
                     if (result.isSequenceCompleted) {
                         incScore.call(this);
-                        if (scores.get(this) < 20) {
-                            callbacks.scoreCallBack();
-                            statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
-                        }else{
+                        if (isVictory.call(this)) {
                             callbacks.winCallBack();
                             statusManagers.get(this).setStatus(STATUS_ENUM.isVictory);
+                        } else {
+                            callbacks.scoreCallBack();
+                            statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
                         }
                     }
                     return result;
