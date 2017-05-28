@@ -31,6 +31,26 @@ describe("SimonGame (ColourSequenceManager) - FreeCodeCamp", function () {
                 });
             });
 
+            describe("getSequqnce", function () {
+                it("should get a defensively copied clone of sequence from getSequence", function () {
+                    //    Given
+                    let colourSequenceManager = new ColourSequenceManager();
+
+                    //    When
+                    const sequence = colourSequenceManager.getSequence();
+                    chai.expect(sequence).to.be.an('array');
+                    chai.expect(sequence).to.have.length(0);
+
+                    sequence.push("some broken data");
+
+                    //    Then
+                    const sequenceAgain = colourSequenceManager.getSequence();
+                    chai.expect(sequenceAgain).to.be.an('array');
+                    chai.expect(sequenceAgain).to.have.length(0, "getSequence() should return a copy of array that represent the internal sequence and modifying the copy should not changed internal data");
+
+                });
+            });
+
             describe("resetSequence", function () {
                 it("should get list of 1 random colour for getSequence after resetSequence", sinon.test(function () {
                     //    Given

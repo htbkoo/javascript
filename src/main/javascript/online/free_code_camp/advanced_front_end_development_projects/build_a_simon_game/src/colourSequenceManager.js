@@ -25,6 +25,6 @@ export default class ColourSequenceManager {
     }
 
     getSequence() {
-        return sequences.get(this);
+        return sequences.get(this).slice();
     }
 }
