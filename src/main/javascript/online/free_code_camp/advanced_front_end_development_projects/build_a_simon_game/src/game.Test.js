@@ -272,6 +272,20 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         },
                         "otherAssertions": game => chai.expect(game.getFormattedScore()).to.equal("06")
                     },
+                    {
+                        "testCaseName": "call restartCallback if isInputCorrect=false and isStrictMode=true",
+                        "callbackName": "wrongCallback",
+                        "propagatedCallbackName": "restartCallback",
+                        "expectedTargetStatus": STATUS_ENUM.isStarting,
+                        "otherPreconditions": game => {
+                            Game.__GetDependency__("scores").set(game, 9);
+                            chai.expect(game.getFormattedScore()).to.equal("10");
+
+                            game.toggleStrict();
+                            chai.expect(game.isStrictMode()).to.be.true;
+                        },
+                        "otherAssertions": game => chai.expect(game.getFormattedScore()).to.equal("01")
+                    }
                 ].forEach((testCase) => {
                     it(format("should, when buttons()[aColour](), {}", testCase.testCaseName), sinon.test(function () {
                         //    Given

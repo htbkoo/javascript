@@ -69,7 +69,12 @@ export default class Game {
                             }
                         },
                         "wrongCallback": () => {
-                            setStatusAndPropagateCallback.call(this, STATUS_ENUM.isDemoing, callbacks.wrongCallback);
+                            if (strictModes.get(this)){
+                                this.notifyStatus().restart();
+                                callbacks.restartCallback();
+                            }else{
+                                setStatusAndPropagateCallback.call(this, STATUS_ENUM.isDemoing, callbacks.wrongCallback);
+                            }
                         }
                     });
                 };
