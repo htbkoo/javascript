@@ -70,10 +70,10 @@ export default class Game {
                             }
                         },
                         "wrongCallback": () => {
-                            if (strictModes.get(this)){
+                            if (strictModes.get(this)) {
                                 this.notifyStatus().restart();
                                 callbacks.restartCallback();
-                            }else{
+                            } else {
                                 setStatusAndPropagateCallback.call(this, STATUS_ENUM.isDemoing, callbacks.wrongCallback);
                             }
                         }
