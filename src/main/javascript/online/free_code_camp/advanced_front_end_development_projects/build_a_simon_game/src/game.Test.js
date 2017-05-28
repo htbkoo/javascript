@@ -215,7 +215,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                         //    When
                         let game = new Game();
-                        let actualCheckResult = game.buttons()[testcase.buttonsColour]({
+                        game.buttons()[testcase.buttonsColour]({
                             "correctCallback": () => correctCallbackTriggered = true
                         });
 
@@ -237,10 +237,8 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     mockStatusManager.expects("setStatus").withArgs(STATUS_ENUM.isDemoing).once();
 
                     //    When
-                    let actualCheckResult = game.buttons()[aColour]({
-                        "scoreCallback": () => {
-                            scoreCallbackCalled = true;
-                        }
+                    game.buttons()[aColour]({
+                        "scoreCallback": () => scoreCallbackCalled = true
                     });
 
                     //    Then
@@ -262,10 +260,8 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     mockStatusManager.expects("setStatus").withArgs(STATUS_ENUM.isVictory).once();
 
                     //    When
-                    let actualCheckResult = game.buttons()[aColour]({
-                        "winCallback": () => {
-                            winCallbackCalled = true;
-                        }
+                    game.buttons()[aColour]({
+                        "winCallback": () => winCallbackCalled = true
                     });
 
                     //    Then
@@ -274,6 +270,28 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     chai.expect(game.getFormattedScore()).to.equal("21");
                 }));
 
+                it("should, when buttons()[aColour]() call wrongCallback if isInputCorrect=false and isStrictMode=false", sinon.test(function () {
+                    //    Given
+                    const aColour = "red";
+                    let wrongCallbackCalled = false;
+                    const mockStatusManager = this.mock(StatusManager.prototype);
+
+                    let game = createGameAndMoveToIsPlayingStatus();
+                    chai.expect(game.isStrictMode()).to.be.false;
+                    chai.expect(game.getFormattedScore()).to.equal("01");
+                    stubColourSequenceManager_check.call(this, "wrongCallback");
+                    mockStatusManager.expects('setStatus').withArgs(STATUS_ENUM.isDemoing).once();
+
+                    //    When
+                    game.buttons()[aColour]({
+                        "wrongCallback": () => wrongCallbackCalled = true
+                    });
+
+                    //    Then
+                    mockStatusManager.verify();
+                    chai.expect(wrongCallbackCalled).to.be.true;
+                    chai.expect(game.getFormattedScore()).to.equal("01");
+                }));
             });
 
             function stubStatus(status) {

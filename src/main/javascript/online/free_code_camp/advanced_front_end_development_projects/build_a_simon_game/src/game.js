@@ -68,6 +68,9 @@ export default class Game {
                             } else {
                                 setStatusAndPropagateCallback.call(this, STATUS_ENUM.isDemoing, callbacks.scoreCallback);
                             }
+                        },
+                        "wrongCallback": () => {
+                            setStatusAndPropagateCallback.call(this, STATUS_ENUM.isDemoing, callbacks.wrongCallback);
                         }
                     });
                 };
