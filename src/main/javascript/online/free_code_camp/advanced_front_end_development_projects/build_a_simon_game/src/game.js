@@ -42,6 +42,10 @@ export default class Game {
         return scoreFormatter.format(this.status().isIdle(), scores.get(this));
     }
 
+    getSequence(){
+        return colourSequenceManagers.get(this).getSequence();
+    }
+
     isStrictMode() {
         return strictModes.get(this);
     }

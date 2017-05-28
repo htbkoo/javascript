@@ -330,6 +330,22 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 });
             });
 
+            describe("getSequences", function () {
+                it("should expose getSequences() to get expected sequence for demoing purpose", sinon.test(function () {
+                    //    Given
+                    const currentSequence = [COLOUR_ENUM.BLUE, COLOUR_ENUM.RED, COLOUR_ENUM.YELLO, COLOUR_ENUM.RED, COLOUR_ENUM.GREEN];
+                    this.stub(ColourSequenceManager.prototype, "getSequence").callsFake(() => currentSequence);
+
+                    const game = new Game();
+
+                    //    When
+                    const sequence = game.getSequence();
+
+                    //    Then
+                    chai.expect(sequence).to.deep.equal(currentSequence)
+                }));
+            });
+
             function setGameScore(game, score) {
                 Game.__GetDependency__("scores").set(game, score);
             }
