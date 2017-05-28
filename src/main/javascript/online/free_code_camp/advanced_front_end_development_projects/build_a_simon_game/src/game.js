@@ -84,8 +84,9 @@ export default class Game {
                 prev[key] = () => statusManagers.get(this).setStatus(SIMPLE_NOTIFY_ACTIONS[key]);
                 return prev;
             }, {});
-        actions.restart= ()=>{
+        actions.restart = () => {
             statusManagers.get(this).setStatus(STATUS_ENUM.isStarting);
+            scores.set(this, 0);
         };
         return actions;
     }

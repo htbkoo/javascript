@@ -67,6 +67,21 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     }));
                 });
 
+                it("shoule reset score when notifyStatus().restart()", sinon.test(function () {
+                    //    Given
+                    this.stub(StatusManager.prototype, "getStatus").callsFake(() => STATUS_ENUM.isPlaying);
+
+                    let game = new Game();
+                    setGameScore(game, 5);
+                    chai.expect(game.getFormattedScore()).to.equal("06");
+
+                    //    When
+                    game.notifyStatus().restart();
+
+                    //    Then
+                    chai.expect(game.getFormattedScore()).to.equal("01");
+                }));
+
                 Object.keys(STATUS_ENUM).forEach((testStatus) => {
                     it(format("should get true from status().{}() if the status is same from statusManager.getStatus()", testStatus), sinon.test(function () {
                         //    Given
@@ -240,7 +255,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         "propagatedCallbackName": "winCallback",
                         "expectedTargetStatus": STATUS_ENUM.isVictory,
                         "otherPreconditions": game => {
-                            Game.__GetDependency__("scores").set(game, 19);
+                            setGameScore(game, 19);
                             chai.expect(game.getFormattedScore()).to.equal("20");
                         },
                         "otherAssertions": game => chai.expect(game.getFormattedScore()).to.equal("21")
@@ -251,10 +266,11 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         "propagatedCallbackName": "wrongCallback",
                         "expectedTargetStatus": STATUS_ENUM.isDemoing,
                         "otherPreconditions": game => {
-                            chai.expect(game.getFormattedScore()).to.equal("01");
+                            setGameScore(game, 5);
+                            chai.expect(game.getFormattedScore()).to.equal("06");
                             chai.expect(game.isStrictMode()).to.be.false;
                         },
-                        "otherAssertions": game => chai.expect(game.getFormattedScore()).to.equal("01")
+                        "otherAssertions": game => chai.expect(game.getFormattedScore()).to.equal("06")
                     },
                 ].forEach((testCase) => {
                     it(format("should, when buttons()[aColour](), {}", testCase.testCaseName), sinon.test(function () {
@@ -282,10 +298,13 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 });
             });
 
+            function setGameScore(game, score) {
+                Game.__GetDependency__("scores").set(game, score);
+            }
+
             function stubStatus(status) {
                 this.stub(StatusManager.prototype, "getStatus").returns(status);
             }
-
         });
     });
 });
