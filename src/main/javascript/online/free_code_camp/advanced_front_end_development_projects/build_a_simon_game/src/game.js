@@ -55,18 +55,9 @@ export default class Game {
         return Object.keys(COLOUR_ENUM)
             .reduce((prev, key) => {
                 prev[key.toLowerCase()] = (callbacks) => {
-                    const result = colourSequenceManagers.get(this).check(COLOUR_ENUM[key]);
-                    if (result.isSequenceCompleted) {
-                        incScore.call(this);
-                        if (isVictory.call(this)) {
-                            callbacks.winCallBack();
-                            statusManagers.get(this).setStatus(STATUS_ENUM.isVictory);
-                        } else {
-                            callbacks.scoreCallBack();
-                            statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
-                        }
-                    }
-                    return result;
+                    const result = colourSequenceManagers.get(this).check(COLOUR_ENUM[key], {
+                        "correctCallback": callbacks.correctCallback
+                    });
                 };
                 return prev;
             }, {});
