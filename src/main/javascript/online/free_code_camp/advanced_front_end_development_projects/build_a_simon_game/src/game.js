@@ -27,6 +27,10 @@ function isVictory() {
     return scores.get(this) >= 20;
 }
 
+function setStatusAndPropagateCallback(status, callbackToCall) {
+    statusManagers.get(this).setStatus(status);
+    callbackToCall();
+}
 export default class Game {
     constructor() {
         scores.set(this, 0);
@@ -60,11 +64,9 @@ export default class Game {
                         "scoreCallback": () => {
                             incScore.call(this);
                             if (isVictory.call(this)) {
-                                statusManagers.get(this).setStatus(STATUS_ENUM.isVictory);
-                                callbacks.winCallBack();
+                                setStatusAndPropagateCallback.call(this, STATUS_ENUM.isVictory, callbacks.winCallback);
                             } else {
-                                statusManagers.get(this).setStatus(STATUS_ENUM.isDemoing);
-                                callbacks.scoreCallBack();
+                                setStatusAndPropagateCallback.call(this, STATUS_ENUM.isDemoing, callbacks.scoreCallback);
                             }
                         }
                     });

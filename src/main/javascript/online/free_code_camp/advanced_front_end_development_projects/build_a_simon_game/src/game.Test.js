@@ -225,10 +225,10 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     }));
                 });
 
-                it("should, when buttons()[aColour](), call scoreCallBack if isInputCorrect=true and isSequenceCompleted=true and score<20", sinon.test(function () {
+                it("should, when buttons()[aColour](), call scoreCallback if isInputCorrect=true and isSequenceCompleted=true and score<20", sinon.test(function () {
                     //    Given
                     const aColour = "red";
-                    let scoreCallBackCalled = false;
+                    let scoreCallbackCalled = false;
                     const mockStatusManager = this.mock(StatusManager.prototype);
 
                     let game = createGameAndMoveToIsPlayingStatus();
@@ -238,21 +238,21 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                     //    When
                     let actualCheckResult = game.buttons()[aColour]({
-                        "scoreCallBack": () => {
-                            scoreCallBackCalled = true;
+                        "scoreCallback": () => {
+                            scoreCallbackCalled = true;
                         }
                     });
 
                     //    Then
                     mockStatusManager.verify();
-                    chai.expect(scoreCallBackCalled).to.be.true;
+                    chai.expect(scoreCallbackCalled).to.be.true;
                     chai.expect(game.getFormattedScore()).to.equal("02");
                 }));
 
-                it("should, when buttons()[aColour](), call winCallBack if isInputCorrect=true and isSequenceCompleted=true and score=20", sinon.test(function () {
+                it("should, when buttons()[aColour](), call winCallback if isInputCorrect=true and isSequenceCompleted=true and score=20", sinon.test(function () {
                     //    Given
                     const aColour = "red";
-                    let winCallBackCalled = false;
+                    let winCallbackCalled = false;
                     const mockStatusManager = this.mock(StatusManager.prototype);
 
                     let game = createGameAndMoveToIsPlayingStatus();
@@ -263,14 +263,14 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
 
                     //    When
                     let actualCheckResult = game.buttons()[aColour]({
-                        "winCallBack": () => {
-                            winCallBackCalled = true;
+                        "winCallback": () => {
+                            winCallbackCalled = true;
                         }
                     });
 
                     //    Then
                     mockStatusManager.verify();
-                    chai.expect(winCallBackCalled).to.be.true;
+                    chai.expect(winCallbackCalled).to.be.true;
                     chai.expect(game.getFormattedScore()).to.equal("21");
                 }));
 
