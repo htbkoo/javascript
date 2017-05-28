@@ -88,6 +88,26 @@ describe("SimonGame (ColourSequenceManager) - FreeCodeCamp", function () {
                     chai.expect(sequence).to.deep.equal([aRandomColour, anotherRandomColour]);
                 }));
             });
-        });
+
+            describe("check", function () {
+                it("should call callbacks.correctCallback() if input is correct and sequence is not completed", function () {
+                    //    Given
+                    let colourSequenceManager = new ColourSequenceManager();
+                    ColourSequenceManager.__GetDependency__("sequences").set(colourSequenceManager, [COLOUR_ENUM.RED, COLOUR_ENUM.YELLOW]);
+                    chai.expect(colourSequenceManager.getSequence()).to.deep.equal([COLOUR_ENUM.RED, COLOUR_ENUM.YELLOW]);
+
+                    let callbackCalled = false;
+
+                    //    When
+                    colourSequenceManager.check(COLOUR_ENUM.RED, {
+                        "correctCallback": () => callbackCalled = true
+                    });
+
+                    //    Then
+                    chai.expect(callbackCalled).to.be.true;
+                });
+            });
+
+            });
     });
 });

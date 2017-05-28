@@ -11,8 +11,8 @@ export default class ColourSequenceManager {
         sequences.set(this, []);
     }
 
-    check() {
-
+    check(colour, callbacks) {
+        callbacks.correctCallback();
     }
 
     addColour(){
