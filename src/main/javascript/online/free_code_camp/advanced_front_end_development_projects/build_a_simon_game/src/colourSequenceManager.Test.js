@@ -90,11 +90,16 @@ describe("SimonGame (ColourSequenceManager) - FreeCodeCamp", function () {
             });
 
             describe("check", function () {
-                it("should call callbacks.correctCallback() if input is correct and sequence is not completed", function () {
-                    //    Given
+                function createdColourSequenceManagerWithTwoSteps() {
                     let colourSequenceManager = new ColourSequenceManager();
                     ColourSequenceManager.__GetDependency__("sequences").set(colourSequenceManager, [COLOUR_ENUM.RED, COLOUR_ENUM.YELLOW]);
                     chai.expect(colourSequenceManager.getSequence()).to.deep.equal([COLOUR_ENUM.RED, COLOUR_ENUM.YELLOW]);
+                    return colourSequenceManager;
+                }
+
+                it("should call callbacks.correctCallback() if input is correct and sequence is not completed", function () {
+                    //    Given
+                    let colourSequenceManager = createdColourSequenceManagerWithTwoSteps();
 
                     let callbackCalled = false;
 
@@ -106,8 +111,44 @@ describe("SimonGame (ColourSequenceManager) - FreeCodeCamp", function () {
                     //    Then
                     chai.expect(callbackCalled).to.be.true;
                 });
-            });
 
+                it("should, for first step, call callbacks.scoreCallback() if input is correct and sequence is completed", function () {
+                    //    Given
+                    let colourSequenceManager = new ColourSequenceManager();
+                    ColourSequenceManager.__GetDependency__("sequences").set(colourSequenceManager, [COLOUR_ENUM.BLUE]);
+                    chai.expect(colourSequenceManager.getSequence()).to.deep.equal([COLOUR_ENUM.BLUE]);
+
+                    let callbackCalled = false;
+
+                    //    When
+                    colourSequenceManager.check(COLOUR_ENUM.BLUE, {
+                        "scoreCallback": () => callbackCalled = true
+                    });
+
+                    //    Then
+                    chai.expect(callbackCalled).to.be.true;
+                });
+
+                it("should, for more than 1 steps, call callbacks.correctCallback() if input is correct and sequence is not completed", function () {
+                    //    Given
+                    let colourSequenceManager = createdColourSequenceManagerWithTwoSteps();
+                    let correctCallbackCalled = false;
+                    colourSequenceManager.check(COLOUR_ENUM.RED, {
+                        "correctCallback": () => correctCallbackCalled = true
+                    });
+                    chai.expect(correctCallbackCalled).to.be.true;
+
+                    let scoreCallbackCalled = false;
+
+                    //    When
+                    colourSequenceManager.check(COLOUR_ENUM.YELLOW, {
+                        "scoreCallback": () => scoreCallbackCalled = true
+                    });
+
+                    //    Then
+                    chai.expect(scoreCallbackCalled).to.be.true;
+                });
             });
+        });
     });
 });
