@@ -181,6 +181,49 @@ describe("SimonGame (ColourSequenceManager) - FreeCodeCamp", function () {
                         });
                     })();
                 });
+
+                it("should be possible to simulate a typical 5 steps case", function () {
+                    //    Given
+                    let colourSequenceManager = createdColourSequenceManagerWithSteps([COLOUR_ENUM.BLUE, COLOUR_ENUM.GREEN, COLOUR_ENUM.GREEN, COLOUR_ENUM.RED, COLOUR_ENUM.YELLOW]);
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "correctCallback",
+                        "step": COLOUR_ENUM.BLUE
+                    });
+
+                    //    When
+                    //    Then
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "wrongCallback",
+                        "step": COLOUR_ENUM.BLUE
+                    });
+
+                    (function assertThatInputIndexShouldBeResetted() {
+                        assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                            "callbackName": "wrongCallback",
+                            "step": COLOUR_ENUM.GREEN
+                        });
+                    })();
+
+                    (function assertCorrectTillScoreCase() {
+                        [
+                            COLOUR_ENUM.BLUE,
+                            COLOUR_ENUM.GREEN,
+                            COLOUR_ENUM.GREEN,
+                            COLOUR_ENUM.RED
+                        ].forEach((step) => {
+                            assertStepAndExpectedCallbackBeingCalled(colourSequenceManager,
+                                {
+                                    "callbackName": "correctCallback",
+                                    "step": step
+                                });
+                        });
+
+                        assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                            "callbackName": "scoreCallback",
+                            "step": COLOUR_ENUM.YELLOW
+                        });
+                    })();
+                });
             });
         });
     });
