@@ -49,7 +49,25 @@ describe("SimonGame (ColourSequenceManager) - FreeCodeCamp", function () {
                 }));
             });
 
+            describe("addColour", function () {
+                it("should add 1 random colour for getSequence after resetSequence", sinon.test(function () {
+                    //    Given
+                    const aRandomColour = COLOUR_ENUM.RED;
+                    const anotherRandomColour = COLOUR_ENUM.BLUE;
+                    this.stub(randomColourGenerator, "getNextColour")
+                        .onFirstCall().returns(aRandomColour)
+                        .onSecondCall().returns(anotherRandomColour);
+                    let colourSequenceManager = new ColourSequenceManager();
 
+                    //    When
+                    colourSequenceManager.resetSequence();
+                    colourSequenceManager.addColour();
+                    const sequence = colourSequenceManager.getSequence();
+
+                    //    Then
+                    chai.expect(sequence).to.deep.equal([aRandomColour, anotherRandomColour]);
+                }));
+            });
         });
     });
 });

@@ -15,6 +15,10 @@ export default class ColourSequenceManager {
 
     }
 
+    addColour(){
+        sequences.get(this).push(randomColourGenerator.getNextColour());
+    }
+
     resetSequence() {
         const newSequence = [randomColourGenerator.getNextColour()];
         sequences.set(this, newSequence);
