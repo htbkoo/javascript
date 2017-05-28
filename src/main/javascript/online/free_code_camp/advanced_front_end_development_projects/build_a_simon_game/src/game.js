@@ -92,6 +92,7 @@ export default class Game {
         actions.restart = () => {
             statusManagers.get(this).setStatus(STATUS_ENUM.isStarting);
             scores.set(this, 0);
+            colourSequenceManagers.get(this).resetSequence();
         };
         return actions;
     }

@@ -82,6 +82,19 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     chai.expect(game.getFormattedScore()).to.equal("01");
                 }));
 
+                it("shoule call colourSequenceManager.resetSequence() when notifyStatus().restart()", sinon.test(function () {
+                    //    Given
+                    const mockColourSequenceManager = this.mock(ColourSequenceManager.prototype);
+                    mockColourSequenceManager.expects("resetSequence").once();
+                    let game = new Game();
+
+                    //    When
+                    game.notifyStatus().restart();
+
+                    //    Then
+                    mockColourSequenceManager.verify();
+                }));
+
                 Object.keys(STATUS_ENUM).forEach((testStatus) => {
                     it(format("should get true from status().{}() if the status is same from statusManager.getStatus()", testStatus), sinon.test(function () {
                         //    Given
