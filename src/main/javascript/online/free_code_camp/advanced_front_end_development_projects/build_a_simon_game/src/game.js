@@ -58,7 +58,7 @@ export default class Game {
         return Object.keys(COLOUR_ENUM)
             .reduce((prev, key) => {
                 prev[key.toLowerCase()] = (callbacks) => {
-                    const result = colourSequenceManagers.get(this).check(COLOUR_ENUM[key], {
+                    colourSequenceManagers.get(this).check(COLOUR_ENUM[key], {
                         "correctCallback": callbacks.correctCallback,
                         "scoreCallback": () => {
                             incScore.call(this);

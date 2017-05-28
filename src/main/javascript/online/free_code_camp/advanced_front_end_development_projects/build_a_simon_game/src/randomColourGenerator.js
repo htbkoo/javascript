@@ -6,18 +6,15 @@ import COLOUR_ENUM from "./ColoursEnum";
 
 const POSSIBLE_COLOURS = Object.keys(COLOUR_ENUM);
 const getNextRandomNumber = () => {
-    "use strict";
-    return parseInt(Math.random() * POSSIBLE_COLOURS.length);
+    return parseInt(Math.random() * POSSIBLE_COLOURS.length, 10);
 };
 
 const getNextColour = () => {
-    "use strict";
     return COLOUR_ENUM[POSSIBLE_COLOURS[getNextRandomNumber()]];
 };
 export default {
     "getNextColour": getNextColour,
     "getSequenceOfColour": (n) => {
-        "use strict";
         return new Array(n).fill(0).map(getNextColour);
     }
 };
