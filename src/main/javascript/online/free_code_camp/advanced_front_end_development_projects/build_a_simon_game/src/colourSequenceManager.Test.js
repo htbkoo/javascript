@@ -97,69 +97,66 @@ describe("SimonGame (ColourSequenceManager) - FreeCodeCamp", function () {
                     return colourSequenceManager;
                 }
 
+                function assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, stepAndCallbackName) {
+                    let callbackCalled = false;
+                    colourSequenceManager.check(stepAndCallbackName.step, {
+                        [stepAndCallbackName.callbackName]: () => callbackCalled = true
+                    });
+                    chai.expect(callbackCalled).to.be.true;
+                }
+
                 it("should call callbacks.correctCallback() if input is correct and sequence is not completed", function () {
                     //    Given
                     let colourSequenceManager = createdColourSequenceManagerWithSteps([COLOUR_ENUM.RED, COLOUR_ENUM.YELLOW]);
 
-                    let callbackCalled = false;
-
                     //    When
-                    colourSequenceManager.check(COLOUR_ENUM.RED, {
-                        "correctCallback": () => callbackCalled = true
+                    //    Then
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "correctCallback",
+                        "step": COLOUR_ENUM.RED
                     });
 
-                    //    Then
-                    chai.expect(callbackCalled).to.be.true;
                 });
 
                 it("should, for first step, call callbacks.scoreCallback() if input is correct and sequence is completed", function () {
                     //    Given
                     let colourSequenceManager = createdColourSequenceManagerWithSteps([COLOUR_ENUM.BLUE]);
 
-                    let callbackCalled = false;
-
                     //    When
-                    colourSequenceManager.check(COLOUR_ENUM.BLUE, {
-                        "scoreCallback": () => callbackCalled = true
-                    });
-
                     //    Then
-                    chai.expect(callbackCalled).to.be.true;
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "scoreCallback",
+                        "step": COLOUR_ENUM.BLUE
+                    });
                 });
 
                 it("should, for more than 1 steps, call callbacks.correctCallback() if input is correct and sequence is not completed", function () {
                     //    Given
                     let colourSequenceManager = createdColourSequenceManagerWithSteps([COLOUR_ENUM.RED, COLOUR_ENUM.YELLOW]);
-                    let correctCallbackCalled = false;
-                    colourSequenceManager.check(COLOUR_ENUM.RED, {
-                        "correctCallback": () => correctCallbackCalled = true
-                    });
-                    chai.expect(correctCallbackCalled).to.be.true;
 
-                    let scoreCallbackCalled = false;
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "correctCallback",
+                        "step": COLOUR_ENUM.RED
+                    });
 
                     //    When
-                    colourSequenceManager.check(COLOUR_ENUM.YELLOW, {
-                        "scoreCallback": () => scoreCallbackCalled = true
-                    });
-
                     //    Then
-                    chai.expect(scoreCallbackCalled).to.be.true;
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "scoreCallback",
+                        "step": COLOUR_ENUM.YELLOW
+                    });
                 });
 
                 it("should, for 1 step, call callbacks.wrongCallback() if input is wrong", function () {
                     //    Given
                     let colourSequenceManager = createdColourSequenceManagerWithSteps([COLOUR_ENUM.BLUE]);
 
-                    let callbackCalled = false;
-
                     //    When
-                    colourSequenceManager.check(COLOUR_ENUM.YELLOW, {
-                        "wrongCallback": () => callbackCalled = true
-                    });
-
                     //    Then
-                    chai.expect(callbackCalled).to.be.true;
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "wrongCallback",
+                        "step": COLOUR_ENUM.YELLOW
+                    });
                 });
             });
         });
