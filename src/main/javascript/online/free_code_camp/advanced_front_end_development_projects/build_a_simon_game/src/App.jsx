@@ -34,7 +34,7 @@ class App extends React.Component {
         return (
             <div className="App">
                 <Title/>
-                <Dashboard onRestartClicked={this.updateState}
+                <Dashboard onUpdateStateFromRestart={this.updateState}
                            score={this.state.score}/>
                 <ButtonsPanel areButtonsDisabled={this.state.areButtonsDisabled}/>
             </div>
@@ -63,7 +63,7 @@ class Dashboard extends React.Component {
                     <StrictSwitch/>
                 </Container>
                 <Container>
-                    <StartButton onClick={this.props.onRestartClicked}/>
+                    <StartButton updateState={this.props.onUpdateStateFromRestart}/>
                 </Container>
             </div>
         );
@@ -133,7 +133,7 @@ class StartButton extends React.Component {
             <div>
                 <button type="button" className="btn btn-default" onClick={() => {
                     game.notifyStatus().restart();
-                    this.props.onClick();
+                    this.props.updateState();
                 }}>
                     Restart
                 </button>

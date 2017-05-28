@@ -44,7 +44,7 @@ describe("SimonGame - FreeCodeCamp", function () {
 
                 }));
 
-                it("should pass onRestartClicked callback to Dashboard which would trigger state reset", sinon.test(function () {
+                it("should pass onUpdateStateFromRestart callback to Dashboard which would trigger state reset", sinon.test(function () {
                     // Given
                     this.stub(Game.prototype, "getFormattedScore")
                         .onFirstCall().returns(0)
@@ -60,7 +60,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                     const wrapperApp = shallow(<App/>);
 
                     const wrapperDashboard = wrapperApp.find("Dashboard").get(0);
-                    wrapperDashboard.props.onRestartClicked();
+                    wrapperDashboard.props.onUpdateStateFromRestart();
 
                     // Then
                     chai.expect(wrapperApp.state().score).to.equal(100);
@@ -139,18 +139,18 @@ describe("SimonGame - FreeCodeCamp", function () {
                         });
                     });
 
-                    it("should pass handleRestart callback to onClick at <StartButton/>", function () {
+                    it("should pass handleRestart callback to updateState at <StartButton/>", function () {
                         //    Given
                         let mockHandleRestartTriggered = false;
                         const mockHandleRestart = () => {
                             mockHandleRestartTriggered = true
                         };
 
-                        const wrapperDashboard = shallow(<Dashboard onRestartClicked={mockHandleRestart}/>);
+                        const wrapperDashboard = shallow(<Dashboard onUpdateStateFromRestart={mockHandleRestart}/>);
                         const wrapperStartButton = wrapperDashboard.find("StartButton").get(0);
 
                         //    When
-                        wrapperStartButton.props.onClick();
+                        wrapperStartButton.props.updateState();
 
                         //    Then
                         chai.expect(mockHandleRestartTriggered).to.be.true;
@@ -224,7 +224,7 @@ describe("SimonGame - FreeCodeCamp", function () {
                                 mockClickCallbackTriggered = true;
                             };
 
-                            const wrapperStartButton = shallow(<StartButton onClick={mockClickCallback}/>);
+                            const wrapperStartButton = shallow(<StartButton updateState={mockClickCallback}/>);
                             const buttonRestart = shallow(wrapperStartButton.find("button").get(0));
 
                             //    When
