@@ -32,6 +32,8 @@ export default class ColourSequenceManager {
                 currentSeqIndices.set(this, currentIndex + 1);
                 callbacks.correctCallback();
             }
+        }else{
+            callbacks.wrongCallback();
         }
     }
 
