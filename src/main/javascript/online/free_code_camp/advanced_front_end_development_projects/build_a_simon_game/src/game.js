@@ -14,7 +14,6 @@ let statusManagers = new WeakMap();
 let colourSequenceManagers = new WeakMap();
 
 let SIMPLE_NOTIFY_ACTIONS = {
-    "restart": STATUS_ENUM.isStarting,
     "started": STATUS_ENUM.isDemoing,
     "demoed": STATUS_ENUM.isPlaying,
     "won": STATUS_ENUM.isVictory
@@ -80,11 +79,15 @@ export default class Game {
     }
 
     notifyStatus() {
-        return Object.keys(SIMPLE_NOTIFY_ACTIONS)
+        const actions = Object.keys(SIMPLE_NOTIFY_ACTIONS)
             .reduce((prev, key) => {
                 prev[key] = () => statusManagers.get(this).setStatus(SIMPLE_NOTIFY_ACTIONS[key]);
                 return prev;
             }, {});
+        actions.restart= ()=>{
+            statusManagers.get(this).setStatus(STATUS_ENUM.isStarting);
+        };
+        return actions;
     }
 
     status() {
