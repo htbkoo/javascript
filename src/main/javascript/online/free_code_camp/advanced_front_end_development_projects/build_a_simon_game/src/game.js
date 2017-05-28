@@ -65,6 +65,7 @@ export default class Game {
                             if (isVictory.call(this)) {
                                 setStatusAndPropagateCallback.call(this, STATUS_ENUM.isVictory, callbacks.winCallback);
                             } else {
+                                colourSequenceManagers.get(this).addColour();
                                 setStatusAndPropagateCallback.call(this, STATUS_ENUM.isDemoing, callbacks.scoreCallback);
                             }
                         },

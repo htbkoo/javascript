@@ -259,7 +259,10 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         "callbackName": "scoreCallback",
                         "propagatedCallbackName": "scoreCallback",
                         "expectedTargetStatus": STATUS_ENUM.isDemoing,
-                        "otherPreconditions": game => chai.expect(game.getFormattedScore()).to.equal("01"),
+                        "otherPreconditions": (game, mockColourSequenceManager) => {
+                            chai.expect(game.getFormattedScore()).to.equal("01");
+                            mockColourSequenceManager.expects("addColour").once();
+                        },
                         "otherAssertions": game => chai.expect(game.getFormattedScore()).to.equal("02")
                     },
                     {
@@ -310,7 +313,8 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         const mockStatusManager = this.mock(StatusManager.prototype);
                         mockStatusManager.expects("setStatus").withArgs(testCase.expectedTargetStatus).once();
 
-                        testCase.otherPreconditions(game);
+                        const mockColourSequenceManager = this.mock(ColourSequenceManager.prototype);
+                        testCase.otherPreconditions(game, mockColourSequenceManager);
 
                         //    When
                         game.buttons()[aColour]({
@@ -320,6 +324,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                         //    Then
                         mockStatusManager.verify();
                         chai.expect(propagatedCallback).to.be.true;
+                        mockColourSequenceManager.verify();
                         testCase.otherAssertions(game);
                     }));
                 });
