@@ -15,10 +15,13 @@ function isSequenceCompleted(sequence, currentIndex) {
     return ((nextIndex) >= sequence.length);
 }
 
+function resetSequenceIndex() {
+    currentSeqIndices.set(this, 0);
+}
 export default class ColourSequenceManager {
     constructor() {
         sequences.set(this, []);
-        currentSeqIndices.set(this, 0);
+        resetSequenceIndex.call(this);
     }
 
     check(colour, callbacks) {
@@ -33,6 +36,7 @@ export default class ColourSequenceManager {
                 callbacks.correctCallback();
             }
         }else{
+            resetSequenceIndex.call(this);
             callbacks.wrongCallback();
         }
     }

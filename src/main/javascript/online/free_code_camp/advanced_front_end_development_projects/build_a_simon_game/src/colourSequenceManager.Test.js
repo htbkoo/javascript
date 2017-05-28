@@ -158,6 +158,29 @@ describe("SimonGame (ColourSequenceManager) - FreeCodeCamp", function () {
                         "step": COLOUR_ENUM.YELLOW
                     });
                 });
+
+                it("should, for 2nd step, call callbacks.wrongCallback() if input is wrong, and would reset the step called", function () {
+                    //    Given
+                    let colourSequenceManager = createdColourSequenceManagerWithSteps([COLOUR_ENUM.BLUE, COLOUR_ENUM.GREEN]);
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "correctCallback",
+                        "step": COLOUR_ENUM.BLUE
+                    });
+
+                    //    When
+                    //    Then
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "wrongCallback",
+                        "step": COLOUR_ENUM.BLUE
+                    });
+
+                    (function assertThatInputIndexShouldBeResetted() {
+                        assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                            "callbackName": "wrongCallback",
+                            "step": COLOUR_ENUM.GREEN
+                        });
+                    })();
+                });
             });
         });
     });
