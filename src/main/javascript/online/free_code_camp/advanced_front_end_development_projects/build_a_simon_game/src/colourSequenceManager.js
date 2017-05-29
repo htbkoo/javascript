@@ -30,6 +30,7 @@ export default class ColourSequenceManager {
         const expectedNextColour = sequence[currentIndex];
         if (isInputCorrect(expectedNextColour, colour)) {
             if (isSequenceCompleted(sequence, currentIndex)) {
+                resetSequenceIndex.call(this);
                 callbacks.scoreCallback();
             } else {
                 currentSeqIndices.set(this, currentIndex + 1);

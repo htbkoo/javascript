@@ -182,6 +182,36 @@ describe("SimonGame (ColourSequenceManager) - FreeCodeCamp", function () {
                     })();
                 });
 
+                it("should be possible to simulate a typical 2 and 3 steps case", function () {
+                    //    Given
+                    let colourSequenceManager = createdColourSequenceManagerWithSteps([COLOUR_ENUM.BLUE, COLOUR_ENUM.RED]);
+
+                    //    When
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "correctCallback",
+                        "step": COLOUR_ENUM.BLUE
+                    });
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "scoreCallback",
+                        "step": COLOUR_ENUM.RED
+                    });
+                    ColourSequenceManager.__GetDependency__("sequences").set(colourSequenceManager, [COLOUR_ENUM.BLUE, COLOUR_ENUM.RED, COLOUR_ENUM.GREEN]);
+
+                    //    Then
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "correctCallback",
+                        "step": COLOUR_ENUM.BLUE
+                    });
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "correctCallback",
+                        "step": COLOUR_ENUM.RED
+                    });
+                    assertStepAndExpectedCallbackBeingCalled(colourSequenceManager, {
+                        "callbackName": "scoreCallback",
+                        "step": COLOUR_ENUM.GREEN
+                    });
+                });
+
                 it("should be possible to simulate a typical 5 steps case", function () {
                     //    Given
                     let colourSequenceManager = createdColourSequenceManagerWithSteps([COLOUR_ENUM.BLUE, COLOUR_ENUM.GREEN, COLOUR_ENUM.GREEN, COLOUR_ENUM.RED, COLOUR_ENUM.YELLOW]);
