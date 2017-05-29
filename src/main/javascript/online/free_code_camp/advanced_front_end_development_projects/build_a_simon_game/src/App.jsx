@@ -170,6 +170,12 @@ function restartingAnimation(triggerDisplayRefresh, animationDone) {
     });
 }
 
+function performDemo(updateState) {
+    new Promise((demoDone) => demoAnimation(game.getSequenceAsLowerCaseStrings(), updateState, demoDone)).then(() => {
+        game.notifyStatus().demoed();
+        updateState();
+    });
+}
 
 function demoAnimation(sequence, triggerDisplayRefresh, allDemosDone) {
     Promise.all(sequence.map(colour => new Promise(demoDone => {
@@ -189,7 +195,7 @@ function demoAnimation(sequence, triggerDisplayRefresh, allDemosDone) {
             });
         })
     }))).then(() => {
-        wait(500, () => {
+        wait(200, () => {
             console.log("resolving");
             setAllContainersColoursTo("");
             triggerDisplayRefresh();
@@ -214,10 +220,7 @@ class StartButton extends React.Component {
                             resolve("started");
                         })
                     }).then((resolveMessage) => {
-                        new Promise((demoDone) => demoAnimation(game.getSequenceAsLowerCaseStrings(), updateState, demoDone)).then(() => {
-                            game.notifyStatus().demoed();
-                            updateState();
-                        });
+                        performDemo(updateState);
                     })
                 }}>
                     Restart
@@ -235,19 +238,24 @@ class GameButton extends React.Component {
             <div>
                 <input type="button" className={"btn GameButton " + btnClassName} disabled={this.props.isDisabled}
                        onClick={() => {
+                           let updateState = this.props.updateState;
                            game.buttons()[this.props.colour]({
-                               "coreectCallback": () => {
+                               "correctCallback": () => {
+                                   updateState();
                                },
                                "scoreCallback": () => {
+                                   performDemo(updateState);
                                },
                                "winCallback": () => {
+                                   updateState();
                                },
                                "wrongCallback": () => {
+                                   performDemo(updateState);
                                },
                                "restartCallback": () => {
+                                   performDemo(updateState);
                                }
                            });
-                           this.props.updateState();
                        }}
                 />
             </div>
