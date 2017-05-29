@@ -89,3 +89,23 @@
     min-width: 64px !important;
     min-height: 64px !important;
 }
+
+.bg-colour-white{
+    background-color: white;
+}
+
+.bg-colour-red{
+    background-color: red;
+}
+
+.bg-colour-green{
+    background-color: green;
+}
+
+.bg-colour-blue{
+    background-color: blue;
+}
+
+.bg-colour-yellow{
+    background-color: yellow;
+}

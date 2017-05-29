@@ -11,6 +11,21 @@ const BUTTON_COLOUR_MAPPING = {
     "yellow": "btn-warning"
 };
 
+const COLOURS_CSS_CLASSES = {
+    'RED': "bg-colour-red",
+    'GREEN': "bg-colour-green",
+    'BLUE': "bg-colour-blue",
+    'YELLOW': "bg-colour-yellow",
+    'WHITE': "bg-colour-white",
+};
+
+const containersColours = {
+    'red': "",
+    "green": "",
+    "blue": "",
+    "yellow": "",
+};
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -45,7 +60,7 @@ class App extends React.Component {
 class Container extends React.Component {
     render() {
         return (
-            <div className="App-container">
+            <div className={"App-container " + containersColours[this.props.colourKey]}>
                 {this.props.children}
             </div>
         )
@@ -82,7 +97,7 @@ class ButtonsPanel extends React.Component {
                         'blue',
                         'yellow'
                     ].map((colour) =>
-                        <Container key={colour}>
+                        <Container key={colour} colourKey={colour}>
                             <GameButton colour={colour} isDisabled={this.props.areButtonsDisabled}/>
                         </Container>
                     )
@@ -127,13 +142,52 @@ class StrictSwitch extends React.Component {
     }
 }
 
+function setAllContainersColoursTo(colour) {
+    Object.keys(containersColours).forEach(key => containersColours[key] = colour);
+}
+
+function restartingAnimation(triggerDisplayRefresh, animationDone) {
+    new Promise((resolve) => {
+        setAllContainersColoursTo(COLOURS_CSS_CLASSES.WHITE);
+        triggerDisplayRefresh();
+        setTimeout(()=>{
+            resolve()
+        }, 500);
+    }).then(()=>{
+        setAllContainersColoursTo("");
+        triggerDisplayRefresh();
+        animationDone();
+    });
+}
+
+
+function demoAnimation(sequence, triggerDisplayRefresh, demoDone) {
+
+    demoDone();
+}
+
 class StartButton extends React.Component {
     render() {
         return (
             <div>
                 <button type="button" className="btn btn-default" onClick={() => {
+                    const updateState = this.props.updateState;
+
                     game.notifyStatus().restart();
-                    this.props.updateState();
+                    updateState();
+
+                    new Promise((resolve) => {
+                        new Promise((animationDone) => restartingAnimation(updateState, animationDone)).then(() => {
+                            game.notifyStatus().started();
+                            updateState();
+                            resolve("started");
+                        })
+                    }).then((resolveMessage) => {
+                        new Promise((demoDone) => demoAnimation(game.getSequence(), updateState, demoDone)).then(() => {
+                            game.notifyStatus().demoed();
+                            updateState();
+                        });
+                    })
                 }}>
                     Restart
                 </button>
