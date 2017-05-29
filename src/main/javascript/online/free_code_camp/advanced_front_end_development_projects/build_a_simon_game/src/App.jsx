@@ -142,18 +142,24 @@ class StrictSwitch extends React.Component {
     }
 }
 
+function wait(timeout, runBeforeTimeout) {
+    return new Promise(resolve => {
+        runBeforeTimeout();
+        setTimeout(() => {
+            resolve()
+        }, timeout);
+    })
+}
+
 function setAllContainersColoursTo(colour) {
     Object.keys(containersColours).forEach(key => containersColours[key] = colour);
 }
 
 function restartingAnimation(triggerDisplayRefresh, animationDone) {
-    new Promise((resolve) => {
+    wait(500, () => {
         setAllContainersColoursTo(COLOURS_CSS_CLASSES.WHITE);
         triggerDisplayRefresh();
-        setTimeout(()=>{
-            resolve()
-        }, 500);
-    }).then(()=>{
+    }).then(() => {
         setAllContainersColoursTo("");
         triggerDisplayRefresh();
         animationDone();
