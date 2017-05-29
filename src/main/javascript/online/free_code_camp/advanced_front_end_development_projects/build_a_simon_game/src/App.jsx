@@ -1,13 +1,13 @@
-import React from 'react';
-import Game from './game';
-import './App.css';
+import React from "react";
+import Game from "./game";
+import "./App.css";
 
 let game = new Game();
 
 const BUTTON_COLOUR_MAPPING = {
     "red": "btn-danger",
-    "green": "btn-primary",
-    "blue": "btn-success",
+    "green": "btn-success",
+    "blue": "btn-primary",
     "yellow": "btn-warning"
 };
 
@@ -51,7 +51,8 @@ class App extends React.Component {
                 <Title/>
                 <Dashboard onUpdateStateFromRestart={this.updateState}
                            score={this.state.score}/>
-                <ButtonsPanel areButtonsDisabled={this.state.areButtonsDisabled}/>
+                <ButtonsPanel areButtonsDisabled={this.state.areButtonsDisabled}
+                              onUpdateStateFromGameButton={this.updateState}/>
             </div>
         );
     }
@@ -98,7 +99,8 @@ class ButtonsPanel extends React.Component {
                         'yellow'
                     ].map((colour) =>
                         <Container key={colour} colourKey={colour}>
-                            <GameButton colour={colour} isDisabled={this.props.areButtonsDisabled}/>
+                            <GameButton colour={colour} isDisabled={this.props.areButtonsDisabled}
+                                        updateState={this.props.onUpdateStateFromGameButton}/>
                         </Container>
                     )
                 }
@@ -144,7 +146,9 @@ class StrictSwitch extends React.Component {
 
 function wait(timeout, runBeforeTimeout) {
     return new Promise(resolve => {
-        runBeforeTimeout();
+        if (typeof runBeforeTimeout === "function") {
+            runBeforeTimeout();
+        }
         setTimeout(() => {
             resolve()
         }, timeout);
@@ -162,14 +166,35 @@ function restartingAnimation(triggerDisplayRefresh, animationDone) {
     }).then(() => {
         setAllContainersColoursTo("");
         triggerDisplayRefresh();
-        animationDone();
+        wait(500).then(() => animationDone());
     });
 }
 
 
-function demoAnimation(sequence, triggerDisplayRefresh, demoDone) {
-
-    demoDone();
+function demoAnimation(sequence, triggerDisplayRefresh, allDemosDone) {
+    Promise.all(sequence.map(colour => new Promise(demoDone => {
+        wait(500, () => {
+            console.log("colour: " + colour);
+            setAllContainersColoursTo("");
+            containersColours[colour] = COLOURS_CSS_CLASSES[colour.toUpperCase()];
+            triggerDisplayRefresh();
+        }).then(() => {
+            wait(300, () => {
+                console.log("cleaning");
+                setAllContainersColoursTo("");
+                triggerDisplayRefresh();
+            }).then(() => {
+                console.log("1 demo done");
+                demoDone()
+            });
+        })
+    }))).then(() => {
+        wait(500, () => {
+            console.log("resolving");
+            setAllContainersColoursTo("");
+            triggerDisplayRefresh();
+        }).then(() => allDemosDone());
+    });
 }
 
 class StartButton extends React.Component {
@@ -208,7 +233,23 @@ class GameButton extends React.Component {
 
         return (
             <div>
-                <input type="button" className={"btn GameButton " + btnClassName} disabled={this.props.isDisabled}/>
+                <input type="button" className={"btn GameButton " + btnClassName} disabled={this.props.isDisabled}
+                       onClick={() => {
+                           game.buttons()[this.props.colour]({
+                               "coreectCallback": () => {
+                               },
+                               "scoreCallback": () => {
+                               },
+                               "winCallback": () => {
+                               },
+                               "wrongCallback": () => {
+                               },
+                               "restartCallback": () => {
+                               }
+                           });
+                           this.props.updateState();
+                       }}
+                />
             </div>
         );
     }
