@@ -190,20 +190,6 @@ describe("SimonGame - FreeCodeCamp", function () {
                             chai.expect("checked" in inputCheckbox.props).to.be.false;
                             chai.expect(inputCheckbox.props.type).to.equal("checkbox");
                         });
-
-                        it("should call game.toggleStrict() when clicked checkbox", sinon.test(function () {
-                            //    Given
-                            const wrapperStrictSwitch = shallow(<StrictSwitch/>);
-                            const inputCheckbox = shallow(wrapperStrictSwitch.find("input").get(0));
-                            const mockGame = this.mock(Game.prototype);
-                            mockGame.expects("toggleStrict").once().returns("");
-
-                            //    When
-                            inputCheckbox.simulate('click');
-
-                            //    Then
-                            mockGame.verify();
-                        }));
                     });
 
                     describe("<StartButton/>", function () {
