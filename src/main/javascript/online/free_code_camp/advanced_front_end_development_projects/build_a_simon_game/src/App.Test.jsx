@@ -278,8 +278,8 @@ describe("SimonGame - FreeCodeCamp", function () {
 
                         [
                             {"colour": "red", "mappedValue": "btn-danger"},
-                            {"colour": "green", "mappedValue": "btn-primary"},
-                            {"colour": "blue", "mappedValue": "btn-success"},
+                            {"colour": "green", "mappedValue": "btn-success"},
+                            {"colour": "blue", "mappedValue": "btn-primary"},
                             {"colour": "yellow", "mappedValue": "btn-warning"},
                             {"colour": "not-existing-colour", "mappedValue": "btn-default"}
                         ].forEach((param) => {
