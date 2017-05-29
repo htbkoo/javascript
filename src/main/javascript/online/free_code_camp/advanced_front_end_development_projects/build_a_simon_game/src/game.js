@@ -4,7 +4,7 @@
 
 import scoreFormatter from "./scoreFormatter";
 import STATUS_ENUM from "./StatusesEnum"
-import COLOUR_ENUM from "./ColoursEnum"
+import COLOUR_ENUM, {colourEnumToString} from "./ColoursEnum"
 import StatusManager from "./statusManager";
 import ColourSequenceManager from "./colourSequenceManager";
 
@@ -42,8 +42,8 @@ export default class Game {
         return scoreFormatter.format(this.status().isIdle(), scores.get(this));
     }
 
-    getSequence(){
-        return colourSequenceManagers.get(this).getSequence();
+    getSequenceAsLowerCaseStrings() {
+        return colourSequenceManagers.get(this).getSequence().map(colour => colourEnumToString(colour).toLowerCase());
     }
 
     isStrictMode() {

@@ -189,7 +189,7 @@ class StartButton extends React.Component {
                             resolve("started");
                         })
                     }).then((resolveMessage) => {
-                        new Promise((demoDone) => demoAnimation(game.getSequence(), updateState, demoDone)).then(() => {
+                        new Promise((demoDone) => demoAnimation(game.getSequenceAsLowerCaseStrings(), updateState, demoDone)).then(() => {
                             game.notifyStatus().demoed();
                             updateState();
                         });

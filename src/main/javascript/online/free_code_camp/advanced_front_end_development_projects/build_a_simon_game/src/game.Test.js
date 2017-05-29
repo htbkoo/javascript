@@ -330,19 +330,20 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 });
             });
 
-            describe("getSequences", function () {
-                it("should expose getSequences() to get expected sequence for demoing purpose", sinon.test(function () {
+            describe("getSequenceAsLowerCaseStrings", function () {
+                it("should expose getSequenceAsLowerCaseStrings() to get expected sequence for demoing purpose", sinon.test(function () {
                     //    Given
-                    const currentSequence = [COLOUR_ENUM.BLUE, COLOUR_ENUM.RED, COLOUR_ENUM.YELLO, COLOUR_ENUM.RED, COLOUR_ENUM.GREEN];
+                    const currentSequence = [COLOUR_ENUM.BLUE, COLOUR_ENUM.RED, COLOUR_ENUM.YELLOW, COLOUR_ENUM.RED, COLOUR_ENUM.GREEN];
+                    const expectedSequenceAsString = ["blue", "red", "yellow", "red", "green"];
                     this.stub(ColourSequenceManager.prototype, "getSequence").callsFake(() => currentSequence);
 
                     const game = new Game();
 
                     //    When
-                    const sequence = game.getSequence();
+                    const sequence = game.getSequenceAsLowerCaseStrings();
 
                     //    Then
-                    chai.expect(sequence).to.deep.equal(currentSequence)
+                    chai.expect(sequence).to.deep.equal(expectedSequenceAsString);
                 }));
             });
 
