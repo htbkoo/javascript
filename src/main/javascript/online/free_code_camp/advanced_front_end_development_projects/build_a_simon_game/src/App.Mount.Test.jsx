@@ -15,7 +15,7 @@ describe("SimonGame (Full render test) - FreeCodeCamp", function () {
     describe("FrontEnd - Advanced Project", function () {
         describe("SimonGame", function () {
             describe("<App/>", function () {
-                it('shallow renders App without crashing', sinon.test(function (done) {
+                it('renders App without crashing', sinon.test(function (done) {
                     // Given
                     this.stub(Game.prototype, "status").callsFake(() => {
                         return {
