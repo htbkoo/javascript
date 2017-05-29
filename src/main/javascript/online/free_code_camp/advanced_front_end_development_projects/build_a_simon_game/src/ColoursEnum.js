@@ -11,3 +11,9 @@ const COLOUR_ENUM = {
 Object.freeze(COLOUR_ENUM);
 
 export default COLOUR_ENUM;
+export let colourEnumToString = (colourEnum) => {
+    const match = Object.keys(COLOUR_ENUM).filter(key => colourEnum === COLOUR_ENUM[key]);
+    if (match.length === 1) {
+        return match[0];
+    }
+};
