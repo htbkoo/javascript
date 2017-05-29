@@ -60,8 +60,10 @@ class App extends React.Component {
 
 class Container extends React.Component {
     render() {
+        const evaluatedClassNames = "App-container " + (("colourKey" in this.props) ? containersColours[this.props.colourKey] : "");
+
         return (
-            <div className={"App-container " + containersColours[this.props.colourKey]}>
+            <div className={evaluatedClassNames}>
                 {this.props.children}
             </div>
         )
@@ -187,11 +189,9 @@ function demoAnimation(sequence, triggerDisplayRefresh, allDemosDone) {
                 triggerDisplayRefresh();
             }).then(() => {
                 wait(300, () => {
-                    console.log("cleaning");
                     setAllContainersColoursTo("");
                     triggerDisplayRefresh();
                 }).then(() => {
-                    console.log("1 demo done");
                     demoDone()
                 });
             })
@@ -199,7 +199,6 @@ function demoAnimation(sequence, triggerDisplayRefresh, allDemosDone) {
     }, Promise.resolve())
         .then(() => {
             wait(200, () => {
-                console.log("resolving");
                 setAllContainersColoursTo("");
                 triggerDisplayRefresh();
             }).then(() => allDemosDone());
