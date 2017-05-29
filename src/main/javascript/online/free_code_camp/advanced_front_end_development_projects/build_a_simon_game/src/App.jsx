@@ -178,29 +178,32 @@ function performDemo(updateState) {
 }
 
 function demoAnimation(sequence, triggerDisplayRefresh, allDemosDone) {
-    Promise.all(sequence.map(colour => new Promise(demoDone => {
-        wait(500, () => {
-            console.log("colour: " + colour);
-            setAllContainersColoursTo("");
-            containersColours[colour] = COLOURS_CSS_CLASSES[colour.toUpperCase()];
-            triggerDisplayRefresh();
-        }).then(() => {
-            wait(300, () => {
-                console.log("cleaning");
+    sequence.reduce((prev, colour) => {
+        return prev.then(() => new Promise(demoDone => {
+            wait(500, () => {
+                console.log("colour: " + colour);
                 setAllContainersColoursTo("");
+                containersColours[colour] = COLOURS_CSS_CLASSES[colour.toUpperCase()];
                 triggerDisplayRefresh();
             }).then(() => {
-                console.log("1 demo done");
-                demoDone()
-            });
-        })
-    }))).then(() => {
-        wait(200, () => {
-            console.log("resolving");
-            setAllContainersColoursTo("");
-            triggerDisplayRefresh();
-        }).then(() => allDemosDone());
-    });
+                wait(300, () => {
+                    console.log("cleaning");
+                    setAllContainersColoursTo("");
+                    triggerDisplayRefresh();
+                }).then(() => {
+                    console.log("1 demo done");
+                    demoDone()
+                });
+            })
+        }))
+    }, Promise.resolve())
+        .then(() => {
+            wait(200, () => {
+                console.log("resolving");
+                setAllContainersColoursTo("");
+                triggerDisplayRefresh();
+            }).then(() => allDemosDone());
+        });
 }
 
 class StartButton extends React.Component {
