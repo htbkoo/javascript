@@ -24,6 +24,7 @@ const COLOURS_CSS_CLASSES = {
     'BLUE': "bg-colour-blue",
     'YELLOW': "bg-colour-yellow",
     'WHITE': "bg-colour-white",
+    'BLACK': "bg-colour-black",
 };
 
 const containersColours = {
@@ -247,6 +248,31 @@ class StartButton extends React.Component {
     }
 }
 
+function flashAll(triggerDisplayRefresh, colour, times, interval) {
+    colour = colour || "";
+    times = times || 1;
+    interval = interval || 100;
+    return new Array(times).fill(0)
+        .reduce((prev) => {
+            return prev.then(() => new Promise(flashDone => {
+                wait(interval, () => {
+                    console.log("colour: " + colour);
+                    setAllContainersColoursTo("");
+                    setAllContainersColoursTo(colour);
+                    triggerDisplayRefresh();
+                }).then(() => {
+                    wait(interval, () => {
+                        setAllContainersColoursTo("");
+                        triggerDisplayRefresh();
+                    }).then(() => {
+                        flashDone()
+                    });
+                })
+            }))
+        }, Promise.resolve())
+
+}
+
 class GameButton extends React.Component {
     render() {
         let btnClassName = (this.props.colour in BUTTON_COLOUR_MAPPING) ? BUTTON_COLOUR_MAPPING[this.props.colour] : "btn-default";
@@ -263,13 +289,17 @@ class GameButton extends React.Component {
                                    updateState();
                                },
                                "scoreCallback": () => {
-                                   performDemo(updateState);
+                                   updateState();
+                                   flashAll(updateState, COLOURS_CSS_CLASSES.WHITE, 3)
+                                       .then(wait(1500).then(() => performDemo(updateState)));
                                },
                                "winCallback": () => {
                                    updateState();
                                },
                                "wrongCallback": () => {
-                                   performDemo(updateState);
+                                   updateState();
+                                   flashAll(updateState, COLOURS_CSS_CLASSES.BLACK, 3)
+                                       .then(wait(1500).then(() => performDemo(updateState)));
                                },
                                "restartCallback": () => {
                                    performRestart(updateState)
