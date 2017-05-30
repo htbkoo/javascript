@@ -300,7 +300,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                             setGameScore(game, 19);
                             chai.expect(game.getFormattedScore()).to.equal("20");
                         },
-                        "otherAssertions": game => chai.expect(game.getFormattedScore()).to.equal("21")
+                        "otherAssertions": game => chai.expect(game.getFormattedScore()).to.equal("WIN")
                     },
                     {
                         "testCaseName": "call wrongCallback if isInputCorrect=false and isStrictMode=false",

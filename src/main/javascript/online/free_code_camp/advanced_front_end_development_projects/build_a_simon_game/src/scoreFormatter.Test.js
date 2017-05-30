@@ -36,6 +36,12 @@ let testCases = {
             "isIdle": false,
             "score": 19,
             "expectedScore": "20"
+        },
+        {
+            "testName": "should format 20 raw score as 'WIN'",
+            "isIdle": false,
+            "score": 20,
+            "expectedScore": "WIN"
         }
     ]
 };
