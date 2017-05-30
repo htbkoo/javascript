@@ -84,7 +84,8 @@ class Dashboard extends React.Component {
                     <StrictSwitch/>
                 </Container>
                 <Container>
-                    <StartButton updateState={this.props.onUpdateStateFromRestart} isDisabled={this.props.isRestartDisabled}/>
+                    <StartButton updateState={this.props.onUpdateStateFromRestart}
+                                 isDisabled={this.props.isRestartDisabled}/>
                 </Container>
             </div>
         );
@@ -227,10 +228,10 @@ class StartButton extends React.Component {
             <div>
                 <button type="button" className="btn btn-default" disabled={this.props.isDisabled}
                         onClick={() => {
-                    const updateState = this.props.updateState;
-                    performRestart(updateState)
-                        .then(() => performDemo(updateState));
-                }}>
+                            const updateState = this.props.updateState;
+                            performRestart(updateState)
+                                .then(() => performDemo(updateState));
+                        }}>
                     Restart
                 </button>
             </div>
