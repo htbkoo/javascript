@@ -160,10 +160,24 @@ function setAllContainersColoursTo(colour) {
     Object.keys(containersColours).forEach(key => containersColours[key] = colour);
 }
 
+function performRestart(updateState) {
+    return new Promise(notifiedRestart => {
+        game.notifyStatus().restart();
+        updateState();
+        notifiedRestart();
+    }).then(() => new Promise(animationDone => restartingAnimation(updateState, animationDone)
+    )).then(() => new Promise(notifiedRestarted => {
+        game.notifyStatus().started();
+        updateState();
+        notifiedRestarted();
+    }));
+}
+
 function performDemo(updateState) {
-    return new Promise((demoDone) => demoAnimation(game.getSequenceAsLowerCaseStrings(), updateState, demoDone)).then(() => {
+    return new Promise(demoDone => demoAnimation(game.getSequenceAsLowerCaseStrings(), updateState, demoDone)).then(() => {
         game.notifyStatus().demoed();
         updateState();
+        return Promise.resolve();
     });
 }
 
@@ -210,17 +224,8 @@ class StartButton extends React.Component {
             <div>
                 <button type="button" className="btn btn-default" onClick={() => {
                     const updateState = this.props.updateState;
-
-                    game.notifyStatus().restart();
-                    updateState();
-
-                    new Promise((resolve) => {
-                        new Promise((animationDone) => restartingAnimation(updateState, animationDone)).then(() => {
-                            game.notifyStatus().started();
-                            updateState();
-                            resolve();
-                        })
-                    }).then(() => performDemo(updateState))
+                    performRestart(updateState)
+                        .then(() => performDemo(updateState));
                 }}>
                     Restart
                 </button>
@@ -252,7 +257,8 @@ class GameButton extends React.Component {
                                    performDemo(updateState);
                                },
                                "restartCallback": () => {
-                                   performDemo(updateState);
+                                   performRestart(updateState)
+                                       .then(() => performDemo(updateState));
                                }
                            });
                        }}
