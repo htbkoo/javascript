@@ -8,6 +8,8 @@ import COLOUR_ENUM, {colourEnumToString} from "./ColoursEnum"
 import StatusManager from "./statusManager";
 import ColourSequenceManager from "./colourSequenceManager";
 
+const WIN_SCORE = 20;
+
 let scores = new WeakMap();
 let strictModes = new WeakMap();
 let statusManagers = new WeakMap();
@@ -23,7 +25,7 @@ function incScore() {
     scores.set(this, scores.get(this) + 1);
 }
 function isVictory() {
-    return scores.get(this) >= 20;
+    return scores.get(this) >= WIN_SCORE;
 }
 
 function setStatusAndPropagateCallback(status, callbackToCall) {
@@ -39,7 +41,7 @@ export default class Game {
     };
 
     getFormattedScore() {
-        return scoreFormatter.format(scores.get(this), this.status().isIdle());
+        return scoreFormatter.format(scores.get(this), this.status().isIdle(), isVictory.call(this));
     }
 
     getSequenceAsLowerCaseStrings() {

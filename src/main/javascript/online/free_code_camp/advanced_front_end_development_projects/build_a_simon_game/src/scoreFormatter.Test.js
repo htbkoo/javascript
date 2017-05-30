@@ -40,6 +40,7 @@ let testCases = {
         {
             "testName": "should format 20 raw score as 'WIN'",
             "isIdle": false,
+            "isWon": true,
             "score": 20,
             "expectedScore": "WIN"
         }
@@ -52,7 +53,7 @@ describe("scoreFormatter", function () {
             //    Given
             //    When
             //    Then
-            chai.expect(scoreFormatter.format(testcase.score, testcase.isIdle)).to.equal(testcase.expectedScore)
+            chai.expect(scoreFormatter.format(testcase.score, testcase.isIdle, testcase.isWon)).to.equal(testcase.expectedScore)
         });
     });
 });

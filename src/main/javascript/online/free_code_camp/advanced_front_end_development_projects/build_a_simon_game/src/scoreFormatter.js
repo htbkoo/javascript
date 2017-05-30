@@ -2,16 +2,15 @@
  * Created by Hey on 15 May 2017
  */
 
-const WIN_SCORE = 20;
 const WIN_MESSAGE = "WIN";
 
 export default {
-    "format": function (rawScore, isIdle) {
+    "format": function (rawScore, isIdle, isWon) {
         let stepText;
         if (isIdle) {
             stepText = '--';
         } else {
-            if (rawScore >= WIN_SCORE) {
+            if (isWon) {
                 return WIN_MESSAGE;
             }
 
