@@ -32,7 +32,8 @@ class App extends React.Component {
         this.state = {
             'score': game.getFormattedScore(),
             'status': game.status(),
-            'areButtonsDisabled': game.isInputDisabled()
+            'areButtonsDisabled': game.isInputDisabled(),
+            'isRestartDisabled': game.isRestartDisabled()
         };
         this.updateState = this.updateState.bind(this)
     }
@@ -41,7 +42,8 @@ class App extends React.Component {
         this.setState({
             'score': game.getFormattedScore(),
             'status': game.status(),
-            'areButtonsDisabled': game.isInputDisabled()
+            'areButtonsDisabled': game.isInputDisabled(),
+            'isRestartDisabled': game.isRestartDisabled()
         })
     }
 
@@ -50,7 +52,8 @@ class App extends React.Component {
             <div className="App">
                 <Title/>
                 <Dashboard onUpdateStateFromRestart={this.updateState}
-                           score={this.state.score}/>
+                           score={this.state.score}
+                           isRestartDisabled={this.state.isRestartDisabled}/>
                 <ButtonsPanel areButtonsDisabled={this.state.areButtonsDisabled}
                               onUpdateStateFromGameButton={this.updateState}/>
             </div>
@@ -81,7 +84,7 @@ class Dashboard extends React.Component {
                     <StrictSwitch/>
                 </Container>
                 <Container>
-                    <StartButton updateState={this.props.onUpdateStateFromRestart}/>
+                    <StartButton updateState={this.props.onUpdateStateFromRestart} isDisabled={this.props.isRestartDisabled}/>
                 </Container>
             </div>
         );
@@ -222,7 +225,8 @@ class StartButton extends React.Component {
     render() {
         return (
             <div>
-                <button type="button" className="btn btn-default" onClick={() => {
+                <button type="button" className="btn btn-default" disabled={this.props.isDisabled}
+                        onClick={() => {
                     const updateState = this.props.updateState;
                     performRestart(updateState)
                         .then(() => performDemo(updateState));
