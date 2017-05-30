@@ -295,9 +295,10 @@ class GameButton extends React.Component {
             <div>
                 <input type="button" className={"btn GameButton " + btnClassName} disabled={this.props.isDisabled}
                        onClick={() => {
+                           const updateState = this.props.updateState;
+
                            COLOUR_AUDIOS[this.props.colour].play();
 
-                           let updateState = this.props.updateState;
                            game.buttons()[this.props.colour]({
                                "correctCallback": () => {
                                    updateState();
@@ -310,6 +311,12 @@ class GameButton extends React.Component {
                                },
                                "winCallback": () => {
                                    updateState();
+                                   Object.keys(COLOURS_CSS_CLASSES).reduce((prev, colour) => {
+                                       return prev.then(() => new Promise(resolved => {
+                                           flashAll(updateState, COLOURS_CSS_CLASSES[colour], 1, 150)
+                                               .then(() => resolved());
+                                       }));
+                                   }, Promise.resolve())
                                },
                                "wrongCallback": () => {
                                    updateState();
