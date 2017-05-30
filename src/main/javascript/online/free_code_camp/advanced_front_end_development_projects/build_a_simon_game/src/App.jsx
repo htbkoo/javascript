@@ -291,7 +291,8 @@ class GameButton extends React.Component {
                                "scoreCallback": () => {
                                    updateState();
                                    flashAll(updateState, COLOURS_CSS_CLASSES.WHITE, 3)
-                                       .then(wait(1500).then(() => performDemo(updateState)));
+                                       .then(() => wait(500))
+                                       .then(() => performDemo(updateState));
                                },
                                "winCallback": () => {
                                    updateState();
@@ -299,7 +300,8 @@ class GameButton extends React.Component {
                                "wrongCallback": () => {
                                    updateState();
                                    flashAll(updateState, COLOURS_CSS_CLASSES.BLACK, 3)
-                                       .then(wait(1500).then(() => performDemo(updateState)));
+                                       .then(() => wait(500))
+                                       .then(() => performDemo(updateState));
                                },
                                "restartCallback": () => {
                                    performRestart(updateState)
