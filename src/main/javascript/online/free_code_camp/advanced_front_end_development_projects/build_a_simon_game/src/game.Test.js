@@ -24,7 +24,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 it("should get score as 0 when initialize", sinon.test(function () {
                     //    Given
                     stubStatus.call(this, STATUS_ENUM.isIdle);
-                    this.stub(scoreFormatter, "format").withArgs(true, 0).returns('someScore');
+                    this.stub(scoreFormatter, "format").withArgs(0, true).returns('someScore');
 
                     //    When
                     let game = new Game();
@@ -179,7 +179,7 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                     const mockScoreFormatter = this.mock(scoreFormatter);
                     stubStatus.call(this, STATUS_ENUM.isIdle);
                     mockScoreFormatter.expects("format")
-                        .withArgs(true, 0)
+                        .withArgs(0, true)
                         .once()
                         .returns('formatted score');
 

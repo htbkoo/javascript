@@ -52,7 +52,7 @@ describe("scoreFormatter", function () {
             //    Given
             //    When
             //    Then
-            chai.expect(scoreFormatter.format(testcase.isIdle, testcase.score)).to.equal(testcase.expectedScore)
+            chai.expect(scoreFormatter.format(testcase.score, testcase.isIdle)).to.equal(testcase.expectedScore)
         });
     });
 });

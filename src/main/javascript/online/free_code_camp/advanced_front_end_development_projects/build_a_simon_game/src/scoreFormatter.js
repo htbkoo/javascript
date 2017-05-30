@@ -6,7 +6,7 @@ const WIN_SCORE = 20;
 const WIN_MESSAGE = "WIN";
 
 export default {
-    "format": function (isIdle, rawScore) {
+    "format": function (rawScore, isIdle) {
         let stepText;
         if (isIdle) {
             stepText = '--';

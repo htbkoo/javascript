@@ -39,7 +39,7 @@ export default class Game {
     };
 
     getFormattedScore() {
-        return scoreFormatter.format(this.status().isIdle(), scores.get(this));
+        return scoreFormatter.format(scores.get(this), this.status().isIdle());
     }
 
     getSequenceAsLowerCaseStrings() {
