@@ -58,6 +58,10 @@ export default class Game {
         return !this.status().isPlaying();
     }
 
+    isRestartDisabled() {
+        return this.status().isDemoing();
+    }
+
     buttons() {
         return Object.keys(COLOUR_ENUM)
             .reduce((prev, key) => {

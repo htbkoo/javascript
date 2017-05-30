@@ -121,6 +121,32 @@ describe("SimonGame (logic) - FreeCodeCamp", function () {
                 });
             });
 
+            describe("isRestartDisabled", function () {
+                it("should return true if game.status().isDemoing() return true, i.e. when status is Demoing", sinon.test(function () {
+                    //    Given
+                    stubStatus.call(this, STATUS_ENUM.isDemoing);
+
+                    //    When
+                    let game = new Game();
+
+                    //    Then
+                    chai.expect(game.status().isDemoing()).to.equal(true, "Status should be 'demoing'");
+                    chai.expect(game.isRestartDisabled()).to.equal(true, "Restart should be disabled when status is 'demoing'");
+                }));
+
+                it("should return false if game.status().isDemoing() return false, i.e. when status is not Demoing", sinon.test(function () {
+                    //    Given
+                    stubStatus.call(this, STATUS_ENUM.isPlaying);
+
+                    //    When
+                    let game = new Game();
+
+                    //    Then
+                    chai.expect(game.status().isPlaying()).to.equal(true, "Status should be 'playing'");
+                    chai.expect(game.isRestartDisabled()).to.equal(false, "Restart should not be disabled when status is not 'demoing'");
+                }));
+            });
+
             describe("isInputDisabled", function () {
                 it("should return true if game.status().isPlaying() return false, i.e. when status is not Playing", sinon.test(function () {
                     //    Given
