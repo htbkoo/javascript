@@ -4,6 +4,13 @@ import "./App.css";
 
 let game = new Game();
 
+const COLOUR_AUDIOS = {
+    "red": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
+    "green": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
+    "blue": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
+    "yellow": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")
+};
+
 const BUTTON_COLOUR_MAPPING = {
     "red": "btn-danger",
     "green": "btn-success",
@@ -203,6 +210,7 @@ function demoAnimation(sequence, triggerDisplayRefresh, allDemosDone) {
                 console.log("colour: " + colour);
                 setAllContainersColoursTo("");
                 containersColours[colour] = COLOURS_CSS_CLASSES[colour.toUpperCase()];
+                COLOUR_AUDIOS[colour].play();
                 triggerDisplayRefresh();
             }).then(() => {
                 wait(300, () => {
@@ -247,6 +255,8 @@ class GameButton extends React.Component {
             <div>
                 <input type="button" className={"btn GameButton " + btnClassName} disabled={this.props.isDisabled}
                        onClick={() => {
+                           COLOUR_AUDIOS[this.props.colour].play();
+
                            let updateState = this.props.updateState;
                            game.buttons()[this.props.colour]({
                                "correctCallback": () => {
