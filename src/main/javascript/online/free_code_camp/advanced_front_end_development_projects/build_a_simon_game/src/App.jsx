@@ -4,12 +4,26 @@ import "./App.css";
 
 let game = new Game();
 
-const COLOUR_AUDIOS = {
-    "red": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
-    "green": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
-    "blue": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
-    "yellow": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")
-};
+const COLOUR_AUDIOS = (function mockAudioIfAbsent() {
+    if (typeof Audio === "undefined") {
+        let mockAudio = {
+            "play": () => {
+            }
+        };
+        return ["red", "green", "blue", "yellow"].reduce((prev, colour) => {
+            prev[colour] = mockAudio;
+            return prev;
+        }, {});
+    } else {
+        return {
+            "red": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
+            "green": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
+            "blue": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
+            "yellow": new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3")
+        };
+    }
+})();
+
 
 const BUTTON_COLOUR_MAPPING = {
     "red": "btn-danger",
