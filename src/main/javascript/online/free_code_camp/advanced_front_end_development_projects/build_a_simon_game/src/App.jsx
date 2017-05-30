@@ -142,7 +142,8 @@ class StrictSwitch extends React.Component {
                 <input type="checkbox" name="strict-mode-checkbox" data-label-text="Strict" data-on-color="warning"/>
             </div>
         );
-    }}
+    }
+}
 
 function wait(timeout, runBeforeTimeout) {
     return new Promise(resolve => {
@@ -159,6 +160,13 @@ function setAllContainersColoursTo(colour) {
     Object.keys(containersColours).forEach(key => containersColours[key] = colour);
 }
 
+function performDemo(updateState) {
+    return new Promise((demoDone) => demoAnimation(game.getSequenceAsLowerCaseStrings(), updateState, demoDone)).then(() => {
+        game.notifyStatus().demoed();
+        updateState();
+    });
+}
+
 function restartingAnimation(triggerDisplayRefresh, animationDone) {
     wait(500, () => {
         setAllContainersColoursTo(COLOURS_CSS_CLASSES.WHITE);
@@ -167,13 +175,6 @@ function restartingAnimation(triggerDisplayRefresh, animationDone) {
         setAllContainersColoursTo("");
         triggerDisplayRefresh();
         wait(500).then(() => animationDone());
-    });
-}
-
-function performDemo(updateState) {
-    new Promise((demoDone) => demoAnimation(game.getSequenceAsLowerCaseStrings(), updateState, demoDone)).then(() => {
-        game.notifyStatus().demoed();
-        updateState();
     });
 }
 
@@ -217,11 +218,9 @@ class StartButton extends React.Component {
                         new Promise((animationDone) => restartingAnimation(updateState, animationDone)).then(() => {
                             game.notifyStatus().started();
                             updateState();
-                            resolve("started");
+                            resolve();
                         })
-                    }).then((resolveMessage) => {
-                        performDemo(updateState);
-                    })
+                    }).then(() => performDemo(updateState))
                 }}>
                     Restart
                 </button>
