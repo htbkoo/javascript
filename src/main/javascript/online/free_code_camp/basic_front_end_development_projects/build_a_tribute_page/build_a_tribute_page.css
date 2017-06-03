@@ -1,0 +1,131 @@
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: "Yanone Kaffeesatz";
+    color: white;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    line-height: 1.5em;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1, h2 {
+    font-family: "Sahitya";
+    text-shadow: 0 0 4px white, 3px 3px 1px black;
+    line-height: 1.2em;
+}
+
+h1 {
+    font-size: 4em;
+}
+
+h2 {
+    font-size: 2.5em;
+}
+
+code, pre {
+    font-family: "Share Tech Mono";
+    font-size: 0.8em;
+}
+
+.scene {
+    height: 150vh;
+    padding: 5vh 10vw;
+}
+
+.parallax {
+    background-size: cover;
+    box-sizing: border-box;
+    width: 100%;
+    height: 130vh;
+    /* Since the parallax elements still consume space, we set the margin to undo
+       the height of this parallax element making it essentially consume 0 space.
+    */
+    margin-bottom: -130vh;
+}
+
+.header {
+    height: 70vh;
+}
+
+.parallax.header {
+    margin-bottom: -70vh;
+}
+
+p {
+    color: white;
+    margin: 1em 0;
+    z-index: 1;
+    position: relative;
+}
+
+.viewport {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+}
+
+.woods:not(.header),
+.sunset:not(.header) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sunset:not(.header) {
+    align-items: flex-end;
+}
+
+.solid {
+    z-index: 1;
+    position: relative;
+    height: 70vh;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.solid.star {
+    background-image: linear-gradient(hsla(240, 90%, 8%, 1) 0%, 99%, hsla(217, 24%, 71%, 0) 100%);
+    box-shadow: -10px -10px 20px hsl(240, 90%, 8%);
+}
+
+.solid.woods {
+    background-color: hsl(195, 16%, 49%);
+    box-shadow: -10px -10px 20px hsl(195, 16%, 49%);
+}
+
+.solid.sunset {
+    background-color: hsl(238, 15%, 68%);
+    box-shadow: -10px -10px 20px hsl(238, 15%, 68%);
+}
+
+a, a:link, a:active, a:hover, a:visited {
+    color: hsl(240, 100%, 90%);
+    display: flex;
+    align-items: flex-end;
+}
+
+strong {
+    font-size: 3em;
+    font-weight: bolder;
+}
+
+.pull-flex-start {
+    align-self: flex-start;
+}
+
+.pull-flex-end {
+    align-self: flex-end;
+}
