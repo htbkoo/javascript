@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Build a Personal Portfolio Webpage</title>
+    <!-- Bootstrap -->
+    <link href="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            /*background: linear-gradient(rgb(239, 239, 239), rgb(231, 231, 231));*/
+            /*background: linear-gradient(0deg, rgb(255, 255, 255), rgb(0, 0, 0));*/
+            background-color: #404040; /* fallback color if gradients are not supported */
+            background-image: -webkit-linear-gradient(top, hsl(0, 0%, 25%), #909090); /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
+            background-image: -moz-linear-gradient(top, hsl(0, 0%, 25%), #909090); /* For Firefox (3.6 to 15) */
+            background-image: -o-linear-gradient(top, hsl(0, 0%, 25%), #909090); /* For old Opera (11.1 to 12.0) */
+            background-image: linear-gradient(to bottom, hsl(0, 0%, 25%), #909090); /* Standard syntax; must be last */
+        }
+
+        #home, #portfolio, #contact {
+            min-height: 100vh;
+        }
+
+        .scroll-spy-container {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div class="scroll-spy-container" data-spy="scroll" data-target="#navbar-example">
+
+    <div id="navbar-example">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home">Home</a></li>
+            <li role="presentation" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#portfolio" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    Portfolio <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li role="presentation"><a href="#tribute">Build a Tribute Page</a></li>
+                </ul>
+            </li>
+            <li role="presentation"><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+
+    <div id="home">
+
+    </div>
+    <div id="portfolio">
+        <div id="tribute">
+            <!--http://cpv2api.com/collection/neBvQa-->
+            <p data-height="600" data-theme-id="0" data-slug-hash="jwOyXb" data-default-tab="result" data-user="htbkoo"
+               data-embed-version="2" data-pen-title="Build a Tribute Page" class="codepen">See the Pen <a
+                    href="https://codepen.io/htbkoo/pen/jwOyXb/">Build a Tribute Page</a> by Hey (<a
+                    href="https://codepen.io/htbkoo">@htbkoo</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+        </div>
+    </div>
+    <div id="contact">5.
+
+    </div>
+
+</div>
+
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../../lib/jquery-1.11.3/jquery-1.11.3.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
