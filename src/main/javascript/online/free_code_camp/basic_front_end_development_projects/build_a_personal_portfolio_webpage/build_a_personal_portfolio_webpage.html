@@ -22,10 +22,10 @@
             max-height: 100vh;
 
             background-color: #404040; /* fallback color if gradients are not supported */
-            background-image: -webkit-linear-gradient(top, hsl(0, 0%, 25%), #909090); /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
-            background-image: -moz-linear-gradient(top, hsl(0, 0%, 25%), #909090); /* For Firefox (3.6 to 15) */
-            background-image: -o-linear-gradient(top, hsl(0, 0%, 25%), #909090); /* For old Opera (11.1 to 12.0) */
-            background-image: linear-gradient(to bottom, hsl(0, 0%, 25%), #909090); /* Standard syntax; must be last */
+            background-image: -webkit-linear-gradient(top, hsl(0, 0%, 25%), #d0d0d0); /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
+            background-image: -moz-linear-gradient(top, hsl(0, 0%, 25%), #d0d0d0); /* For Firefox (3.6 to 15) */
+            background-image: -o-linear-gradient(top, hsl(0, 0%, 25%), #d0d0d0); /* For old Opera (11.1 to 12.0) */
+            background-image: linear-gradient(to bottom, hsl(0, 0%, 25%), #d0d0d0); /* Standard syntax; must be last */
         }
 
         #home, #portfolio, #contact {
@@ -34,7 +34,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            flex-wrap: wrap;
+        }
+
+        .portfolio-div {
+            max-width: 40%;
+            margin: 20px;
+            padding: 20px;
+            border: darkgrey 3px solid;
+        }
+
+        .portfolio-img {
+            max-width: 100%;
+            width: auto;
+            height: auto;
         }
 
         #navbar-example {
@@ -49,9 +62,10 @@
             border-bottom: 1px solid white;
         }
 
-        .inner-conatinaer {
+        .inner-containaer {
             background-color: lightgrey;
             border: 1px solid white;
+            padding: 5%;
         }
     </style>
 </head>
@@ -66,7 +80,6 @@
                 Portfolio <span class="caret"></span>
             </a>
             <ul id="portfolio_dropdown_menu" class="dropdown-menu">
-                <!--<li role="presentation"><a href="#tribute">Build a Tribute Page</a></li>-->
             </ul>
         </li>
         <li role="presentation"><a href="#contact">Contact</a></li>
@@ -74,8 +87,8 @@
 </div>
 
 <div class="scroll-spy-container" data-spy="scroll" data-target="#navbar-example">
-    <div class="inner-conatinaer">
-        <div id="home">
+    <div class="inner-containaer">
+        <div id="home" class="well well-sm">
             <div>
                 <p data-height="600" data-theme-id="0" data-slug-hash="jwOyXb" data-default-tab="result"
                    data-user="htbkoo"
@@ -84,10 +97,10 @@
                         href="https://codepen.io/htbkoo">@htbkoo</a>) on <a href="https://codepen.io">CodePen</a>.</p>
             </div>
         </div>
-        <div id="portfolio">
+        <div id="portfolio" class="well well-sm">
 
         </div>
-        <div id="contact">
+        <div id="contact" class="well well-sm">
             <div>
                 <p data-height="600" data-theme-id="0" data-slug-hash="jwOyXb" data-default-tab="result"
                    data-user="htbkoo"
@@ -118,13 +131,10 @@
                 var $portfolioDropdownMenu = $("#portfolio_dropdown_menu");
                 resp.data.forEach(function (data) {
                     var id = data.id;
-                    $portfolio.append("<div id='" + id + "'><img src='" + data.images.large + "'/></div>");
-//                console.log(data.images.large);
+                    $portfolio.append("<div class='portfolio-div' id='" + id + "'><img class='portfolio-img' src='" + data.images.large + "'/></div>");
                     $portfolioDropdownMenu.append('<li role="presentation"><a href="#' + id + '">' + data.title + '</a></li>');
                 });
-//            console.log(resp.data);
                 $('[data-spy="scroll"]').each(function () {
-//                    var $spy =
                     $(this).scrollspy('refresh');
                 })
 
