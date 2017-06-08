@@ -26,15 +26,31 @@
             background-image: -moz-linear-gradient(top, hsl(0, 0%, 25%), #d0d0d0); /* For Firefox (3.6 to 15) */
             background-image: -o-linear-gradient(top, hsl(0, 0%, 25%), #d0d0d0); /* For old Opera (11.1 to 12.0) */
             background-image: linear-gradient(to bottom, hsl(0, 0%, 25%), #d0d0d0); /* Standard syntax; must be last */
+
+            font-family: "French Script MT", "Freestyle Script", "Lucida Handwriting", "MS Gothic", "Helvetica Neue", Helvetica, 'Orbitron', "Courier New", Arial, sans-serif;
         }
 
         #home, #portfolio, #contact {
-            min-height: 100vh;
+            min-height: 90vh;
+
+            background-color: grey;
+
+            color: white;
 
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
+        }
+
+        #home {
+            min-height: 100vh;
+            justify-content: space-evenly;
+            flex-flow: column wrap;
+        }
+
+        #portfolio {
+            background-color: lightgrey;
         }
 
         .portfolio-div {
@@ -52,6 +68,7 @@
 
         #navbar-example {
             background-color: black;
+            font-size: 25px;
         }
 
         .scroll-spy-container {
@@ -60,12 +77,6 @@
             overflow-y: scroll;
             padding: 0 10% 0 10%;
             border-bottom: 1px solid white;
-        }
-
-        .inner-container {
-            background-color: lightgrey;
-            border: 1px solid white;
-            padding: 5%;
         }
     </style>
 </head>
@@ -88,19 +99,19 @@
 
 <div class="scroll-spy-container" data-spy="scroll" data-target="#navbar-example">
     <div class="inner-container">
-        <div id="home" class="well well-sm">
+        <div id="home">
             <div>
-                <p data-height="600" data-theme-id="0" data-slug-hash="jwOyXb" data-default-tab="result"
-                   data-user="htbkoo"
-                   data-embed-version="2" data-pen-title="Build a Tribute Page" class="codepen">See the Pen <a
-                        href="https://codepen.io/htbkoo/pen/jwOyXb/">Build a Tribute Page</a> by Hey (<a
-                        href="https://codepen.io/htbkoo">@htbkoo</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+                <h1>About me</h1>
+            </div>
+            <div>
+                <h2>Full stack developer (but I like backend development work more)</h2>
+                <h2>Aspired to apply my technical skills to help business leverage IT (sounds like a CV?)</h2>
             </div>
         </div>
-        <div id="portfolio" class="well well-sm">
+        <div id="portfolio">
 
         </div>
-        <div id="contact" class="well well-sm">
+        <div id="contact">
             <div>
                 <p data-height="600" data-theme-id="0" data-slug-hash="jwOyXb" data-default-tab="result"
                    data-user="htbkoo"
@@ -118,6 +129,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
+<!--suppress ES6ConvertVarToLetConst -->
 <script>
     var num_pages = 2;
 
@@ -131,7 +143,7 @@
                 var $portfolioDropdownMenu = $("#portfolio_dropdown_menu");
                 resp.data.forEach(function (data) {
                     var id = data.id;
-                    $portfolio.append("<div class='portfolio-div' id='" + id + "'><img class='portfolio-img' src='" + data.images.large + "'/></div>");
+                    $portfolio.append("<div class='portfolio-div' id='" + id + "'><a href='" + data.link + "'><img class='portfolio-img' src='" + data.images.large + "'/></a>" + data.title + "</div>");
                     $portfolioDropdownMenu.append('<li role="presentation"><a href="#' + id + '">' + data.title + '</a></li>');
                 });
                 $('[data-spy="scroll"]').each(function () {
