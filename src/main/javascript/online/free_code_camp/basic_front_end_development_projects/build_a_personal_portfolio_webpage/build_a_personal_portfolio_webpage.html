@@ -33,9 +33,7 @@
         #home, #portfolio, #contact {
             min-height: 90vh;
 
-            background-color: grey;
-
-            color: white;
+            background-color: lightgrey;
 
             display: flex;
             align-items: center;
@@ -44,13 +42,29 @@
         }
 
         #home {
-            min-height: 100vh;
+            min-height: 50vh;
             justify-content: space-evenly;
             flex-flow: column wrap;
         }
 
+        #home hr {
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+
+            height: 2px;
+            background-color: darkgrey;
+            color: darkgrey;
+            border: 0 none;
+        }
+
         #portfolio {
-            background-color: lightgrey;
+            background-color: grey;
+            color: white;
+        }
+
+        #contact {
+            background-color: #e0e0e0;
         }
 
         .portfolio-div {
@@ -58,6 +72,11 @@
             margin: 20px;
             padding: 20px;
             border: darkgrey 3px solid;
+        }
+
+        .portfolio-div h3 {
+            text-align: center;
+            text-decoration: underline;
         }
 
         .portfolio-img {
@@ -104,6 +123,7 @@
                 <h1>About me</h1>
             </div>
             <div>
+                <hr/>
                 <h2>Full stack developer (but I like backend development work more)</h2>
                 <h2>Aspired to apply my technical skills to help business leverage IT (sounds like a CV?)</h2>
             </div>
@@ -143,7 +163,7 @@
                 var $portfolioDropdownMenu = $("#portfolio_dropdown_menu");
                 resp.data.forEach(function (data) {
                     var id = data.id;
-                    $portfolio.append("<div class='portfolio-div' id='" + id + "'><a href='" + data.link + "'><img class='portfolio-img' src='" + data.images.large + "'/></a>" + data.title + "</div>");
+                    $portfolio.append("<div class='portfolio-div' id='" + id + "'><h3>" + data.title + "</h3><a href='" + data.link + "'><img class='portfolio-img' src='" + data.images.large + "'/></a></div>");
                     $portfolioDropdownMenu.append('<li role="presentation"><a href="#' + id + '">' + data.title + '</a></li>');
                 });
                 $('[data-spy="scroll"]').each(function () {
