@@ -45,6 +45,7 @@
             min-height: 50vh;
             justify-content: space-evenly;
             flex-flow: column wrap;
+            color: #2e69a1;
         }
 
         #home hr {
@@ -71,7 +72,16 @@
             max-width: 40%;
             margin: 20px;
             padding: 20px;
+            padding-top: 0;
             border: darkgrey 3px solid;
+        }
+
+        .portfolio-div a {
+            color: white;
+        }
+
+        .portfolio-div a:hover {
+            color: #cccccc;
         }
 
         .portfolio-div h3 {
@@ -124,8 +134,9 @@
             </div>
             <div>
                 <hr/>
-                <h2>Full stack developer (but I like backend development work more)</h2>
+                <h2>Not-so-full stack developer (but I like backend development work more)</h2>
                 <h2>Aspired to apply my technical skills to help business leverage IT (sounds like a CV?)</h2>
+                <h2>Love anything interesting, like science, art and programming (obviously)</h2>
             </div>
         </div>
         <div id="portfolio">
@@ -139,6 +150,14 @@
                         href="https://codepen.io/htbkoo/pen/jwOyXb/">Build a Tribute Page</a> by Hey (<a
                         href="https://codepen.io/htbkoo">@htbkoo</a>) on <a href="https://codepen.io">CodePen</a>.</p>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modal_codepen_example">
+
         </div>
     </div>
 </div>
@@ -163,7 +182,7 @@
                 var $portfolioDropdownMenu = $("#portfolio_dropdown_menu");
                 resp.data.forEach(function (data) {
                     var id = data.id;
-                    $portfolio.append("<div class='portfolio-div' id='" + id + "'><h3>" + data.title + "</h3><a href='" + data.link + "'><img class='portfolio-img' src='" + data.images.large + "'/></a></div>");
+                    $portfolio.append("<div class='portfolio-div' id='" + id + "'><a href='" + data.link + "'><h3>" + data.title + "</h3></a><img class='portfolio-img' src='" + data.images.large + "'/></div>");
                     $portfolioDropdownMenu.append('<li role="presentation"><a href="#' + id + '">' + data.title + '</a></li>');
                 });
                 $('[data-spy="scroll"]').each(function () {
