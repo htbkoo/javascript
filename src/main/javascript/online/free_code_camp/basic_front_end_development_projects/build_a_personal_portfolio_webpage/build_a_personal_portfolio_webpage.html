@@ -42,14 +42,18 @@
         }
 
         #home {
-            min-height: 50vh;
+            min-height: 40vh;
             justify-content: space-evenly;
             flex-flow: column wrap;
             color: #2e69a1;
         }
 
+        .hr-container {
+            width: 100%;
+        }
+
         #home hr {
-            width: 80%;
+            width: 60%;
             margin-left: auto;
             margin-right: auto;
 
@@ -59,17 +63,31 @@
             border: 0 none;
         }
 
+        #portfolio_container {
+            background-color: grey;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-flow: column wrap;
+        }
+
+        #portfolio_container hr {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+
+            height: 2px;
+        }
+
         #portfolio {
             background-color: grey;
             color: white;
         }
 
-        #contact {
-            background-color: #e0e0e0;
-        }
-
         .portfolio-div {
-            max-width: 40%;
+            width: 45%;
             margin: 20px;
             padding: 20px;
             padding-top: 0;
@@ -89,10 +107,8 @@
             text-decoration: underline;
         }
 
-        .portfolio-img {
-            max-width: 100%;
-            width: auto;
-            height: auto;
+        #contact {
+            background-color: #e0e0e0;
         }
 
         #navbar-example {
@@ -132,23 +148,28 @@
             <div>
                 <h1>About me</h1>
             </div>
-            <div>
+            <div class="hr-container">
                 <hr/>
+            </div>
+            <div>
                 <h2>Not-so-full stack developer (but I like backend development work more)</h2>
                 <h2>Aspired to apply my technical skills to help business leverage IT (sounds like a CV?)</h2>
                 <h2>Love anything interesting, like science, art and programming (obviously)</h2>
             </div>
         </div>
-        <div id="portfolio">
+        <div id="portfolio_container">
+            <div>
+                <h1>Portfolio</h1>
+            </div>
+            <div class="hr-container">
+                <hr/>
+            </div>
+            <div id="portfolio">
 
+            </div>
         </div>
         <div id="contact">
             <div>
-                <p data-height="600" data-theme-id="0" data-slug-hash="jwOyXb" data-default-tab="result"
-                   data-user="htbkoo"
-                   data-embed-version="2" data-pen-title="Build a Tribute Page" class="codepen">See the Pen <a
-                        href="https://codepen.io/htbkoo/pen/jwOyXb/">Build a Tribute Page</a> by Hey (<a
-                        href="https://codepen.io/htbkoo">@htbkoo</a>) on <a href="https://codepen.io">CodePen</a>.</p>
             </div>
         </div>
     </div>
@@ -168,9 +189,16 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../lib/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
+<!-- javascript to load from CodePen -->
+<script src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
 <!--suppress ES6ConvertVarToLetConst -->
 <script>
     var num_pages = 2;
+
+    function pageIsLast(curPage) {
+        return curPage === num_pages;
+    }
 
     new Array(num_pages).fill(0).map(function (_, key) {
         return key + 1;
@@ -182,13 +210,16 @@
                 var $portfolioDropdownMenu = $("#portfolio_dropdown_menu");
                 resp.data.forEach(function (data) {
                     var id = data.id;
-                    $portfolio.append("<div class='portfolio-div' id='" + id + "'><a href='" + data.link + "'><h3>" + data.title + "</h3></a><img class='portfolio-img' src='" + data.images.large + "'/></div>");
+                    var thumbnail_height = 265;
+                    var thumbnail_elem = '<p data-height="' + thumbnail_height + '" data-theme-id="0" data-slug-hash="' + id + '" data-default-tab="css,result" data-user="htbkoo" data-embed-version="2" data-pen-title="' + data.title + '" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/htbkoo/pen/' + id + '/">' + data.title + '</a> by Hey (<a href="https://codepen.io/htbkoo">@htbkoo</a>) on <a href="https://codepen.io">CodePen</a>.</p>';
+
+                    $portfolio.append("<div class='portfolio-div' id='" + id + "'><a href='" + data.link + "'><h3>" + data.title + "</h3></a>" + thumbnail_elem + "</div>");
                     $portfolioDropdownMenu.append('<li role="presentation"><a href="#' + id + '">' + data.title + '</a></li>');
                 });
                 $('[data-spy="scroll"]').each(function () {
                     $(this).scrollspy('refresh');
-                })
-
+                });
+                new __CPEmbed;
             }
         });
     });
