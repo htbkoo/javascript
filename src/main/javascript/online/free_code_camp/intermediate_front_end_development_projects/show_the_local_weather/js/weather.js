@@ -7,7 +7,7 @@ var Weather = (function () {
     var IPINFO_URL = "http://ipinfo.io/json?callback=?";
     // Please do not spam this - it is only my little attempt to host a proxy server on a free Heroku dyno :)
     var HEY_WEATHER_SERVER_URL = {
-        "basePath": "https://hey-weather-server.herokuapp.com/weather"
+        "basePath": "https://hey-weather-server.glitch.me/weather"
     };
     HEY_WEATHER_SERVER_URL.byLatLon = HEY_WEATHER_SERVER_URL.basePath + "/byLatLon?callback=?";
 

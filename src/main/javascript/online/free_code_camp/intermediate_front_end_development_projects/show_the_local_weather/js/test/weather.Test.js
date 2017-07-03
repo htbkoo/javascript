@@ -119,7 +119,7 @@ describe("Weather - logic part - FreeCodeCamp", function () {
                         var mockResponse_weather_byLatLon = fs.readFileSync(getRelativePath("/resources/weather_byLatLon_response.json"));
                         var $_getJSON = sinonThis.stub($, "getJSON");
                         $_getJSON.withArgs(areAllUrlPartsMatch([
-                            "https://hey-weather-server.herokuapp.com/weather/byLatLon?",
+                            "https://hey-weather-server.glitch.me/weather/byLatLon?",
                             "lat=" + defaultPosition.coords.latitude,
                             "lon=" + defaultPosition.coords.longitude,
                             "callback=" + "?"
