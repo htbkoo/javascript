@@ -51,13 +51,11 @@ describe("jsonTransformer", function () {
             //    given
             //    when
             var node = new Node("Root");
-            node.addJsonChildWithPath({
-                path: ["Asset Class", "Subasset Class", "Title", "Publication Id"],
-                json: {
-                    "Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pub id"
-                }
-            });
-
+            node.addJsonChildWithPath(
+                {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pub id"},
+                ["Asset Class", "Subasset Class", "Title", "Publication Id"]
+            );
+            
             //    then
             chai.expect(node.asJSON()).to.deep.equal({
                 name: "Root",

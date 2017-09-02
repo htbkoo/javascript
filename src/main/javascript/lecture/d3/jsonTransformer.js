@@ -9,9 +9,9 @@ function checkExists(param, key) {
     }
 }
 
-function checkPathIsArray(param) {
-    if (!(Array.isArray(param.path))) {
-        throw new Error("param.path should be an Array");
+function checkIsArray(probableArray) {
+    if (!(Array.isArray(probableArray))) {
+        throw new Error("should be an Array");
     }
 }
 
@@ -41,21 +41,14 @@ function Node(name) {
         primitiveChildren[key] = value;
     };
 
-    this.addJsonChildWithPath = function (param) {
-        checkExists(param, 'json');
-        checkExists(param, 'path');
-        checkPathIsArray(param);
-
-        var path = param.path;
+    this.addJsonChildWithPath = function (json, path) {
+        checkIsArray(path);
         if (path.length > 0) {
             var key = path[0];
             if (!(key in children)) {
-                children[key] = new Node(param.json[key]);
+                children[key] = new Node(json[key]);
             }
-            children[key].addJsonChildWithPath({
-                path: path.slice(1),
-                json: param.json
-            });
+            children[key].addJsonChildWithPath(json, path.slice(1));
         }
     };
 
