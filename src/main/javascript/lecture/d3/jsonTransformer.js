@@ -30,21 +30,21 @@ function Node(name) {
         primitiveChildren[key] = value;
     };
 
-    this.addJsonChildWithOrder = function (param) {
-        if (!('order' in param) || !('json' in param)) {
-            throw new Error("order and json should be in param");
+    this.addJsonChildWithPath = function (param) {
+        if (!('path' in param) || !('json' in param)) {
+            throw new Error("path and json should be in param");
         }
-        var order = param.order;
-        if (!(Array.isArray(order))) {
-            throw new Error("param.order should be an Array");
+        var path = param.path;
+        if (!(Array.isArray(path))) {
+            throw new Error("param.path should be an Array");
         }
-        if (order.length > 0) {
-            var key = order[0];
+        if (path.length > 0) {
+            var key = path[0];
             if (!(key in children)) {
                 children[key] = new Node(param.json[key]);
             }
-            children[key].addJsonChildWithOrder({
-                order: order.slice(1),
+            children[key].addJsonChildWithPath({
+                path: path.slice(1),
                 json: param.json
             });
         }

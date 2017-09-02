@@ -51,8 +51,8 @@ describe("jsonTransformer", function () {
             //    given
             //    when
             var node = new Node("Root");
-            node.addJsonChildWithOrder({
-                order: ["Asset Class", "Subasset Class", "Title", "Publication Id"],
+            node.addJsonChildWithPath({
+                path: ["Asset Class", "Subasset Class", "Title", "Publication Id"],
                 json: {
                     "Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pub id"
                 }
