@@ -36,7 +36,7 @@ describe("jsonTransformer", function () {
             //    given
             //    when
             var node = new Node("");
-            node.addPrimitiveChild("size", 200);
+            node.addPrimitiveChildWithPath("size", 200);
 
             //    then
             chai.expect(node.asJSON()).to.deep.equal({
@@ -74,47 +74,6 @@ describe("jsonTransformer", function () {
                         }]
                     }]
                 }]
-            })
-        });
-    });
-
-    xdescribe("jsonTransformer", function () {
-        it("should create node and get as JSON", function () {
-            //    given
-            //    when
-            var node = createNode();
-
-            //    then
-            chai.expect(node.asJSON()).to.deep.equal({
-                name: "Root",
-                children: []
-            })
-        });
-
-        it("should crete node with 1 child", function () {
-            //    given
-            //    when
-            var node = createNode({child: {name: "Bond"}});
-
-            //    then
-            chai.expect(node.asJSON()).to.deep.equal({
-                name: "Root",
-                children: [{
-                    name: "Bond",
-                    children: []
-                }]
-            })
-        });
-
-        xit("should transform json into node", function () {
-            //    given
-            //    when
-            var node = createNode();
-
-            //    then
-            chai.expect(node.asJSON()).to.deep.equal({
-                name: "Root",
-                children: []
             })
         });
     });
