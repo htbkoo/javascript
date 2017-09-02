@@ -36,7 +36,7 @@ describe("jsonTransformer", function () {
             //    given
             //    when
             var node = new Node("");
-            node.addPrimitiveChildWithPath("size", 200);
+            node.addPrimitiveChildWithPath(200, "size");
 
             //    then
             chai.expect(node.asJSON()).to.deep.equal({
@@ -55,7 +55,7 @@ describe("jsonTransformer", function () {
                 {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pub id"},
                 ["Asset Class", "Subasset Class", "Title", "Publication Id"]
             );
-            
+
             //    then
             chai.expect(node.asJSON()).to.deep.equal({
                 name: "Root",

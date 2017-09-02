@@ -37,8 +37,16 @@ function Node(name) {
         }
     };
 
-    this.addPrimitiveChildWithPath = function (key, value) {
-        primitiveChildren[key] = value;
+    this.addPrimitiveChildWithPath = function (value, path) {
+        checkIsArray(path);
+        if (path.length > 0) {
+            var key = path[0];
+            if (path.length === 1) {
+                primitiveChildren[key] = value;
+            } else {
+                children[key].addPrimitiveChildWithPath(value, path.slice(1));
+            }
+        }
     };
 
     this.addJsonChildWithPath = function (json, path) {
