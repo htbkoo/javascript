@@ -23,7 +23,7 @@ function Node(name) {
     this.childrenAsJson = function () {
         var copyOfChildren = Object.keys(children).reduce(function (prev, childKey) {
             return prev.concat(Object.keys(children[childKey]).map(function (key) {
-                return children[childKey][key].asJSON();
+                return children[childKey][key].asJson();
             }));
         }, []);
         if (!isObjectEmpty(primitiveChildren)) {
@@ -32,7 +32,7 @@ function Node(name) {
         return copyOfChildren
     };
 
-    this.asJSON = function () {
+    this.asJson = function () {
         return {
             name: name,
             children: this.childrenAsJson()
