@@ -21,9 +21,11 @@ function Node(name) {
     var primitiveChildren = {};
 
     this.childrenAsJson = function () {
-        var copyOfChildren = Object.keys(children).map(function (childKey) {
-            return children[childKey].asJSON();
-        });
+        var copyOfChildren = Object.keys(children).reduce(function (prev, childKey) {
+            return prev.concat(Object.keys(children[childKey]).map(function (key) {
+                return children[childKey][key].asJSON();
+            }));
+        }, []);
         if (!isObjectEmpty(primitiveChildren)) {
             copyOfChildren.push(primitiveChildren);
         }
@@ -54,9 +56,12 @@ function Node(name) {
         if (path.length > 0) {
             var key = path[0];
             if (!(key in children)) {
-                children[key] = new Node(json[key]);
+                children[key] = {};
             }
-            children[key].addJsonChildWithPath(json, path.slice(1));
+            if (!(json[key] in children[key])) {
+                children[key][json[key]] = new Node(json[key]);
+            }
+            children[key][json[key]].addJsonChildWithPath(json, path.slice(1));
         }
     };
 
