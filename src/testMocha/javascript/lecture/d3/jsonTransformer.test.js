@@ -16,10 +16,7 @@ describe("jsonTransformer", function () {
                 var node = new Node("");
 
                 //    then
-                chai.expect(node.asJson()).to.deep.equal({
-                    name: "",
-                    children: []
-                })
+                chai.expect(node.asJson()).to.deep.equal({name: ""})
             });
         });
 
@@ -71,8 +68,7 @@ describe("jsonTransformer", function () {
                             children: [{
                                 name: "title",
                                 children: [{
-                                    name: "pub id",
-                                    children: []
+                                    name: "pub id"
                                 }]
                             }]
                         }]
@@ -97,8 +93,7 @@ describe("jsonTransformer", function () {
                             children: [{
                                 name: "title",
                                 children: [{
-                                    name: "pub id",
-                                    children: []
+                                    name: "pub id"
                                 }]
                             }]
                         }]
@@ -123,11 +118,9 @@ describe("jsonTransformer", function () {
                             children: [{
                                 name: "title",
                                 children: [{
-                                    name: "pubId",
-                                    children: []
+                                    name: "pubId"
                                 }, {
-                                    name: "pubId2",
-                                    children: []
+                                    name: "pubId2"
                                 }]
                             }]
                         }]
@@ -152,14 +145,12 @@ describe("jsonTransformer", function () {
                             children: [{
                                 name: "title",
                                 children: [{
-                                    name: "pubId",
-                                    children: []
+                                    name: "pubId"
                                 }]
                             }, {
                                 name: "title2",
                                 children: [{
-                                    name: "pubId",
-                                    children: []
+                                    name: "pubId"
                                 }]
                             }]
                         }]

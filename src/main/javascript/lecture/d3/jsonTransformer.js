@@ -33,10 +33,14 @@ function Node(name) {
     };
 
     this.asJson = function () {
-        return {
+        var json = {
             name: name,
-            children: this.childrenAsJson()
+        };
+        var childrenAsJson = this.childrenAsJson();
+        if (childrenAsJson.length>0){
+            json['children'] = this.childrenAsJson();
         }
+        return json
     };
 
     this.addPrimitiveChildWithPath = function (value, path) {
