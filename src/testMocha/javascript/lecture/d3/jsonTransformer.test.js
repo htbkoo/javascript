@@ -112,16 +112,11 @@ describe("jsonTransformer", function () {
             //    when
             var node = new Node("Root");
             node.addJsonChildWithPath(
-                {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pub id"},
+                {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pubId"},
                 ["Asset Class", "Subasset Class", "Title", "Publication Id"]
             );
             node.addJsonChildWithPath(
-                {
-                    "Asset Class": "asset",
-                    "Subasset Class": "subAsset",
-                    "Title": "title",
-                    "Publication Id": "another id"
-                },
+                {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pubId2"},
                 ["Asset Class", "Subasset Class", "Title", "Publication Id"]
             );
 
@@ -135,10 +130,10 @@ describe("jsonTransformer", function () {
                         children: [{
                             name: "title",
                             children: [{
-                                name: "pub id",
+                                name: "pubId",
                                 children: []
                             }, {
-                                name: "another id",
+                                name: "pubId2",
                                 children: []
                             }]
                         }]
