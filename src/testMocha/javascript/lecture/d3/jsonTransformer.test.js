@@ -59,7 +59,7 @@ describe("jsonTransformer", function () {
                 //    given
                 //    when
                 var node = new Node("Root");
-                addDefaultChildToNode(node, ["asset","subAsset","title","pub id"]);
+                addDefaultChildToNode(node, ["asset", "subAsset", "title", "pub id"]);
 
                 //    then
                 chai.expect(node.asJson()).to.deep.equal({
@@ -84,8 +84,8 @@ describe("jsonTransformer", function () {
                 //    given
                 //    when
                 var node = new Node("Root");
-                addDefaultChildToNode(node, ["asset","subAsset","title","pub id"]);
-                addDefaultChildToNode(node, ["asset","subAsset","title","pub id"]);
+                addDefaultChildToNode(node, ["asset", "subAsset", "title", "pub id"]);
+                addDefaultChildToNode(node, ["asset", "subAsset", "title", "pub id"]);
 
                 //    then
                 chai.expect(node.asJson()).to.deep.equal({
@@ -110,8 +110,8 @@ describe("jsonTransformer", function () {
                 //    given
                 //    when
                 var node = new Node("Root");
-                addDefaultChildToNode(node, ["asset","subAsset","title","pubId"]);
-                addDefaultChildToNode(node, ["asset","subAsset","title","pubId2"]);
+                addDefaultChildToNode(node, ["asset", "subAsset", "title", "pubId"]);
+                addDefaultChildToNode(node, ["asset", "subAsset", "title", "pubId2"]);
 
                 //    then
                 chai.expect(node.asJson()).to.deep.equal({
@@ -139,8 +139,8 @@ describe("jsonTransformer", function () {
                 //    given
                 //    when
                 var node = new Node("Root");
-                addDefaultChildToNode(node, ["asset","subAsset","title","pubId"]);
-                addDefaultChildToNode(node, ["asset","subAsset","title2","pubId"]);
+                addDefaultChildToNode(node, ["asset", "subAsset", "title", "pubId"]);
+                addDefaultChildToNode(node, ["asset", "subAsset", "title2", "pubId"]);
 
                 //    then
                 chai.expect(node.asJson()).to.deep.equal({
