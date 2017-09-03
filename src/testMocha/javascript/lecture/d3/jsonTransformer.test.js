@@ -7,6 +7,7 @@ var createNode = Node.createNode;
 
 describe("jsonTransformer", function () {
     "use strict";
+
     describe("Node", function () {
         describe("creation", function () {
             it("should be able to crete node and get asJSON", function () {
@@ -58,15 +59,7 @@ describe("jsonTransformer", function () {
                 //    given
                 //    when
                 var node = new Node("Root");
-                node.addJsonChildWithPath(
-                    {
-                        "Asset Class": "asset",
-                        "Subasset Class": "subAsset",
-                        "Title": "title",
-                        "Publication Id": "pub id"
-                    },
-                    ["Asset Class", "Subasset Class", "Title", "Publication Id"]
-                );
+                addDefaultChildToNode(node, ["asset","subAsset","title","pub id"]);
 
                 //    then
                 chai.expect(node.asJson()).to.deep.equal({
@@ -91,24 +84,8 @@ describe("jsonTransformer", function () {
                 //    given
                 //    when
                 var node = new Node("Root");
-                node.addJsonChildWithPath(
-                    {
-                        "Asset Class": "asset",
-                        "Subasset Class": "subAsset",
-                        "Title": "title",
-                        "Publication Id": "pub id"
-                    },
-                    ["Asset Class", "Subasset Class", "Title", "Publication Id"]
-                );
-                node.addJsonChildWithPath(
-                    {
-                        "Asset Class": "asset",
-                        "Subasset Class": "subAsset",
-                        "Title": "title",
-                        "Publication Id": "pub id"
-                    },
-                    ["Asset Class", "Subasset Class", "Title", "Publication Id"]
-                );
+                addDefaultChildToNode(node, ["asset","subAsset","title","pub id"]);
+                addDefaultChildToNode(node, ["asset","subAsset","title","pub id"]);
 
                 //    then
                 chai.expect(node.asJson()).to.deep.equal({
@@ -133,19 +110,8 @@ describe("jsonTransformer", function () {
                 //    given
                 //    when
                 var node = new Node("Root");
-                node.addJsonChildWithPath(
-                    {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pubId"},
-                    ["Asset Class", "Subasset Class", "Title", "Publication Id"]
-                );
-                node.addJsonChildWithPath(
-                    {
-                        "Asset Class": "asset",
-                        "Subasset Class": "subAsset",
-                        "Title": "title",
-                        "Publication Id": "pubId2"
-                    },
-                    ["Asset Class", "Subasset Class", "Title", "Publication Id"]
-                );
+                addDefaultChildToNode(node, ["asset","subAsset","title","pubId"]);
+                addDefaultChildToNode(node, ["asset","subAsset","title","pubId2"]);
 
                 //    then
                 chai.expect(node.asJson()).to.deep.equal({
@@ -173,62 +139,8 @@ describe("jsonTransformer", function () {
                 //    given
                 //    when
                 var node = new Node("Root");
-                node.addJsonChildWithPath(
-                    {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pubId"},
-                    ["Asset Class", "Subasset Class", "Title", "Publication Id"]
-                );
-                node.addJsonChildWithPath(
-                    {
-                        "Asset Class": "asset",
-                        "Subasset Class": "subAsset",
-                        "Title": "title2",
-                        "Publication Id": "pubId"
-                    },
-                    ["Asset Class", "Subasset Class", "Title", "Publication Id"]
-                );
-
-                //    then
-                chai.expect(node.asJson()).to.deep.equal({
-                    name: "Root",
-                    children: [{
-                        name: "asset",
-                        children: [{
-                            name: "subAsset",
-                            children: [{
-                                name: "title",
-                                children: [{
-                                    name: "pubId",
-                                    children: []
-                                }]
-                            }, {
-                                name: "title2",
-                                children: [{
-                                    name: "pubId",
-                                    children: []
-                                }]
-                            }]
-                        }]
-                    }]
-                })
-            });
-
-            it("should be able to addJsonChildWithPath with different path (non-leaf)", function () {
-                //    given
-                //    when
-                var node = new Node("Root");
-                node.addJsonChildWithPath(
-                    {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pubId"},
-                    ["Asset Class", "Subasset Class", "Title", "Publication Id"]
-                );
-                node.addJsonChildWithPath(
-                    {
-                        "Asset Class": "asset",
-                        "Subasset Class": "subAsset",
-                        "Title": "title2",
-                        "Publication Id": "pubId"
-                    },
-                    ["Asset Class", "Subasset Class", "Title", "Publication Id"]
-                );
+                addDefaultChildToNode(node, ["asset","subAsset","title","pubId"]);
+                addDefaultChildToNode(node, ["asset","subAsset","title2","pubId"]);
 
                 //    then
                 chai.expect(node.asJson()).to.deep.equal({
@@ -256,4 +168,16 @@ describe("jsonTransformer", function () {
             });
         });
     });
+
+    function addDefaultChildToNode(node, child) {
+        node.addJsonChildWithPath(
+            {
+                "Asset Class": child[0],
+                "Subasset Class": child[1],
+                "Title": child[2],
+                "Publication Id": child[3]
+            },
+            ["Asset Class", "Subasset Class", "Title", "Publication Id"]
+        );
+    }
 });
