@@ -107,7 +107,7 @@ describe("jsonTransformer", function () {
             })
         });
 
-        it("should be able to addJsonChildWithPath with different path", function () {
+        it("should be able to addJsonChildWithPath with different path (leaf)", function () {
             //    given
             //    when
             var node = new Node("Root");
@@ -134,6 +134,44 @@ describe("jsonTransformer", function () {
                                 children: []
                             }, {
                                 name: "pubId2",
+                                children: []
+                            }]
+                        }]
+                    }]
+                }]
+            })
+        });
+
+        it("should be able to addJsonChildWithPath with different path (non-leaf)", function () {
+            //    given
+            //    when
+            var node = new Node("Root");
+            node.addJsonChildWithPath(
+                {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title", "Publication Id": "pubId"},
+                ["Asset Class", "Subasset Class", "Title", "Publication Id"]
+            );
+            node.addJsonChildWithPath(
+                {"Asset Class": "asset", "Subasset Class": "subAsset", "Title": "title2", "Publication Id": "pubId"},
+                ["Asset Class", "Subasset Class", "Title", "Publication Id"]
+            );
+
+            //    then
+            chai.expect(node.asJSON()).to.deep.equal({
+                name: "Root",
+                children: [{
+                    name: "asset",
+                    children: [{
+                        name: "subAsset",
+                        children: [{
+                            name: "title",
+                            children: [{
+                                name: "pubId",
+                                children: []
+                            }]
+                        }, {
+                            name: "title2",
+                            children: [{
+                                name: "pubId",
                                 children: []
                             }]
                         }]
