@@ -63,6 +63,10 @@ function Node(name) {
         }
     };
 
+    this.hasChildren = function () {
+        return Object.keys(children).length > 0;
+    };
+
     return this;
 }
 

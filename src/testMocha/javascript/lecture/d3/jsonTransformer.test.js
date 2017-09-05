@@ -34,6 +34,31 @@ describe("jsonTransformer", function () {
             });
         });
 
+        describe("hasChildren", function () {
+            it("should return true for hasChildren if Node has children", function () {
+                //    given
+                var node = new Node("");
+                node.addJsonChildWithPath({"a": "a"}, ["a"]);
+
+                //    when
+                var hasChildren = node.hasChildren();
+
+                //    then
+                chai.expect(hasChildren).to.equal(true);
+            });
+
+            it("should return false for hasChildren if Node has no children", function () {
+                //    given
+                var node = new Node("");
+
+                //    when
+                var hasChildren = node.hasChildren();
+
+                //    then
+                chai.expect(hasChildren).to.equal(false);
+            });
+        });
+
         describe("primitive children", function () {
             it("should be able to create node with 1 primitive child and get asJSON", function () {
                 //    given
