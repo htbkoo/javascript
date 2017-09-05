@@ -3,12 +3,6 @@ function isObjectEmpty(obj) {
     return Object.keys(obj).length === 0;
 }
 
-function checkExists(param, key) {
-    if (!(key in param)) {
-        throw new Error(key + " should be in param");
-    }
-}
-
 function checkIsArray(probableArray) {
     if (!(Array.isArray(probableArray))) {
         throw new Error("should be an Array");
@@ -37,10 +31,10 @@ function Node(name) {
             name: name,
         };
         var childrenAsJson = this.childrenAsJson();
-        if (childrenAsJson.length>0){
+        if (childrenAsJson.length > 0) {
             json['children'] = this.childrenAsJson();
         }
-        return json
+        return json;
     };
 
     this.addPrimitiveChildWithPath = function (value, path) {
