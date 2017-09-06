@@ -68,29 +68,31 @@ function Node(name) {
         return Object.keys(children).length > 0;
     };
 
-    this.toD3Json = {
-        build: function () {
-            var json = nodeThis.asJson();
-            var stack = [json];
-            var pointer;
-            while (stack.length > 0) {
-                pointer = stack.pop();
-                if (('children' in pointer)) {
-                    if (pointer.children.some(function (child) {
-                            return 'children' in child;
-                        })
-                    ) {
-                        pointer.children.forEach(function (child) {
-                            stack.push(child);
-                        })
-                    } else {
-                        pointer.size = pointer.children.length;
-                        delete pointer.children;
+    this.toD3Json = function () {
+        return {
+            build: function () {
+                var json = nodeThis.asJson();
+                var stack = [json];
+                var pointer;
+                while (stack.length > 0) {
+                    pointer = stack.pop();
+                    if (('children' in pointer)) {
+                        if (pointer.children.some(function (child) {
+                                return 'children' in child;
+                            })
+                        ) {
+                            pointer.children.forEach(function (child) {
+                                stack.push(child);
+                            })
+                        } else {
+                            pointer.size = pointer.children.length;
+                            delete pointer.children;
+                        }
                     }
                 }
-            }
 
-            return json;
+                return json;
+            }
         }
     };
 

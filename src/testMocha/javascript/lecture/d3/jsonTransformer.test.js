@@ -191,7 +191,7 @@ describe("jsonTransformer", function () {
                     var node = new Node("Root");
 
                     //    when
-                    var json = node.toD3Json.build();
+                    var json = node.toD3Json().build();
 
                     //    then
                     chai.expect(json).to.deep.equal({
@@ -206,7 +206,7 @@ describe("jsonTransformer", function () {
                     addDefaultChildToNode(node, ["asset", "subAsset", "title", "pubId2"]);
 
                     //    when
-                    var json = node.toD3Json.build();
+                    var json = node.toD3Json().build();
 
                     //    then
                     chai.expect(json).to.deep.equal({
@@ -231,7 +231,7 @@ describe("jsonTransformer", function () {
                     addDefaultChildToNode(node, ["asset", "subAsset", "title2", "pubId"]);
 
                     //    when
-                    var json = node.toD3Json.build();
+                    var json = node.toD3Json().build();
 
                     //    then
                     chai.expect(json).to.deep.equal({
