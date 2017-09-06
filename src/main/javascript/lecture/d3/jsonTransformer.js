@@ -75,18 +75,18 @@ function Node(name) {
             var pointer;
             while (stack.length > 0) {
                 pointer = stack.pop();
-                if (!('children' in pointer)) {
-                    continue;
-                } else if (pointer.children.some(function (child) {
-                        return 'children' in child;
-                    })
-                ) {
-                    pointer.children.forEach(function(child){
-                        stack.push(child);
-                    })
-                } else {
-                    pointer.size = pointer.children.length;
-                    delete pointer.children;
+                if (('children' in pointer)) {
+                    if (pointer.children.some(function (child) {
+                            return 'children' in child;
+                        })
+                    ) {
+                        pointer.children.forEach(function (child) {
+                            stack.push(child);
+                        })
+                    } else {
+                        pointer.size = pointer.children.length;
+                        delete pointer.children;
+                    }
                 }
             }
 
