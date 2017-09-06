@@ -1,11 +1,9 @@
 var chai = require("chai");
 
 var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
-var Node = srcDirRequire(__dirname, "jsonTransformer");
+var Node = srcDirRequire(__dirname, "Node");
 
-var createNode = Node.createNode;
-
-describe("jsonTransformer", function () {
+describe("Node", function () {
     "use strict";
 
     describe("Node", function () {
