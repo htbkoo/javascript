@@ -87,7 +87,7 @@
         }
 
         .portfolio-div {
-            width: 45%;
+            width: 90%;
             margin: 20px;
             padding: 20px;
             padding-top: 0;
@@ -246,7 +246,7 @@
                 var $portfolioDropdownMenu = $("#portfolio_dropdown_menu");
                 resp.data.forEach(function (data) {
                     var id = data.id;
-                    var thumbnail_height = 265;
+                    var thumbnail_height = 600;
                     var thumbnail_elem = '<p data-height="' + thumbnail_height + '" data-theme-id="0" data-slug-hash="' + id + '" data-default-tab="css,result" data-user="htbkoo" data-embed-version="2" data-pen-title="' + data.title + '" data-preview="true" class="codepen">See the Pen <a href="https://codepen.io/htbkoo/pen/' + id + '/">' + data.title + '</a> by Hey (<a href="https://codepen.io/htbkoo">@htbkoo</a>) on <a href="https://codepen.io">CodePen</a>.</p>';
                     var thumbnail_img = "<img class='portfolio-img' src='" + data.images.small + "'/>";
                     $portfolio.append("<div class='portfolio-div' id='" + id + "'><a target='_blank' href='" + data.link + "'><h3>" + thumbnail_img + data.title + "</h3></a>" + thumbnail_elem + "</div>");
