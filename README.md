@@ -29,4 +29,4 @@ This is NOT a repository of any application, instead, this is just a repo for my
 
 ### Links to Projects ###
 
-* [Simon Game](https://github.com/htbkoo/javascript/tree/master/src/main/javascript/online/free_code_camp/advanced_front_end_development_projects/build_a_simon_game)
+#### [Simon Game](https://github.com/htbkoo/javascript/tree/master/src/main/javascript/online/free_code_camp/advanced_front_end_development_projects/build_a_simon_game)
