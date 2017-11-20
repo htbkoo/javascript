@@ -30,4 +30,5 @@ This is NOT a repository of any application, instead, this is just a repo for my
 ### Links to Projects ###
 
 #### [Simon Game](https://github.com/htbkoo/javascript/tree/master/src/main/javascript/online/free_code_camp/advanced_front_end_development_projects/build_a_simon_game)
-#### [Tic Tac Toe Game (TDd)](https://github.com/htbkoo/javascript/tree/master/src/main/javascript/online/free_code_camp/advanced_front_end_development_projects/build_a_tic_tac_toe_game)
+#### [Tic Tac Toe Game (TDD)](https://github.com/htbkoo/javascript/tree/master/src/main/javascript/online/free_code_camp/advanced_front_end_development_projects/build_a_tic_tac_toe_game)
+#### [Tribute page for piano](https://github.com/htbkoo/javascript/tree/master/src/main/javascript/online/free_code_camp/basic_front_end_development_projects/build_a_tribute_page)
