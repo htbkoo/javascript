@@ -13,7 +13,7 @@
     "jest": "^21.0.1",
     "jquery": "latest",
     "jsdom": "^9.12.0",
-    "mocha": "latest",
+    "mocha": "^6.2.0",
     "qunit": "latest",
     "qunit-parameterize": "latest",
     "qunitjs": "latest",
