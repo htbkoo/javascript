@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/hey-weather-server/hey-weather-server.iml" filepath="$PROJECT_DIR$/hey-weather-server/hey-weather-server.iml" />
-      <module fileurl="file://$PROJECT_DIR$/javaScript-hg.iml" filepath="$PROJECT_DIR$/javaScript-hg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javascript.iml" filepath="$PROJECT_DIR$/javascript.iml" />
     </modules>
   </component>
 </project>
