@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require('testMocha/testInfrastructure');
 var assert = require('chai').assert;
 
 var Hello2 = srcDirRequire(__dirname, 'hello2');

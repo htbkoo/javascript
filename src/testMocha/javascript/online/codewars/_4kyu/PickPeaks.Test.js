@@ -2,7 +2,7 @@
  * Created by Hey on 27 Dec 2016
  */
 
-var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require('testMocha/testInfrastructure');
 var Test = require('chai');
 
 var pickPeaks = srcDirRequire(__dirname, 'PickPeaks');

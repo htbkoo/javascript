@@ -1,6 +1,6 @@
 var chai = require("chai");
 
-var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require('testMocha/testInfrastructure');
 var Node = srcDirRequire(__dirname, "Node");
 
 describe("Node", function () {

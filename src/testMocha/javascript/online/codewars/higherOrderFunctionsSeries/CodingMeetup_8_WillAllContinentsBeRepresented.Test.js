@@ -2,7 +2,7 @@
  * Created by Hey on 20 Nov 2016
  */
 
-var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require('testMocha/testInfrastructure');
 var Test = require('chai');
 
 var allContinents = srcDirRequire(__dirname, 'CodingMeetup_8_WillAllContinentsBeRepresented');

@@ -2,7 +2,7 @@
  * Created by Hey on 16 Dec 2016
  */
 
-var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require('testMocha/testInfrastructure');
 var Test = require('chai');
 var format = require('string-format');
 var sinon = require('sinon');

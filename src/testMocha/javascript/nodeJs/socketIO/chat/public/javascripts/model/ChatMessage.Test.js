@@ -3,7 +3,7 @@
  */
 
 var Test = require('chai');
-var ChatMessage = require.main.require('src/testMocha/testInfrastructure')(__dirname, "ChatMessage");
+var ChatMessage = require('testMocha/testInfrastructure')(__dirname, "ChatMessage");
 
 describe('ChatMessage', function () {
     "use strict";

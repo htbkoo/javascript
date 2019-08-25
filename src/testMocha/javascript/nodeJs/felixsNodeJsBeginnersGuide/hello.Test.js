@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require('testMocha/testInfrastructure');
 
 //noinspection JSLint
 var hello = srcDirRequire(__dirname, 'hello');

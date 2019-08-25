@@ -4,7 +4,7 @@
 
 'use strict';
 
-var srcDirRequire = require.main.require('src/testMocha/testInfrastructure');
+var srcDirRequire = require('testMocha/testInfrastructure');
 var Test = require('chai');
 
 var sumAll = srcDirRequire(__dirname, 'SumAllNumbersInARange');
