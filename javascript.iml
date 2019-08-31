@@ -17,6 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/intermediate_front_end_development_projects/use_the_twitchtv_json_api/test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/intermediate_front_end_development_projects/use_the_twitchtv_json_api/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/javascript/nodeJs/expressJs/ExpressGenerator/expressGeneratorHelloworld/myapp/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/javascript/online/free_code_camp/lib" />
     </content>
