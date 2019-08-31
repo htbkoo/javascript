@@ -248,25 +248,23 @@ describe("Weather - UI part - FreeCodeCamp", function () {
             }
 
             function setUpJsdomEnvAndAssertWith(furtherAssertion, done, created) {
-                jsdom.env({
-                    file: pathToHtml,
+                return jsdom.JSDOM.fromFile(pathToHtml, {
                     scripts: [
                         getRelativePath("/../../../../lib/jquery-1.11.3/jquery-1.11.3.min.js"),
                         getRelativePath("/../weather_UI.js")
                     ],
                     created: created,
-                    done: function (err, window) {
-                        var $ = window.$;
-                        Test.expect(window.$).to.be.a('function');
+                }).then(dom=>{
+                    var $ = window.$;
+                    Test.expect(window.$).to.be.a('function');
 
-                        try {
-                            furtherAssertion(err, window, $);
-                        } finally {
-                            window.close();
-                        }
-                        if (typeof done === "function") {
-                            done();
-                        }
+                    try {
+                        furtherAssertion(err, window, $);
+                    } finally {
+                        window.close();
+                    }
+                    if (typeof done === "function") {
+                        done();
                     }
                 });
             }
